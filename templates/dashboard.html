@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Django App</title>
+</head>
+<body>
+
+
+    {% load static %}
+    <h1>Welcome to My Django App</h1>
+    <p>This is the index page of my web application.</p>
+
+
+    <img src="{% static 'Vector.png' %}" alt="Vector">
+    {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!</p>
+    <!-- Add content for authenticated users here -->
+    <a href="{% url 'Logout' %}">Logout</a>
+    {% else %}
+        <p>You are not logged in.</p>
+        <!-- Add content for non-authenticated users here -->
+        <a href="{% url 'Login' %}">Login</a>
+    {% endif %}
+</body>
+</html>

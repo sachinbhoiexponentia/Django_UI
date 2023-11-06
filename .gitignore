@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+
+# Django
+*.log
+*.pot
+*.pyo
+*.swp
+*.bak
+*.sqlite3
+media/
+static/
+
+# Secret key
+secret_key.txt
+
+# Environment variables
+.env
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# database
+db.sqlite3
