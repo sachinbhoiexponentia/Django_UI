@@ -15,10 +15,9 @@ class RegistrationForm(UserCreationForm):
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    remember_me = forms.BooleanField(required=False, initial=True, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
 
     def __init__(self, *args, **kwargs):
         super(CustomLoginForm, self).__init__(*args, **kwargs)
-
-        # Customize field labels (optional)
-        self.fields['username'].label = 'Username'
+        self.fields['username'].label = 'User Name'
         self.fields['password'].label = 'Password'

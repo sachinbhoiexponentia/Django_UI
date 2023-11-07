@@ -12,15 +12,33 @@
 
 
 <img src="{% static 'Vector.png' %}" alt="Vector" class="vector">
+<img src="{% static 'Vector1.png' %}" alt="Vector" class="vector1">
+<img src="{% static 'coworkers-working-on-business-project-at-office-gbcholaJyV.png' %}" alt="office" class="office">
+<img src="{% static 'Group.png' %}" alt="group" class="group">
+<img src="{% static 'Group.png' %}" alt="group2" class="group2">
+<img src="{% static 'Group_3.png' %}" alt="group2" class="group_3">
 
-
-<form method="post">
+<div class="login-box">
+    <div class="login-text-style"> Log In </div>
+<form method="post" class='form-style'>
     {% csrf_token %}
     {{ form.username.label_tag }} {{ form.username }}
     {{ form.password.label_tag }} {{ form.password }}
-    <button type="submit">Login</button>
-</form>
+    <tr>
+        <th><label for="id_role">Role:</label></th>
+        <td>
+            <input type="text" name="role" class="form-control" id="id_role" value="Admin" readonly>
+        </td>
+    </tr>
+    <br><br>
 
+    {{ form.remember_me }} <label for="{{ form.remember_me.id_for_label }}">Remember Me</label>
+    
+    
+    <br><br>
+    <button type="submit" class="login-button">Login</button>
+</form>
+</div>
 
 </body>
 </html>

@@ -11,7 +11,6 @@
     <p>This is the index page of my web application.</p>
 
 
-    <img src="{% static 'Vector.png' %}" alt="Vector">
     {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }}!</p>
     <!-- Add content for authenticated users here -->
@@ -21,5 +20,7 @@
         <!-- Add content for non-authenticated users here -->
         <a href="{% url 'Login' %}">Login</a>
     {% endif %}
+
+
 </body>
 </html>
