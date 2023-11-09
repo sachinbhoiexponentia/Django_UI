@@ -460,7 +460,7 @@ def validate_allocation_parameters():
         return False, [str(e)]
        
         
-def validate_microseg_default_tasks():
+def validate_microseg_default_tasks(df = None):
     errors = []
     try:
         validation_flag = True
