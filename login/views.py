@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login
 from .forms import CustomLoginForm,RegistrationForm  # Import your custom login form
+
+
 
 def register(request):
     if request.method == 'POST':
