@@ -186,9 +186,12 @@ def is_valid_value(value):
         return False
 
 
-def checkFlsThresold(thresold, trigger_id):
+# df = df_config['Threshold Logic Config']
+def checkFlsThresold(thresold, trigger_id,df = None):
+    if df is None:
+        df = df_config['Threshold Logic Config']
     try:
-        thresholdRequiredThreshold = df_config['Threshold Logic Config'][df_config['Threshold Logic Config']["Trigger_id"]==trigger_id]['FLS_Threshold_2_Requirement_Flag'].values[0]
+        thresholdRequiredThreshold = df[df["Trigger_id"]==trigger_id]['FLS_Threshold_2_Requirement_Flag'].values[0]
         
         if (thresholdRequiredThreshold == int(1)) and is_valid_value(thresold) :
             return True
@@ -202,12 +205,12 @@ def checkFlsThresold(thresold, trigger_id):
 
 
         
-def validate_thresold_config_df():
+def validate_thresold_config_df(thresold_config_df = None):
     errors = []
+    if thresold_config_df is None:
+        thresold_config_df = df_config['Threshold Logic Config']
     try:
         validation_flag = True
-
-        thresold_config_df= df_config['Threshold Logic Config']
         
         for i in range(len(thresold_config_df)):
             
@@ -257,12 +260,13 @@ def validate_thresold_config_df():
         return False, errors + [str(e)+' '+str(i)]
 
 
-def validate_Trigg_thres_bussness():
+def validate_Trigg_thres_bussness(Trigg_Thres_by_Business = None):
     
     errors = []
     try:
         validation_flag = True
-        Trigg_Thres_by_Business = df_config['Trigg_Thres_by_Business'] 
+        if Trigg_Thres_by_Business is None:
+            Trigg_Thres_by_Business = df_config['Trigg_Thres_by_Business'] 
         for i in range(len(Trigg_Thres_by_Business)):
                         
             trigger_id = Trigg_Thres_by_Business['Trigger_id'][i]
@@ -310,9 +314,10 @@ def validate_Trigg_thres_bussness():
         return False, [str(e)] 
     
 
-def validate_Default_Channel_Trigg_thres():
+def validate_Default_Channel_Trigg_thres(Default_Channel_Trigg_thres = None):
     errors = []
-    Default_Channel_Trigg_thres = df_config['Default_Channel_Trigg_thres']
+    if Default_Channel_Trigg_thres is None:
+        Default_Channel_Trigg_thres = df_config['Default_Channel_Trigg_thres']
     try: 
         validation_flag = True
         for i in range(len(Default_Channel_Trigg_thres)):
@@ -346,39 +351,40 @@ def validate_Default_Channel_Trigg_thres():
         return False, [str(e)] 
     
     
-def validate_task_constraint_rules():
+def validate_task_constraint_rules(task_constraint_rules = None):
     errors = []
     try:
         validation_flag = True
-        thresold_config_df= df_config['Task Constraint Rules']
+        if task_constraint_rules is None:
+            task_constraint_rules = df_config['Task Constraint Rules']
         
-        for i in range(len(thresold_config_df)):
+        for i in range(len(task_constraint_rules)):
             
-            task_no = thresold_config_df["Task No"][i]
+            task_no = task_constraint_rules["Task No"][i]
             # Check if task no is valid and present in valid task ids
             if not is_valid_value(task_no) or str(task_no) not in valid_task_ids:
                 validation_flag = False
                 errors.append(f"Error in Task Constraint Rules for task {task_no}: task no is not valid or empty!!")
             
-            val = thresold_config_df["Min Task Count/FLS"][i]
+            val = task_constraint_rules["Min Task Count/FLS"][i]
             # Check if Min Task Count/FLS is blank or int between 1 and 5
             if (not np.isnan(val) and not data_type_validation(val, 'int')) or val<1 or val>5:
                 validation_flag = False
                 errors.append(f"Error in Task Constraint Rules for task {task_no}: Min Task Count/FLS is not valid!")
             
-            val = thresold_config_df["Max Task Count/FLS"][i]
+            val = task_constraint_rules["Max Task Count/FLS"][i]
             # Check if Max Task Count/FLS is blank or int between 1 and 5
             if (not np.isnan(val) and not data_type_validation(val, 'int')) or val<1 or val>5:
                 validation_flag = False
                 errors.append(f"Error in Task Constraint Rules for task {task_no}: Max Task Count/FLS is not valid!")
             
-            val = thresold_config_df["Mutual Exclusion Criteria"][i]
+            val = task_constraint_rules["Mutual Exclusion Criteria"][i]
             # Check if Mutual Exclusion Criteria is blank or has valid task ids in the list
             if not(type(val)==str and set(eval(val)).issubset(set(valid_task_ids))) and not np.isnan(val):
                 validation_flag = False
                 errors.append(f"Error in Task Constraint Rules for task {task_no}: Mutual Exclusion Criteria is not valid!")
                 
-            val = thresold_config_df["Task Priority"][i]
+            val = task_constraint_rules["Task Priority"][i]
             # Check if task priority is an integer
             if not is_valid_value(val) or not data_type_validation(val, 'int'):
                 validation_flag = False
@@ -393,36 +399,37 @@ def validate_task_constraint_rules():
         return False, [str(e)]
 
     
-def validate_allocation_parameters():
+def validate_allocation_parameters(allocation_parameters = None):
     errors = []
     try:
         validation_flag = True
-        thresold_config_df= df_config['Allocation Parameters']
+        if allocation_parameters is None:
+            allocation_parameters = df_config['Allocation Parameters']
         
-        for i in range(len(thresold_config_df)):
+        for i in range(len(allocation_parameters)):
             
-            task_no = thresold_config_df["Task_id"][i]
+            task_no = allocation_parameters["Task_id"][i]
             # Check if task no is valid and present in valid task ids
             if not is_valid_value(task_no) or str(task_no) not in valid_task_ids:
                 validation_flag = False
                 errors.append(f"Error in Allocation Parameters for task {task_no}: task id is not valid or empty!!")
             
-            val = thresold_config_df["Channel"][i]
+            val = allocation_parameters["Channel"][i]
             # Check if channel value is present in allowed channels list
             if val not in master_config_json['allowed_channel']:
                 validation_flag = False
                 errors.append(f"Error in Allocation Parameters for task {task_no}: Channel is not valid!!")
             
-            val = thresold_config_df["Subchannel"][i]
+            val = allocation_parameters["Subchannel"][i]
             # Check if sub channel value is present in allowed sub channels list
             if val not in master_config_json['allowed_sub_channel']:
                 validation_flag = False
                 errors.append(f"Error in Allocation Parameters for task {task_no}: Subchannel is not valid!!")
             
             # Check if the value of demoseg, valueSeg is correct and also demoseg_valuesegid is valid or not
-            demoseg = thresold_config_df['DemoSeg'][i]
-            ValueSeg = thresold_config_df['ValueSeg'][i]
-            DemoSeg_ValueSeg_ID = thresold_config_df['Segment_id'][i]
+            demoseg = allocation_parameters['DemoSeg'][i]
+            ValueSeg = allocation_parameters['ValueSeg'][i]
+            DemoSeg_ValueSeg_ID = allocation_parameters['Segment_id'][i]
             
             if not is_valid_value(demoseg) or not is_valid_value(ValueSeg) or not is_valid_value(DemoSeg_ValueSeg_ID):
                 validation_flag = False
@@ -433,19 +440,19 @@ def validate_allocation_parameters():
                 errors.append(f"Error in Allocation Parameters for task {task_no}: Value {str([demoseg,ValueSeg,DemoSeg_ValueSeg_ID])} , for column demoseg, valueseg or its id is not correct.")
             
                 
-            val = thresold_config_df["Due_Days"][i]
+            val = allocation_parameters["Due_Days"][i]
             # Check if trigger id is valid 
             if not is_valid_value(val) or not data_type_validation(val, 'int'):
                 validation_flag = False
                 errors.append(f"Error in Allocation Parameters for task {task_no}: Due_Days is not valid!")
                 
-            val = thresold_config_df["Buffer Days"][i]
+            val = allocation_parameters["Buffer Days"][i]
             # Check if trigger id is valid 
             if not is_valid_value(val) or not data_type_validation(val, 'int'):
                 validation_flag = False
                 errors.append(f"Error in Allocation Parameters for task {task_no}: Buffer Days is not valid!")
                 
-            val = thresold_config_df["PricePoint(Reward)"][i]
+            val = allocation_parameters["PricePoint(Reward)"][i]
             # Check if trigger id is valid 
             if not is_valid_value(val) or not data_type_validation(val, 'int'):
                 validation_flag = False
@@ -460,29 +467,30 @@ def validate_allocation_parameters():
         return False, [str(e)]
        
         
-def validate_microseg_default_tasks():
+def validate_microseg_default_tasks(microseg_default_tasks = None):
     errors = []
     try:
         validation_flag = True
-        thresold_config_df= df_config['Microsegment Default Tasks']
+        if microseg_default_tasks is None:
+            microseg_default_tasks = df_config['Microsegment Default Tasks']
         
-        for i in range(len(thresold_config_df)):
+        for i in range(len(microseg_default_tasks)):
                         
-            val = thresold_config_df["Channel"][i]
+            val = microseg_default_tasks["Channel"][i]
             # Check if trigger id is valid 
             if val not in master_config_json['allowed_channel']:
                 validation_flag = False
                 errors.append(f"Error in Microsegement Default Tasks for row {i}: Channel is not valid!!")
             
-            val = thresold_config_df["Subchannel"][i]
+            val = microseg_default_tasks["Subchannel"][i]
             # Check if trigger id is valid 
             if val not in master_config_json['allowed_sub_channel']:
                 validation_flag = False
                 errors.append(f"Error in Microsegement Default Tasks for row {i}: Subchannel is not valid!!")
             
-            demoseg = thresold_config_df['DemoSeg'][i]
-            ValueSeg = thresold_config_df['ValueSeg'][i]
-            DemoSeg_ValueSeg_ID = thresold_config_df['Segment_id'][i]
+            demoseg = microseg_default_tasks['DemoSeg'][i]
+            ValueSeg = microseg_default_tasks['ValueSeg'][i]
+            DemoSeg_ValueSeg_ID = microseg_default_tasks['Segment_id'][i]
             
             if not is_valid_value(demoseg) or not is_valid_value(ValueSeg) or not is_valid_value(DemoSeg_ValueSeg_ID):
                 validation_flag = False
@@ -504,11 +512,12 @@ def validate_microseg_default_tasks():
         return False, [str(e)]
 
 
-def validate_Task_Closure_Config():
+def validate_Task_Closure_Config(Task_Closure_Config_df = None):
     errors = []
     try:
         validation_flag = True
-        Task_Closure_Config_df = df_config['Task_Closure_Config']
+        if Task_Closure_Config_df is None:
+            Task_Closure_Config_df = df_config['Task_Closure_Config']
         
         for i in range(len(Task_Closure_Config_df)):
             Task_id = Task_Closure_Config_df['Task_id'][i]
@@ -536,11 +545,12 @@ def validate_Task_Closure_Config():
         return False, [str(e)] 
     
         
-def validate_Channel_Task_Mapping():
+def validate_Channel_Task_Mapping(Channel_Task_Mapping = None):
     errors = []
     try: 
         validation_flag = True
-        Channel_Task_Mapping = df_config['Channel_Task_Mapping']
+        if Channel_Task_Mapping is None:
+            Channel_Task_Mapping = df_config['Channel_Task_Mapping']
         for i in range(len(Channel_Task_Mapping)):
             
             # checking if channel is valid or not
@@ -588,9 +598,10 @@ def validate_Channel_Task_Mapping():
     except Exception as e:
         return False, errors + [str(e)]
 
-def Validate_Task_Trigger_Mapping():
+def Validate_Task_Trigger_Mapping(Task_Trigger_Mapping_config = None):
     errors = []
-    Task_Trigger_Mapping_config = df_config['Task_Trigger_Mapping']
+    if Task_Trigger_Mapping_config is None:
+        Task_Trigger_Mapping_config = df_config['Task_Trigger_Mapping']
     
     try: 
         validation_flag = True
@@ -656,11 +667,12 @@ def Validate_Task_Trigger_Mapping():
         return False, [str(e)] 
 
 
-def validate_Trigger_ON_Query():
+def validate_Trigger_ON_Query(Trigger_ON_Query = None):
     errors = []
     try: 
         validation_flag = True
-        Trigger_ON_Query = df_config['Trigger_ON_Query']
+        if Trigger_ON_Query is None:
+            Trigger_ON_Query = df_config['Trigger_ON_Query']
         
         for i in range(len(Trigger_ON_Query)):
             trigger_id = Trigger_ON_Query['Trigger_id'][i]
