@@ -206,6 +206,10 @@ def checkFlsThresold(thresold, trigger_id,df = None):
 
         
 def validate_thresold_config_df(thresold_config_df = None):
+    # commend the if in prof
+    if thresold_config_df is None:
+        print('Threshold validation demo function remove in prod')
+        return None
     errors = []
     if thresold_config_df is None:
         thresold_config_df = df_config['Threshold Logic Config']
@@ -467,11 +471,7 @@ def validate_allocation_parameters(allocation_parameters = None):
         return False, [str(e)]
        
         
-<<<<<<< HEAD
-def validate_microseg_default_tasks(df = None):
-=======
 def validate_microseg_default_tasks(microseg_default_tasks = None):
->>>>>>> eb067ca2529fc80ff4cb0479e97353b7b5b4e535
     errors = []
     try:
         validation_flag = True
