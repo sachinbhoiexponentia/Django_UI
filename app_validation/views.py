@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from app_validation.models import Threshold_Login_Config
+from app_validation.models import Threshold_Login_Config,Trigg_Thres_By_Business
 from .controller import *
 import pandas as pd
 
@@ -18,6 +18,8 @@ def validate_thresold_config_df_api(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
 
 
 
@@ -63,3 +65,22 @@ def validate_thresold_config_df_api(request):
 # threshold.delete()
 ############################################################
 
+###################insert the config data into the model###################
+def insert_config_data(df):
+    print(df.columns)
+    for index, row in df.iterrows():
+        trigg_Thres_By_Business = Trigg_Thres_By_Business(
+            Channel=row['Channel'],
+            Subchannel=row['Subchannel'],
+            Channel_Subchannel_ID=row['Channel_Sunchannel_ID'],
+            DemoSeg=row['DemoSeg'],
+            ValueSeg=row['ValueSeg'],
+            DemoSeg_ValueSeg_ID=row['DemoSeg_ValueSeg_ID'],
+            Trigger_id =row['Trigger_id'],
+            Trigg_Desc=row['Trigg_Desc'],
+            Segment_Threshold=row['Segment_Threshold'],
+            FLSAvg_Threshold=row['FLSAvg_Threshold']
+        )
+        trigg_Thres_By_Business.save()
+df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.b Trigg_Thres_by_Business',skiprows=1)
+insert_config_data(df)
