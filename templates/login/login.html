@@ -7,6 +7,13 @@
 </head>
 <body>
 
+
+
+
+<style>
+
+</style>
+
 <img src="{% static 'Vector.png' %}" alt="Vector" class="vector">
 <img src="{% static 'Vector1.png' %}" alt="Vector" class="vector1">
 <img src="{% static 'coworkers-working-on-business-project-at-office-gbcholaJyV.png' %}" alt="office" class="office">
@@ -14,8 +21,17 @@
 <img src="{% static 'Group.png' %}" alt="group2" class="group2">
 <img src="{% static 'Group_3.png' %}" alt="group2" class="group_3">
 
+
+
 <div class="login-box">
     <div class="login-text-style"> Log In </div>
+    {% if messages %}
+    <div class="error-message">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
 <form method="post" class='form-style'>
     {% csrf_token %}
     {{ form.username.label_tag }} {{ form.username }}
@@ -33,6 +49,7 @@
     <br><br>
     <button type="submit" class="login-button">Login</button>
 </form>
+<br>
 </div>
 
 </body>

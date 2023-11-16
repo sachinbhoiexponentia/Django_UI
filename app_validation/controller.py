@@ -208,8 +208,16 @@ def checkFlsThresold(thresold, trigger_id,df = None):
 def validate_thresold_config_df(thresold_config_df = None):
     # commend the if in prof
     if thresold_config_df is None:
-        print('Threshold validation demo function remove in prod')
-        return None
+        print('Threshold validation demo function remove in prod jb')
+        errors = [
+                "Error in Threshold Logic Config for trigger 123: The SQL query is not valid",
+                "Error in Threshold Logic Config for trigger 456: Activation_Flag is not valid",
+                "Error in Threshold Logic Config for trigger 789: Operation is not allowed",
+                "Error in Threshold Logic Config for trigger 101: Analysis_Period should be an integer value",
+                "Error in Threshold Logic Config for in trigger 202: The value of Num_thresholds_required is not correct",
+                "Error in Threshold Logic Config for trigger 303: The values of columns Segment_Threshold_1_Requirement_Flag and FLS_Threshold_2_Requirement_Flag should be 0 or 1 only"]
+        validation_flag = False
+        return False, errors
     errors = []
     if thresold_config_df is None:
         thresold_config_df = df_config['Threshold Logic Config']

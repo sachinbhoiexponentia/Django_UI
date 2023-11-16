@@ -140,3 +140,6 @@ STATICFILES_DIRS = [
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+
+# customized cookie name
+SESSION_COOKIE_NAME = 'iEarnsessionid'

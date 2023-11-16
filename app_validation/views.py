@@ -6,18 +6,18 @@ from .controller import *
 import pandas as pd
 
 @csrf_exempt
-@login_required
+@login_required 
 def validate_thresold_config_df_api(request):
+    print("validate_thresold_config_df_api function")
     if request.method == 'GET':
         try:
             # is_valid, errors = validate_thresold_config_df()
-            validate_thresold_config_df()
-            return JsonResponse({'is_valid': 'is_valid', 'errors': 'errors'})
+            is_valid,errors = validate_thresold_config_df()
+            return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
-
 
 
 
@@ -41,10 +41,6 @@ def validate_thresold_config_df_api(request):
 #         threshold_login_config.save()
 # df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.a Threshold Logic Config',skiprows=1)
 # insert_config_data(df)
-
-
-    
-
 
 ###################CRED Operations#######################
 # # Create

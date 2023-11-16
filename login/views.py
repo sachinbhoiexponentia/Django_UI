@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import CustomLoginForm,RegistrationForm  # Import your custom login form
-
+from django.contrib import messages
 
 
 def register(request):
@@ -25,17 +25,20 @@ def dashboard(request):
 def custom_login(request):
     if request.method == 'POST':
         form = CustomLoginForm(request, request.POST)
-        print('Check if form is valid')
         if form.is_valid():
-            print('form is valid')
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             remember_me = form.cleaned_data['remember_me']  # Get the "Remember Me" value
 
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)  # Log in the user
-                return redirect('dashboard')  # Redirect to a success page
+                login(request, user)
+                return redirect('dashboard')  
+            else:
+                request.session['login_error'] = 'Invalid credentials'
+                return redirect('login')  
+        else:
+            messages.error(request, 'Invalid username or password. Please try again.')
     else:
         form = CustomLoginForm()
     return render(request, 'login/login.html', {'form': form})

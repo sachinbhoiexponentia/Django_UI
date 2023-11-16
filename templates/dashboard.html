@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"> </script>
   </head>
 <style>
 .navbar {
@@ -545,6 +545,7 @@ h1 {
             <a href="#"><img src="Ellipse 4.png" alt="Clients Icon"> TNT Module</a>
             <a href="#"><img src="Ellipse 4.png" alt="Contact Icon"> Task Optimization & Assignment Module</a>
             <a href="#"><img src="Ellipse 4.png" alt="Con Icon"> Deploy Config</a>
+            
         </div>
     <div class="content">
     <!-- <div class="button-container">
@@ -559,6 +560,7 @@ h1 {
       <button class="tablinks" onclick="openCity(event, 'Paris')">Trigger Threshold by Business</button>
       <button class="tablinks" onclick="openCity(event, 'Tokyo')">Segment Threshold Output</button>
       <button class="tablinks" onclick="openCity(event, 'india')">FLS Average Threshold Output</button>
+      <button id="ajaxButton">Call Django API</button>
     </div>
     <!-- <div class="button1-container">
       <button class="button-with-image"></button>
@@ -1090,6 +1092,41 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+
+
+
+
+
+$(document).ready(function() {
+  // Attach a click event to the button
+  $("#ajaxButton").click(function() {
+      // Make the AJAX request
+      $.ajax({
+          url: '/api/validate_thresold_config_df/',  
+          type: 'GET',
+          xhrFields: {
+              withCredentials: true
+          },
+          success: function(data) {
+              console.log('Success', data);
+              // Check if validation is successful
+              if (data.is_valid) {
+                  // Display the validated text
+                  $("#result").text("Validation Successful!");
+              } else {
+                  // Display the list of errors
+                  $("#result").html("<p>Validation Failed. Errors:</p><ul>" +
+                      data.errors.map(error => "<li>" + error + "</li>").join("") +
+                      "</ul>");
+              }
+          },
+          error: function(error) {
+              console.error('Error', error);
+              // Handle the error as needed
+          }
+      });
+  });
+});
 
 </script>
  
