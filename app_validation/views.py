@@ -12,7 +12,9 @@ def validate_thresold_config_df_api(request):
     if request.method == 'GET':
         try:
             # is_valid, errors = validate_thresold_config_df()
-            is_valid,errors = validate_thresold_config_df()
+            data_df = request.GET.get('data') # to be checked
+            sheet_name = request.GET.get('sheet') # to be checked
+            is_valid,errors = mainValidate_function(sheet_name, data_df)
             return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)

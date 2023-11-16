@@ -732,7 +732,7 @@ config_sheets= {
                 'Microsegment Default Tasks':validate_microseg_default_tasks}
 
 
-def mainValidate_function():
+def mainValidate_function(sheet_name = None, data_df = None):
     global df_config, valid_trigger_ids, valid_task_ids
     for sheet in config_sheets.keys():
         try:
@@ -745,8 +745,11 @@ def mainValidate_function():
     
     isValid_config = True
     allerror = {}
-    for sheet in config_sheets.keys():
-        status, error = config_sheets[sheet]()
-        isValid_config = isValid_config and status
-        allerror.update({sheet:error})
+    if sheet_name:
+        isValid_config, allerror = config_sheets[sheet_name](data_df)
+    else:
+        for sheet in config_sheets.keys():
+            status, error = config_sheets[sheet]()
+            isValid_config = isValid_config and status
+            allerror.update({sheet:error})
     return isValid_config, allerror
