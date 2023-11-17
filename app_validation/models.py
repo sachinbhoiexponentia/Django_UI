@@ -68,9 +68,10 @@ class FLS_Avg_Threshold_Output(models.Model):
        
        
 class Task_Closure_Config(models.Model):
-    Task_id = models.IntegerField(primary_key=True)
+    Task_id = models.CharField(primary_key=True, max_length=50)
     Task_Desc = models.CharField(max_length=255)
     Closure_True_Query = models.TextField()
+    # Closure_SQL_Query = models.TextField()
 
     def __str__(self):
         return f"{self.Task_id} - {self.Task_Desc}"
@@ -89,7 +90,7 @@ class Channel_Task_Mapping(models.Model):
     
     
 class Task_Trigger_Mapping(models.Model):
-    Task_id = models.IntegerField(primary_key=True)
+    Task_id = models.CharField(primary_key=True,max_length=50)
     Task_Desc = models.CharField(max_length=255)
     Task_Stage = models.CharField(max_length=50)
     Trigger = models.JSONField()
@@ -113,11 +114,11 @@ class Trigger_ON_Query_Logic(models.Model):
     
     
 class Optimization_Rules(models.Model):
-    Task_No = models.IntegerField(primary_key=True)
+    Task_No = models.CharField(primary_key=True,max_length=50)
     Constraint_Description = models.TextField()
     Category_Task_Associated_with = models.CharField(max_length=100)
-    Min_Task_Count_FLS = models.IntegerField(null=True, blank=True)
-    Max_Task_Count_FLS = models.IntegerField(null=True, blank=True)
+    Min_Task_Count_FLS = models.FloatField(null=True, blank=True)
+    Max_Task_Count_FLS = models.FloatField(null=True, blank=True)
     Mutual_Exclusion_Criteria = models.TextField()
     Task_Priority = models.IntegerField()
 
@@ -129,17 +130,17 @@ class Optimization_Rules(models.Model):
     
     
 class Allocation_Parameters(models.Model):
-    Task_id = models.IntegerField(primary_key=True)
+    Task_id = models.CharField(primary_key=True,max_length=50)
     Channel = models.CharField(max_length=100)
     Subchannel = models.CharField(max_length=100)
-    DemoSeg = models.IntegerField()
-    ValueSeg = models.IntegerField()
-    Segment_id = models.IntegerField()
-    Due_Days = models.IntegerField()
-    Buffer_Days = models.IntegerField()
-    XX_Value = models.IntegerField(null=True, blank=True)
-    XX_Type = models.IntegerField(null=True, blank=True)
-    PricePoint_Reward = models.IntegerField()
+    DemoSeg = models.FloatField(null=True, blank=True)
+    ValueSeg = models.FloatField(null=True, blank=True)
+    Segment_id = models.FloatField(null=True, blank=True)
+    Due_Days = models.FloatField(null=True, blank=True)
+    Buffer_Days = models.FloatField(null=True, blank=True)
+    XX_Value = models.CharField(max_length=100, blank=True)
+    XX_Type = models.CharField(max_length=100, blank=True)
+    PricePoint_Reward = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.Task_id} - {self.Channel} - {self.Subchannel} - {self.DemoSeg} - {self.ValueSeg} - {self.Segment_id} - {self.Due_Days} - {self.Buffer_Days} - {self.XX_Value} - {self.XX_Type} - {self.PricePoint_Reward}"
@@ -147,19 +148,22 @@ class Allocation_Parameters(models.Model):
 class Product_Mix_Focus(models.Model):
     Channel = models.CharField(max_length=100)
     Subchannel = models.CharField(max_length=100)
-    DemoSeg = models.IntegerField()
-    ValueSeg = models.IntegerField()
+    DemoSeg =models.FloatField(null=True, blank=True)
+    ValueSeg = models.FloatField(null=True, blank=True)
     Focus_Product = models.CharField(max_length=100)
-    prod_mix_non_par_annuity_immediate = models.IntegerField()
-    prod_mix_non_par_c2p = models.IntegerField()
-    prod_mix_non_par_sanchay = models.IntegerField()
-    prod_mix_non_par_annuity_pgp = models.IntegerField()
-    prod_mix_non_par_health = models.IntegerField()
-    prod_mix_par_others = models.IntegerField()
-    prod_mix_par_ppt_10 = models.IntegerField()
-    prod_mix_ul_others = models.IntegerField()
-    prod_mix_ul_ppt_10 = models.IntegerField()
-    prod_mix_ul_single_pre = models.IntegerField()
+    prod_mix_non_par_annuity_immediate = models.FloatField(null=True, blank=True)
+    prod_mix_non_par_c2p = models.FloatField(null=True, blank=True)
+    prod_mix_non_par_sanchay = models.FloatField(null=True, blank=True)
+    prod_mix_non_par_annuity_pgp = models.FloatField(null=True, blank=True)
+    prod_mix_non_par_health = models.FloatField(null=True, blank=True)
+    prod_mix_par_others = models.FloatField(null=True, blank=True)
+    prod_mix_par_ppt_10 = models.FloatField(null=True, blank=True)
+    prod_mix_ul_others = models.FloatField(null=True, blank=True)
+    prod_mix_ul_ppt_10 =models.FloatField(null=True, blank=True)
+    prod_mix_ul_single_pre = models.FloatField(null=True, blank=True)
+    class Meta:
+        # Composit key
+        unique_together = ('Channel', 'Subchannel', 'DemoSeg', 'ValueSeg', 'Focus_Product')
 
     def __str__(self):
         return f"{self.Channel} - {self.Subchannel} - {self.DemoSeg} - {self.ValueSeg} - {self.Focus_Product}"    

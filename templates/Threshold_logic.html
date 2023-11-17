@@ -438,7 +438,7 @@
 
   .button-images_admin {
     padding: 10px;
-    background: url('Group 8.png') no-repeat center center;
+    background: url("{% static 'Group 8.png' %}") no-repeat center center;
     background-size: contain;
     border: none;
     background-size: 70px 26px;
@@ -447,7 +447,7 @@
 
   .button-images_noti {
     padding: 10px;
-    background: url('Vector.png') no-repeat right center;
+    background: url("{% static 'Vector2.png' %}") no-repeat right center;
     background-size: auto;
     border: none;
     height: 26px;
@@ -650,8 +650,8 @@
   </header>
   <div>
     <div class="sidebar">
-      <a href="#"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
-      <a href="./closure.html"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
+      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
+      <a href="/closure_Config_view"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
       <a href="./TNT.html"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
       <a href="./TOAM.html">
         <div class="d-flex">
@@ -670,7 +670,8 @@
         <!-- <div class="tab"> -->
         <button class="tablinks" onclick="openCity(event, 'London')">Threshold Logic Config</button>
         <button class="tablinks" onclick="openCity(event, 'Paris')">Trigg Thres by Business</button>
-        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Default Channel Trigg Thres</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Segment thres1 output</button>
+        <button class="tablinks" onclick="openCity(event, 'india')">FLS Avg thres2 output</button>
 
       </div>
 
@@ -1083,19 +1084,27 @@
             <thead>
               <tr>
                
-                {% for header in headers %}
+                {% for header in Segment_Threshold_Output_headers %}
                 <th>{{ header }}</th>
                 {% endfor %}
+                <th>Actions</th>
               </tr>
           </thead>
           <tbody>
-            {% for row in data_values %}
+            {% for row in Segment_Threshold_Output_data %}
                  <tr>
                   {% for value in row %}
                     <td>
                        {{value}}
                     </td>
+                   
                   {% endfor %}
+                  <td>
+                    <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      style="color: black;"></i>
+                  </td>
                  </tr>
             {% endfor %}
           </tbody>
@@ -1251,69 +1260,31 @@
           <table class="custom-table">
             <thead>
               <tr>
-                <th>Company</th>
-                <th>Contact</th>
-                <th>Country</th>
+               for fls threshold
+                {% for header in FLS_Avg_Threshold_Output_headers %}
+                <th>{{ header }}</th>
+                {% endfor %}
                 <th>Actions</th>
               </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-                <td>
-                  <i class="fas fa-edit" id="editButton1" data-toggle="modal" data-target="#myModal4_edit"
-                    style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                    style="color: black;"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>Centro comercial Moctezuma</td>
-                <td>Francisco Chang</td>
-                <td>Mexico</td>
-                <td>
-                  <i class="fas fa-edit" id="editButton2" data-toggle="modal" data-target="#myModal4_edit"
-                    style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                    style="color: black;"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-                <td>
-                  <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
-                    style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                    style="color: black;"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-                <td>
-                  <i class="fas fa-edit" id="editButton4" data-toggle="modal" data-target="#myModal4_edit"
-                    style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                    style="color: black;"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-                <td>
-                  <i class="fas fa-edit" id="editButton5" data-toggle="modal" data-target="#myModal4_edit"
-                    style="color: black;"></i> <!-- Edit icon -->
-                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                    style="color: black;"></i> <!-- Delete icon -->
-                </td>
-              </tr>
-            </tbody>
+          </thead>
+          <tbody>
+            {% for row in FLS_Avg_Threshold_Output_data %}
+                 <tr>
+                  {% for value in row %}
+                    <td>
+                       {{value}}
+                    </td>
+                   
+                  {% endfor %}
+                  <td>
+                    <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      style="color: black;"></i>
+                  </td>
+                 </tr>
+            {% endfor %}
+          </tbody>
           </table>
         </div>
         <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>

@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Open+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+
+
+
+
+
+</head>
+<style>
+  .navbar {
+    width: 100%;
+    background-color: white;
+    overflow: auto;
+  }
+
+  .navbar a {
+    float: right;
+    text-align: center;
+    padding: 12px;
+    color: black;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .navbar a:hover {
+    background-color: #000;
+  }
+
+  .navbar a img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  .active {
+    background-color: white;
+  }
+
+  @media screen and (max-width: 400px) {
+    .navbar a {
+      float: none;
+      display: block;
+    }
+  }
+
+  body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-content a {
+    margin-right: 20px;
+  }
+
+  .content {
+    text-align: center;
+    margin-top: 85px;
+  }
+
+  .sidebar {
+    border: 1px solid #00000012;
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 0;
+    top: 50px;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    padding-top: 16px;
+    margin-top: 18px;
+    /* width: 235px
+    height: 757px
+    top: 75px */
+    border-radius: 10px;
+    /* border: 1px;
+    border: 1px solid #ccc;  */
+    padding: 10px;
+    border: 1px solid #5b54541a;
+    box-shadow: 0px 4px 4px 0px #5b545408;
+
+
+
+  }
+
+  .sidebar a img {
+    width: 15px;
+    height: 15px;
+    margin-right: 16px;
+  }
+
+  .sidebar a {
+    margin-top: 20px;
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.81);
+    display: block;
+    font-family: Open Sans;
+    font-size: 18px;
+    font-weight: 633;
+    line-height: 25px;
+    letter-spacing: 0em;
+    text-align: left;
+    font-variation-settings: 'wdth' 100;
+  }
+
+  .sidebar a:hover {
+    background: #A8D4DA6B;
+
+  }
+
+  .button-container {
+    text-align: center;
+    margin: auto;
+    display: flex;
+    padding-left: 10px;
+    margin-left: 270px;
+    margin-top: 5px;
+    gap: 7px;
+
+  }
+
+  .button-container button {
+    width: 183px;
+    height: 80px;
+    text-align: left;
+    border-radius: 10px;
+    /* border: 2px solid #ccc; */
+    background-color: #fff;
+    /* margin: 0; */
+    padding: 5px 16px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.81);
+    border: 1px solid #EDEDEDB2;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 633;
+  }
+
+  .button-container button:hover {
+    /* background-color: #0056a2;  */
+    color: #fff;
+    /*background: linear-gradient(98.16deg, #736FE9 1.8%, #68B7B4 98.67%), linear-gradient(0deg, #FFFFFF, #FFFFFF); */
+    border-radius: 7px !important;
+    border: 1px solid #FFF !important;
+    background: linear-gradient(98deg, #736FE9 1.8%, #68B7B4 98.67%) !important;
+    box-shadow: 0px 10px 12px 0px rgba(0, 0, 0, 0.10) !important;
+  }
+
+  .tablinks {
+    border-radius: 7px !important;
+    border: 1px solid rgba(237, 237, 237, 0.70) !important;
+    box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.10) !important;
+  }
+
+  .button1-container {
+    text-align: center;
+    margin: auto;
+    display: flex;
+    padding-left: 10px;
+    margin-top: 44px;
+    margin-bottom: 40px;
+    gap: 7px;
+
+  }
+
+  .button1-container button {
+    width: 124px;
+    height: 34px;
+    border-radius: 5px;
+    /* border: 2px solid #ccc; */
+    background-color: white;
+    margin: 0;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #000;
+    /* border: 1px solid #EDEDEDB2; */
+    border: 1px solid #5b54541a;
+    box-shadow: 0px 4px 4px 0px #5b545408;
+  }
+
+  .blueBorder {
+    border: 2px solid #68B8B3 !important;
+  }
+
+  .button1-container button span img {
+    width: 16px;
+    height: 16px;
+    margin-top: -4px;
+  }
+
+  .table-container {
+    text-align: left;
+    /* Align tables and their contents to the left */
+    margin: 0 auto;
+    /* Center the table horizontally */
+    overflow: auto;
+    margin-top: 5px;
+    margin-left: 285px;
+    max-height: 300px;
+    /* width: 1150px; */
+    height: 350px;
+    top: 275px;
+    left: 265px;
+
+    /* text-align: center;
+  margin: auto;
+  margin-left: 220px;
+  margin-top: 20px;
+  overflow: auto;
+  max-height: 300px;   */
+  }
+
+  .container {
+    display: flex;
+  }
+
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+
+  .button-with-image {
+    /* padding: 10px; 
+    background: url("{% static 'Group 1599.png' %}") no-repeat center center; 
+    background-size: contain; 
+    border: none;
+    background-size: 70px 26px;
+    border: 4px solid#68B8B3; */
+    /* margin-right: 100px; */
+
+    /* cursor: pointer; */
+    border: 4px solid#68B8B3;
+    font-size: 16px;
+  }
+
+  .button-with-image1 {
+    background-color: #7083DA !important;
+    color: white !important;
+    border: 2px solid #7083DA;
+
+
+  }
+
+  .button-with-image2 {
+    background-color: #68B8B3 !important;
+    color: white !important;
+    border: 2px solid #68B8B3;
+
+
+  }
+
+  .custom-table {
+    /* width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc; */
+    font-family: IBM Plex Sans;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+
+  .custom-table th,
+  .custom-table td {
+    /* padding: 8px;
+    text-align: left;
+    border: 1px solid #ccc; */
+    padding: 16px;
+    padding-bottom: 32px;
+    font-size: 14px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .custom-table th {
+    background-color: #DEEFF4;
+    font-weight: bold;
+  }
+
+  .button2-container {
+
+    text-align: center;
+    margin: 0;
+    /* Remove margin property */
+    display: flex;
+    /* padding-left: 10px;
+  margin-left: 1370px; */
+    align-items: center;
+    padding-right: 1.3rem;
+
+
+  }
+
+  .button2-container button {
+    /* width: 97px;
+    height: 28px; 
+    border-radius: 5px;
+    /* border: 2px solid #ccc; */
+    /* background-color:#7083DA;
+    border: 2px solid #7083DA;
+    margin: 0; 
+    padding: 5px 10px; 
+    cursor: pointer; 
+    color: white;
+    border: 1px solid #EDEDEDB2;  */
+    /* margin-top: 2px; */
+    width: 124px;
+    height: 34px;
+    border-radius: 5px;
+    /* border: 2px solid #ccc; */
+    background-color: #7083DA;
+    border: 2px solid #7083DA;
+    margin: 0;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: white;
+    border: 1px solid #EDEDEDB2;
+    font-size: 16px;
+    /* margin-top: 2px; */
+
+  }
+
+  /* Reset some default styles and apply basic styling */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  header {
+    /* width: 1280px;
+    height: 75px;
+    border: 1px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),linear-gradient(0deg, #FFFFFF, #FFFFFF);
+    border: 1px solid #5b54541a;
+    box-shadow: 0px 4px 4px 0px #5b545408; */
+    background-color: white;
+    border: 1px solid #5b54541a;
+    box-shadow: 0px 4px 4px 0px #5b545408;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 75px;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+  }
+
+  .left-buttons,
+  .right-buttons {
+    display: flex;
+  }
+
+  button {
+
+
+
+
+    background-color: white;
+    color: #736CEB;
+    border: 0px;
+    /* border: 1px solid #5b54541a;
+    box-shadow: 0px 4px 4px 0px #5b545408; */
+    padding: 8px 16px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  h1 {
+    margin: 0;
+    color: #736CEB;
+    font-family: Open Sans;
+    font-size: 24px;
+    font-weight: 655;
+    line-height: 33px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    font-variation-settings: 'wdth' 100;
+
+  }
+
+  /* Style for the left buttons */
+  .left-buttons button {
+    background: #ECF4F7;
+    width: 116px;
+    height: 30px;
+    top: 26px;
+    left: 33px;
+
+
+  }
+
+  .tabcontent .button-image {
+
+    margin-top: 20px;
+  }
+
+  .right-buttons button {
+    background-color: white;
+    width: 100px;
+    height: 40px
+  }
+
+  .button-images_admin {
+    padding: 10px;
+    background: url("{% static 'Group 8.png' %}") no-repeat center center;
+    background-size: contain;
+    border: none;
+    background-size: 70px 26px;
+
+  }
+
+  .button-images_noti {
+    padding: 10px;
+    background: url("{% static 'Vector.png' %}") no-repeat right center;
+    background-size: auto;
+    border: none;
+    height: 26px;
+    width: 70px;
+
+  }
+
+  .tab {
+    overflow: hidden;
+    /* border: 1px solid #ccc; */
+    background-color: #f1f1f1;
+  }
+
+
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    /* padding: 14px 16px; */
+    transition: 0.3s;
+  }
+
+
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+
+  .tabcontent {
+    display: none;
+    padding: 0;
+    width: 100%;
+    margin-left: 0;
+
+  }
+
+  #form1 {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+
+  .form-group_thre,
+  .form-group_clo,
+  .form-group_fls {
+    margin-bottom: 15px;
+    margin: 5 3px;
+    flex: 1;
+    text-align: left;
+  }
+
+
+  .form-group_thre label,
+  .form-group_clo,
+  .form-group_fls {
+    display: block;
+    font-weight: bold;
+  }
+
+  .form-group_clo {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+
+  }
+
+  .form-group_thre input,
+  .form-group_fls {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+  }
+
+  .form-group_thre .last {
+    margin-left: 160px;
+  }
+
+  .form-group_thre .first {
+    width: 170%;
+  }
+
+  .form-group_thre .label {
+    margin-left: 40px;
+    font-family: Open Sans;
+    font-size: 15px;
+  }
+
+  .form-group_thre .label1 {
+    margin-right: 115px;
+    font-family: Open Sans;
+    font-size: 15px;
+  }
+
+  .form-group_thre .first1 {
+    width: 100%;
+  }
+
+
+
+  .form-group_thre .label1_ {
+    margin-right: 115px;
+    font-family: Open Sans;
+    font-size: 15px;
+  }
+
+
+  .form-group_thre .label_last {
+    margin-left: 29px;
+    font-family: Open Sans;
+    font-size: 15px;
+
+  }
+
+  .form-group_thre .last3 {
+    margin-right: 198px;
+    width: 60%;
+
+  }
+
+  .form-group_thre .first3 {
+    width: 60%;
+    margin-right: 120px;
+  }
+
+
+
+  .form-group_thre .label3_ {
+    margin-right: 170px;
+    font-family: Open Sans;
+    font-size: 15px;
+  }
+
+  .form-group_thre .label3_last {
+    margin-left: 3px;
+    font-family: Open Sans;
+    font-size: 15px;
+
+  }
+
+  .form-group_thre .label4_last {
+
+    font-family: Open Sans;
+    font-size: 15px;
+
+  }
+
+  .form-row1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .form-row {
+
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+
+  .modal-body .submit_validate {
+    background-color: #736CEB;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 107px;
+    height: 35px;
+
+  }
+</style>
+
+<body>
+  <header>
+    <div class="left-buttons">
+      <button></button>
+      <h1 style="margin-left: 56px;">TNT Module</h1>
+    </div>
+
+    <div class="right-buttons">
+      <button class="button-images_noti"></button>
+      <button class="button-images_admin"></button>
+
+    </div>
+    </div>
+  </header>
+  <div>
+    <div class="sidebar">
+      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
+      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
+      <a href="/TNT_Module_view"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
+      <a href="/">
+        <div class="d-flex">
+          <div>
+            <img src="{% static 'Ellipse 4.png' %}" alt="Contact Icon">
+          </div>
+
+          <div>Task Optimization & Assignment Module</div>
+        </div>
+      </a>
+      <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a>
+    </div>
+    <div class="content">
+      <!-- <div class="button-container">
+        <button>Threshold Logic Configuration</button>
+        <button>Trigger Threshold by Business</button>
+        <button>Segment Threshold Output</button>
+        <button>FLS Average Threshold Output</button>
+    </div> -->
+      <div class="button-container">
+        <!-- <div class="tab"> -->
+        <button class="tablinks" onclick="openCity(event, 'London')">Channel Task Mapping</button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">Task Trigger Mapping</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Trigger ON Query Logic</button>
+
+      </div>
+      <!-- <div class="button1-container">
+      <button class="button-with-image"></button>
+      <button class="button-with-image1">Download</button>
+      <button class="button-with-image2">Upload</button>
+   </div> -->
+      <div class="button-container_">
+
+        <div id="London" class="tabcontent">
+
+
+          <div class="button1-container">
+            <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
+              data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
+            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"> Download</button>
+            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          </div>
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Channel</th>
+                  <th>Channel_Subchannel_ID</th>
+                  <th>Channel_Subchannel_Name</th>
+                  <th>DemoSeg_ValueSeg_ID</th>
+                  <th>DemoSeg_ValueSeg_Name</th>
+                  <th>Task</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Direct</td>
+                  <td>10</td>
+                  <td>Direct_DSC</td>
+                  <td>12</td>
+                  <td>Urban Lateral Hires_Policy Champs</td>
+                  <td>
+                    [1,2,3,4,5,6,7,8,9,10,11,12,14,16,17,18,20,28,13a,13b,13c,13d,13e,13f,13g,13h,13i,13j,15a,15b,15c,15d,15e,15f,15g,15h,'15i','15j']
+                  </td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton1" data-toggle="modal" data-target="#myModal1_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Direct</td>
+                  <td>10</td>
+                  <td>Direct_DSC</td>
+                  <td>12</td>
+                  <td>Small Town Established_Potentials</td>
+                  <td>[1,2,3,4,5,6,7,8,9,10,11,12,14,16,17,18,20,28,13a,13b,13c,13d,13e,13f,13g,13h,13i,13j]</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton2" data-toggle="modal" data-target="#myModal1_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton6" data-toggle="modal" data-target="#myModal_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+
+          <div id="myModal1" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Add New</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="form1">
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">Channel</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">Channel_Subchannel_Name</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">DemoSeg_ValueSeg_ID</label>
+                        <input class="first1" name="street" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">DemoSeg_ValueSeg_Name</label>
+                        <input class="first1" name="street" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">Task</label>
+                        <input class="first1" name="street" type="text" placeholder="Task" />
+                      </div>
+                    </div>
+
+
+
+
+
+                    <button type="button" id="submit1" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      data-target="#myModal5">Validate</button>
+
+
+                  </form>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div id="myModal1_edit" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Edit</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="form1">
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">Channel</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">Channel_Subchannel_Name</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">DemoSeg_ValueSeg_ID</label>
+                        <input class="first1" name="street" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">DemoSeg_ValueSeg_Name</label>
+                        <input class="first1" name="street" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="first1" class="label1_">Task</label>
+                        <input class="first1" name="street" type="text" placeholder="Task" />
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div id="myModal_delete" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-md">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
+                  <button type="button" class="close" data-dismiss="modal"
+                    style="border: 1px; height: 5px;">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
+                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="myModal5" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                <button type="button" class="close" data-dismiss="modal"
+                  style="border: 1px; height: 5px;">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <p style="color: black;">Do you want to add new channel?</p>
+                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+        <div id="Paris" class="tabcontent">
+          <div class="button1-container">
+            <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
+              data-target="#myModal2"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
+            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
+            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          </div>
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Task_id</th>
+                  <th>Task_Desc</th>
+                  <th>Task_Stage</th>
+                  <th>Trigger</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Establish first contact (call) and setup a meeting time with your existing lead of X by
+                    &lt,date&gt</td>
+                  <td>Lead Conversion - Pre Login</td>
+                  <td>{1:O,2:O}</td>
+                  <td>
+                    <i class="fas fa-edit editButton1" data-toggle="modal" data-target="myModal2_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt deleteButton1" data-toggle="modal" data-target="#myModal2_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Complete first meeting for lead X by &lt,date&gt</td>
+                  <td>Lead Conversion - Pre Login</td>
+                  <td>{3:O,4:O}</td>
+                  <td>
+                    <i class="fas fa-edit editButton2" data-toggle="modal" data-target="myModal2_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt deleteButton2" data-toggle="modal" data-target="#myModal2_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Sell at least 1 policy with EPI greater than XX by &lt,date&gt</td>
+                  <td>Lead Conversion - Pre Login</td>
+                  <td>{35:M}</td>
+                  <td>
+                    <i class="fas fa-edit editButton3" data-toggle="modal" data-target="myModal2_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt deleteButton3" data-toggle="modal" data-target="#myModal2_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          <div id="myModal2" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Add New</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="form2">
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first" class="label1">Task_id</label>
+                        <input class="first" name="first" type="text" placeholder="Task_id" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last" class="label">Task_Desc</label>
+                        <input class="last" name="last" type="text" placeholder="Task_Desc" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first1" class="label1_">Task_Stage</label>
+                        <input class="first1" name="street" type="text" placeholder="Task_Stage" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last1" class="label_">Trigger</label>
+                        <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
+                      </div>
+                    </div>
+                    <button type="button" id="submit2" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      data-target="#myModal6">Validate</button>
+
+                  </form>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div id="myModal2_edit" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Edit</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="form2_edit">
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first" class="label1">Task_id</label>
+                        <input class="first" name="first" type="text" placeholder="Task_id" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last" class="label">Task_Desc</label>
+                        <input class="last" name="last" type="text" placeholder="Task_Desc" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first1" class="label1_">Task_Stage</label>
+                        <input class="first1" name="street" type="text" placeholder="Task_Stage" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last1" class="label_">Trigger</label>
+                        <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
+                      </div>
+                    </div>
+
+                  </form>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div id="myModal2_delete" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-md">
+
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
+                  <button type="button" class="close" data-dismiss="modal"
+                    style="border: 1px; height: 5px;">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
+                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="myModal6" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
+
+
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                <button type="button" class="close" data-dismiss="modal"
+                  style="border: 1px; height: 5px;">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <p style="color: black;">Do you want to add new channel?</p>
+                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+        <div id="Tokyo" class="tabcontent">
+          <div class="button1-container">
+            <button class="button-with-image blueBorder ms-auto" id="formButton3" data-toggle="modal"
+              data-target="#myModal3"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
+            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
+            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          </div>
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Contact</th>
+                  <th>Country</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Alfreds Futterkiste</td>
+                  <td>Maria Anders</td>
+                  <td>Germany</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton1" data-toggle="modal" data-target="#myModal3_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal3_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Centro comercial Moctezuma</td>
+                  <td>Francisco Chang</td>
+                  <td>Mexico</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton1" data-toggle="modal" data-target="#myModal3_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal3_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Alfreds Futterkiste</td>
+                  <td>Maria Anders</td>
+                  <td>Germany</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton1" data-toggle="modal" data-target="#myModal3_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal3_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Alfreds Futterkiste</td>
+                  <td>Maria Anders</td>
+                  <td>Germany</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton1" data-toggle="modal" data-target="#myModal3_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal3_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          <div id="myModal3" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Add New</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="form3">
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first" class="label1">Channel</label>
+                        <input class="first" name="first" type="text" placeholder="Channel" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last" class="label">Subchannel</label>
+                        <input class="last" name="last" type="text" placeholder="Subchannel" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last1" class="label_">DemoSeg</label>
+                        <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first2" class="label2_">ValueSeg</label>
+                        <input class="first2" name="" type="text" placeholder="ValueSeg" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label>
+                        <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first3" class="label3_">Trigger_id</label>
+                        <input class="first3" name="" type="text" placeholder="Trigger_id" />
+                      </div>
+
+                      <div class="form-group_clo">
+                        <label for="last3" class="label3_last">Threshold_1(MicroSegment Benchmarks)</label>
+                        <input class="last3" name="province" type="text"
+                          placeholder="Threshold_1(MicroSegment Benchmarks)" />
+                      </div>
+                    </div>
+
+
+
+                    <button type="button" id="submit3" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      data-target="#myModal7">Validate</button>
+
+                  </form>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div id="myModal3_edit" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Add New</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="form3">
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first" class="label1">Channel</label>
+                        <input class="first" name="first" type="text" placeholder="Channel" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last" class="label">Subchannel</label>
+                        <input class="last" name="last" type="text" placeholder="Subchannel" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last1" class="label_">DemoSeg</label>
+                        <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first2" class="label2_">ValueSeg</label>
+                        <input class="first2" name="" type="text" placeholder="ValueSeg" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label>
+                        <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first3" class="label3_">Trigger_id</label>
+                        <input class="first3" name="" type="text" placeholder="Trigger_id" />
+                      </div>
+
+                      <div class="form-group_clo">
+                        <label for="last3" class="label3_last">Threshold_1(MicroSegment Benchmarks)</label>
+                        <input class="last3" name="province" type="text"
+                          placeholder="Threshold_1(MicroSegment Benchmarks)" />
+                      </div>
+                    </div>
+
+                  </form>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div id="myModal3_delete" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-md">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
+                  <button type="button" class="close" data-dismiss="modal"
+                    style="border: 1px; height: 5px;">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
+                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div id="myModal7" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                <button type="button" class="close" data-dismiss="modal"
+                  style="border: 1px; height: 5px;">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <p style="color: black;">Do you want to add new channel?</p>
+                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div id="india" class="tabcontent">
+          <div class="button1-container">
+            <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
+              data-target="#myModal4"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
+            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
+            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          </div>
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Contact</th>
+                  <th>Country</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Alfreds Futterkiste</td>
+                  <td>Maria Anders</td>
+                  <td>Germany</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton1" data-toggle="modal" data-target="#myModal4_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Centro comercial Moctezuma</td>
+                  <td>Francisco Chang</td>
+                  <td>Mexico</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton2" data-toggle="modal" data-target="#myModal4_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Alfreds Futterkiste</td>
+                  <td>Maria Anders</td>
+                  <td>Germany</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Alfreds Futterkiste</td>
+                  <td>Maria Anders</td>
+                  <td>Germany</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton4" data-toggle="modal" data-target="#myModal4_edit"
+                      style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      style="color: black;"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Alfreds Futterkiste</td>
+                  <td>Maria Anders</td>
+                  <td>Germany</td>
+                  <td>
+                    <i class="fas fa-edit" id="editButton5" data-toggle="modal" data-target="#myModal4_edit"
+                      style="color: black;"></i> <!-- Edit icon -->
+                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      style="color: black;"></i> <!-- Delete icon -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          <div id="myModal4" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Modal Header</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="form4">
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first" class="label1">FLS_id</label>
+                        <input class="first" name="first" type="text" placeholder="FLS_id" />
+                      </div>
+                      <div class="form-group_fls">
+                        <label for="last" class="label">Channel</label>
+                        <input class="last" name="last" type="text" placeholder="Channel" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first1" class="label1_">Subchannel</label>
+                        <input class="first1" name="street" type="text" placeholder="Subchannel" />
+                      </div>
+                      <div class="form-group_fls">
+                        <label for="last1" class="label_">Channel_Subchannel_ID</label>
+                        <input class="last1" name="apt" type="text" placeholder="Channel_Subchannel_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first2" class="label2_">DemoSeg</label>
+                        <input class="first2" name="" type="text" placeholder="DemoSeg" />
+                      </div>
+                      <div class="form-group_fls">
+                        <label for="last2" class="label_last">ValueSeg</label>
+                        <input class="last2" name="province" type="text" placeholder="ValueSeg" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first3" class="label3_">DemoSeg_ValueSeg_ID</label>
+                        <input class="first3" name="" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      </div>
+                      <div class="form-group_fls">
+                        <label for="last3" class="label3_last">Trigger_id</label>
+                        <input class="last3" name="province" type="text" placeholder="Trigger_id" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first" class="label1">FLSAvg_Threshold_2</label>
+                        <input class="first" name="first" type="text" placeholder="FLSAvg_Threshold_2" />
+                      </div>
+                    </div>
+
+                    <button type="button" id="submit4" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      data-target="#myModal8">Validate</button>
+
+                  </form>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div id="myModal4_edit" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Modal Header</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="form4">
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first" class="label1">FLS_id</label>
+                        <input class="first" name="first" type="text" placeholder="FLS_id" />
+                      </div>
+                      <div class="form-group_fls">
+                        <label for="last" class="label">Channel</label>
+                        <input class="last" name="last" type="text" placeholder="Channel" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first1" class="label1_">Subchannel</label>
+                        <input class="first1" name="street" type="text" placeholder="Subchannel" />
+                      </div>
+                      <div class="form-group_fls">
+                        <label for="last1" class="label_">Channel_Subchannel_ID</label>
+                        <input class="last1" name="apt" type="text" placeholder="Channel_Subchannel_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first2" class="label2_">DemoSeg</label>
+                        <input class="first2" name="" type="text" placeholder="DemoSeg" />
+                      </div>
+                      <div class="form-group_fls">
+                        <label for="last2" class="label_last">ValueSeg</label>
+                        <input class="last2" name="province" type="text" placeholder="ValueSeg" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first3" class="label3_">DemoSeg_ValueSeg_ID</label>
+                        <input class="first3" name="" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      </div>
+                      <div class="form-group_fls">
+                        <label for="last3" class="label3_last">Trigger_id</label>
+                        <input class="last3" name="province" type="text" placeholder="Trigger_id" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group_fls">
+                        <label for="first" class="label1">FLSAvg_Threshold_2</label>
+                        <input class="first" name="first" type="text" placeholder="FLSAvg_Threshold_2" />
+                      </div>
+                    </div>
+
+                    <button type="button" id="submit4" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      data-target="#myModal8">Validate</button>
+
+                  </form>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div id="myModal4_delete" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-md">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
+                  <button type="button" class="close" data-dismiss="modal"
+                    style="border: 1px; height: 5px;">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
+                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="myModal8" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                <button type="button" class="close" data-dismiss="modal"
+                  style="border: 1px; height: 5px;">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <p style="color: black;">Do you want to add new channel?</p>
+                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- <div class="button2-container">
+  <button class="button-image">Validate</button>
+</div>  -->
+
+    <div>
+    </div>
+
+  </div>
+  </div>
+
+
+
+  <script>
+    function openCity(evt, cityName) {
+
+      var i, tabcontent, tablinks;
+
+
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+
+
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var formButton = document.getElementById("formButton1");
+      var form1 = document.getElementById("form1");
+
+      formButton.addEventListener("click", function () {
+        form1.style.display = (form1.style.display === "none" || form1.style.display === "") ? "block" : "none";
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var formButton = document.getElementById("formButton2");
+      var form2 = document.getElementById("form2");
+
+      formButton.addEventListener("click", function () {
+        form2.style.display = (form2.style.display === "none" || form2.style.display === "") ? "block" : "none";
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      var formButton = document.getElementById("formButton3");
+      var form3 = document.getElementById("form3");
+
+      formButton.addEventListener("click", function () {
+        form3.style.display = (form3.style.display === "none" || form3.style.display === "") ? "block" : "none";
+      });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      var formButton = document.getElementById("formButton4");
+      var form4 = document.getElementById("form4");
+
+      formButton.addEventListener("click", function () {
+        form4.style.display = (form4.style.display === "none" || form4.style.display === "") ? "block" : "none";
+      });
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      setupModalHandling("submit1", "myModal1", "myModal5");
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      setupModalHandling("submit2", "myModal2", "myModal6");
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      setupModalHandling("submit3", "myModal3", "myModal7");
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      setupModalHandling("submit4", "myModal4", "myModal8");
+    });
+
+    function setupModalHandling(validateButtonId, modalTriggerId, modalId) {
+      var validateButton = document.getElementById(validateButtonId);
+      var modalTrigger = document.getElementById(modalTriggerId);
+      var modal = document.getElementById(modalId);
+      var closeModalButton = modal.querySelector(".close");
+
+      validateButton.addEventListener("click", function () {
+        modalTrigger.setAttribute("hidden", true);
+        modal.removeAttribute("hidden");
+      });
+
+      closeModalButton.addEventListener("click", function () {
+        modal.setAttribute("hidden", true);
+        modalTrigger.removeAttribute("hidden");
+      });
+    }
+
+  </script>
+
+</body>
+
+</html>
