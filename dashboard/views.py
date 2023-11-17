@@ -16,9 +16,7 @@ def Threshold_Login_Config_view(request):
     # Threshold_Logic_Config
     queryset1 = Trigg_Thres_By_Business.objects.all()
     Trigg_Thres_By_Business_df = pd.DataFrame(list(queryset1.values()))
-    print(Trigg_Thres_By_Business_df)
     Trigg_Thres_By_Business_headers = list(Trigg_Thres_By_Business_df.columns)
-    print(Trigg_Thres_By_Business_headers)
     Trigg_Thres_By_Business_data = Trigg_Thres_By_Business_df.values.tolist()
 
     context = {'Trigg_Thres_By_Business_headers':Trigg_Thres_By_Business_headers,'Threshold_Login_Config_headers': Threshold_Login_Config_headers, 
