@@ -25,3 +25,6 @@ def Threshold_Login_Config_view(request):
 
 
 
+@login_required
+def TNT_Module_view(request):
+    return render(request, 'TNT.html')
