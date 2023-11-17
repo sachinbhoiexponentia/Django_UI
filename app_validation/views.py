@@ -10,10 +10,13 @@ import pandas as pd
 def validate_thresold_config_df_api(request):
     print("validate_thresold_config_df_api function")
     if request.method == 'GET':
+        print('GET Method')
         try:
-            # is_valid, errors = validate_thresold_config_df()
-            data_df = request.GET.get('data') # to be checked
+            data = request.GET
+            parameters = dict(data.lists())
+            data_df = pd.DataFrame(parameters)
             sheet_name = request.GET.get('sheet') # to be checked
+            print('sheet_name',sheet_name)
             is_valid,errors = mainValidate_function(sheet_name, data_df)
             return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
@@ -85,57 +88,4 @@ def validate_thresold_config_df_api(request):
 #         )
 #         trigg_Thres_By_Business.save()
 # df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.b Trigg_Thres_by_Business',skiprows=1)
-# insert_config_data(df)
-
-###################insert the config data into the model###################
-# def insert_config_data(df):
-#     print(df.columns)
-#     for index, row in df.iterrows():
-#         fLS_Avg_Threshold_Output = FLS_Avg_Threshold_Output(
-#             FLS_id=row['FLS_id'],
-#             Channel=row['Channel'],
-#             Subchannel=row['Subchannel'],
-#             Channel_Subchannel_ID=row['Channel_Sunchannel_ID'],
-#             DemoSeg=row['DemoSeg'],
-#             ValueSeg=row['ValueSeg'],
-#             DemoSeg_ValueSeg_ID =row['DemoSeg_ValueSeg_ID'],
-#             Trigger_id=row['Trigger_id'],
-#             FLSAvg_Threshold=row['FLSAvg_Threshold']
-        
-#         )
-#         fLS_Avg_Threshold_Output.save()
-# df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.d FLS_Avg_thres2_output',skiprows=1)
-# insert_config_data(df)
-
-# ###################insert the config data into the model###################
-# def insert_config_data(df):
-#     print(df.columns)
-#     for index, row in df.iterrows():
-#         segment_Threshold_Output = Segment_Threshold_Output(
-#             Channel=row['Channel'],
-#             Subchannel=row['Subchannel'],
-#             Channel_Subchannel_ID=row['Channel_Sunchannel_ID'],
-#             DemoSeg=row['DemoSeg'],
-#             ValueSeg=row['ValueSeg'],
-#             DemoSeg_ValueSeg_ID =row['DemoSeg_ValueSeg_ID'],
-#             Trigger_id=row['Trigger_id'],
-#             Segment_Threshold=row['Segment_Threshold']
-        
-#         )
-#         segment_Threshold_Output.save()
-# df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.c Segment_thres1_output',skiprows=1)
-# insert_config_data(df)
-
-# ###################insert the config data into the model###################
-# def insert_config_data(df):
-#     print(df.columns)
-#     for index, row in df.iterrows():
-#         task_Closure_Config = Task_Closure_Config(
-#             Task_id=row['Task_id'],
-#             Task_Desc=row['Task_Desc'],
-#             Closure_True_Query=row['Closure_True_Query'],
-#             # Closure_SQL_Query=row['Closure_SQL_Query']
-#         )
-#         task_Closure_Config.save()
-# df = pd.read_excel('Config Template 081123.xlsx', sheet_name='2.a Task Closure Config',skiprows=1)
 # insert_config_data(df)

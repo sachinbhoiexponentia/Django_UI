@@ -21,7 +21,7 @@
     crossorigin="anonymous"></script>
 
 
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
     
@@ -491,7 +491,7 @@
 
   }
 
-  #form1 {
+  #Threshold_Logic_Form {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -682,7 +682,7 @@
 
         <div class="button1-container">
           <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
-            data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
+            data-target="#modal_threshold_logic_config"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"> Download</button>
           <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
         </div>
@@ -719,7 +719,7 @@
         </div>
         <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
 
-        <div id="myModal1" class="modal fade" role="dialog">
+        <div id="modal_threshold_logic_config" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
             <!-- Modal content-->
             <div class="modal-content">
@@ -729,11 +729,11 @@
 
               </div>
               <div class="modal-body">
-                <form id="form1">
+                <form id="Threshold_Logic_Form">
                   <div class="form-row">
                     <div class="form-group_thre">
                       <label for="first1" class="label1_">Trigger_id</label>
-                      <input class="first1" name="street" type="text" placeholder="Trigger_id" />
+                      <input class="first1" id="Trigger_id" name="street" type="text" placeholder="Trigger_id" />
                     </div>
                   </div>
                   <div class="form-row">
@@ -790,102 +790,23 @@
                       <label for="last3" class="label3_last">FLS_Threshold_2_Requirement_Flag</label>
                       <input class="last3" name="province" type="text" placeholder="FLS_Threshold_2_Requirement_Flag" />
                     </div>
-
                   </div>
-
-
-
-                  <button type="button" id="submit1" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                    data-target="#myModal5">Validate</button>
-
-
+                  <button type="button" id="validateButton_threshold_logic_config" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    data-target="#submit_threshold_logic_config">Validate</button>
                 </form>
-
               </div>
-
             </div>
           </div>
         </div>
-        <div id="myModal1_edit" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-lg">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title">Edit</h1>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-              </div>
-              <div class="modal-body">
-                <form id="form1">
-                  <div class="form-row">
-                    <div class="form-group_thre">
-                      <label for="first1" class="label1_">Trigger_id</label>
-                      <input class="first1" name="street" type="text" placeholder="Trigger_id" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group_thre">
-                      <label for="first1" class="label1_">Trigg_Desc</label>
-                      <input class="first1" name="street" type="text" placeholder="Trigg_Desc" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group_thre">
-                      <label for="first1" class="label1_">Thres_Description</label>
-                      <input class="first1" name="street" type="text" placeholder="Thres_Description" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group_thre">
-                      <label for="first1" class="label1_">Thres_Query_Logic</label>
-                      <input class="first1" name="street" type="text" placeholder="Thres_Query_Logic" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group_thre">
-                      <label for="first1" class="label1_">Thres_Query</label>
-                      <input class="first1" name="street" type="text" placeholder="Thres_Query" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group_thre">
-                      <label for="first1" class="label1_">Activation_Flag</label>
-                      <input class="first1" name="street" type="text" placeholder="Activation_Flag" />
-                    </div>
-                  </div>
-                  <div class="form-row1">
-                    <div class="form-group_thre">
-                      <label for="first3" class="label3_">Operation</label>
-                      <input class="first3" name="" type="text" placeholder="Operation" />
-                    </div>
-                    <div class="form-group_thre">
-                      <label for="last3" class="label3_last">Analysis_Period</label>
-                      <input class="last3" name="province" type="text" placeholder="Analysis_Period" />
-                    </div>
-                    <div class="form-group_thre">
-                      <label for="last4" class="label4_last">Num_Threshold_Required</label>
-                      <input class="last4" name="province" type="text" placeholder="Num_Threshold_Required" />
-                    </div>
-                  </div>
-                  <div class="form-row1">
-                    <div class="form-group_thre">
-                      <label for="last3" class="label3_last">Segment_Threshold_1_Requirement_Flag</label>
-                      <input class="last3" name="province" type="text"
-                        placeholder="Segment_Threshold_1_Requirement_Flag" />
-                    </div>
-                    <div class="form-group_thre">
-                      <label for="last3" class="label3_last">FLS_Threshold_2_Requirement_Flag</label>
-                      <input class="last3" name="province" type="text" placeholder="FLS_Threshold_2_Requirement_Flag" />
-                    </div>
 
-                  </div>
 
-                </form>
-              </div>
 
-            </div>
-          </div>
-        </div>
+
+
+
+
+
         <div id="myModal_delete" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
 
@@ -907,7 +828,7 @@
         </div>
       </div>
 
-      <div id="myModal5" class="modal fade" role="dialog">
+      <div id="submit_threshold_logic_config" class="modal fade" role="dialog">
         <div class="modal-dialog modal-md">
 
           <!-- Modal content-->
@@ -933,7 +854,7 @@
       <div id="Paris" class="tabcontent">
         <div class="button1-container">
           <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
-            data-target="#myModal2"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
+            data-target="#modal_trigger_threshold_business"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
           <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
         </div>
@@ -969,7 +890,7 @@
           </table>
         </div>
         <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
-        <div id="myModal2" class="modal fade" role="dialog">
+        <div id="modal_trigger_threshold_business" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
             <!-- Modal content-->
             <div class="modal-content">
@@ -1030,8 +951,8 @@
 
                   </div>
 
-                  <button type="button" id="submit2" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                    data-target="#myModal6">Validate</button>
+                  <button type="button" id="validateButton_trigger_threshold_business" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    data-target="#submit_trigger_threshold_business">Validate</button>
 
                 </form>
 
@@ -1129,7 +1050,7 @@
           </div>
         </div>
       </div>
-      <div id="myModal6" class="modal fade" role="dialog">
+      <div id="submit_trigger_threshold_business" class="modal fade" role="dialog">
         <div class="modal-dialog modal-md">
 
           <!-- Modal content-->
@@ -1585,10 +1506,10 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       var formButton = document.getElementById("formButton1");
-      var form1 = document.getElementById("form1");
+      var Threshold_Logic_Form = document.getElementById("Threshold_Logic_Form");
 
       formButton.addEventListener("click", function () {
-        form1.style.display = (form1.style.display === "none" || form1.style.display === "") ? "block" : "none";
+        Threshold_Logic_Form.style.display = (Threshold_Logic_Form.style.display === "none" || Threshold_Logic_Form.style.display === "") ? "block" : "none";
       });
     });
 
@@ -1619,11 +1540,13 @@
 
 
     document.addEventListener("DOMContentLoaded", function () {
-      setupModalHandling("submit1", "myModal1", "myModal5");
+      setupModalHandling("validateButton_threshold_logic_config", "modal_threshold_logic_config", "submit_threshold_logic_config");
     });
 
+    {% comment %} mymodel, big form, mymodel5 submt form {% endcomment %}
+
     document.addEventListener("DOMContentLoaded", function () {
-      setupModalHandling("submit2", "myModal2", "myModal6");
+      setupModalHandling("validateButton_trigger_threshold_business", "modal_trigger_threshold_business", "submit_trigger_threshold_business");
     });
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -1634,13 +1557,18 @@
       setupModalHandling("submit4", "myModal4", "myModal8");
     });
 
-    function setupModalHandling(validateButtonId, modalTriggerId, modalId) {
-      var validateButton = document.getElementById(validateButtonId);
+
+
+
+
+
+    function setupModalHandling(validateButton_threshold_logic_config, modalTriggerId, modalId) {
+      var validateButton_threshold_logic_config = document.getElementById(validateButton_threshold_logic_config);
       var modalTrigger = document.getElementById(modalTriggerId);
       var modal = document.getElementById(modalId);
       var closeModalButton = modal.querySelector(".close");
 
-      validateButton.addEventListener("click", function () {
+      validateButton_threshold_logic_config.addEventListener("click", function () {
         modalTrigger.setAttribute("hidden", true);
         modal.removeAttribute("hidden");
       });
@@ -1650,6 +1578,30 @@
         modalTrigger.removeAttribute("hidden");
       });
     }
+
+      $(document).ready(function () {
+          $('#validateButton_threshold_logic_config').on('click', function () {
+              var formData = {
+                'Trigger_id': $('#Trigger_id').val()
+              };
+              $.ajax({
+                  type: 'GET',
+                  url: '/api/validate_thresold_config_df/', 
+                  data: formData,
+                  dataType: 'json',
+                  success: function(response) {
+                      if (response.is_valid) {
+                          $('#Threshold_Logic_Form').submit();
+                      } else {
+                          alert('Form is not valid. Errors: ' + response.errors.join(', '));
+                      }
+                  },
+                  error: function(xhr, status, error) {
+                      console.error('AJAX request failed with error:', error);
+                  }
+              });
+          });
+      });
 
   </script>
 
