@@ -68,9 +68,10 @@ class FLS_Avg_Threshold_Output(models.Model):
        
        
 class Task_Closure_Config(models.Model):
-    Task_id = models.IntegerField(primary_key=True)
+    Task_id = models.CharField(primary_key=True, max_length=50)
     Task_Desc = models.CharField(max_length=255)
     Closure_True_Query = models.TextField()
+    # Closure_SQL_Query = models.TextField()
 
     def __str__(self):
         return f"{self.Task_id} - {self.Task_Desc}"
