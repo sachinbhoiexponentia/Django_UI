@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from app_validation.models import Threshold_Login_Config,Trigg_Thres_By_Business,Segment_Threshold_Output,FLS_Avg_Threshold_Output,Task_Closure_Config
+from app_validation.models import *
 import pandas as pd
 
 
@@ -51,5 +51,61 @@ def closure_Config_view(request):
 
 
 @login_required
-def TNT_Module_view(request):
-    return render(request, 'TNT.html')
+def TNT_Module_View(request):
+    # Fetch data for Channel_Task_Mapping
+    queryset_channel_task_mapping = Channel_Task_Mapping.objects.all()
+    channel_task_mapping_df = pd.DataFrame(list(queryset_channel_task_mapping.values()))
+    channel_task_mapping_headers = list(channel_task_mapping_df.columns)
+    channel_task_mapping_data = channel_task_mapping_df.values.tolist()
+
+    # Fetch data for Task_Trigger_Mapping
+    queryset_task_trigger_mapping = Task_Trigger_Mapping.objects.all()
+    task_trigger_mapping_df = pd.DataFrame(list(queryset_task_trigger_mapping.values()))
+    task_trigger_mapping_headers = list(task_trigger_mapping_df.columns)
+    task_trigger_mapping_data = task_trigger_mapping_df.values.tolist()
+
+    # Fetch data for Trigger_ON_Query_Logic
+    queryset_trigger_query_logic = Trigger_ON_Query_Logic.objects.all()
+    trigger_query_logic_df = pd.DataFrame(list(queryset_trigger_query_logic.values()))
+    trigger_query_logic_headers = list(trigger_query_logic_df.columns)
+    trigger_query_logic_data = trigger_query_logic_df.values.tolist()
+
+    context = {
+        'channel_task_mapping_data_headers': channel_task_mapping_headers,
+        'channel_task_mapping_data_data': channel_task_mapping_data,
+        'task_trigger_mapping_data_headers': task_trigger_mapping_headers,
+        'task_trigger_mapping_data_data': task_trigger_mapping_data,
+        'trigger_query_logic_data_headers': trigger_query_logic_headers,
+        'trigger_query_logic_data_data': trigger_query_logic_data}
+    
+    return render(request, 'TNT.html',context)
+
+
+def TOAM_Module_View(request):
+    # Fetch data for Optimization_Rules
+    queryset_optimization_rules = Optimization_Rules.objects.all()
+    optimization_rules_df = pd.DataFrame(list(queryset_optimization_rules.values()))
+    optimization_rules_headers = list(optimization_rules_df.columns)
+    optimization_rules_data = optimization_rules_df.values.tolist()
+
+    # Fetch data for Allocation_Parameters
+    queryset_allocation_parameters = Allocation_Parameters.objects.all()
+    allocation_parameters_df = pd.DataFrame(list(queryset_allocation_parameters.values()))
+    allocation_parameters_headers = list(allocation_parameters_df.columns)
+    allocation_parameters_data = allocation_parameters_df.values.tolist()
+
+    # Fetch data for Product_Mix_Focus
+    queryset_product_mix_focus = Product_Mix_Focus.objects.all()
+    product_mix_focus_df = pd.DataFrame(list(queryset_product_mix_focus.values()))
+    product_mix_focus_headers = list(product_mix_focus_df.columns)
+    product_mix_focus_data = product_mix_focus_df.values.tolist()
+
+    context = {
+        'optimization_rules_data_headers': optimization_rules_headers,
+        'optimization_rules_data_data': optimization_rules_data,
+        'allocation_parameters_data_headers': allocation_parameters_headers,
+        'allocation_parameters_data_data': allocation_parameters_data,
+        'product_mix_focus_data_headers': product_mix_focus_headers,
+        'product_mix_focus_data_data': product_mix_focus_data,}
+    
+    return render(request, 'TOAM.html',context)

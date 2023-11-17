@@ -638,7 +638,7 @@
   <header>
     <div class="left-buttons">
       <button></button>
-      <h1 style="margin-left: 56px;">TNT Module</h1>
+      <h1 style="margin-left: 56px;">Task Optimization & Assignment Module</h1>
     </div>
 
     <div class="right-buttons">
@@ -650,10 +650,10 @@
   </header>
   <div>
     <div class="sidebar">
-      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
-      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
-      <a href="/TNT_Module_View"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
-      <a href="/">
+      <a href="./Treslogic.html"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
+      <a href="./closure.html"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
+      <a href="./TNT.html"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
+      <a href="#">
         <div class="d-flex">
           <div>
             <img src="{% static 'Ellipse 4.png' %}" alt="Contact Icon">
@@ -673,10 +673,10 @@
     </div> -->
       <div class="button-container">
         <!-- <div class="tab"> -->
-        <button class="tablinks" onclick="openCity(event, 'London')">Channel Task Mapping</button>
-        <button class="tablinks" onclick="openCity(event, 'Paris')">Task Trigger Mapping</button>
-        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Trigger ON Query Logic</button>
-
+        <button class="tablinks" onclick="openCity(event, 'London')">Optimization Rules</button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">Allocation Parameters</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Product Mix Focus</button>
+        <button class="tablinks" onclick="openCity(event, 'india')">Default Task Inactive FLS</button>
       </div>
       <!-- <div class="button1-container">
       <button class="button-with-image"></button>
@@ -699,14 +699,14 @@
               <thead>
                 <tr>
                  
-                  {% for header in channel_task_mapping_data_headers %}
+                  {% for header in optimization_rules_data_headers %}
                   <th>{{ header }}</th>
                   {% endfor %}
                   <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-              {% for row in channel_task_mapping_data_data %}
+              {% for row in optimization_rules_data_data %}
                    <tr>
                     {% for value in row %}
                       <td>
@@ -740,38 +740,38 @@
                   <form id="form1">
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Channel</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel" />
+                        <label for="first1" class="label1_">Constraint</label>
+                        <input class="first1" name="street" type="text" placeholder="Constraint" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                        <label for="first1" class="label1_">Category Task Allocated With</label>
+                        <input class="first1" name="street" type="text" placeholder="Category Task Allocated With" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Channel_Subchannel_Name</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_Name" />
+                        <label for="first1" class="label1_">Min Task Count FLS</label>
+                        <input class="first1" name="street" type="text" placeholder="Min Task Count FLS" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">DemoSeg_ValueSeg_ID</label>
-                        <input class="first1" name="street" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                        <label for="first1" class="label1_">Max Task Count FLS</label>
+                        <input class="first1" name="street" type="text" placeholder="Max Task Count FLS" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">DemoSeg_ValueSeg_Name</label>
-                        <input class="first1" name="street" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                        <label for="first1" class="label1_">Mutual Exclusion Criteria</label>
+                        <input class="first1" name="street" type="text" placeholder="Mutual Exclusion Criteria" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Task</label>
-                        <input class="first1" name="street" type="text" placeholder="Task" />
+                        <label for="first1" class="label1_">Task Priority</label>
+                        <input class="first1" name="street" type="text" placeholder="Task Priority" />
                       </div>
                     </div>
 
@@ -803,40 +803,43 @@
                   <form id="form1">
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Channel</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel" />
+                        <label for="first1" class="label1_">Constraint</label>
+                        <input class="first1" name="street" type="text" placeholder="Constraint" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                        <label for="first1" class="label1_">Category Task Allocated With</label>
+                        <input class="first1" name="street" type="text" placeholder="Category Task Allocated With" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Channel_Subchannel_Name</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_Name" />
+                        <label for="first1" class="label1_">Min Task Count FLS</label>
+                        <input class="first1" name="street" type="text" placeholder="Min Task Count FLS" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">DemoSeg_ValueSeg_ID</label>
-                        <input class="first1" name="street" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                        <label for="first1" class="label1_">Max Task Count FLS</label>
+                        <input class="first1" name="street" type="text" placeholder="Max Task Count FLS" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">DemoSeg_ValueSeg_Name</label>
-                        <input class="first1" name="street" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                        <label for="first1" class="label1_">Mutual Exclusion Criteria</label>
+                        <input class="first1" name="street" type="text" placeholder="Mutual Exclusion Criteria" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Task</label>
-                        <input class="first1" name="street" type="text" placeholder="Task" />
+                        <label for="first1" class="label1_">Task Priority</label>
+                        <input class="first1" name="street" type="text" placeholder="Task Priority" />
                       </div>
                     </div>
+
+
+
                   </form>
                 </div>
 
@@ -886,6 +889,7 @@
         </div>
 
 
+
         <div id="Paris" class="tabcontent">
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
@@ -897,15 +901,14 @@
             <table class="custom-table">
               <thead>
                 <tr>
-                 
-                  {% for header in task_trigger_mapping_data_headers %}
+                  {% for header in allocation_parameters_data_headers %}
                   <th>{{ header }}</th>
                   {% endfor %}
                   <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-              {% for row in task_trigger_mapping_data_data %}
+              {% for row in allocation_parameters_data_data %}
                    <tr>
                     {% for value in row %}
                       <td>
@@ -927,7 +930,7 @@
           <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
           <div id="myModal2" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-
+              <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title">Add New</h1>
@@ -938,24 +941,57 @@
                   <form id="form2">
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first" class="label1">Task_id</label>
-                        <input class="first" name="first" type="text" placeholder="Task_id" />
+                        <label for="first" class="label1">Channel</label>
+                        <input class="first" name="first" type="text" placeholder="Channel" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="last" class="label">Task_Desc</label>
-                        <input class="last" name="last" type="text" placeholder="Task_Desc" />
+                        <label for="last" class="label">Subchannel</label>
+                        <input class="last" name="last" type="text" placeholder="Subchannel" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first1" class="label1_">Task_Stage</label>
-                        <input class="first1" name="street" type="text" placeholder="Task_Stage" />
+                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="last1" class="label_">Trigger</label>
+                        <label for="last1" class="label_">DemoSeg</label>
                         <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
                       </div>
                     </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first2" class="label2_">ValueSeg</label>
+                        <input class="first2" name="" type="text" placeholder="ValueSeg" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label>
+                        <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first3" class="label3_">Trigger_id</label>
+                        <input class="first3" name="" type="text" placeholder="Trigger_id" />
+                      </div>
+
+                      <div class="form-group_clo">
+                        <label for="last3" class="label3_last">Trigg_Description</label>
+                        <input class="last3" name="province" type="text" placeholder="Trigg_Description" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first" class="label1">Segment_Threshold_1_</label>
+                        <input class="first" name="first" type="text" placeholder="Segment_Threshold_1_" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="first" class="label1">FLSAvg_Threshold_2</label>
+                        <input class="first" name="first" type="text" placeholder="FLSAvg_Threshold_2" />
+                      </div>
+                    </div>
+
                     <button type="button" id="submit2" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
                       data-target="#myModal6">Validate</button>
 
@@ -968,7 +1004,7 @@
           </div>
           <div id="myModal2_edit" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-
+              <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title">Edit</h1>
@@ -976,27 +1012,62 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="form2_edit">
+                  <form id="form2">
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first" class="label1">Task_id</label>
-                        <input class="first" name="first" type="text" placeholder="Task_id" />
+                        <label for="first" class="label1">Channel</label>
+                        <input class="first" name="first" type="text" placeholder="Channel" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="last" class="label">Task_Desc</label>
-                        <input class="last" name="last" type="text" placeholder="Task_Desc" />
+                        <label for="last" class="label">Subchannel</label>
+                        <input class="last" name="last" type="text" placeholder="Subchannel" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first1" class="label1_">Task_Stage</label>
-                        <input class="first1" name="street" type="text" placeholder="Task_Stage" />
+                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="last1" class="label_">Trigger</label>
+                        <label for="last1" class="label_">DemoSeg</label>
                         <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
                       </div>
                     </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first2" class="label2_">ValueSeg</label>
+                        <input class="first2" name="" type="text" placeholder="ValueSeg" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label>
+                        <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first3" class="label3_">Trigger_id</label>
+                        <input class="first3" name="" type="text" placeholder="Trigger_id" />
+                      </div>
+
+                      <div class="form-group_clo">
+                        <label for="last3" class="label3_last">Trigg_Description</label>
+                        <input class="last3" name="province" type="text" placeholder="Trigg_Description" />
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="first" class="label1">Segment_Threshold_1_</label>
+                        <input class="first" name="first" type="text" placeholder="Segment_Threshold_1_" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="first" class="label1">FLSAvg_Threshold_2</label>
+                        <input class="first" name="first" type="text" placeholder="FLSAvg_Threshold_2" />
+                      </div>
+                    </div>
+
+                    <button type="button" id="submit2" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      data-target="#myModal6">Validate</button>
 
                   </form>
 
@@ -1008,7 +1079,7 @@
           <div id="myModal2_delete" class="modal fade" role="dialog">
             <div class="modal-dialog modal-md">
 
-
+              <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
@@ -1028,7 +1099,7 @@
         <div id="myModal6" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
 
-
+            <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
@@ -1058,15 +1129,14 @@
             <table class="custom-table">
               <thead>
                 <tr>
-                 
-                  {% for header in trigger_query_logic_data_headers %}
+                  {% for header in product_mix_focus_data_headers %}
                   <th>{{ header }}</th>
                   {% endfor %}
                   <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-              {% for row in trigger_query_logic_data_data %}
+              {% for row in product_mix_focus_data_data %}
                    <tr>
                     {% for value in row %}
                       <td>
@@ -1088,7 +1158,7 @@
           <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
           <div id="myModal3" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-
+              <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title">Add New</h1>
@@ -1154,7 +1224,7 @@
           </div>
           <div id="myModal3_edit" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-
+              <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title">Add New</h1>
@@ -1491,7 +1561,6 @@
             </div>
           </div>
         </div>
-        
         <div id="myModal8" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
 
