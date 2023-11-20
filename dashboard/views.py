@@ -7,6 +7,7 @@ import pandas as pd
 
 @login_required
 def Threshold_Login_Config_view(request):
+    
     # Threshold_Logic_Config
     queryset = Threshold_Login_Config.objects.all()
     Threshold_Login_Config_df = pd.DataFrame(list(queryset.values()))
@@ -22,19 +23,43 @@ def Threshold_Login_Config_view(request):
     
     queryset2 = Segment_Threshold_Output.objects.all()
     Segment_Threshold_Output_df = pd.DataFrame(list(queryset2.values()))
-    print(Segment_Threshold_Output_df)
+    # print('Segment_Threshold_Output_df',Segment_Threshold_Output_df)
     Segment_Threshold_Output_headers = list(Segment_Threshold_Output_df.columns)
     Segment_Threshold_Output_data = Segment_Threshold_Output_df.values.tolist()
 
     queryset3 = FLS_Avg_Threshold_Output.objects.all()
     FLS_Avg_Threshold_Output_df = pd.DataFrame(list(queryset3.values()))
-    print(FLS_Avg_Threshold_Output_df )
     FLS_Avg_Threshold_Output_headers = list(FLS_Avg_Threshold_Output_df.columns)
     FLS_Avg_Threshold_Output_data = FLS_Avg_Threshold_Output_df.values.tolist()
 
     context = {'FLS_Avg_Threshold_Output_headers':FLS_Avg_Threshold_Output_headers,'FLS_Avg_Threshold_Output_data':FLS_Avg_Threshold_Output_data ,'Segment_Threshold_Output_data':Segment_Threshold_Output_data,
               'Segment_Threshold_Output_headers':Segment_Threshold_Output_headers,'Trigg_Thres_By_Business_headers':Trigg_Thres_By_Business_headers,'Threshold_Login_Config_headers': Threshold_Login_Config_headers, 
             'Threshold_Login_Config_data': Threshold_Login_Config_data,'Trigg_Thres_By_Business_data':Trigg_Thres_By_Business_data}
+
+    if request.method == 'POST':
+        print('Django post request')
+        form_id = request.POST.get('form_identifier')
+        if form_id == 'Threshold_Logic_Form':
+            print('Threshold_Logic_Form')
+            data = request.POST
+            # parameters = dict(data.lists())
+            # print('parameters',parameters)
+            # if 'csrfmiddlewaretoken' in parameters:
+                # csrf_token = parameters.pop('csrfmiddlewaretoken', None)
+            # data_df = pd.DataFrame(parameters)
+            # print('data_df',data_df)
+            threshold_login_config = Threshold_Login_Config(
+                trigger_id=request.POST.get('Trigger_id'),
+                trigg_desc=request.POST.get('Trigg_Desc'),
+                thres_description=request.POST.get('Thres_Description'),
+                thres_query_logic=request.POST.get('Thres_Query_Logic'),
+                operation=request.POST.get('Operation'),
+                analysis_period=request.POST.get('Analysis_Period'),
+                num_thresholds_required=request.POST.get('Num_Threshold_Required'),
+                segment_threshold_requirement_flag=request.POST.get('Segment_Threshold_Requirement_Flag'),
+                FLS_Threshold_Requirement_Flag=request.POST.get('FLS_Threshold_Requirement_Flag'))
+            threshold_login_config.save()
+        
     return render(request, 'Threshold_logic.html', context)
 
 

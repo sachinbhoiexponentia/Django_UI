@@ -16,10 +16,11 @@ def validate_thresold_config_df_api(request):
         try:
             data = request.GET
             parameters = dict(data.lists())
+            if 'csrfmiddlewaretoken' in parameters:
+                csrf_token = parameters.pop('csrfmiddlewaretoken', None)
             data_df = pd.DataFrame(parameters)
-            sheet_name = request.GET.get('sheet') # to be checked
-            print('sheet_name',sheet_name)
-            is_valid,errors = mainValidate_function(sheet_name, data_df)
+
+            is_valid,errors = True, ['data_df']
             return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
@@ -208,6 +209,45 @@ def validate_thresold_config_df_api(request):
 # df_product_mix_focus = pd.read_excel('Config Template 081123.xlsx', sheet_name='4.d Product Mix Focus', skiprows=1)
 # print(df_product_mix_focus)
 
+# def insert_segment_threshold_output_data(df):
+#     for index, row in df.iterrows():
+#         segment_threshold_output = Segment_Threshold_Output(
+#             Channel=row['Channel'],
+#             Subchannel=row['Subchannel'],
+#             Channel_Subchannel_ID=row['Channel_Sunchannel_ID'],
+#             DemoSeg=row['DemoSeg'],
+#             ValueSeg=row['ValueSeg'],
+#             DemoSeg_ValueSeg_ID=row['DemoSeg_ValueSeg_ID'],
+#             Trigger_id=row['Trigger_id'],
+#             Segment_Threshold=row['Segment_Threshold']
+#         )
+#         segment_threshold_output.save()
+
+# df_segment_threshold_output = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.c Segment_thres1_output', skiprows=1)
+
+# insert_segment_threshold_output_data(df_segment_threshold_output)
+
+
+# def insert_fls_avg_threshold_output_data(df):
+#     for index, row in df.iterrows():
+#         fls_avg_threshold_output = FLS_Avg_Threshold_Output(
+#             FLS_id=row['FLS_id'],
+#             Channel=row['Channel'],
+#             Subchannel=row['Subchannel'],
+#             Channel_Subchannel_ID=row['Channel_Sunchannel_ID'],
+#             DemoSeg=row['DemoSeg'],
+#             ValueSeg=row['ValueSeg'],
+#             DemoSeg_ValueSeg_ID=row['DemoSeg_ValueSeg_ID'],
+#             Trigger_id=row['Trigger_id'],
+#             FLSAvg_Threshold=row['FLSAvg_Threshold']
+#         )
+#         fls_avg_threshold_output.save()
+
+# # Read data from Excel file
+# df_fls_avg_threshold_output = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.d FLS_Avg_thres2_output', skiprows=1)
+
+# # Insert data into the FLS_Avg_Threshold_Output model
+# insert_fls_avg_threshold_output_data(df_fls_avg_threshold_output)
 
 # queryset = Product_Mix_Focus.objects.all()
 # df = pd.DataFrame(list(queryset.values()))
