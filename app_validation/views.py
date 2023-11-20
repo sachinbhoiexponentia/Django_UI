@@ -13,14 +13,12 @@ def validate_thresold_config_df_api(request):
         print('GET Method')
         try:
             data = request.GET
-            print('data',data)
             parameters = dict(data.lists())
-            print('parameters',parameters)
             if 'csrfmiddlewaretoken' in parameters:
                 csrf_token = parameters.pop('csrfmiddlewaretoken', None)
             data_df = pd.DataFrame(parameters)
 
-            is_valid,errors = False, ['data_df']
+            is_valid,errors = True, ['data_df']
             return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
