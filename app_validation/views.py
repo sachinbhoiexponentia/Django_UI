@@ -1,8 +1,10 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from app_validation.models import *
-from .controller import *
+# from app_validation.models import *
+from django.apps import apps
+from .controller import mainValidate_function,s3_upload
+from .config import s3_bucket,s3_path
 import pandas as pd
 
 @csrf_exempt
@@ -26,11 +28,7 @@ def validate_thresold_config_df_api(request):
 
 
 
-
-
-
-
-###################insert the config data into the model###################
+# ##################insert the config data into the model###################
 # def insert_config_data(df):
 #     print(df.columns)
 #     for index, row in df.iterrows():
@@ -49,7 +47,7 @@ def validate_thresold_config_df_api(request):
 # df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.a Threshold Logic Config',skiprows=1)
 # insert_config_data(df)
 
-###################CRED Operations#######################
+# ##################CRED Operations#######################
 # # Create
 # threshold = Threshold_Login_Config(
 #     trigger_id=1,
@@ -68,9 +66,9 @@ def validate_thresold_config_df_api(request):
 # # Delete
 # threshold = Threshold_Login_Config.objects.get(trigger_id=1)
 # threshold.delete()
-############################################################
+# ###########################################################
 
-###################insert the config data into the model###################
+# ##################insert the config data into the model###################
 # def insert_config_data(df):
 #     print(df.columns)
 #     for index, row in df.iterrows():
@@ -91,7 +89,7 @@ def validate_thresold_config_df_api(request):
 # insert_config_data(df)
 
 
-##################insert the config data into the model###################
+# #################insert the config data into the model###################
 # def insert_channel_task_mapping_data(df):
 #     for index, row in df.iterrows():
 #         channel_task_mapping = Channel_Task_Mapping(
@@ -215,3 +213,16 @@ def validate_thresold_config_df_api(request):
 # df = pd.DataFrame(list(queryset.values()))
 # print(df)
 
+def model_to_s3(sheet_name):
+    try:
+        data_model = apps.get_model(app_label='app_validation',model_name=sheet_name)
+        data_df = pd.DataFrame(list(data_model.objects.all().values()))
+        is_valid, errors = mainValidate_function(sheet_name, data_df)
+        if not is_valid:
+            return JsonResponse({'error': errors}, status = 400)
+        is_valid, errors = s3_upload(data_df,sheet_name,s3_bucket,s3_path)
+        if not is_valid:
+            return JsonResponse({'error': errors}, status = 400)
+        return JsonResponse({'message': 'Success'}, status = 200)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status = 400)
