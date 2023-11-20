@@ -16,8 +16,7 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-def dashboard(request):
-    return render(request, 'dashboard.html')
+
 
 
 
@@ -33,7 +32,7 @@ def custom_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('dashboard')  
+                return redirect('Threshold_Login_Config_View')  
             else:
                 request.session['login_error'] = 'Invalid credentials'
                 return redirect('login')  
