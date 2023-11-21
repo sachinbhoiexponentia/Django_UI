@@ -17,7 +17,7 @@ def validate_thresold_config_df_api(request):
             if 'csrfmiddlewaretoken' in parameters:
                 csrf_token = parameters.pop('csrfmiddlewaretoken', None)
             data_df = pd.DataFrame(parameters)
-
+            print('data_df',data_df)
             is_valid,errors = True, ['data_df']
             return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
@@ -212,7 +212,7 @@ def validate_thresold_config_df_api(request):
 # print(df_product_mix_focus)
 
 
-# queryset = Product_Mix_Focus.objects.all()
+# queryset = Threshold_Login_Config.objects.all()
 # df = pd.DataFrame(list(queryset.values()))
 # print(df)
 

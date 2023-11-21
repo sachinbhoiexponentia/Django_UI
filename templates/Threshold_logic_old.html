@@ -632,9 +632,6 @@
     height: 35px;
 
   }
-
-
-  
 </style>
 
 <body>
@@ -677,14 +674,7 @@
         <button class="tablinks" onclick="openCity(event, 'FLS_Avg_thresh2_output_visible')">FLS Avg thres2 output</button>
 
       </div>
-      <br><br>
-      {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+
 
 
       <div id="Threshold_Logic_Config_visible" class="tabcontent">
@@ -843,15 +833,20 @@
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
+<div id="error_threshold_logic_config" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <p style="color: black;">Error in validation, please check input values</p>
+              <button type="button" id="error_button__threshold_logic_config" style="background-color: red; color: white;">OK</button>
+          </div>
+      </div>
+  </div>
+</div>
 
 
 
@@ -907,12 +902,11 @@
 
               </div>
               <div class="modal-body">
-              <form id="Trigger_Threhold_by_Business_Form" method="post" enctype="multipart/form-data"> 
+              <form id="form2">
                   {% csrf_token %}
-                  <input type="hidden" id="Trigger_Threhold_by_Business_Form" name="form_identifier" value="Trigger_Threhold_by_Business_Form" />
                   <div class="form-row">
-                      <div class="form-group_clo">
-                          <label for="channel" class="label1_">Channel</label><br>
+                      <div class="form-group_thre">
+                          <label for="channel" class="label1">Channel</label><br>
                           <input class="first" name="channel" id="channel" type="text" placeholder="Channel" />
                       </div>
                       <div class="form-group_clo">
@@ -957,16 +951,10 @@
                           <label for="segment_threshold_1" class="label1">Segment_Threshold_1_</label><br>
                           <input class="first" name="segment_threshold_1" id="segment_threshold_1" type="text" placeholder="Segment_Threshold_1_" />
                       </div>
-                      <div class="form-group_clo">
-                          <label for="flavg_threshold" class="label1">FLSAvg_Threshold</label><br>
-                          <input class="first" name="flavg_threshold" id="flavg_threshold" type="text" placeholder="FLSAvg_Threshold_" />
-                      </div>
                   </div>
 
                   <button type="button" id="validateButton_trigger_threshold_business" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                      {% comment %} data-target="#submit_trigger_threshold_business" {% endcomment %}
-                      {% comment %} data-form-id="Trigger_Threhold_by_Business_Form" {% endcomment %}
-                      >Validate</button>
+                      data-target="#submit_trigger_threshold_business">Validate</button>
               </form>
 
 
@@ -975,7 +963,75 @@
             </div>
           </div>
         </div>
+        <div id="myModal2_edit" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">Edit</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+              </div>
+              <div class="modal-body">
+                <form id="form2">
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first" class="label1">Channel</label><br>
+                      <input class="first" name="first" type="text" placeholder="Channel" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="last" class="label">Subchannel</label><br>
+                      <input class="last" name="last" type="text" placeholder="Subchannel" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first1" class="label1_">Channel_Subchannel_ID</label><br>
+                      <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="last1" class="label_">DemoSeg</label><br>
+                      <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first2" class="label2_">ValueSeg</label><br>
+                      <input class="first2" name="" type="text" placeholder="ValueSeg" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label><br>
+                      <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first3" class="label3_">Trigger_id</label><br>
+                      <input class="first3" name="" type="text" placeholder="Trigger_id" />
+                    </div>
+
+                    <div class="form-group_clo">
+                      <label for="last3" class="label3_last">Trigg_Description</label><br>
+                      <input class="last3" name="province" type="text" placeholder="Trigg_Description" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first" class="label1">Segment_Threshold_1_</label><br>
+                      <input class="first" name="first" type="text" placeholder="Segment_Threshold_1_" />
+                    </div>
+
+                  </div>
+
+
+                </form>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
         <div id="myModal2_delete" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
 
@@ -998,49 +1054,24 @@
       </div>
       <div id="submit_trigger_threshold_business" class="modal fade" role="dialog">
         <div class="modal-dialog modal-md">
+
           <!-- Modal content-->
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
               <button type="button" class="close" data-dismiss="modal"
                 style="border: 1px; height: 5px;">&times;</button>
+
             </div>
             <div class="modal-body">
               <p style="color: black;">Do you want to add new channel?</p>
-              <button type="button" id="submit_trigger_threshold_business_submit" style="background-color:#736CEB; color: white;">Submit2</button>
+              <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
             </div>
+
           </div>
 
         </div>
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
       <div id="Segment_thres1_output_visible" class="tabcontent">
@@ -1092,109 +1123,113 @@
 
               </div>
               <div class="modal-body">
-                <form id="segment_threshold_Form" method="post" enctype="multipart/form-data"x>
-                  {% csrf_token %}
-                  <input type="hidden" id="segment_threshold_Form" name="form_identifier" value="segment_threshold_Form" />
+                <form id="form3">
                   <div class="form-row">
                     <div class="form-group_clo">
-                      <label for="channel" class="label1">Channel</label><br>
-                      <input class="first" id="channel" name="channel"  type="text" placeholder="Channel" />
+                      <label for="first" class="label1">Channel</label><br>
+                      <input class="first" name="first" type="text" placeholder="Channel" />
                     </div>
                     <div class="form-group_clo">
-                      <label for="subchannel" class="label">Subchannel</label><br>
-                      <input class="last" id="subchannel" name="subchannel" type="text" placeholder="SubChannel" />
+                      <label for="last" class="label">Trigger_id</label><br>
+                      <input class="last" name="last" type="text" placeholder="Trigger_id" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first1" class="label1_">Trigg_Desc</label><br>
+                      <input class="first1" name="street" type="text" placeholder="Trigg_Desc" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="last1" class="label_">Segment_Threshold_1_</label><br>
+                      <input class="last1" name="apt" type="text" placeholder="Segment_Threshold_1_" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first2" class="label2_">FLSAvg_Threshold_2</label><br>
+                      <input class="first2" name="" type="text" placeholder="FLSAvg_Threshold_2" />
                     </div>
                   </div>
 
-                  <div class="form-row">
-                    <div class="form-group_clo">
-                      <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label><br>
-                      <input class="first1" id="channel_subchannel_id" name="channel_subchannel_id" type="text" placeholder="Channel_Subchannel_ID" />
-                    </div>
-                    <div class="form-group_clo">
-                      <label for="demoseg" class="label_">DemoSeg</label><br>
-                      <input class="last1" id="demoseg" name="demoseg" type="text" placeholder="DemoSeg" />
-                    </div>
-                  </div>
 
-                  <div class="form-row">
-                    <div class="form-group_clo">
-                      <label for="valueseg" class="label2_">ValueSeg</label><br>
-                      <input class="first2" id="valueseg" name="valueseg" type="text" placeholder="ValueSeg" />
-                    </div>
-                    <div class="form-group_clo">
-                      <label for="demoseg_valueseg_id" class="label2_">DemoSeg_ValueSeg_ID</label><br>
-                      <input class="first2" id="demoseg_valueseg_id" name="demoseg_valueseg_id" type="text" placeholder="DemoSeg_ValueSeg_ID" />
-                    </div>
-                  </div>
 
-                  <div class="form-row">
-                    <div class="form-group_clo">
-                      <label for="trigger_id" class="label2_">Trigger_id</label><br>
-                      <input class="first2" id="trigger_id" name="trigger_id" type="text" placeholder="Trigger_id" />
-                    </div>
-                    <div class="form-group_clo">
-                      <label for="segment_threshold" class="label2_">Segment_Threshold</label><br>
-                      <input class="first2" id="segment_threshold" name="segment_threshold" type="text" placeholder="Segment_Threshold" />
-                    </div>
-                  </div>
-                  <button type="button" id="validateButton_segment_threshold" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                    {% comment %} data-target="#myModal7" {% endcomment %}
-                    >Validate</button>
+
+                  <button type="button" id="submit3" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    data-target="#myModal7">Validate</button>
+
                 </form>
+
               </div>
+
             </div>
           </div>
         </div>
+        <div id="myModal3_edit" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">Edit</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
 
+              </div>
+              <div class="modal-body">
+                <form id="form3">
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first" class="label1">Channel</label><br>
+                      <input class="first" name="first" type="text" placeholder="Channel" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="last" class="label">Trigger_id</label><br>
+                      <input class="last" name="last" type="text" placeholder="Trigger_id" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first1" class="label1_">Trigg_Desc</label><br>
+                      <input class="first1" name="street" type="text" placeholder="Trigg_Desc" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="last1" class="label_">Segment_Threshold_1_</label><br>
+                      <input class="last1" name="apt" type="text" placeholder="Segment_Threshold_1_" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="first2" class="label2_">FLSAvg_Threshold_2</label><br>
+                      <input class="first2" name="" type="text" placeholder="FLSAvg_Threshold_2" />
+                    </div>
+                  </div>
+
+                </form>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
         <div id="myModal3_delete" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
+
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
                 <button type="button" class="close" data-dismiss="modal"
                   style="border: 1px; height: 5px;">&times;</button>
+
               </div>
               <div class="modal-body">
                 <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
                 <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
               </div>
+
             </div>
           </div>
         </div>
+
       </div>
-
-      <div id="submit_segment_threshold_view" class="modal fade" style role="dialog">
-        <div class="modal-dialog modal-md">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-              <button type="button" class="close" data-dismiss="modal"
-                style="border: 1px; height: 5px;">&times;</button>
-            </div>
-            <div class="modal-body">
-              <p style="color: black;">Do you want to add new channel?</p>
-              <button type="button" id="submit_segment_threshold" style="background-color:#736CEB; color: white;">Submit3</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <div id="myModal7" class="modal fade" role="dialog">
         <div class="modal-dialog modal-md">
 
@@ -1266,58 +1301,56 @@
               </div>
               <div class="modal-body">
                 <form id="form4">
-                  {% csrf_token %}
                   <div class="form-row">
                     <div class="form-group_fls">
-                      <label for="fls_id" class="label1">FLS_id</label><br>
-                      <input class="first" name="fls_id" id="fls_id" type="text" placeholder="FLS_id" />
+                      <label for="first" class="label1">FLS_id</label><br>
+                      <input class="first" name="first" type="text" placeholder="FLS_id" />
                     </div>
                     <div class="form-group_fls">
-                      <label for="channel" class="label">Channel</label><br>
-                      <input class="last" name="channel" id ="channel" type="text" placeholder="Channel" />
+                      <label for="last" class="label">Channel</label><br>
+                      <input class="last" name="last" type="text" placeholder="Channel" />
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group_fls">
-                      <label for="subchannel" class="label1_">Subchannel</label><br>
-                      <input class="first1" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
+                      <label for="first1" class="label1_">Subchannel</label><br>
+                      <input class="first1" name="street" type="text" placeholder="Subchannel" />
                     </div>
                     <div class="form-group_fls">
-                      <label for="channel_subchannel_id" class="label_">Channel_Subchannel_ID</label><br>
-                      <input class="last1" name="channel_subchannel_id" id="channel_subchannel_id" type="text" placeholder="Channel_Subchannel_ID" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group_fls">
-                      <label for="demoseg" class="label2_">DemoSeg</label><br>
-                      <input class="first2" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
-                    </div>
-                    <div class="form-group_fls">
-                      <label for="valueseg" class="label_last">ValueSeg</label><br>
-                      <input class="last2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
+                      <label for="last1" class="label_">Channel_Subchannel_ID</label><br>
+                      <input class="last1" name="apt" type="text" placeholder="Channel_Subchannel_ID" />
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group_fls">
-                      <label for="demoseg_valueSeg_id" class="label3_">DemoSeg_ValueSeg_ID</label><br>
-                      <input class="first3" name="demoseg_valueSeg_id" id="demoseg_valueSeg_id" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      <label for="first2" class="label2_">DemoSeg</label><br>
+                      <input class="first2" name="" type="text" placeholder="DemoSeg" />
                     </div>
                     <div class="form-group_fls">
-                      <label for="trigger_id" class="label3_last">Trigger_id</label><br>
-                      <input class="last3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
+                      <label for="last2" class="label_last">ValueSeg</label><br>
+                      <input class="last2" name="province" type="text" placeholder="ValueSeg" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="first3" class="label3_">DemoSeg_ValueSeg_ID</label><br>
+                      <input class="first3" name="" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="last3" class="label3_last">Trigger_id</label><br>
+                      <input class="last3" name="province" type="text" placeholder="Trigger_id" />
                     </div>
                   </div>
 
                   <div class="form-row">
                     <div class="form-group_fls">
-                      <label for="flsavg_threshold_2" class="label1">FLSAvg_Threshold_2</label><br>
-                      <input class="first" name="flsavg_threshold_2" id="flsavg_threshold_2" type="text" placeholder="FLSAvg_Threshold_2" />
+                      <label for="first" class="label1">FLSAvg_Threshold_2</label><br>
+                      <input class="first" name="first" type="text" placeholder="FLSAvg_Threshold_2" />
                     </div>
                   </div>
 
                   <button type="button" id="submit4" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                    {% comment %} data-target="#myModal8" {% endcomment %}
-                    >Validate</button>
+                    data-target="#myModal8">Validate</button>
 
                 </form>
 
@@ -1327,6 +1360,73 @@
           </div>
         </div>
 
+        <div id="myModal4_edit" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">Edit</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <form id="form4">
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="first" class="label1">FLS_id</label><br>
+                      <input class="first" name="first" type="text" placeholder="FLS_id" />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="last" class="label">Channel</label><br>
+                      <input class="last" name="last" type="text" placeholder="Channel" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="first1" class="label1_">Subchannel</label><br>
+                      <input class="first1" name="street" type="text" placeholder="Subchannel" />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="last1" class="label_">Channel_Subchannel_ID</label><br>
+                      <input class="last1" name="apt" type="text" placeholder="Channel_Subchannel_ID" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="first2" class="label2_">DemoSeg</label><br>
+                      <input class="first2" name="" type="text" placeholder="DemoSeg" />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="last2" class="label_last">ValueSeg</label><br>
+                      <input class="last2" name="province" type="text" placeholder="ValueSeg" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="first3" class="label3_">DemoSeg_ValueSeg_ID</label><br>
+                      <input class="first3" name="" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="last3" class="label3_last">Trigger_id</label><br>
+                      <input class="last3" name="province" type="text" placeholder="Trigger_id" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="first" class="label1">FLSAvg_Threshold_2</label><br>
+                      <input class="first" name="first" type="text" placeholder="FLSAvg_Threshold_2" />
+                    </div>
+                  </div>
+
+
+                </form>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
         <div id="myModal4_delete" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
 
@@ -1347,7 +1447,7 @@
           </div>
         </div>
       </div>
-      <div id="submit_fls_avg_threshold_view" class="modal fade" role="dialog">
+      <div id="myModal8" class="modal fade" role="dialog">
         <div class="modal-dialog modal-md">
 
           <!-- Modal content-->
@@ -1374,32 +1474,11 @@
   <button class="button-image">Validate</button>
 </div>  -->
 
-
     <div>
     </div>
 
-
-
   </div>
   </div>
-
-
-  <div id="error_threshold_logic_config" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-md">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-              <p style="color: black;">Error in validation, please check input values</p>
-              <button type="button" id="error_button__threshold_logic_config" style="background-color: red; color: white;">OK</button>
-          </div>
-      </div>
-  </div>
-  </div>
-  
-
 
 
 
@@ -1432,18 +1511,18 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       var formButton = document.getElementById("formButton2");
-      var Trigger_Threhold_by_Business_Form = document.getElementById("Trigger_Threhold_by_Business_Form");
+      var form2 = document.getElementById("form2");
 
       formButton.addEventListener("click", function () {
-        Trigger_Threhold_by_Business_Form.style.display = (Trigger_Threhold_by_Business_Form.style.display === "none" || Trigger_Threhold_by_Business_Form.style.display === "") ? "block" : "none";
+        form2.style.display = (form2.style.display === "none" || form2.style.display === "") ? "block" : "none";
       });
     });
     document.addEventListener("DOMContentLoaded", function () {
       var formButton = document.getElementById("formButton3");
-      var segment_threshold_Form = document.getElementById("segment_threshold_Form");
+      var form3 = document.getElementById("form3");
 
       formButton.addEventListener("click", function () {
-        segment_threshold_Form.style.display = (segment_threshold_Form.style.display === "none" || segment_threshold_Form.style.display === "") ? "block" : "none";
+        form3.style.display = (form3.style.display === "none" || form3.style.display === "") ? "block" : "none";
       });
     });
     document.addEventListener("DOMContentLoaded", function () {
@@ -1462,17 +1541,20 @@
 
     {% comment %} mymodel, big form, mymodel5 submt form {% endcomment %}
 
-    {% comment %} document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
       setupModalHandling("validateButton_trigger_threshold_business", "modal_trigger_threshold_business", "submit_trigger_threshold_business");
-    }); {% endcomment %}
+    });
 
-    {% comment %} document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
       setupModalHandling("submit3", "myModal3", "myModal7");
-    }); {% endcomment %}
+    });
 
-    {% comment %} document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
       setupModalHandling("submit4", "myModal4", "myModal8");
-    }); {% endcomment %}
+    });
+
+
+
 
 
 
@@ -1493,8 +1575,8 @@
       });
     }
 
-{% comment %} 1 {% endcomment %}
-$(document).ready(function () {
+
+    {% comment %} $(document).ready(function () {
       $('#validateButton_threshold_logic_config').on('click', function (event) {
           event.preventDefault(); // Prevent the default form submission
           var formData = $('#Threshold_Logic_Form').serialize();
@@ -1507,10 +1589,10 @@ $(document).ready(function () {
               success: function (response) {
                   if (response.is_valid) {
                       // Handle success (e.g., update UI, show a message)
-                      $('#submit_threshold_logic_config').modal('show');
+                      console.log('Form is valid!');
                   } else {
                       // Handle validation errors (e.g., display error messages)
-                      $('#error_threshold_logic_config').modal('show');
+                      alert('Form is not valid. Errors: ' + response.errors.join(', '));
                   }
               },
               error: function (xhr, status, error) {
@@ -1519,7 +1601,79 @@ $(document).ready(function () {
               }
           });
       });
-  }); 
+  }); {% endcomment %}
+  
+
+
+  {% comment %} $(document).ready(function () {
+    $('.submit_validate').on('click', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        
+        var formId = $(this).data('form-id');
+        console.log('Form ID:', formId);
+        var formData = $('#' + formId).serialize();
+        formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/validate_thresold_config_df/',
+            data: formData,
+            dataType: 'json',
+            success: function (response) {
+                if (response.is_valid) {
+                    // Handle success (e.g., update UI, show a message)
+                    console.log('Form is valid!');
+                    $('#submit_threshold_logic_config').modal('show');
+
+                } else {
+                    // Handle validation errors (e.g., display error messages)
+                    alert('Form is not valid. Errors: ' + response.errors.join(', '));
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX request failed with error:', error);
+                alert('Internal Server Error. Please check the server logs for details.');
+            }
+        });
+    });
+}); {% endcomment %}
+
+  
+
+$(document).ready(function () {
+  $('.submit_validate').on('click', function (event) {
+      event.preventDefault();
+
+      var formId = $(this).closest('form').attr('id');
+      var formData = $('#' + formId).serialize();
+      formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+
+      $.ajax({
+          type: 'GET',
+          url: '/api/validate_thresold_config_df/',
+          data: formData,
+          dataType: 'json',
+          success: function (response) {
+              if (response.is_valid) {
+                  // If the form is valid, show the modal
+                  $('#submit_threshold_logic_config').modal('show');
+              } else {
+                  // If the form is not valid, show an alert with error messages
+                  $('#error_threshold_logic_config').modal('show');
+              }
+          },
+          error: function (xhr, status, error) {
+              console.error('AJAX request failed with error:', error);
+              alert('Internal Server Error. Please check the server logs for details.');
+          }
+      });
+  });
+
+
+  $('#submit').on('click', function () {
+      $('#Threshold_Logic_Form').submit();
+  });
+});
 
 $(document).ready(function () {
   $('#submit_button__threshold_logic_config').on('click', function () {
@@ -1532,92 +1686,6 @@ $(document).ready(function() {
     $('#error_threshold_logic_config').modal('hide');
   });
 });
-
-
-
-
-
-
-{% comment %} 2 {% endcomment %}
-$(document).ready(function () {
-      $('#validateButton_trigger_threshold_business').on('click', function (event) {
-          event.preventDefault(); // Prevent the default form submission
-          var formData = $('#Threshold_Logic_Form').serialize();
-          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
-          $.ajax({
-              type: 'GET',
-              url: '/api/validate_thresold_config_df/',
-              data: formData,
-              dataType: 'json',
-              success: function (response) {
-                  if (response.is_valid) {
-                      // Handle success (e.g., update UI, show a message)
-                      $('#submit_trigger_threshold_business').modal('show');
-                  } else {
-                      // Handle validation errors (e.g., display error messages)
-                      $('#error_threshold_logic_config').modal('show');
-                  }
-              },
-              error: function (xhr, status, error) {
-                  console.error('AJAX request failed with error:', error);
-                  alert('Internal Server Error. Please check the server logs for details.');
-              }
-          });
-      });
-  }); 
-
-
-
-
-$(document).ready(function () {
-  $('#submit_trigger_threshold_business_submit').on('click', function () {
-       $('#Trigger_Threhold_by_Business_Form').submit();
-  });
-});
-
-
-
-
-
-
-
-
-
-{% comment %} 3 {% endcomment %}
-$(document).ready(function () {
-      $('#validateButton_segment_threshold').on('click', function (event) {
-          event.preventDefault(); // Prevent the default form submission
-          var formData = $('#segment_threshold_Form').serialize();
-          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
-          $.ajax({
-              type: 'GET',
-              url: '/api/validate_thresold_config_df/',
-              data: formData,
-              dataType: 'json',
-              success: function (response) {
-                  if (response.is_valid) {
-                      // Handle success (e.g., update UI, show a message)
-                      $('#submit_segment_threshold_view').modal('show');
-                  } else {
-                      // Handle validation errors (e.g., display error messages)
-                      $('#error_threshold_logic_config').modal('show');
-                  }
-              },
-              error: function (xhr, status, error) {
-                  console.error('AJAX request failed with error:', error);
-                  alert('Internal Server Error. Please check the server logs for details.');
-              }
-          });
-      });
-  }); 
-
-$(document).ready(function () {
-  $('#submit_segment_threshold').on('click', function () {
-       $('#segment_threshold_Form').submit();
-  });
-});
-
-
 
 
   </script>

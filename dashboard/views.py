@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from app_validation.models import *
 import pandas as pd
+from django.contrib import messages
 
 
 
@@ -38,27 +39,71 @@ def Threshold_Login_Config_view(request):
 
     if request.method == 'POST':
         print('Django post request')
-        form_id = request.POST.get('form_identifier')
+        
+        data = request.POST
+        form_id = data.get('form_identifier')
+        print('data',data)
         if form_id == 'Threshold_Logic_Form':
             print('Threshold_Logic_Form')
-            data = request.POST
-            # parameters = dict(data.lists())
-            # print('parameters',parameters)
-            # if 'csrfmiddlewaretoken' in parameters:
-                # csrf_token = parameters.pop('csrfmiddlewaretoken', None)
-            # data_df = pd.DataFrame(parameters)
-            # print('data_df',data_df)
-            threshold_login_config = Threshold_Login_Config(
-                trigger_id=request.POST.get('Trigger_id'),
-                trigg_desc=request.POST.get('Trigg_Desc'),
-                thres_description=request.POST.get('Thres_Description'),
-                thres_query_logic=request.POST.get('Thres_Query_Logic'),
-                operation=request.POST.get('Operation'),
-                analysis_period=request.POST.get('Analysis_Period'),
-                num_thresholds_required=request.POST.get('Num_Threshold_Required'),
-                segment_threshold_requirement_flag=request.POST.get('Segment_Threshold_Requirement_Flag'),
-                FLS_Threshold_Requirement_Flag=request.POST.get('FLS_Threshold_Requirement_Flag'))
-            threshold_login_config.save()
+            try:
+                threshold_login_config = Threshold_Login_Config(
+                    trigger_id=request.POST.get('Trigger_id'),
+                    trigg_desc=request.POST.get('Trigg_Desc'),
+                    thres_description=request.POST.get('Thres_Description'),
+                    thres_query_logic=request.POST.get('Thres_Query_Logic'),
+                    operation=request.POST.get('Operation'),
+                    analysis_period=request.POST.get('Analysis_Period'),
+                    num_thresholds_required=request.POST.get('Num_Threshold_Required'),
+                    segment_threshold_requirement_flag=request.POST.get('Segment_Threshold_Requirement_Flag'),
+                    FLS_Threshold_Requirement_Flag=request.POST.get('FLS_Threshold_Requirement_Flag'))
+                threshold_login_config.save()
+                messages.success(request, 'Form saved successfully')
+                return render(request, 'Threshold_logic.html', context)
+            except Exception as e:
+                print('Error while saving the data ',e)
+                messages.error(request, e) 
+                
+            
+        if form_id == 'Trigger_Threhold_by_Business_Form':
+            print('Trigger_Threhold_by_Business_Form')
+            try:
+                trigg_thres_by_business = Trigg_Thres_By_Business(
+                    Channel=request.POST.get('channel'),
+                    Subchannel=request.POST.get('subchannel'),
+                    Channel_Subchannel_ID=request.POST.get('channel_subchannel_id'),
+                    DemoSeg=request.POST.get('demoseg'),
+                    ValueSeg=request.POST.get('valueseg'),
+                    DemoSeg_ValueSeg_ID=request.POST.get('demoseg_valueseg_id'),
+                    Trigger_id=request.POST.get('trigger_id'),
+                    Trigg_Desc=request.POST.get('trigg_description'),
+                    Segment_Threshold=request.POST.get('segment_threshold_1'),
+                    FLSAvg_Threshold=request.POST.get('flsavg_threshold')) 
+                trigg_thres_by_business.save()
+                messages.success(request, 'Form saved successfully')  
+                return render(request, 'Threshold_logic.html', context)
+            except Exception as e:
+                print('Error while saving the data ',e)
+                messages.error(request, e) 
+        
+        if form_id == 'segment_threshold_Form':
+            print('segment_threshold_Form')
+            try:
+                segment_threshold_output = Segment_Threshold_Output(
+                Channel=request.POST.get('channel'),
+                Subchannel=request.POST.get('subchannel'),
+                Channel_Subchannel_ID=request.POST.get('channel_subchannel_id'),
+                DemoSeg=request.POST.get('demoseg'),
+                ValueSeg=request.POST.get('valueseg'),
+                DemoSeg_ValueSeg_ID=request.POST.get('demoseg_valueseg_id'),
+                Trigger_id=request.POST.get('trigger_id'),
+                Segment_Threshold=request.POST.get('segment_threshold'))
+                segment_threshold_output.save()
+                messages.success(request, 'Form saved successfully')
+                render(request, 'Threshold_logic.html', context)
+                return render(request, 'Threshold_logic.html', context)
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e)          
         
     return render(request, 'Threshold_logic.html', context)
 
