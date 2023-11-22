@@ -898,6 +898,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div id="Paris" class="tabcontent">
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
@@ -946,62 +964,72 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="allocation_parameter_Form"  data-form-id="allocation_parameter_Form" method="post" enctype="multipart/form-data">
+                  <form id="allocation_parameters_Form"  data-form-id="allocation_parameters_Form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" id="allocation_parameter_Form" name="form_identifier" value="allocation_parameter_Form" />
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel" class="label1">Channel</label>
-                        <input class="first" name="channel" id="channel" type="text" placeholder="Channel" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="subchannel" class="label">Subchannel</label>
-                        <input class="last" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label>
-                        <input class="first1" name="channel_subchannel_id" id="channel_subchannel_id" type="text" placeholder="Channel_Subchannel_ID" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg" class="label_">DemoSeg</label>
-                        <input class="last1" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="valueseg" class="label2_">ValueSeg</label>
-                        <input class="first2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg_valueseg_id" class="label_last">DemoSeg_ValueSeg_ID</label>
-                        <input class="last2" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text" placeholder="DemoSeg_ValueSeg_ID" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="trigger_id" class="label3_">Trigger_id</label>
-                        <input class="first3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
-                      </div>
+                    <input type="hidden" id="allocation_parameters_Form" name="form_identifier" value="allocation_parameters_Form" />
 
-                      <div class="form-group_clo">
-                        <label for="trigg_description" class="label3_last">Trigg_Description</label>
-                        <input class="last3" name="trigg_description" id="trigg_description" type="text" placeholder="Trigg_Description" />
-                      </div>
-                    </div>
 
                     <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="segment_threshold_1_" class="label1">Segment_Threshold_1_</label>
-                        <input class="first" name="segment_threshold_1_" id="segment_threshold_1_" type="text" placeholder="Segment_Threshold_1_" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="flsavg_threshold_2" class="label1">FLSAvg_Threshold_2</label>
-                        <input class="first" name="flsavg_threshold_2" id="flsavg_threshold_2" type="text" placeholder="FLSAvg_Threshold_2" />
-                      </div>
+                        <div class="form-group_clo">
+                          <label for="task_id" class="label1">Task ID</label>
+                          <input class="first" name="task_id" id="task_id" type="text" placeholder="Task ID" required />
+                        </div>
                     </div>
-                    <button type="button" id="submit2" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="channel" class="label1">Channel</label>
+                          <input class="first" name="channel" id="channel" type="text" placeholder="Channel" required />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="subchannel" class="label">Subchannel</label>
+                          <input class="last" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" required />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="demoseg" class="label1">DemoSeg</label>
+                          <input class="first" name="demoseg" id="demoseg" type="number" placeholder="DemoSeg" />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="valueseg" class="label">ValueSeg</label>
+                          <input class="last" name="valueseg" id="valueseg" type="number" placeholder="ValueSeg" />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="segment_id" class="label1">Segment ID</label>
+                          <input class="first" name="segment_id" id="segment_id" type="number" placeholder="Segment ID" />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="due_days" class="label">Due Days</label>
+                          <input class="last" name="due_days" id="due_days" type="number" placeholder="Due Days" />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="buffer_days" class="label1">Buffer Days</label>
+                          <input class="first" name="buffer_days" id="buffer_days" type="number" placeholder="Buffer Days" />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="xx_value" class="label">XX Value</label>
+                          <input class="last" name="xx_value" id="xx_value" type="text" placeholder="XX Value" />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="xx_type" class="label1">XX Type</label>
+                          <input class="first" name="xx_type" id="xx_type" type="text" placeholder="XX Type" />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="price_point_reward" class="label">Price Point Reward</label>
+                          <input class="last" name="price_point_reward" id="price_point_reward" type="number" placeholder="Price Point Reward" />
+                        </div>
+                      </div>
+                    <button type="button" id="validateButton_allocation_parameters" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
                       {% comment %} data-target="#myModal6" {% endcomment %}
                       >Validate</button>
 
@@ -1024,7 +1052,6 @@
                 <div class="modal-body">
                   {% comment %} for edit {% endcomment %}
                   <form id="form2">
-                    {% csrf_token %}
                     <div class="form-row">
                       <div class="form-group_clo">
                         <label for="first" class="label1">Channel</label>
@@ -1088,7 +1115,7 @@
               </div>
             </div>
           </div>
-          <div id="myModal2_delete" class="modal fade" role="dialog">
+          <div id="mkmk" class="modal fade" role="dialog">
             <div class="modal-dialog modal-md">
 
               <!-- Modal content-->
@@ -1108,7 +1135,7 @@
             </div>
           </div>
         </div>
-        <div id="myModal6" class="modal fade" role="dialog">
+        <div id="submit_allocation_parameters" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
 
             <!-- Modal content-->
@@ -1121,7 +1148,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+                <button type="button" id="submit_button_allocation_parameters" style="background-color:#736CEB; color: white;">Submit Allocatiion</button>
               </div>
 
             </div>
@@ -1181,53 +1208,100 @@
                   <form id="product_mix_focus_Form"  data-form-id="product_mix_focus_Form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" id="product_mix_focus_Form" name="form_identifier" value="product_mix_focus_Form" />
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel" class="label1">Channel</label>
-                        <input class="first" name="channel" id="channel" type="text" placeholder="Channel" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="subchannel" class="label">Subchannel</label>
-                        <input class="last" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label>
-                        <input class="first1" name="channel_subchannel_id" id="channel_subchannel_id" type="text" placeholder="Channel_Subchannel_ID" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg" class="label_">DemoSeg</label>
-                        <input class="last1" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="valueseg" class="label2_">ValueSeg</label>
-                        <input class="first2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg_valueseg_id" class="label_last">DemoSeg_ValueSeg_ID</label>
-                        <input class="last2" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text" placeholder="DemoSeg_ValueSeg_ID" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="trigger_id" class="label3_">Trigger_id</label>
-                        <input class="first3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
-                      </div>
+              <div class="form-row">
+                <div class="form-group_clo">
+                  <label for="id" class="label1">ID</label>
+                  <input class="first" name="id" id="id" type="text" placeholder="ID" />
+                </div>
+                <div class="form-group_clo">
+                  <label for="channel" class="label">Channel</label>
+                  <input class="last" name="channel" id="channel" type="text" placeholder="Channel" />
+                </div>
+              </div>
 
-                      <div class="form-group_clo">
-                        <label for="threshold_1" class="label3_last">Threshold_1(MicroSegment Benchmarks)</label>
-                        <input class="last3" name="threshold_1" type="text"
-                          placeholder="Threshold_1(MicroSegment Benchmarks)" />
-                      </div>
-                    </div>
+              <div class="form-row">
+                <div class="form-group_clo">
+                  <label for="subchannel" class="label">Subchannel</label>
+                  <input class="first" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
+                </div>
+                <div class="form-group_clo">
+                  <label for="demoseg" class="label">DemoSeg</label>
+                  <input class="last" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group_clo">
+                  <label for="valueseg" class="label">ValueSeg</label>
+                  <input class="first" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
+                </div>
+                <div class="form-group_clo">
+                  <label for="focus_product" class="label">Focus_Product</label>
+                  <input class="last" name="focus_product" id="focus_product" type="text" placeholder="Focus_Product" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group_clo">
+                  <label for="prod_mix_non_par_annuity_immediate" class="label">prod_mix_non_par_annuity_immediate</label>
+                  <input class="first" name="prod_mix_non_par_annuity_immediate" id="prod_mix_non_par_annuity_immediate" type="text" placeholder="prod_mix_non_par_annuity_immediate" />
+                </div>
+                <div class="form-group_clo">
+                  <label for="prod_mix_non_par_c2p" class="label">prod_mix_non_par_c2p</label>
+                  <input class="last" name="prod_mix_non_par_c2p" id="prod_mix_non_par_c2p" type="text" placeholder="prod_mix_non_par_c2p" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group_clo">
+                  <label for="prod_mix_non_par_sanchay" class="label">prod_mix_non_par_sanchay</label>
+                  <input class="first" name="prod_mix_non_par_sanchay" id="prod_mix_non_par_sanchay" type="text" placeholder="prod_mix_non_par_sanchay" />
+                </div>
+                <div class="form-group_clo">
+                  <label for="prod_mix_non_par_annuity_pgp" class="label">prod_mix_non_par_annuity_pgp</label>
+                  <input class="last" name="prod_mix_non_par_annuity_pgp" id="prod_mix_non_par_annuity_pgp" type="text" placeholder="prod_mix_non_par_annuity_pgp" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group_clo">
+                  <label for="prod_mix_non_par_health" class="label">prod_mix_non_par_health</label>
+                  <input class="first" name="prod_mix_non_par_health" id="prod_mix_non_par_health" type="text" placeholder="prod_mix_non_par_health" />
+                </div>
+                <div class="form-group_clo">
+                  <label for="prod_mix_par_others" class="label">prod_mix_par_others</label>
+                  <input class="last" name="prod_mix_par_others" id="prod_mix_par_others" type="text" placeholder="prod_mix_par_others" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group_clo">
+                  <label for="prod_mix_par_ppt_10" class="label">prod_mix_par_ppt_10</label>
+                  <input class="first" name="prod_mix_par_ppt_10" id="prod_mix_par_ppt_10" type="text" placeholder="prod_mix_par_ppt_10" />
+                </div>
+                <div class="form-group_clo">
+                  <label for="prod_mix_ul_others" class="label">prod_mix_ul_others</label>
+                  <input class="last" name="prod_mix_ul_others" id="prod_mix_ul_others" type="text" placeholder="prod_mix_ul_others" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group_clo">
+                  <label for="prod_mix_ul_ppt_10" class="label">prod_mix_ul_ppt_10</label>
+                  <input class="first" name="prod_mix_ul_ppt_10" id="prod_mix_ul_ppt_10" type="text" placeholder="prod_mix_ul_ppt_10" />
+                </div>
+                <div class="form-group_clo">
+                  <label for="prod_mix_ul_single_pre" class="label">prod_mix_ul_single_pre</label>
+                  <input class="last" name="prod_mix_ul_single_pre" id="prod_mix_ul_single_pre" type="text" placeholder="prod_mix_ul_single_pre" />
+                </div>
+              </div>
 
 
 
-                    <button type="button" id="submit3" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                      data-target="#myModal7">Validate</button>
+
+                    <button type="button" id="validateButton_product_mix_focus" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      {% comment %} data-target="#myModal7" {% endcomment %}
+                      >Validate</button>
 
                   </form>
 
@@ -1320,9 +1394,10 @@
           </div>
 
         </div>
-        <div id="myModal7" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-md">
 
+
+        <div id="submit_product_mix_focus" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
@@ -1333,13 +1408,18 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+                <button type="button" id="submit_button_product_mix_focus" style="background-color:#736CEB; color: white;">Submit 3</button>
               </div>
 
             </div>
 
           </div>
         </div>
+
+
+
+
+
 
         <div id="india" class="tabcontent">
           <div class="button1-container">
@@ -1801,6 +1881,81 @@
         $('#optimization_rules_Form').submit();
     });
   });
+
+
+
+
+{% comment %} 2 {% endcomment %}
+      $(document).ready(function () {
+      $('#validateButton_allocation_parameters').on('click', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+          var formData = $('#allocation_parameters_Form').serialize();
+          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+          $.ajax({
+              type: 'GET',
+              url: '/api/validate_thresold_config_df/',
+              data: formData,
+              dataType: 'json',
+              success: function (response) {
+                  if (response.is_valid) {
+                      // Handle success (e.g., update UI, show a message)
+                      $('#submit_allocation_parameters').modal('show');
+                  } else {
+                      // Handle validation errors (e.g., display error messages)
+                      $('#error_threshold_logic_config').modal('show');
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.error('AJAX request failed with error:', error);
+                  alert('Internal Server Error. Please check the server logs for details.');
+              }
+          });
+      });
+  }); 
+
+  $(document).ready(function () {
+    $('#submit_button_allocation_parameters').on('click', function () {
+        $('#allocation_parameters_Form').submit();
+    });
+  });
+
+
+
+
+  {% comment %} 3 {% endcomment %}
+      $(document).ready(function () {
+      $('#validateButton_product_mix_focus').on('click', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+          var formData = $('#product_mix_focus_Form').serialize();
+          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+          $.ajax({
+              type: 'GET',
+              url: '/api/validate_thresold_config_df/',
+              data: formData,
+              dataType: 'json',
+              success: function (response) {
+                  if (response.is_valid) {
+                      // Handle success (e.g., update UI, show a message)
+                      $('#submit_product_mix_focus').modal('show');
+                  } else {
+                      // Handle validation errors (e.g., display error messages)
+                      $('#error_threshold_logic_config').modal('show');
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.error('AJAX request failed with error:', error);
+                  alert('Internal Server Error. Please check the server logs for details.');
+              }
+          });
+      });
+  }); 
+
+  $(document).ready(function () {
+    $('#submit_button_product_mix_focus').on('click', function () {
+        $('#product_mix_focus_Form').submit();
+    });
+  });
+
 
 
 
