@@ -103,9 +103,28 @@ def Threshold_Login_Config_view(request):
                 return render(request, 'Threshold_logic.html', context)
             except Exception as e:
                 print('Error while saving the data ',e)  
-                messages.error(request, e)          
-        
+                messages.error(request, e)      
+                
+        if form_id == 'fls_avgthres_Form':
+            print('fls_avgthres_Form')
+            try:    
+                fls_avg_threshold_output = FLS_Avg_Threshold_Output(
+                    FLS_id = request.POST.get('fls_id') , 
+                    Channel = request.POST.get('channel'),
+                    Subchannel = request.POST.get('subchannel'),
+                    Channel_Subchannel_ID = request.POST.get('channel_subchannel_id'),
+                    DemoSeg = request.POST.get('demoseg'),
+                    ValueSeg = request.POST.get('valueseg'),
+                    DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id'),
+                    Trigger_id = request.POST.get('trigger_id'),
+                    FLSAvg_Threshold = request.POST.get('flsavg_threshold_2'))
+                fls_avg_threshold_output.save()
+                messages.success(request, 'Form saved successfully')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e)
     return render(request, 'Threshold_logic.html', context)
+
 
 
 @login_required
@@ -116,6 +135,26 @@ def closure_Config_view(request):
     Task_Closure_Config_data = Task_Closure_Config_df.values.tolist()
 
     context = {'Task_Closure_Config_headers':Task_Closure_Config_headers,'Task_Closure_Config_data':Task_Closure_Config_data }
+
+    if request.method == 'POST':
+        print('Django post request')
+        data = request.POST
+        form_id = data.get('form_identifier')
+        print('data',data)    
+        if form_id == 'closure_form':
+            print('closure_form')
+            try:  
+                task_closure_config = Task_Closure_Config(
+                Task_id = request.POST.get('task_id') , 
+                Task_Desc = request.POST.get('task_desc') , 
+                Closure_True_Query = request.POST.get('closure_true_query')) 
+                task_closure_config.save()
+                messages.success(request, 'Form saved successfully')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e)
+
+    
     return render(request,'closure_logic.html',context)
 
 
@@ -148,6 +187,59 @@ def TNT_Module_View(request):
         'trigger_query_logic_data_headers': trigger_query_logic_headers,
         'trigger_query_logic_data_data': trigger_query_logic_data}
     
+    if request.method == 'POST':
+        print('Django post request')
+        data = request.POST
+        form_id = data.get('form_identifier')
+        print('data',data)    
+        if form_id == 'channel_task_mapping_Form':
+            print('channel_task_mapping_Form')
+            try:
+                channel_task_mapping = Channel_Task_Mapping(
+                    Channel = request.POST.get('channel') , 
+                    Channel_Subchannel_ID = request.POST.get('channel_subchannel_id') , 
+                    channel_subchannel_Name = request.POST.get('channel_subchannel_name') , 
+                    DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id') , 
+                    DemoSeg_ValueSeg_Name = request.POST.get('demoseg_valueseg_name') , 
+                    Task = request.POST.get('task'))
+                channel_task_mapping.save()
+                messages.success(request, 'Form saved successfully')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e)
+
+
+        if form_id == 'task_trigger_mapping_Form':
+            print('task_trigger_mapping_Form')
+            try:
+                task_trigger_mapping = Task_Trigger_Mapping(
+                Task_id = request.POST.get('task_id') , 
+                Task_Desc = request.POST.get('task_desc') , 
+                Task_Stage = request.POST.get('task_stage') , 
+                Trigger = request.POST.get('trigger'))
+                task_trigger_mapping.save()
+                messages.success(request, 'Form saved successfully')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e)
+
+
+        if form_id == 'trigger_on_query_logic_Form':
+            print('trigger_on_query_logic_Form')
+            try:
+                trigger_on_query_logic = Trigger_ON_Query_Logic(
+                    Trigger_id = request.POST.get('trigger_id') ,
+                    Trigger_Description_Discussed = request.POST.get('trigger_description_discussed'),
+                    Assignment_level = request.POST.get('assignment_level'),
+                    Iteration_Level = request.POST.get('iteration_level'),
+                    Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic'),
+                    query = request.POST.get('query'))
+                trigger_on_query_logic.save()
+                messages.success(request, 'Form saved successfully')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e)
+            
     return render(request, 'TNT.html',context)
 
 
@@ -177,5 +269,27 @@ def TOAM_Module_View(request):
         'allocation_parameters_data_data': allocation_parameters_data,
         'product_mix_focus_data_headers': product_mix_focus_headers,
         'product_mix_focus_data_data': product_mix_focus_data,}
+    
+    if request.method == 'POST':
+        print('Django post request')
+        data = request.POST
+        form_id = data.get('form_identifier')
+        print('data',data)
+        if form_id == 'optimization_rules_Form':
+            print('optimization_rules_Form') 
+        try:  
+            optimization_rules = Optimization_Rules(
+                Task_No = request.POST.get('task_no') ,
+                Constraint_Description = request.POST.get('constraint') ,
+                Category_Task_Associated_with =request.POST.get('category_task_allocated_with') ,
+                Min_Task_Count_FLS = request.POST.get('min_task_count_fls') ,
+                Max_Task_Count_FLS = request.POST.get('max_task_count_fls') ,
+                Mutual_Exclusion_Criteria = request.POST.get('mutual_exclusion_criteria') ,
+                Task_Priority =request.POST.get('task_priority') )
+            optimization_rules.save()
+            messages.success(request, 'Form saved successfully')
+        except Exception as e:
+            print('Error while saving the data ',e)  
+            messages.error(request, e)    
     
     return render(request, 'TOAM.html',context)

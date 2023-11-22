@@ -650,10 +650,10 @@
   </header>
   <div>
     <div class="sidebar">
-      <a href="./Treslogic.html"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
-      <a href="./closure.html"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
-      <a href="./TNT.html"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
-      <a href="#">
+      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
+      <a href="/closure_Config_view"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
+      <a href="/TNT_Module_View"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
+      <a href="/TOAM_Module_View">
         <div class="d-flex">
           <div>
             <img src="{% static 'Ellipse 4.png' %}" alt="Contact Icon">
@@ -671,6 +671,15 @@
         <button>Segment Threshold Output</button>
         <button>FLS Average Threshold Output</button>
     </div> -->
+      <br><br>
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
       <div class="button-container">
         <!-- <div class="tab"> -->
         <button class="tablinks" onclick="openCity(event, 'London')">Optimization Rules</button>
@@ -734,55 +743,56 @@
                 <div class="modal-header">
                   <h1 class="modal-title">Add New</h1>
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-
                 </div>
                 <div class="modal-body">
-                  <form id="form1">
+                  <form id="optimization_rules_Form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="optimization_rules_Form" name="form_identifier" value="optimization_rules_Form" />
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Constraint</label>
-                        <input class="first1" name="street" type="text" placeholder="Constraint" />
+                        <label for="task_no" class="label1_">Task No.</label>
+                        <input class="first1" name="task_no" id="task_no" type="text" placeholder="Task No." />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Category Task Allocated With</label>
-                        <input class="first1" name="street" type="text" placeholder="Category Task Allocated With" />
+                        <label for="constraint" class="label1_">Constraint</label>
+                        <input class="first1" name="constraint" id="constraint" type="text" placeholder="Constraint" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Min Task Count FLS</label>
-                        <input class="first1" name="street" type="text" placeholder="Min Task Count FLS" />
+                        <label for="category_task_allocated_with" class="label1_">Category Task Allocated With</label>
+                        <input class="first1" name="category_task_allocated_with" id="category_task_allocated_with" type="text" placeholder="Category Task Allocated With" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Max Task Count FLS</label>
-                        <input class="first1" name="street" type="text" placeholder="Max Task Count FLS" />
+                        <label for="min_task_count_fls" class="label1_">Min Task Count FLS</label>
+                        <input class="first1" name="min_task_count_fls" id="min_task_count_fls" type="text" placeholder="Min Task Count FLS" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Mutual Exclusion Criteria</label>
-                        <input class="first1" name="street" type="text" placeholder="Mutual Exclusion Criteria" />
+                        <label for="max_task_count_fls" class="label1_">Max Task Count FLS</label>
+                        <input class="first1" name="max_task_count_fls" id="max_task_count_fls" type="text" placeholder="Max Task Count FLS" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Task Priority</label>
-                        <input class="first1" name="street" type="text" placeholder="Task Priority" />
+                        <label for="mutual_exclusion_criteria" class="label1_">Mutual Exclusion Criteria</label>
+                        <input class="first1" name="mutual_exclusion_criteria" id="mutual_exclusion_criteria" type="text" placeholder="Mutual Exclusion Criteria" />
                       </div>
                     </div>
-
-
-
-
-
-                    <button type="button" id="submit1" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                      data-target="#myModal5">Validate</button>
-
-
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="task_priority" class="label1_">Task Priority</label>
+                        <input class="first1" name="task_priority" id="task_priority" type="text" placeholder="Task Priority" />
+                      </div>
+                    </div>
+                    <button type="button" id="validateButton_optimization_rule" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      {% comment %} data-target="#myModal5" {% endcomment %}
+                      >Validate</button>
                   </form>
 
                 </div>
@@ -797,55 +807,53 @@
                 <div class="modal-header">
                   <h1 class="modal-title">Edit</h1>
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-
                 </div>
                 <div class="modal-body">
+                  {% comment %} for edit {% endcomment %}
                   <form id="form1">
+                    {% csrf_token %}
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Constraint</label>
-                        <input class="first1" name="street" type="text" placeholder="Constraint" />
+                        <label for="constraint" class="label1_">Constraint</label>
+                        <input class="first1" name="constraint" id="constraint" type="text" placeholder="Constraint" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Category Task Allocated With</label>
-                        <input class="first1" name="street" type="text" placeholder="Category Task Allocated With" />
+                        <label for="category_task_allocated_with" class="label1_">Category Task Allocated With</label>
+                        <input class="first1" name="category_task_allocated_with" id="category_task_allocated_with" type="text" placeholder="Category Task Allocated With" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Min Task Count FLS</label>
-                        <input class="first1" name="street" type="text" placeholder="Min Task Count FLS" />
+                        <label for="min_task_count_fls" class="label1_">Min Task Count FLS</label>
+                        <input class="first1" name="min_task_count_fls" id="min_task_count_fls" type="text" placeholder="Min Task Count FLS" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Max Task Count FLS</label>
-                        <input class="first1" name="street" type="text" placeholder="Max Task Count FLS" />
+                        <label for="max_task_count_fls" class="label1_">Max Task Count FLS</label>
+                        <input class="first1" name="max_task_count_fls" id="max_task_count_fls" type="text" placeholder="Max Task Count FLS" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Mutual Exclusion Criteria</label>
-                        <input class="first1" name="street" type="text" placeholder="Mutual Exclusion Criteria" />
+                        <label for="mutual_exclusion_criteria" class="label1_">Mutual Exclusion Criteria</label>
+                        <input class="first1" name="mutual_exclusion_criteria" id="mutual_exclusion_criteria" type="text" placeholder="Mutual Exclusion Criteria" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Task Priority</label>
-                        <input class="first1" name="street" type="text" placeholder="Task Priority" />
+                        <label for="task_priority" class="label1_">Task Priority</label>
+                        <input class="first1" name="task_priority" id="task_priority" type="text" placeholder="Task Priority" />
                       </div>
                     </div>
-
-
-
                   </form>
                 </div>
-
               </div>
             </div>
           </div>
+
           <div id="myModal_delete" class="modal fade" role="dialog">
             <div class="modal-dialog modal-md">
 
@@ -867,7 +875,7 @@
           </div>
         </div>
 
-        <div id="myModal5" class="modal fade" role="dialog">
+        <div id="submit_optimization_rules" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
 
             <!-- Modal content-->
@@ -880,7 +888,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+                <button type="button" id="submit_button_optimization_rules" style="background-color:#736CEB; color: white;">Submit optimization</button>
               </div>
 
             </div>
@@ -938,62 +946,64 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="form2">
+                  <form id="allocation_parameter_Form"  data-form-id="allocation_parameter_Form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="allocation_parameter_Form" name="form_identifier" value="allocation_parameter_Form" />
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first" class="label1">Channel</label>
-                        <input class="first" name="first" type="text" placeholder="Channel" />
+                        <label for="channel" class="label1">Channel</label>
+                        <input class="first" name="channel" id="channel" type="text" placeholder="Channel" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="last" class="label">Subchannel</label>
-                        <input class="last" name="last" type="text" placeholder="Subchannel" />
+                        <label for="subchannel" class="label">Subchannel</label>
+                        <input class="last" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                        <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="channel_subchannel_id" id="channel_subchannel_id" type="text" placeholder="Channel_Subchannel_ID" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="last1" class="label_">DemoSeg</label>
-                        <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="first2" class="label2_">ValueSeg</label>
-                        <input class="first2" name="" type="text" placeholder="ValueSeg" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label>
-                        <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                        <label for="demoseg" class="label_">DemoSeg</label>
+                        <input class="last1" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first3" class="label3_">Trigger_id</label>
-                        <input class="first3" name="" type="text" placeholder="Trigger_id" />
+                        <label for="valueseg" class="label2_">ValueSeg</label>
+                        <input class="first2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="demoseg_valueseg_id" class="label_last">DemoSeg_ValueSeg_ID</label>
+                        <input class="last2" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="trigger_id" class="label3_">Trigger_id</label>
+                        <input class="first3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
                       </div>
 
                       <div class="form-group_clo">
-                        <label for="last3" class="label3_last">Trigg_Description</label>
-                        <input class="last3" name="province" type="text" placeholder="Trigg_Description" />
+                        <label for="trigg_description" class="label3_last">Trigg_Description</label>
+                        <input class="last3" name="trigg_description" id="trigg_description" type="text" placeholder="Trigg_Description" />
                       </div>
                     </div>
 
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first" class="label1">Segment_Threshold_1_</label>
-                        <input class="first" name="first" type="text" placeholder="Segment_Threshold_1_" />
+                        <label for="segment_threshold_1_" class="label1">Segment_Threshold_1_</label>
+                        <input class="first" name="segment_threshold_1_" id="segment_threshold_1_" type="text" placeholder="Segment_Threshold_1_" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="first" class="label1">FLSAvg_Threshold_2</label>
-                        <input class="first" name="first" type="text" placeholder="FLSAvg_Threshold_2" />
+                        <label for="flsavg_threshold_2" class="label1">FLSAvg_Threshold_2</label>
+                        <input class="first" name="flsavg_threshold_2" id="flsavg_threshold_2" type="text" placeholder="FLSAvg_Threshold_2" />
                       </div>
                     </div>
-
                     <button type="button" id="submit2" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                      data-target="#myModal6">Validate</button>
+                      {% comment %} data-target="#myModal6" {% endcomment %}
+                      >Validate</button>
 
                   </form>
 
@@ -1012,7 +1022,9 @@
 
                 </div>
                 <div class="modal-body">
+                  {% comment %} for edit {% endcomment %}
                   <form id="form2">
+                    {% csrf_token %}
                     <div class="form-row">
                       <div class="form-group_clo">
                         <label for="first" class="label1">Channel</label>
@@ -1166,46 +1178,48 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="form3">
+                  <form id="product_mix_focus_Form"  data-form-id="product_mix_focus_Form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="product_mix_focus_Form" name="form_identifier" value="product_mix_focus_Form" />
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first" class="label1">Channel</label>
-                        <input class="first" name="first" type="text" placeholder="Channel" />
+                        <label for="channel" class="label1">Channel</label>
+                        <input class="first" name="channel" id="channel" type="text" placeholder="Channel" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="last" class="label">Subchannel</label>
-                        <input class="last" name="last" type="text" placeholder="Subchannel" />
+                        <label for="subchannel" class="label">Subchannel</label>
+                        <input class="last" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
+                        <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="channel_subchannel_id" id="channel_subchannel_id" type="text" placeholder="Channel_Subchannel_ID" />
                       </div>
                       <div class="form-group_clo">
-                        <label for="last1" class="label_">DemoSeg</label>
-                        <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="first2" class="label2_">ValueSeg</label>
-                        <input class="first2" name="" type="text" placeholder="ValueSeg" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label>
-                        <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                        <label for="demoseg" class="label_">DemoSeg</label>
+                        <input class="last1" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_clo">
-                        <label for="first3" class="label3_">Trigger_id</label>
-                        <input class="first3" name="" type="text" placeholder="Trigger_id" />
+                        <label for="valueseg" class="label2_">ValueSeg</label>
+                        <input class="first2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="demoseg_valueseg_id" class="label_last">DemoSeg_ValueSeg_ID</label>
+                        <input class="last2" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="trigger_id" class="label3_">Trigger_id</label>
+                        <input class="first3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
                       </div>
 
                       <div class="form-group_clo">
-                        <label for="last3" class="label3_last">Threshold_1(MicroSegment Benchmarks)</label>
-                        <input class="last3" name="province" type="text"
+                        <label for="threshold_1" class="label3_last">Threshold_1(MicroSegment Benchmarks)</label>
+                        <input class="last3" name="threshold_1" type="text"
                           placeholder="Threshold_1(MicroSegment Benchmarks)" />
                       </div>
                     </div>
@@ -1232,7 +1246,9 @@
 
                 </div>
                 <div class="modal-body">
+                  {% comment %} for edit {% endcomment %}
                   <form id="form3">
+                    {% csrf_token %}
                     <div class="form-row">
                       <div class="form-group_clo">
                         <label for="first" class="label1">Channel</label>
@@ -1412,7 +1428,9 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="form4">
+                  <form id="default_task_inactive_fls_Form"  data-form-id="default_task_inactive_fls_Form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="default_task_inactive_fls_Form" name="form_identifier" value="default_task_inactive_fls_Form" />
                     <div class="form-row">
                       <div class="form-group_fls">
                         <label for="first" class="label1">FLS_id</label>
@@ -1473,7 +1491,7 @@
           </div>
 
           <div id="myModal4_edit" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg"> 
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
@@ -1482,7 +1500,9 @@
 
                 </div>
                 <div class="modal-body">
+                  {% comment %} for edit {% endcomment %}
                   <form id="form4">
+                    {% csrf_token %}
                     <div class="form-row">
                       <div class="form-group_fls">
                         <label for="first" class="label1">FLS_id</label>
@@ -1594,7 +1614,20 @@
   </div>
   </div>
 
-
+  <div id="error_threshold_logic_config" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <p style="color: black;">Error in validation, please check input values</p>
+              <button type="button" id="error_button__threshold_logic_config" style="background-color: red; color: white;">OK</button>
+          </div>
+      </div>
+  </div>
+  </div>
 
   <script>
     function openCity(evt, cityName) {
@@ -1687,6 +1720,90 @@
         modalTrigger.removeAttribute("hidden");
       });
     }
+
+
+
+
+
+    $(document).ready(function () {
+      $('#validateButton_optimization_rule').on('click', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+          var formData = $('#optimization_rules_Form').serialize();
+          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+          $.ajax({
+              type: 'GET',
+              url: '/api/validate_thresold_config_df/',
+              data: formData,
+              dataType: 'json',
+              success: function (response) {
+                  if (response.is_valid) {
+                      // Handle success (e.g., update UI, show a message)
+                      $('#submit_optimization_rules').modal('show');
+                  } else {
+                      // Handle validation errors (e.g., display error messages)
+                      $('#error_threshold_logic_config').modal('show');
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.error('AJAX request failed with error:', error);
+                  alert('Internal Server Error. Please check the server logs for details.');
+              }
+          });
+      });
+  }); 
+
+  $(document).ready(function () {
+    $('#submit_button_optimization_rules').on('click', function () {
+        $('#optimization_rules_Form').submit();
+    });
+  });
+
+  $(document).ready(function() {
+    $('#error_button__threshold_logic_config').on('click', function() {
+      $('#error_threshold_logic_config').modal('hide');
+    });
+  });
+
+
+
+
+
+
+      $(document).ready(function () {
+      $('#validateButton_optimization_rule').on('click', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+          var formData = $('#optimization_rules_Form').serialize();
+          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+          $.ajax({
+              type: 'GET',
+              url: '/api/validate_thresold_config_df/',
+              data: formData,
+              dataType: 'json',
+              success: function (response) {
+                  if (response.is_valid) {
+                      // Handle success (e.g., update UI, show a message)
+                      $('#submit_optimization_rules').modal('show');
+                  } else {
+                      // Handle validation errors (e.g., display error messages)
+                      $('#error_threshold_logic_config').modal('show');
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.error('AJAX request failed with error:', error);
+                  alert('Internal Server Error. Please check the server logs for details.');
+              }
+          });
+      });
+  }); 
+
+  $(document).ready(function () {
+    $('#submit_button_optimization_rules').on('click', function () {
+        $('#optimization_rules_Form').submit();
+    });
+  });
+
+
+
 
   </script>
 

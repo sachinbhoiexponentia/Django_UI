@@ -656,7 +656,7 @@
       <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
       <a href="/closure_Config_view"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
       <a href="/TNT_Module_View"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
-      <a href="/">
+      <a href="/TOAM_Module_View">
         <div class="d-flex">
           <div>
             <img src="{% static 'Ellipse 4.png' %}" alt="Contact Icon">
@@ -698,7 +698,6 @@
           <table class="custom-table">
             <thead>
               <tr>
-               
                 {% for header in Threshold_Login_Config_headers %}
                 <th>{{ header }}</th>
                 {% endfor %}
@@ -968,17 +967,13 @@
                       {% comment %} data-form-id="Trigger_Threhold_by_Business_Form" {% endcomment %}
                       >Validate</button>
               </form>
-
-
               </div>
-
             </div>
           </div>
         </div>
 
         <div id="myModal2_delete" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
-
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
@@ -1054,7 +1049,6 @@
           <table class="custom-table">
             <thead>
               <tr>
-               
                 {% for header in Segment_Threshold_Output_headers %}
                 <th>{{ header }}</th>
                 {% endfor %}
@@ -1068,7 +1062,6 @@
                     <td>
                        {{value}}
                     </td>
-                   
                   {% endfor %}
                   <td>
                     <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
@@ -1089,10 +1082,9 @@
               <div class="modal-header">
                 <h1 class="modal-title">Add New</h1>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-
               </div>
               <div class="modal-body">
-                <form id="segment_threshold_Form" method="post" enctype="multipart/form-data"x>
+                <form id="segment_threshold_Form" method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                   <input type="hidden" id="segment_threshold_Form" name="form_identifier" value="segment_threshold_Form" />
                   <div class="form-row">
@@ -1227,7 +1219,6 @@
           <table class="custom-table">
             <thead>
               <tr>
-               for fls threshold
                 {% for header in FLS_Avg_Threshold_Output_headers %}
                 <th>{{ header }}</th>
                 {% endfor %}
@@ -1265,8 +1256,9 @@
 
               </div>
               <div class="modal-body">
-                <form id="form4">
+                <form id="fls_avgthres_Form" method="post" enctype="multipart/form-data">
                   {% csrf_token %}
+                  <input type="hidden" id="fls_avgthres_Form" name="form_identifier" value="fls_avgthres_Form" />
                   <div class="form-row">
                     <div class="form-group_fls">
                       <label for="fls_id" class="label1">FLS_id</label><br>
@@ -1299,8 +1291,8 @@
                   </div>
                   <div class="form-row">
                     <div class="form-group_fls">
-                      <label for="demoseg_valueSeg_id" class="label3_">DemoSeg_ValueSeg_ID</label><br>
-                      <input class="first3" name="demoseg_valueSeg_id" id="demoseg_valueSeg_id" type="text" placeholder="DemoSeg_ValueSeg_ID" />
+                      <label for="demoseg_valueseg_id" class="label3_">DemoSeg_ValueSeg_ID</label><br>
+                      <input class="first3" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text" placeholder="DemoSeg_ValueSeg_ID" />
                     </div>
                     <div class="form-group_fls">
                       <label for="trigger_id" class="label3_last">Trigger_id</label><br>
@@ -1315,7 +1307,7 @@
                     </div>
                   </div>
 
-                  <button type="button" id="submit4" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                  <button type="button" id="validateButton_fls_avg_thres" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
                     {% comment %} data-target="#myModal8" {% endcomment %}
                     >Validate</button>
 
@@ -1360,7 +1352,7 @@
             </div>
             <div class="modal-body">
               <p style="color: black;">Do you want to add new channel?</p>
-              <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+              <button type="button" id="submit_fls_avgthresh" style="background-color:#736CEB; color: white;">Submit4</button>
             </div>
 
           </div>
@@ -1567,8 +1559,6 @@ $(document).ready(function () {
   }); 
 
 
-
-
 $(document).ready(function () {
   $('#submit_trigger_threshold_business_submit').on('click', function () {
        $('#Trigger_Threhold_by_Business_Form').submit();
@@ -1616,6 +1606,45 @@ $(document).ready(function () {
        $('#segment_threshold_Form').submit();
   });
 });
+
+
+
+
+
+{% comment %} 4 {% endcomment %}
+$(document).ready(function () {
+      $('#validateButton_fls_avg_thres').on('click', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+          var formData = $('#fls_avgthres_Form').serialize();
+          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+          $.ajax({
+              type: 'GET',
+              url: '/api/validate_thresold_config_df/',
+              data: formData,
+              dataType: 'json',
+              success: function (response) {
+                  if (response.is_valid) {
+                      // Handle success (e.g., update UI, show a message)
+                      $('#submit_fls_avg_threshold_view').modal('show');
+                  } else {
+                      // Handle validation errors (e.g., display error messages)
+                      $('#error_threshold_logic_config').modal('show');
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.error('AJAX request failed with error:', error);
+                  alert('Internal Server Error. Please check the server logs for details.');
+              }
+          });
+      });
+  }); 
+
+$(document).ready(function () {
+  $('#submit_fls_avgthresh').on('click', function () {
+       $('#fls_avgthres_Form').submit();
+  });
+});
+
 
 
 

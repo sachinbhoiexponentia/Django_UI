@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-# from app_validation.models import *
+from app_validation.models import *
 from django.apps import apps
 from .controller import mainValidate_function,s3_upload
 from .config import s3_bucket,s3_path
@@ -252,6 +252,21 @@ def validate_thresold_config_df_api(request):
 # queryset = Product_Mix_Focus.objects.all()
 # df = pd.DataFrame(list(queryset.values()))
 # print(df)
+
+
+# def insert_task_closure_config_data(df):
+#     for index, row in df.iterrows():
+#         task_closure_config = Task_Closure_Config(
+#             Task_id=row['Task_id'],
+#             Task_Desc=row['Task_Desc'],
+#             Closure_True_Query=row['Closure_True_Query']
+#         )
+#         task_closure_config.save()
+
+# df_task_closure_config = pd.read_excel('Config Template 081123.xlsx', sheet_name='2.a Task Closure Config', skiprows=1)
+# print(df_task_closure_config)
+# insert_task_closure_config_data(df_task_closure_config)
+
 
 def model_to_s3(sheet_name):
     try:
