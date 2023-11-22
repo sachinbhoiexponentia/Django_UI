@@ -5,6 +5,14 @@ from app_validation.models import *
 from django.apps import apps
 from .controller import mainValidate_function,s3_upload
 from .config import s3_bucket,s3_path
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import serializers
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.core.exceptions import ObjectDoesNotExist
 import pandas as pd
 
 @csrf_exempt
@@ -28,12 +36,54 @@ def validate_thresold_config_df_api(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-# class Threshold_Login_ConfigDetailView(APIView):
+
+class Threshold_Login_ConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Threshold_Login_Config
+        fields = '__all__'
+
+
+# @login_required
+# class Threshold_Login_Config_get_data(APIView):
 #     def get(self, request, pk):
 #         try:
 #             instance = Threshold_Login_Config.objects.get(pk=pk)
+        
 #         except Threshold_Login_Config.DoesNotExist:
 #             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        
+#         serializer = Threshold_Login_ConfigSerializer(instance)
+#         return Response(serializer.data)
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def threshold_login_config_detail_view(request, pk):
+    try:
+        instance = Threshold_Login_Config.objects.get(pk=pk)
+    except Threshold_Login_Config.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Threshold_Login_ConfigSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def delete_data_by_id(request, row_id):
+    try:
+        # Assuming YourModel has a primary key named 'id'
+        print(row_id)
+        instance = Threshold_Login_Config.objects.get(trigger_id=row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+
+
+
 
 # ##################insert the config data into the model###################
 # def insert_config_data(df):

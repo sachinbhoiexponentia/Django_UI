@@ -715,9 +715,9 @@
                   {% endfor %}
                   <td>
                     
-                    <i class="fas fa-edit" id="editButton3" onclick="getSourceData({{ row.0 }})" data-toggle="modal" data-target="#modal_threshold_logic_config_edit"
+                    <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TLC({{ row.0 }})" data-toggle="modal" data-target="#modal_threshold_logic_config_edit"
                       style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal_delete"
+                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TLC({{ row.0 }})" data-toggle="modal" 
                       style="color: black;"></i>
                   </td>
                  </tr>
@@ -819,94 +819,68 @@
 
               </div>
               <div class="modal-body">
-                <form id="Threshold_Logic_Form">
+                <form id="Threshold_Logic_Form_edit" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" name="form_identifier" value="Threshold_Logic_Form_edit" />
                   <div class="form-row">
                     <div class="form-group_thre">
-                      <label for="first1" class="label1_">Trigger_id</label>
-                      <input class="first1" id="Trigger_id12345" name="street" type="text" placeholder="Trigger_id"  disabled/>
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group_thre">
-                      <label for="first1" class="label1_">Trigg_Desc</label>
-                      <input class="first1" name="street" type="text" placeholder="Trigg_Desc"  id="Trigg_Desc1234" />
+      
+                      <input class="first1" id="Trigger_id_Threshold_Logic_Form_edit" name="Trigger_id_Threshold_Logic_Form_edit" placeholder="Trigger_id" type="hidden"/>
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group_thre">
-                      <label for="first1" class="label1_">Thres_Description</label>
-                      <input class="first1" name="street" type="text" placeholder="Thres_Description" />
+                      <label for="Trigg_Desc_Threshold_Logic_Form_edit" class="label1_">Trigg_Desc</label>
+                      <input class="first1" name="Trigg_Desc_Threshold_Logic_Form_edit" type="text" placeholder="Trigg_Desc"  id="Trigg_Desc_Threshold_Logic_Form_edit" />
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group_thre">
-                      <label for="first1" class="label1_">Thres_Query_Logic</label>
-                      <input class="first1" name="street" type="text" placeholder="Thres_Query_Logic" />
+                      <label for="Thres_Description_Threshold_Logic_Form_edit" class="label1_">Thres_Description</label>
+                      <input class="first1" name="Thres_Description_Threshold_Logic_Form_edit" type="text" placeholder="Thres_Description" id="Thres_Description_Threshold_Logic_Form_edit"/>
                     </div>
                   </div>
                   <div class="form-row">
                     <div class="form-group_thre">
-                      <label for="first1" class="label1_">Thres_Query</label>
-                      <input class="first1" name="street" type="text" placeholder="Thres_Query" />
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group_thre">
-                      <label for="first1" class="label1_">Activation_Flag</label>
-                      <input class="first1" name="street" type="text" placeholder="Activation_Flag" />
-                    </div>
-                  </div>
-                  <div class="form-row1">
-                    <div class="form-group_thre">
-                      <label for="first3" class="label3_">Operation</label>
-                      <input class="first3" name="" type="text" placeholder="Operation" />
-                    </div>
-                    <div class="form-group_thre">
-                      <label for="last3" class="label3_last">Analysis_Period</label>
-                      <input class="last3" name="province" type="text" placeholder="Analysis_Period" />
-                    </div>
-                    <div class="form-group_thre">
-                      <label for="last4" class="label4_last">Num_Threshold_Required</label>
-                      <input class="last4" name="province" type="text" placeholder="Num_Threshold_Required" />
-                    </div>
-                  </div>
-                  <div class="form-row1">
-                    <div class="form-group_thre">
-                      <label for="last3" class="label3_last">Segment_Threshold_1_Requirement_Flag</label>
-                      <input class="last3" name="province" type="text"
-                        placeholder="Segment_Threshold_1_Requirement_Flag" />
-                    </div>
-                    <div class="form-group_thre">
-                      <label for="last3" class="label3_last">FLS_Threshold_2_Requirement_Flag</label>
-                      <input class="last3" name="province" type="text" placeholder="FLS_Threshold_2_Requirement_Flag" />
+                      <label for="Thres_Query_Logic_Threshold_Logic_Form_edit" class="label1_">Thres_Query_Logic</label>
+                      <input class="first1" name="Thres_Query_Logic_Threshold_Logic_Form_edit" type="text" placeholder="Thres_Query_Logic" id="Thres_Query_Logic_Threshold_Logic_Form_edit"/>
                     </div>
                   </div>
                   
+                  
+                  <div class="form-row1">
+                    <div class="form-group_thre">
+                      <label for="Operation_Threshold_Logic_Form_edit" class="label3_">Operation</label>
+                      <input class="first3" name="Operation_Threshold_Logic_Form_edit" type="text" placeholder="Operation" id="Operation_Threshold_Logic_Form_edit"/>
+                    </div>
+                    <div class="form-group_thre">
+                      <label for="Analysis_Period_Threshold_Logic_Form_edit" class="label3_last">Analysis_Period</label>
+                      <input class="last3" name="Analysis_Period_Threshold_Logic_Form_edit" type="text" placeholder="Analysis_Period" id="Analysis_Period_Threshold_Logic_Form_edit"/>
+                    </div>
+                    <div class="form-group_thre">
+                      <label for="Num_Threshold_Required_Threshold_Logic_Form_edit" class="label4_last">Num_Threshold_Required</label>
+                      <input class="last4" name="Num_Threshold_Required_Threshold_Logic_Form_edit" type="text" placeholder="Num_Threshold_Required" id="Num_Threshold_Required_Threshold_Logic_Form_edit"/>
+                    </div>
+                  </div>
+                  <div class="form-row1">
+                    <div class="form-group_thre">
+                      <label for="Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit" class="label3_last">Segment_Threshold_1_Requirement_Flag</label>
+                      <input class="last3" name="Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit" type="text"
+                        placeholder="Segment_Threshold_1_Requirement_Flag" id="Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit"/>
+                    </div>
+                    <div class="form-group_thre">
+                      <label for="FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit" class="label3_last">FLS_Threshold_2_Requirement_Flag</label>
+                      <input class="last3" name="FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit" type="text" placeholder="FLS_Threshold_2_Requirement_Flag" id="FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit" />
+                    </div>
+                  </div>
+                  <button type="submit" id="validateButton_threshold_logic_config" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                     data-form-id="Threshold_Logic_Form">Submit</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
-        <div id="myModal_delete" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-md">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                <button type="button" class="close" data-dismiss="modal"
-                  style="border: 1px; height: 5px;">&times;</button>
-
-              </div>
-              <div class="modal-body">
-                <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
+       
 
 
 <div id="submit_threshold_logic_config" class="modal fade" role="dialog">
@@ -1044,9 +1018,8 @@
           </div>
         </div>
 
-        <div id="myModal2_delete" class="modal fade" role="dialog">
+        <!-- <div id="myModal2_delete" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
-            <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
@@ -1061,7 +1034,7 @@
 
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div id="submit_trigger_threshold_business" class="modal fade" role="dialog">
         <div class="modal-dialog modal-md">
@@ -1744,10 +1717,10 @@ $(document).ready(function () {
       setupSubmitButton('submit_Tokyo', 'myModal7', "/");
       setupSubmitButton('submit_india', 'myModal8', "/");
 
-    function getSourceData(rowId) {
+    function getSourceData_TLC(rowId) {
 
         $(document).ready(function() { 
-        var apiUrl = `https://jsonplaceholder.typicode.com/posts/${rowId}`;
+        var apiUrl = `api/Threshold_Login_Config_get_data/${rowId}`;
         $.ajax({
           url: apiUrl,
           type: 'GET',
@@ -1755,23 +1728,53 @@ $(document).ready(function () {
           success: function(data) {
             console.log(data); 
 
-            document.getElementById("Trigger_id12345").value = rowId
-            document.getElementById("Trigg_Desc1234").value = data.title
+            document.getElementById("Trigger_id_Threshold_Logic_Form_edit").value = rowId
+            document.getElementById("Trigg_Desc_Threshold_Logic_Form_edit").value = data.trigg_desc
+            document.getElementById("Thres_Description_Threshold_Logic_Form_edit").value = data. thres_description
+            document.getElementById("Thres_Query_Logic_Threshold_Logic_Form_edit").value = data.thres_query_logic
+            document.getElementById("Operation_Threshold_Logic_Form_edit").value = data.operation
+            document.getElementById("Analysis_Period_Threshold_Logic_Form_edit").value = data.analysis_period
+            document.getElementById("Num_Threshold_Required_Threshold_Logic_Form_edit").value = data.num_thresholds_required
+            document.getElementById("Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit").value = data.segment_threshold_requirement_flag
+            document.getElementById("FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit").value = data.FLS_Threshold_Requirement_Flag
             
           }
         });
-      });
-        
+      });  
 
       }
 
+      function DeleteSourceData_TLC(row_id) {
+        fetch(`api/Threshold_Login_Config_delete/${row_id}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(response => {
+            if (!response.ok) {
+              if (response.status === 404) {
+                // Show errorDiv if object not found
+                document.getElementById('errorDiv').style.display = 'block';
+              } else {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+            } else {
+              // Show successDiv on successful deletion
+              alert(`Row ${row_id} deleted successfully`);
+              $('#myModal_delete_TLC').modal('show');
+              return response.json();
+            }
+          })
+          .catch(error => {
+            // Handle other errors
+            console.error('Error deleting data:', error);
+            // Show errorDiv on other errors
+            document.getElementById('errorDiv').style.display = 'block';
+          });
+      }
 
 
-
-
-      
-
-  
   </script>
 
  
