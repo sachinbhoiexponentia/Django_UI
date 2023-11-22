@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import sqlparse
 import boto3
+from io import StringIO
 
 
 df_config = {}
@@ -753,3 +754,16 @@ def mainValidate_function(sheet_name = None, data_df = None):
             isValid_config = isValid_config and status
             allerror.update({sheet:error})
     return isValid_config, allerror
+
+
+def s3_upload(data_df,sheet_name,s3_bucket,s3_path):
+    try:
+        # obj = s3.get_object(Bucket= s3_bucket, Key=s3_path+f"{sheet_name}.csv")
+        # main_df = pd.read_csv(obj['Body'])
+        # main_df = main_df.append(data_df).reset_index(drop=True)
+        csv_buffer = StringIO()
+        data_df.to_csv(csv_buffer)
+        s3.put_object(Bucket=s3_bucket,Key=s3_path+f"{sheet_name}.csv",Body=csv_buffer.get_value())
+        return True, 'Data upload sucess.'
+    except Exception as e:
+        return False, str(e)

@@ -21,7 +21,7 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
 
@@ -653,35 +653,33 @@
     <div class="sidebar">
       <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
       <a href="/closure_Config_view"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
-      <a href="./TNT.html"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
-      <a href="./TOAM.html">
+      <a href="/TNT_Module_View"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
+      <a href="/TOAM_Module_View">
         <div class="d-flex">
           <div>
             <img src="{% static 'Ellipse 4.png' %}" alt="Contact Icon">
           </div>
-
           <div>Task Optimization & Assignment Module</div>
         </div>
       </a>
-      <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a>
+      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a>
     </div>
     <div class="content">
-      <!-- <div class="button-container">
-        <button>Threshold Logic Configuration</button>
-        <button>Trigger Threshold by Business</button>
-        <button>Segment Threshold Output</button>
-        <button>FLS Average Threshold Output</button>
-    </div> -->
       <div class="button-container">
         <!-- <div class="tab"> -->
         <button class="tablinks" onclick="openCity(event, 'London')">Task Closure Configure</button>
 
       </div>
-      <!-- <div class="button1-container">
-      <button class="button-with-image"></button>
-      <button class="button-with-image1">Download</button>
-      <button class="button-with-image2">Upload</button>
-   </div> -->
+
+
+      <br><br>
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
       <div class="button-container_">
 
         <div id="London" class="tabcontent">
@@ -736,114 +734,44 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="form1">
+                  <form id="closure_form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" id="closure_form" name="form_identifier" value="closure_form" />
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Task_id</label>
-                        <input class="first1" name="street" type="text" placeholder="Task_id" />
+                        <label for="task_id" class="label1_">Task_id</label>
+                        <input class="first1" name="task_id" id="task_id" type="text" placeholder="Task_id" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Task_Desc</label>
-                        <input class="first1" name="street" type="text" placeholder="Task_Desc" />
+                        <label for="task_desc" class="label1_">Task_Desc</label>
+                        <input class="first1" name="task_desc" id="task_desc" type="text" placeholder="Task_Desc" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Iteration Level</label>
-                        <input class="first1" name="street" type="text" placeholder="Iteration Level" />
+                        <label for="itteration_level" class="label1_">Iteration Level</label>
+                        <input class="first1" name="itteration_level" id="itteration_level" type="text" placeholder="Iteration Level" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Closure True Query</label>
-                        <input class="first1" name="street" type="text" placeholder="Closure True Query" />
+                        <label for="closure_true_query" class="label1_">Closure True Query</label>
+                        <input class="first1" name="closure_true_query" id="closure_true_query" type="text" placeholder="Closure True Query" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="first1" class="label1_">Closure Sql Query</label>
-                        <input class="first1" name="street" type="text" placeholder="Closure True Query" />
+                        <label for="closure_sql_query" class="label1_">Closure Sql Query</label>
+                        <input class="first1" name="closure_sql_query" id="closure_sql_query" type="text" placeholder="Closure True Query" />
                       </div>
                     </div>
-
-
-                    <button type="button" id="submit1" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                      data-target="#myModal5">Validate</button>
-
-
+                    <button type="button" id="validateButton_closure" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      {% comment %} data-target="#myModal5" {% endcomment %}
+                      >Validate</button>
                   </form>
 
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <div id="myModal1_edit" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title">Edit</h1>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <form id="form1">
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="first1" class="label1_">Task_id</label>
-                        <input class="first1" name="street" type="text" placeholder="Task_id" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="first1" class="label1_">Task_Desc</label>
-                        <input class="first1" name="street" type="text" placeholder="Task_Desc" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="first1" class="label1_">Iteration Level</label>
-                        <input class="first1" name="street" type="text" placeholder="Iteration Level" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="first1" class="label1_">Closure True Query</label>
-                        <input class="first1" name="street" type="text" placeholder="Closure True Query" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="first1" class="label1_">Closure Sql Query</label>
-                        <input class="first1" name="street" type="text" placeholder="Closure True Query" />
-                      </div>
-                    </div>
-
-
-
-                  </form>
-                </div>
-
-              </div>
-            </div>
-          </div>
-          <div id="myModal_delete" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-md">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                  <button type="button" class="close" data-dismiss="modal"
-                    style="border: 1px; height: 5px;">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
                 </div>
 
               </div>
@@ -851,7 +779,7 @@
           </div>
         </div>
 
-        <div id="myModal5" class="modal fade" role="dialog">
+        <div id="submit_closure_view" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
 
             <!-- Modal content-->
@@ -864,21 +792,11 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Submit</button>
+                <button type="button" id="submit_button__closure" style="background-color:#736CEB; color: white;">Submit1</button>
               </div>
-
             </div>
-
           </div>
         </div>
-
-
-
-
-
-
-
-
 
       </div>
     </div>
@@ -893,6 +811,22 @@
   </div>
   </div>
 
+
+
+  <div id="error_closure" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <p style="color: black;">Error in validation, please check input values</p>
+              <button type="button" id="error_button__threshold_logic_config" style="background-color: red; color: white;">OK</button>
+          </div>
+      </div>
+  </div>
+  </div>
 
 
   <script>
@@ -919,73 +853,49 @@
 
 
 
-    document.addEventListener("DOMContentLoaded", function () {
-      var formButton = document.getElementById("formButton1");
-      var form1 = document.getElementById("form1");
 
-      formButton.addEventListener("click", function () {
-        form1.style.display = (form1.style.display === "none" || form1.style.display === "") ? "block" : "none";
+
+
+
+    $(document).ready(function () {
+      $('#validateButton_closure').on('click', function (event) {
+          event.preventDefault(); // Prevent the default form submission
+          var formData = $('#closure_form').serialize();
+          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+          $.ajax({
+              type: 'GET',
+              url: '/api/validate_thresold_config_df/',
+              data: formData,
+              dataType: 'json',
+              success: function (response) {
+                  if (response.is_valid) {
+                      // Handle success (e.g., update UI, show a message)
+                      $('#submit_closure_view').modal('show');
+                  } else {
+                      // Handle validation errors (e.g., display error messages)
+                      $('#error_closure').modal('show');
+                  }
+              },
+              error: function (xhr, status, error) {
+                  console.error('AJAX request failed with error:', error);
+                  alert('Internal Server Error. Please check the server logs for details.');
+              }
+          });
       });
+  }); 
+
+$(document).ready(function () {
+    $('#submit_button__closure').on('click', function () {
+        $('#closure_form').submit();
     });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      var formButton = document.getElementById("formButton2");
-      var form2 = document.getElementById("form2");
-
-      formButton.addEventListener("click", function () {
-        form2.style.display = (form2.style.display === "none" || form2.style.display === "") ? "block" : "none";
-      });
-    });
-    document.addEventListener("DOMContentLoaded", function () {
-      var formButton = document.getElementById("formButton3");
-      var form3 = document.getElementById("form3");
-
-      formButton.addEventListener("click", function () {
-        form3.style.display = (form3.style.display === "none" || form3.style.display === "") ? "block" : "none";
-      });
-    });
-    document.addEventListener("DOMContentLoaded", function () {
-      var formButton = document.getElementById("formButton4");
-      var form4 = document.getElementById("form4");
-
-      formButton.addEventListener("click", function () {
-        form4.style.display = (form4.style.display === "none" || form4.style.display === "") ? "block" : "none";
-      });
-    });
+});
 
 
-    document.addEventListener("DOMContentLoaded", function () {
-      setupModalHandling("submit1", "myModal1", "myModal5");
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      setupModalHandling("submit2", "myModal2", "myModal6");
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      setupModalHandling("submit3", "myModal3", "myModal7");
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      setupModalHandling("submit4", "myModal4", "myModal8");
-    });
-
-    function setupModalHandling(validateButtonId, modalTriggerId, modalId) {
-      var validateButton = document.getElementById(validateButtonId);
-      var modalTrigger = document.getElementById(modalTriggerId);
-      var modal = document.getElementById(modalId);
-      var closeModalButton = modal.querySelector(".close");
-
-      validateButton.addEventListener("click", function () {
-        modalTrigger.setAttribute("hidden", true);
-        modal.removeAttribute("hidden");
-      });
-
-      closeModalButton.addEventListener("click", function () {
-        modal.setAttribute("hidden", true);
-        modalTrigger.removeAttribute("hidden");
-      });
-    }
+$(document).ready(function() {
+  $('#error_button__threshold_logic_config').on('click', function() {
+    $('#error_closure').modal('hide');
+  });
+});
 
   </script>
 
