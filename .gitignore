@@ -17,6 +17,7 @@ secret_key.txt
 
 # Environment variables
 .env
+env/
 
 # System files
 .DS_Store
