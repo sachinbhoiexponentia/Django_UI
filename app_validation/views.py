@@ -3,6 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from app_validation.models import Threshold_Login_Config,Trigg_Thres_By_Business,Segment_Threshold_Output,FLS_Avg_Threshold_Output,Task_Closure_Config
 from .controller import *
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework import status
 import pandas as pd
 
 @csrf_exempt
@@ -15,6 +18,7 @@ def validate_thresold_config_df_api(request):
             data = request.GET
             parameters = dict(data.lists())
             data_df = pd.DataFrame(parameters)
+            print(data_df)
             sheet_name = request.GET.get('sheet') # to be checked
             print('sheet_name',sheet_name)
             is_valid,errors = mainValidate_function(sheet_name, data_df)
@@ -25,7 +29,15 @@ def validate_thresold_config_df_api(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
+# class Threshold_Login_ConfigDetailView(APIView):
+#     def get(self, request, pk):
+#         try:
+#             instance = Threshold_Login_Config.objects.get(pk=pk)
+#         except Threshold_Login_Config.DoesNotExist:
+#             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        
+#         return Response(data)
 
 
 
