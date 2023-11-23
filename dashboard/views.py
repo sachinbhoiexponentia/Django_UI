@@ -159,7 +159,26 @@ def closure_Config_view(request):
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)
+        if form_id == 'task_closure_Form_edit':
+            print('task_closure_Form_edit')
+            try:
+                trigger_id = request.POST.get('tc_task_id')
+                print("trigger_id:",trigger_id)
+                threshold_login_config = Task_Closure_Config.objects.get(pk=trigger_id)
 
+                # Update fields based on the form data
+                threshold_login_config.Task_Desc = request.POST.get('tc_Task_Desc')
+                threshold_login_config.Closure_True_Query = request.POST.get('tc_Closure_True_Query')
+
+                threshold_login_config.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'closure_logic.html', context)
+            except Threshold_Logic_Config.DoesNotExist:
+                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))
     
     return render(request,'closure_logic.html',context)
 

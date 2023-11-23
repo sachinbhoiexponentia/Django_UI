@@ -110,6 +110,40 @@ def channel_task_mapping_delete_data_by_id(request, row_id):
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
+    
+
+
+
+class Task_Closure_ConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task_Closure_Config
+        fields = '__all__'
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def task_closure_detail_view(request, pk):
+    try:
+        instance = Task_Closure_Config.objects.get(pk=pk)
+    except Task_Closure_Config.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Task_Closure_ConfigSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def task_closure_delete_by_id(request, row_id):
+    try:
+        print(row_id)
+        instance = Task_Closure_Config.objects.get(pk=row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
 ###############################################################################################
 
 
