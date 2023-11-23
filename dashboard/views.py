@@ -8,13 +8,13 @@ from django.contrib import messages
 
 
 @login_required
-def Threshold_Login_Config_view(request):
+def Threshold_Logic_Config_view(request):
     
     # Threshold_Logic_Config
-    queryset = Threshold_Login_Config.objects.all()
-    Threshold_Login_Config_df = pd.DataFrame(list(queryset.values()))
-    Threshold_Login_Config_headers = list(Threshold_Login_Config_df.columns)
-    Threshold_Login_Config_data = Threshold_Login_Config_df.values.tolist()
+    queryset = Threshold_Logic_Config.objects.all()
+    Threshold_Logic_Config_df = pd.DataFrame(list(queryset.values()))
+    Threshold_Logic_Config_headers = list(Threshold_Logic_Config_df.columns)
+    Threshold_Logic_Config_data = Threshold_Logic_Config_df.values.tolist()
 
     # Threshold_Logic_Config
     queryset1 = Trigg_Thres_By_Business.objects.all()
@@ -22,21 +22,18 @@ def Threshold_Login_Config_view(request):
     Trigg_Thres_By_Business_headers = list(Trigg_Thres_By_Business_df.columns)
     Trigg_Thres_By_Business_data = Trigg_Thres_By_Business_df.values.tolist()
 
-    
-    queryset2 = Segment_Threshold_Output.objects.all()
-    Segment_Threshold_Output_df = pd.DataFrame(list(queryset2.values()))
-    # print('Segment_Threshold_Output_df',Segment_Threshold_Output_df)
-    Segment_Threshold_Output_headers = list(Segment_Threshold_Output_df.columns)
-    Segment_Threshold_Output_data = Segment_Threshold_Output_df.values.tolist()
 
-    queryset3 = FLS_Avg_Threshold_Output.objects.all()
-    FLS_Avg_Threshold_Output_df = pd.DataFrame(list(queryset3.values()))
-    FLS_Avg_Threshold_Output_headers = list(FLS_Avg_Threshold_Output_df.columns)
-    FLS_Avg_Threshold_Output_data = FLS_Avg_Threshold_Output_df.values.tolist()
+    queryset3 = Default_Channel_Trigg_thres.objects.all()
+    Default_Channel_Trigg_thres_df = pd.DataFrame(list(queryset3.values()))
+    Default_Channel_Trigg_thres_headers = list(Default_Channel_Trigg_thres_df.columns)
+    Default_Channel_Trigg_thres_data = Default_Channel_Trigg_thres_df.values.tolist()
 
-    context = {'FLS_Avg_Threshold_Output_headers':FLS_Avg_Threshold_Output_headers,'FLS_Avg_Threshold_Output_data':FLS_Avg_Threshold_Output_data ,'Segment_Threshold_Output_data':Segment_Threshold_Output_data,
-              'Segment_Threshold_Output_headers':Segment_Threshold_Output_headers,'Trigg_Thres_By_Business_headers':Trigg_Thres_By_Business_headers,'Threshold_Login_Config_headers': Threshold_Login_Config_headers, 
-            'Threshold_Login_Config_data': Threshold_Login_Config_data,'Trigg_Thres_By_Business_data':Trigg_Thres_By_Business_data}
+    context = {'Default_Channel_Trigg_thres_headers':Default_Channel_Trigg_thres_headers,
+               'Default_Channel_Trigg_thres_data':Default_Channel_Trigg_thres_data,
+               'Trigg_Thres_By_Business_headers':Trigg_Thres_By_Business_headers,
+               'Threshold_Logic_Config_headers': Threshold_Logic_Config_headers,
+               'Threshold_Logic_Config_data': Threshold_Logic_Config_data,
+               'Trigg_Thres_By_Business_data':Trigg_Thres_By_Business_data}
 
     if request.method == 'POST':
         print('Django post request')
@@ -47,7 +44,7 @@ def Threshold_Login_Config_view(request):
         if form_id == 'Threshold_Logic_Form':
             print('Threshold_Logic_Form')
             try:
-                threshold_login_config = Threshold_Login_Config(
+                threshold_login_config = Threshold_Logic_Config(
                     trigger_id=request.POST.get('Trigger_id'),
                     trigg_desc=request.POST.get('Trigg_Desc'),
                     thres_description=request.POST.get('Thres_Description'),
@@ -86,40 +83,17 @@ def Threshold_Login_Config_view(request):
                 print('Error while saving the data ',e)
                 messages.error(request, e) 
         
-        if form_id == 'segment_threshold_Form':
-            print('segment_threshold_Form')
-            try:
-                segment_threshold_output = Segment_Threshold_Output(
-                Channel=request.POST.get('channel'),
-                Subchannel=request.POST.get('subchannel'),
-                Channel_Subchannel_ID=request.POST.get('channel_subchannel_id'),
-                DemoSeg=request.POST.get('demoseg'),
-                ValueSeg=request.POST.get('valueseg'),
-                DemoSeg_ValueSeg_ID=request.POST.get('demoseg_valueseg_id'),
-                Trigger_id=request.POST.get('trigger_id'),
-                Segment_Threshold=request.POST.get('segment_threshold'))
-                segment_threshold_output.save()
-                messages.success(request, 'Form saved successfully')
-                render(request, 'Threshold_logic.html', context)
-                return render(request, 'Threshold_logic.html', context)
-            except Exception as e:
-                print('Error while saving the data ',e)  
-                messages.error(request, e)      
                 
-        if form_id == 'fls_avgthres_Form':
-            print('fls_avgthres_Form')
+        if form_id == 'default_channel_trigg_thres_Form':
+            print('default_channel_trigg_thres_Form')
             try:    
-                fls_avg_threshold_output = FLS_Avg_Threshold_Output(
-                    FLS_id = request.POST.get('fls_id') , 
+                default_channel_trigg_thres_output = Default_Channel_Trigg_thres(
                     Channel = request.POST.get('channel'),
-                    Subchannel = request.POST.get('subchannel'),
-                    Channel_Subchannel_ID = request.POST.get('channel_subchannel_id'),
-                    DemoSeg = request.POST.get('demoseg'),
-                    ValueSeg = request.POST.get('valueseg'),
-                    DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id'),
                     Trigger_id = request.POST.get('trigger_id'),
-                    FLSAvg_Threshold = request.POST.get('flsavg_threshold_2'))
-                fls_avg_threshold_output.save()
+                    Trigg_Desc = request.POST.get('trigg_desc'),
+                    Segment_Threshold_1 = request.POST.get('segment_threshold_1'),
+                    FLSAvg_Threshold_2 = request.POST.get('flsavg_threshold_2'))
+                default_channel_trigg_thres_output.save()
                 messages.success(request, 'Form saved successfully')
             except Exception as e:
                 print('Error while saving the data ',e)  
@@ -130,7 +104,7 @@ def Threshold_Login_Config_view(request):
             try:
                 trigger_id = request.POST.get('Trigger_id_Threshold_Logic_Form_edit')
                 print("trigger_id:",trigger_id)
-                threshold_login_config = Threshold_Login_Config.objects.get(trigger_id=trigger_id)
+                threshold_login_config = Threshold_Logic_Config.objects.get(trigger_id=trigger_id)
 
                 # Update fields based on the form data
                 threshold_login_config.trigg_desc = request.POST.get('Trigg_Desc_Threshold_Logic_Form_edit')
@@ -146,7 +120,7 @@ def Threshold_Login_Config_view(request):
 
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'Threshold_logic.html', context)
-            except Threshold_Login_Config.DoesNotExist:
+            except Threshold_Logic_Config.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
             except Exception as e:
                 print('Error while updating the data ', e)
@@ -205,7 +179,7 @@ def TNT_Module_View(request):
     task_trigger_mapping_data = task_trigger_mapping_df.values.tolist()
 
     # Fetch data for Trigger_ON_Query_Logic
-    queryset_trigger_query_logic = Trigger_ON_Query_Logic.objects.all()
+    queryset_trigger_query_logic = Trigger_ON_Query.objects.all()
     trigger_query_logic_df = pd.DataFrame(list(queryset_trigger_query_logic.values()))
     trigger_query_logic_headers = list(trigger_query_logic_df.columns)
     trigger_query_logic_data = trigger_query_logic_df.values.tolist()
@@ -258,7 +232,7 @@ def TNT_Module_View(request):
         if form_id == 'trigger_on_query_logic_Form':
             print('trigger_on_query_logic_Form')
             try:
-                trigger_on_query_logic = Trigger_ON_Query_Logic(
+                trigger_on_query_logic = Trigger_ON_Query(
                     Trigger_id = request.POST.get('trigger_id') ,
                     Trigger_Description_Discussed = request.POST.get('trigger_description_discussed'),
                     Assignment_level = request.POST.get('assignment_level'),
@@ -276,7 +250,7 @@ def TNT_Module_View(request):
 
 def TOAM_Module_View(request):
     # Fetch data for Optimization_Rules
-    queryset_optimization_rules = Optimization_Rules.objects.all()
+    queryset_optimization_rules = Task_Constraint_Rules.objects.all()
     optimization_rules_df = pd.DataFrame(list(queryset_optimization_rules.values()))
     optimization_rules_headers = list(optimization_rules_df.columns)
     optimization_rules_data = optimization_rules_df.values.tolist()
@@ -288,7 +262,7 @@ def TOAM_Module_View(request):
     allocation_parameters_data = allocation_parameters_df.values.tolist()
 
     # Fetch data for Product_Mix_Focus
-    queryset_product_mix_focus = Product_Mix_Focus.objects.all()
+    queryset_product_mix_focus = Microsegment_Default_Tasks.objects.all()
     product_mix_focus_df = pd.DataFrame(list(queryset_product_mix_focus.values()))
     product_mix_focus_headers = list(product_mix_focus_df.columns)
     product_mix_focus_data = product_mix_focus_df.values.tolist()
@@ -309,7 +283,7 @@ def TOAM_Module_View(request):
         if form_id == 'optimization_rules_Form':
             print('optimization_rules_Form') 
             try:  
-                optimization_rules = Optimization_Rules(
+                optimization_rules = Task_Constraint_Rules(
                     Task_No = request.POST.get('task_no') ,
                     Constraint_Description = request.POST.get('constraint') ,
                     Category_Task_Associated_with =request.POST.get('category_task_allocated_with') ,
@@ -350,22 +324,13 @@ def TOAM_Module_View(request):
         if form_id == 'product_mix_focus_Form':
             print('product_mix_focus_Form')
             try:
-                product_mix_focus = Product_Mix_Focus(
+                product_mix_focus = Microsegment_Default_Tasks(
                     Channel=request.POST.get('channel'),
                     Subchannel=request.POST.get('subchannel'),
                     DemoSeg=request.POST.get('demoseg'),
                     ValueSeg=request.POST.get('valueseg'),
-                    Focus_Product=request.POST.get('focus_product'),
-                    prod_mix_non_par_annuity_immediate=request.POST.get('prod_mix_non_par_annuity_immediate'),
-                    prod_mix_non_par_c2p=request.POST.get('prod_mix_non_par_c2p'),
-                    prod_mix_non_par_sanchay=request.POST.get('prod_mix_non_par_sanchay'),
-                    prod_mix_non_par_annuity_pgp=request.POST.get('prod_mix_non_par_annuity_pgp'),
-                    prod_mix_non_par_health=request.POST.get('prod_mix_non_par_health'),
-                    prod_mix_par_others=request.POST.get('prod_mix_par_others'),
-                    prod_mix_par_ppt_10=request.POST.get('prod_mix_par_ppt_10'),
-                    prod_mix_ul_others=request.POST.get('prod_mix_ul_others'),
-                    prod_mix_ul_ppt_10=request.POST.get('prod_mix_ul_ppt_10'),
-                    prod_mix_ul_single_pre=request.POST.get('prod_mix_ul_single_pre')
+                    Segment_id=request.POST.get('segment_id'),
+                    Default_Tasks=request.POST.get('default_tasks')
                 )
                 product_mix_focus.save()
                 messages.success(request, 'Product Mix Focus saved successfully')
