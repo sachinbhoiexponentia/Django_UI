@@ -59,7 +59,7 @@ def threshold_logic_config_detail_view(request, pk):
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Threshold_Logic_ConfigSerializer(instance)
-    print(serializer)
+    print(serializer.data)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -92,13 +92,15 @@ class Channel_Task_MappingSerializer(serializers.ModelSerializer):
 @login_required
 @api_view(['GET'])
 def channel_task_mapping_detail_view(request, pk):
+    print('pk',pk)
     try:
-        instance = Channel_Task_Mapping.objects.get(pk=pk)
+        instance = Channel_Task_Mapping.objects.get(id=pk)
+        print('instance',instance)
     except Channel_Task_Mapping.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Channel_Task_MappingSerializer(instance)
-    print(serializer)
+    print('serializer',serializer.data)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -107,13 +109,126 @@ def channel_task_mapping_detail_view(request, pk):
 def channel_task_mapping_delete_data_by_id(request, row_id):
     try:
         print(row_id)
-        instance = Channel_Task_Mapping.objects.get(trigger_id=row_id)
+        instance = Channel_Task_Mapping.objects.get(id=row_id)
         instance.delete()
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
 ###############################################################################################
+
+
+
+
+
+############################# Trigger_ON_Query edit and delete ##########################
+class Trigger_ON_QuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trigger_ON_Query
+        fields = '__all__'
+        
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def trigger_on_query_detail_view(request, Trigger_id):
+    try:
+        instance = Trigger_ON_Query.objects.get(Trigger_id=Trigger_id)
+    except Trigger_ON_Query.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = Trigger_ON_QuerySerializer(instance)
+    print('serializer data',serializer.data)
+    return Response(serializer.data)
+
+
+@csrf_exempt
+@login_required
+@require_POST
+def trigger_on_query_delete_data_by_id(request, Trigger_id):
+    try:
+        instance = Trigger_ON_Query.objects.get(Trigger_id=Trigger_id)
+        instance.delete()
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+###############################################################################################
+
+
+
+
+############################# TaskTriggerMapping edit and delete ##########################
+class TaskTriggerMappingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task_Trigger_Mapping
+        fields = '__all__'
+        
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def task_trigger_mapping_detail_view(request, task_id):
+    try:
+        instance = Task_Trigger_Mapping.objects.get(Task_id=task_id)
+    except Task_Trigger_Mapping.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = TaskTriggerMappingSerializer(instance)
+    print('serializer data',serializer.data)
+    return Response(serializer.data)
+
+
+@csrf_exempt
+@login_required
+@require_POST
+def task_trigger_mapping_delete_data_by_id(request, task_id):
+    try:
+        instance = Task_Trigger_Mapping.objects.get(Task_id=task_id)
+        instance.delete()
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+###############################################################################################
+
+
+
+
+############################# Microsegment_Default_Tasks edit and delete ##########################
+class Microsegment_Default_TasksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Microsegment_Default_Tasks
+        fields = '__all__'
+        
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def microsegment_default_tasks_detail_view(request, mdt_pk_id):
+    try:
+        instance = Microsegment_Default_Tasks.objects.get(id=mdt_pk_id)
+    except Microsegment_Default_Tasks.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = Microsegment_Default_TasksSerializer(instance)
+    print('serializer data',serializer.data)
+    return Response(serializer.data)
+
+
+@csrf_exempt
+@login_required
+@require_POST
+def microsegment_default_tasks_delete_data_by_id(request, mdt_pk_id):
+    try:
+        instance = Microsegment_Default_Tasks.objects.get(id=mdt_pk_id)
+        instance.delete()
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+###############################################################################################
+
+
+
+
+
+
+
 
 
 
@@ -327,6 +442,19 @@ def channel_task_mapping_delete_data_by_id(request, row_id):
 # df_task_closure_config = pd.read_excel('Config Template 081123.xlsx', sheet_name='2.a Task Closure Config', skiprows=1)
 # print(df_task_closure_config)
 # insert_task_closure_config_data(df_task_closure_config)
+
+
+
+
+# dummy_record = Microsegment_Default_Tasks.objects.create(
+#     Channel='Default Channel',
+#     Subchannel='Default Subchannel',
+#     DemoSeg=1.0, 
+#     ValueSeg=1.0, 
+#     Segment_id=1.0,  
+#     Default_Tasks='Default Task List')
+# dummy_record.save()
+# print('dummy records saved')
 
 
 def upload_to_s3(request,sheet_name):
