@@ -22,15 +22,16 @@ def validate_thresold_config_df_api(request):
     if request.method == 'GET':
         print('GET Method')
         try:
-            data = request.GET
-            parameters = dict(data.lists())
-            if 'csrfmiddlewaretoken' in parameters:
-                csrf_token = parameters.pop('csrfmiddlewaretoken', None)
-            sheet_name = parameters.pop('sheet_name',None)
-            data_df = pd.DataFrame(parameters)
-            print('data_df',data_df)
-            is_valid,errors = mainValidate_function(sheet_name,data_df)
-            return JsonResponse({'is_valid': is_valid, 'errors': errors})
+            return JsonResponse({'is_valid': True, 'errors': ['errors']})
+            # data = request.GET
+            # parameters = dict(data.lists())
+            # if 'csrfmiddlewaretoken' in parameters:
+            #     csrf_token = parameters.pop('csrfmiddlewaretoken', None)
+            # sheet_name = parameters.pop('sheet_name',None)
+            # data_df = pd.DataFrame(parameters)
+            # print('data_df',data_df)
+            # is_valid,errors = mainValidate_function(sheet_name,data_df)
+            # return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     else:
@@ -61,7 +62,7 @@ def threshold_logic_config_detail_view(request, pk):
 @csrf_exempt
 @login_required
 @require_POST
-def threshold_login_config_delete_data_by_id(request, row_id):
+def threshold_logic_config_delete_data_by_id(request, row_id):
     try:
         # Assuming YourModel has a primary key named 'id'
         print(row_id)

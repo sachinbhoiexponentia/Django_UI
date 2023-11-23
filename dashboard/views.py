@@ -13,6 +13,7 @@ def Threshold_Logic_Config_view(request):
     # Threshold_Logic_Config
     queryset = Threshold_Logic_Config.objects.all()
     Threshold_Logic_Config_df = pd.DataFrame(list(queryset.values()))
+    print(Threshold_Logic_Config_df)
     Threshold_Logic_Config_headers = list(Threshold_Logic_Config_df.columns)
     Threshold_Logic_Config_data = Threshold_Logic_Config_df.values.tolist()
 
@@ -44,7 +45,7 @@ def Threshold_Logic_Config_view(request):
         if form_id == 'Threshold_Logic_Form':
             print('Threshold_Logic_Form')
             try:
-                threshold_login_config = Threshold_Logic_Config(
+                threshold_logic_config = Threshold_Logic_Config(
                     trigger_id=request.POST.get('Trigger_id'),
                     trigg_desc=request.POST.get('Trigg_Desc'),
                     thres_description=request.POST.get('Thres_Description'),
@@ -54,7 +55,7 @@ def Threshold_Logic_Config_view(request):
                     num_thresholds_required=request.POST.get('Num_Threshold_Required'),
                     segment_threshold_requirement_flag=request.POST.get('Segment_Threshold_Requirement_Flag'),
                     FLS_Threshold_Requirement_Flag=request.POST.get('FLS_Threshold_Requirement_Flag'))
-                threshold_login_config.save()
+                threshold_logic_config.save()
                 messages.success(request, 'Form saved successfully')
                 return render(request, 'Threshold_logic.html', context)
             except Exception as e:
