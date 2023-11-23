@@ -702,14 +702,14 @@
           <table class="custom-table">
             <thead>
               <tr>
-                {% for header in Threshold_Login_Config_headers %}
+                {% for header in Threshold_Logic_Config_headers %}
                 <th>{{ header }}</th>
                 {% endfor %}
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {% for row in Threshold_Login_Config_data %}
+              {% for row in Threshold_Logic_Config_data %}
               <tr>
                 {% for value in row %}
                 <td>
@@ -819,6 +819,7 @@
             </div>
           </div>
         </div>
+        
         <div id="modal_threshold_logic_config_edit" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
             <!-- Modal content-->
@@ -905,9 +906,8 @@
           </div>
         </div>
         </div>
-
-
-
+      </div>
+    </div>
         <div id="submit_threshold_logic_config" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -1848,7 +1848,7 @@
     function getSourceData_TLC(rowId) {
 
       $(document).ready(function () {
-        var apiUrl = `api/Threshold_Login_Config_get_data/${rowId}`;
+        var apiUrl = `api/Threshold_Logic_Config_get_data/${rowId}`;
         $.ajax({
           url: apiUrl,
           type: 'GET',
@@ -1873,7 +1873,7 @@
     }
 
     function DeleteSourceData_TLC(row_id) {
-      fetch(`api/Threshold_Login_Config_delete/${row_id}/`, {
+      fetch(`api/Threshold_Logic_Config_delete/${row_id}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

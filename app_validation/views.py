@@ -5,12 +5,12 @@ from app_validation.models import *
 from django.apps import apps
 from .controller import mainValidate_function,s3_upload
 from .config import s3_bucket,s3_path
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import serializers
-from django.http import JsonResponse
+# from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.core.exceptions import ObjectDoesNotExist
 import pandas as pd
@@ -22,14 +22,16 @@ def validate_thresold_config_df_api(request):
     if request.method == 'GET':
         print('GET Method')
         try:
-            data = request.GET
-            parameters = dict(data.lists())
-            if 'csrfmiddlewaretoken' in parameters:
-                csrf_token = parameters.pop('csrfmiddlewaretoken', None)
-            data_df = pd.DataFrame(parameters)
-            print('data_df',data_df)
-            is_valid,errors = True, ['data_df']
-            return JsonResponse({'is_valid': is_valid, 'errors': errors})
+            return JsonResponse({'is_valid': True, 'errors': ['errors']})
+            # data = request.GET
+            # parameters = dict(data.lists())
+            # if 'csrfmiddlewaretoken' in parameters:
+            #     csrf_token = parameters.pop('csrfmiddlewaretoken', None)
+            # sheet_name = parameters.pop('sheet_name',None)
+            # data_df = pd.DataFrame(parameters)
+            # print('data_df',data_df)
+            # is_valid,errors = mainValidate_function(sheet_name,data_df)
+            # return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     else:
@@ -37,68 +39,123 @@ def validate_thresold_config_df_api(request):
 
 
 
-class Threshold_Login_ConfigSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Threshold_Login_Config
-        fields = '__all__'
 
+############################# Threshold_Login_Config edit and delete ##########################
+class Threshold_Logic_ConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Threshold_Logic_Config
+        fields = '__all__'
 
 @csrf_exempt
 @login_required
 @api_view(['GET'])
-def threshold_login_config_detail_view(request, pk):
+def threshold_logic_config_detail_view(request, pk):
     try:
-        instance = Threshold_Login_Config.objects.get(pk=pk)
-    except Threshold_Login_Config.DoesNotExist:
+        instance = Threshold_Logic_Config.objects.get(pk=pk)
+    except Threshold_Logic_Config.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = Threshold_Login_ConfigSerializer(instance)
+    serializer = Threshold_Logic_ConfigSerializer(instance)
     print(serializer)
     return Response(serializer.data)
 
 @csrf_exempt
 @login_required
 @require_POST
-def delete_data_by_id(request, row_id):
+def threshold_logic_config_delete_data_by_id(request, row_id):
     try:
         # Assuming YourModel has a primary key named 'id'
         print(row_id)
-        instance = Threshold_Login_Config.objects.get(trigger_id=row_id)
+        instance = Threshold_Logic_Config.objects.get(trigger_id=row_id)
         instance.delete()
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
+###############################################################################################
 
 
 
-class Optimization_Rule_DataSerializer(serializers.ModelSerializer):
+
+
+
+############################# Channel_Task_Mapping edit and delete ##########################
+class Channel_Task_MappingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Optimization_Rules
+        model = Channel_Task_Mapping
         fields = '__all__'
-
 
 @csrf_exempt
 @login_required
 @api_view(['GET'])
-def optimization_rules_detail_view(request, pk):
+def channel_task_mapping_detail_view(request, pk):
     try:
-        instance = Optimization_Rules.objects.get(pk=pk)
-    except Optimization_Rules.DoesNotExist:
+        instance = Channel_Task_Mapping.objects.get(pk=pk)
+    except Channel_Task_Mapping.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = Optimization_Rule_DataSerializer(instance)
+    serializer = Channel_Task_MappingSerializer(instance)
     print(serializer)
     return Response(serializer.data)
 
 @csrf_exempt
 @login_required
 @require_POST
-def optimization_rules_delete_by_id(request, row_id):
+def channel_task_mapping_delete_data_by_id(request, row_id):
+    try:
+        print(row_id)
+        instance = Channel_Task_Mapping.objects.get(trigger_id=row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+###############################################################################################
+
+
+
+
+
+# @login_required
+# class Threshold_Login_Config_get_data(APIView):
+#     def get(self, request, pk):
+#         try:
+#             instance = Threshold_Login_Config.objects.get(pk=pk)
+        
+#         except Threshold_Login_Config.DoesNotExist:
+#             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        
+#         serializer = Threshold_Login_ConfigSerializer(instance)
+#         return Response(serializer.data)
+
+class Task_Constraint_Rules_DataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task_Constraint_Rules
+        fields = '__all__'
+
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def task_constraint_rules_detail_view(request, pk):
+    try:
+        instance = Task_Constraint_Rules.objects.get(pk=pk)
+    except Task_Constraint_Rules.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Task_Constraint_Rules_DataSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def task_constraint_rules_delete_by_id(request, row_id):
     try:
         # Assuming YourModel has a primary key named 'id'
         print(row_id)
-        instance = Optimization_Rules.objects.get(Task_No = row_id)
+        instance = Task_Constraint_Rules.objects.get(Task_No = row_id)
         instance.delete()
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
@@ -110,7 +167,7 @@ def optimization_rules_delete_by_id(request, row_id):
 # def insert_config_data(df):
 #     print(df.columns)
 #     for index, row in df.iterrows():
-#         threshold_login_config = Threshold_Login_Config(
+#         threshold_logic_config = Threshold_Logic_Config(
 #             trigger_id=row['Trigger_id'],
 #             trigg_desc=row['Trigg_Desc'],
 #             thres_description=row['Thres_Description'],
@@ -121,33 +178,33 @@ def optimization_rules_delete_by_id(request, row_id):
 #             segment_threshold_requirement_flag=row['Segment_Threshold_Requirement_Flag'],
 #             FLS_Threshold_Requirement_Flag=row['FLS_Threshold_Requirement_Flag'],
 #         )
-#         threshold_login_config.save()
+#         threshold_logic_config.save()
 # df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.a Threshold Logic Config',skiprows=1)
 # insert_config_data(df)
 
 # ##################CRED Operations#######################
 # # Create
-# threshold = Threshold_Login_Config(
+# threshold = Threshold_Logic_Config(
 #     trigger_id=1,
 #     trigg_desc="If Last N month's avg TAT between lead generation and set up of meeting...",
 #     # ... (other fields)
 # )
 # threshold.save()
 # Read
-# queryset = Threshold_Login_Config.objects.all()
+# queryset = Threshold_Logic_Config.objects.all()
 # df = pd.DataFrame(list(queryset.values()))
 # print(df.to_string(index=False))
 # # Update
-# threshold = Threshold_Login_Config.objects.get(trigger_id=1)
+# threshold = Threshold_Logic_Config.objects.get(trigger_id=1)
 # threshold.trigg_desc = "Updated description"
 # threshold.save()
 # # Delete
-# threshold = Threshold_Login_Config.objects.get(trigger_id=1)
+# threshold = Threshold_Logic_Config.objects.get(trigger_id=1)
 # threshold.delete()
 # ###########################################################
 
 # ##################insert the config data into the model###################
-# def insert_config_data(df):
+# def insert_config_data_1(df):
 #     print(df.columns)
 #     for index, row in df.iterrows():
 #         trigg_Thres_By_Business = Trigg_Thres_By_Business(
@@ -164,7 +221,7 @@ def optimization_rules_delete_by_id(request, row_id):
 #         )
 #         trigg_Thres_By_Business.save()
 # df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.b Trigg_Thres_by_Business',skiprows=1)
-# insert_config_data(df)
+# insert_config_data_1(df)
 
 
 # #################insert the config data into the model###################
@@ -200,7 +257,7 @@ def optimization_rules_delete_by_id(request, row_id):
 
 # def insert_trigger_on_query_logic_data(df):
 #     for index, row in df.iterrows():
-#         trigger_on_query_logic = Trigger_ON_Query_Logic(
+#         trigger_on_query_logic = Trigger_ON_Query(
 #             Trigger_id=row['Trigger_id'],
 #             Trigger_Description_Discussed=row['Trigger_Description_Discussed'],
 #             Assignment_level=row['Assignment_level'],
@@ -218,7 +275,7 @@ def optimization_rules_delete_by_id(request, row_id):
 
 # def insert_optimization_rules_data(df):
 #     for index, row in df.iterrows():
-#         optimization_rule = Optimization_Rules(
+#         optimization_rule = Task_Constraint_Rules(
 #             Task_No=row['Task No'],
 #             Constraint_Description=row['Constraint Description'],
 #             Category_Task_Associated_with=row['Category Task Associated with'],
@@ -253,82 +310,39 @@ def optimization_rules_delete_by_id(request, row_id):
 # df_allocation_parameters = pd.read_excel('Config Template 081123.xlsx', sheet_name='4.b Allocation Parameters', skiprows=1)
 # insert_allocation_parameters_data(df_allocation_parameters)
 
-# queryset = Allocation_Parameters.objects.all()
-# df = pd.DataFrame(list(queryset.values()))
-# print(df)
-
-
-
-
-
-
-# def insert_product_mix_focus_data(df):
+# def insert_microseg_default_tasks_data(df):
 #     for index, row in df.iterrows():
-#         product_mix_focus = Product_Mix_Focus(
+#         microsegment_Default_Tasks = Microsegment_Default_Tasks(
 #             Channel=row['Channel'],
 #             Subchannel=row['Subchannel'],
 #             DemoSeg=row['DemoSeg'],
 #             ValueSeg=row['ValueSeg'],
-#             Focus_Product=row['Focus Product'],
-#             prod_mix_non_par_annuity_immediate=row['prod_mix_non_par_annuity_immediate'],
-#             prod_mix_non_par_c2p=row['prod_mix_non_par_c2p'],
-#             prod_mix_non_par_sanchay=row['prod_mix_non_par_sanchay'],
-#             prod_mix_non_par_annuity_pgp=row['prod_mix_non_par_annuity_pgp'],
-#             prod_mix_non_par_health=row['prod_mix_non_par_health'],
-#             prod_mix_par_others=row['prod_mix_par_others'],
-#             prod_mix_par_ppt_10=row['prod_mix_par_ppt_10+'],
-#             prod_mix_ul_others=row['prod_mix_ul_others'],
-#             prod_mix_ul_ppt_10=row['prod_mix_ul_ppt_10+'],
-#             prod_mix_ul_single_pre=row['prod_mix_ul_single_pre']
+#             Segment_id=row['Segment_id'],
+#             Default_Tasks=row['Default_Tasks']
 #         )
-#         product_mix_focus.save()
-        
-# df_product_mix_focus = pd.read_excel('Config Template 081123.xlsx', sheet_name='4.d Product Mix Focus', skiprows=1)
-# print(df_product_mix_focus)
+#         microsegment_Default_Tasks.save()
 
-# def insert_segment_threshold_output_data(df):
-#     for index, row in df.iterrows():
-#         segment_threshold_output = Segment_Threshold_Output(
-#             Channel=row['Channel'],
-#             Subchannel=row['Subchannel'],
-#             Channel_Subchannel_ID=row['Channel_Sunchannel_ID'],
-#             DemoSeg=row['DemoSeg'],
-#             ValueSeg=row['ValueSeg'],
-#             DemoSeg_ValueSeg_ID=row['DemoSeg_ValueSeg_ID'],
-#             Trigger_id=row['Trigger_id'],
-#             Segment_Threshold=row['Segment_Threshold']
-#         )
-#         segment_threshold_output.save()
 
-# df_segment_threshold_output = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.c Segment_thres1_output', skiprows=1)
-
-# insert_segment_threshold_output_data(df_segment_threshold_output)
+# df_allocation_parameters = pd.read_excel('Config Template 081123.xlsx', sheet_name='4.c Microsegment Default Tasks', skiprows=1)
+# insert_microseg_default_tasks_data(df_allocation_parameters)
 
 
 # def insert_fls_avg_threshold_output_data(df):
 #     for index, row in df.iterrows():
-#         fls_avg_threshold_output = FLS_Avg_Threshold_Output(
-#             FLS_id=row['FLS_id'],
+#         default_Channel_Trigg_thres = Default_Channel_Trigg_thres(
 #             Channel=row['Channel'],
-#             Subchannel=row['Subchannel'],
-#             Channel_Subchannel_ID=row['Channel_Sunchannel_ID'],
-#             DemoSeg=row['DemoSeg'],
-#             ValueSeg=row['ValueSeg'],
-#             DemoSeg_ValueSeg_ID=row['DemoSeg_ValueSeg_ID'],
 #             Trigger_id=row['Trigger_id'],
-#             FLSAvg_Threshold=row['FLSAvg_Threshold']
+#             Trigg_Desc =row['Trigg_Desc'],
+#             Segment_Threshold_1=row['Segment_Threshold_1']
+#             FLSAvg_Threshold_2=row['FLSAvg_Threshold_2']
 #         )
-#         fls_avg_threshold_output.save()
+#         default_Channel_Trigg_thres.save()
 
 # # Read data from Excel file
-# df_fls_avg_threshold_output = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.d FLS_Avg_thres2_output', skiprows=1)
+# df_fls_avg_threshold_output = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.c Default_Channel_Trigg_thres', skiprows=1)
 
 # # Insert data into the FLS_Avg_Threshold_Output model
 # insert_fls_avg_threshold_output_data(df_fls_avg_threshold_output)
-
-# queryset = Product_Mix_Focus.objects.all()
-# df = pd.DataFrame(list(queryset.values()))
-# print(df)
 
 
 # def insert_task_closure_config_data(df):
@@ -345,8 +359,9 @@ def optimization_rules_delete_by_id(request, row_id):
 # insert_task_closure_config_data(df_task_closure_config)
 
 
-def model_to_s3(sheet_name):
+def upload_to_s3(request,sheet_name):
     try:
+        # sheet_name = request.POST.get('sheet_name')
         data_model = apps.get_model(app_label='app_validation',model_name=sheet_name)
         data_df = pd.DataFrame(list(data_model.objects.all().values()))
         is_valid, errors = mainValidate_function(sheet_name, data_df)
