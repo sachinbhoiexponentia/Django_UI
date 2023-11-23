@@ -25,12 +25,15 @@ def validate_thresold_config_df_api(request):
             return JsonResponse({'is_valid': True, 'errors': ['errors']})
             # data = request.GET
             # parameters = dict(data.lists())
+            # print('parameters',parameters)
             # if 'csrfmiddlewaretoken' in parameters:
             #     csrf_token = parameters.pop('csrfmiddlewaretoken', None)
-            # sheet_name = parameters.pop('sheet_name',None)
+            # sheet_name = data.get('form_identifier')
+            # print('sheet_name',sheet_name)
             # data_df = pd.DataFrame(parameters)
             # print('data_df',data_df)
             # is_valid,errors = mainValidate_function(sheet_name,data_df)
+            # print('is_valid,errors',is_valid,errors)
             # return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
