@@ -1029,10 +1029,10 @@
 
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
-                        style="color: black;"></i>
-                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                        style="color: black;"></i>
+                      <i class="fas fa-edit" id="editButton3" onclick="getSourceData_AP({{row.0}})" data-toggle="modal"
+                      data-target="#modal_allocation_parameters_form_edit" style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_AP({{ row.0 }})"
+                      data-toggle="modal" style="color: black;"></i>
                     </td>
                   </tr>
                   {% endfor %}
@@ -1131,6 +1131,107 @@
                 </div>
               </div>
             </div>
+            <div id="modal_allocation_parameters_form_edit" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title">Edit</h1>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+  
+                  </div>
+                  <div class="modal-body">
+                    <form id="allocation_parameters_Form_edit" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <input type="hidden" id="allocation_parameters_Form_edit" name="form_identifier"
+                        value="allocation_parameters_Form_edit" />
+
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <!-- <label for="task_no" class="label1_">Task No.</label> -->
+                            <input class="first1" name="AP_Task_id" id="AP_Task_id" type="hidden"
+                              placeholder="Task_id" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="constraint" class="label1_">Constraint</label>
+                            <input class="first1" name="AP_Channel" id="AP_Channel" type="text"
+                              placeholder="Channel" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="category_task_allocated_with" class="label1_">Category Task Allocated With</label>
+                            <input class="first1" name="AP_Subchannel" id="AP_Subchannel" type="text"
+                              placeholder="Subchannel" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="min_task_count_fls" class="label1_">Min Task Count FLS</label>
+                            <input class="first1" name="AP_DemoSeg" id="AP_DemoSeg" type="text"
+                              placeholder="DemoSeg" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="max_task_count_fls" class="label1_">Max Task Count FLS</label>
+                            <input class="first1" name="AP_ValueSeg" id="AP_ValueSeg" type="text"
+                              placeholder="ValueSeg" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="mutual_exclusion_criteria" class="label1_">Mutual Exclusion Criteria</label>
+                            <input class="first1" name="AP_Segment_id" id="AP_Segment_id"
+                              type="text" placeholder="Segment_id" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="task_priority" class="label1_">Task Priority</label>
+                            <input class="first1" name="AP_Due_Days" id="AP_Due_Days" type="text"
+                              placeholder="Due_Days" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="min_task_count_fls" class="label1_">Min Task Count FLS</label>
+                            <input class="first1" name="AP_Buffer_Days" id="AP_Buffer_Days" type="text"
+                              placeholder="Buffer_Days" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="max_task_count_fls" class="label1_">Max Task Count FLS</label>
+                            <input class="first1" name="AP_XX_Value" id="AP_XX_Value" type="text"
+                              placeholder="XX_Value" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="mutual_exclusion_criteria" class="label1_">Mutual Exclusion Criteria</label>
+                            <input class="first1" name="AP_XX_Type" id="AP_XX_Type"
+                              type="text" placeholder="XX_Type" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="task_priority" class="label1_">Task Priority</label>
+                            <input class="first1" name="AP_PricePoint_Reward" id="AP_PricePoint_Reward" type="text"
+                              placeholder="PricePoint_Reward" />
+                          </div>
+                        </div>
+                      <button type="submit" id="validateButton_threshold_logic_config"
+                        class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                        data-form-id="allocation_parameters_Form">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div id="myModal2_edit" class="modal fade" role="dialog">
               <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
@@ -2112,7 +2213,63 @@
             document.getElementById('errorDiv').style.display = 'block';
           });
       }
+      function getSourceData_AP(rowId) {
 
+$(document).ready(function () {
+  var apiUrl = `api/allocation_parameters_get_data/${rowId}`;
+  $.ajax({
+    url: apiUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+      console.log(data);
+
+      document.getElementById("AP_Task_id").value = rowId
+      document.getElementById("AP_Channel").value = data.Channel
+      document.getElementById("AP_Subchannel").value = data.Subchannel
+      document.getElementById("AP_DemoSeg").value = data.DemoSeg
+      document.getElementById("AP_ValueSeg").value = data.ValueSeg
+      document.getElementById("AP_Segment_id").value = data.Segment_id
+      document.getElementById("AP_Due_Days").value = data.Due_Days
+      document.getElementById("AP_Buffer_Days").value = data.Buffer_Days
+      document.getElementById("AP_XX_Value").value = data.XX_Value
+      document.getElementById("AP_XX_Type").value = data.XX_Type
+      document.getElementById("AP_PricePoint_Reward").value = data.PricePoint_Reward
+    }
+  });
+});
+
+}
+
+function DeleteSourceData_AP(row_id) {
+fetch(`api/allocation_parameters_delete/${row_id}/`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+  .then(response => {
+    if (!response.ok) {
+      if (response.status === 404) {
+        // Show errorDiv if object not found
+        document.getElementById('errorDiv').style.display = 'block';
+      } else {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } else {
+      // Show successDiv on successful deletion
+      alert(`Row ${row_id} deleted successfully`);
+      $('#myModal_delete_AP').modal('show');
+      return response.json();
+    }
+  })
+  .catch(error => {
+    // Handle other errors
+    console.error('Error deleting data:', error);
+    // Show errorDiv on other errors
+    document.getElementById('errorDiv').style.display = 'block';
+  });
+}
 
     </script>
 

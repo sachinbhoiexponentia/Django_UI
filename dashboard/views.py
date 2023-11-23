@@ -343,7 +343,34 @@ def TOAM_Module_View(request):
                 print('Error while saving the data ',e)  
                 messages.error(request, e) 
                 
+        if form_id == 'allocation_parameters_Form_edit':
+            print('allocation_parameters_Form_edit') 
+            try:
+                trigger_id = request.POST.get('AP_Task_id')
+                print("trigger_id:",trigger_id)
+                threshold_login_config = Allocation_Parameters.objects.get(Task_id=trigger_id)
+
+                # Update fields based on the form data
+                threshold_login_config.Channel = request.POST.get('AP_Channel')
+                threshold_login_config.Subchannel = request.POST.get('AP_Subchannel')
+                threshold_login_config.DemoSeg = request.POST.get('AP_DemoSeg')
+                threshold_login_config.ValueSeg = request.POST.get('AP_ValueSeg')
+                threshold_login_config.Segment_id = request.POST.get('AP_Segment_id')
+                threshold_login_config.Due_Days = request.POST.get('AP_Due_Days')
+                threshold_login_config.Buffer_Days = request.POST.get('AP_Buffer_Days')
+                threshold_login_config.XX_Value = request.POST.get('AP_XX_Value')
+                threshold_login_config.XX_Type = request.POST.get('AP_XX_Type')
+                threshold_login_config.PricePoint_Reward = request.POST.get('AP_PricePoint_Reward')
                 
+                threshold_login_config.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'TOAM.html', context)
+            except Task_Constraint_Rules.DoesNotExist:
+                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))               
                  
         if form_id == 'product_mix_focus_Form':
             print('product_mix_focus_Form')

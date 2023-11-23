@@ -155,13 +155,46 @@ def task_constraint_rules_delete_by_id(request, row_id):
     try:
         # Assuming YourModel has a primary key named 'id'
         print(row_id)
-        instance = Task_Constraint_Rules.objects.get(Task_No = row_id)
+        instance = Task_Constraint_Rules.objects.get(pk = row_id)
         instance.delete()
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
     
+
+class Allocation_Parameters_DataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Allocation_Parameters
+        fields = '__all__'
+
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def allocation_parameters_detail_view(request, pk):
+    try:
+        instance = Allocation_Parameters.objects.get(pk=pk)
+    except Allocation_Parameters.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Allocation_Parameters_DataSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def allocation_parameters_delete_by_id(request, row_id):
+    try:
+        # Assuming YourModel has a primary key named 'id'
+        print(row_id)
+        instance = Allocation_Parameters.objects.get(pk = row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
 
 # ##################insert the config data into the model###################
 # def insert_config_data(df):
