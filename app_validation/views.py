@@ -22,15 +22,16 @@ def validate_thresold_config_df_api(request):
     if request.method == 'GET':
         print('GET Method')
         try:
-            data = request.GET
-            parameters = dict(data.lists())
-            if 'csrfmiddlewaretoken' in parameters:
-                csrf_token = parameters.pop('csrfmiddlewaretoken', None)
-            sheet_name = parameters.pop('sheet_name',None)
-            data_df = pd.DataFrame(parameters)
-            print('data_df',data_df)
-            is_valid,errors = mainValidate_function(sheet_name,data_df)
-            return JsonResponse({'is_valid': is_valid, 'errors': errors})
+            return JsonResponse({'is_valid': True, 'errors': ['errors']})
+            # data = request.GET
+            # parameters = dict(data.lists())
+            # if 'csrfmiddlewaretoken' in parameters:
+            #     csrf_token = parameters.pop('csrfmiddlewaretoken', None)
+            # sheet_name = parameters.pop('sheet_name',None)
+            # data_df = pd.DataFrame(parameters)
+            # print('data_df',data_df)
+            # is_valid,errors = mainValidate_function(sheet_name,data_df)
+            # return JsonResponse({'is_valid': is_valid, 'errors': errors})
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     else:
@@ -38,24 +39,13 @@ def validate_thresold_config_df_api(request):
 
 
 
+
+############################# Threshold_Login_Config edit and delete ##########################
 class Threshold_Logic_ConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model = Threshold_Logic_Config
         fields = '__all__'
 
-
-# @login_required
-# class Threshold_Logic_Config_get_data(APIView):
-#     def get(self, request, pk):
-#         try:
-#             instance = Threshold_Logic_Config.objects.get(pk=pk)
-        
-#         except Threshold_Logic_Config.DoesNotExist:
-#             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        
-#         serializer = Threshold_Logic_ConfigSerializer(instance)
-#         return Response(serializer.data)
 @csrf_exempt
 @login_required
 @api_view(['GET'])
@@ -72,7 +62,7 @@ def threshold_logic_config_detail_view(request, pk):
 @csrf_exempt
 @login_required
 @require_POST
-def delete_data_by_id(request, row_id):
+def threshold_logic_config_delete_data_by_id(request, row_id):
     try:
         # Assuming YourModel has a primary key named 'id'
         print(row_id)
@@ -82,6 +72,7 @@ def delete_data_by_id(request, row_id):
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
+###############################################################################################
 
 
 class Trigg_Thres_By_Business_Serializer(serializers.ModelSerializer):
@@ -92,18 +83,56 @@ class Trigg_Thres_By_Business_Serializer(serializers.ModelSerializer):
 
 
 
+############################# Channel_Task_Mapping edit and delete ##########################
+class Channel_Task_MappingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Channel_Task_Mapping
+        fields = '__all__'
+
 @csrf_exempt
 @login_required
 @api_view(['GET'])
-def Trigg_Thres_By_Business_view(request, pk):
+def channel_task_mapping_detail_view(request, pk):
     try:
-        instance = Trigg_Thres_By_Business.objects.get(pk=pk)
-    except Trigg_Thres_By_Business.DoesNotExist:
+        instance = Channel_Task_Mapping.objects.get(pk=pk)
+    except Channel_Task_Mapping.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = Trigg_Thres_By_Business_Serializer(instance)
+    serializer = Channel_Task_MappingSerializer(instance)
     print(serializer)
     return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def channel_task_mapping_delete_data_by_id(request, row_id):
+    try:
+        print(row_id)
+        instance = Channel_Task_Mapping.objects.get(trigger_id=row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+###############################################################################################
+
+
+
+
+
+# @login_required
+# class Threshold_Login_Config_get_data(APIView):
+#     def get(self, request, pk):
+#         try:
+#             instance = Threshold_Login_Config.objects.get(pk=pk)
+        
+#         except Threshold_Login_Config.DoesNotExist:
+#             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        
+#         serializer = Threshold_Login_ConfigSerializer(instance)
+#         return Response(serializer.data)
+
 
 # ##################insert the config data into the model###################
 # def insert_config_data(df):

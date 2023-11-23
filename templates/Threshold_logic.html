@@ -702,14 +702,14 @@
           <table class="custom-table">
             <thead>
               <tr>
-                {% for header in Threshold_Login_Config_headers %}
+                {% for header in Threshold_Logic_Config_headers %}
                 <th>{{ header }}</th>
                 {% endfor %}
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {% for row in Threshold_Login_Config_data %}
+              {% for row in Threshold_Logic_Config_data %}
               <tr>
                 {% for value in row %}
                 <td>
@@ -819,12 +819,13 @@
             </div>
           </div>
         </div>
+        
         <div id="modal_threshold_logic_config_edit" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title">Add New</h1>
+                <h1 class="modal-title">Edit New</h1>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
               </div>
@@ -1151,96 +1152,8 @@
         </div>
 
 
-      </div>
-      </div>
-      <div id="submit_trigger_threshold_business" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-md">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-              <button type="button" class="close" data-dismiss="modal"
-                style="border: 1px; height: 5px;">&times;</button>
-            </div>
-            <div class="modal-body">
-              <p style="color: black;">Do you want to add new channel?</p>
-              <button type="button" id="submit_trigger_threshold_business_submit"
-                style="background-color:#736CEB; color: white;">Submit2</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <div id="Segment_thres1_output_visible" class="tabcontent">
-        <div class="button1-container">
-          <button class="button-with-image blueBorder ms-auto" id="formButton3" data-toggle="modal"
-            data-target="#myModal3"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
-        </div>
-        <div class="table-container">
-          <table class="custom-table">
-            <thead>
-              <tr>
-                {% for header in Segment_Threshold_Output_headers %}
-                <th>{{ header }}</th>
-                {% endfor %}
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for row in Segment_Threshold_Output_data %}
-              <tr>
-                {% for value in row %}
-                <td>
-                  {{value}}
-                </td>
-                {% endfor %}
-                <td>
-                  <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
-                    style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                    style="color: black;"></i>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
-        <div id="myModal3" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-lg">
-            <!-- Modal content-->
+        <div id="submit_threshold_logic_config" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title">Add New</h1>
@@ -1862,7 +1775,7 @@
     function getSourceData_TLC(rowId) {
 
       $(document).ready(function () {
-        var apiUrl = `api/Threshold_Login_Config_get_data/${rowId}`;
+        var apiUrl = `api/Threshold_Logic_Config_get_data/${rowId}`;
         $.ajax({
           url: apiUrl,
           type: 'GET',
@@ -1887,7 +1800,7 @@
     }
 
     function DeleteSourceData_TLC(row_id) {
-      fetch(`api/Threshold_Login_Config_delete/${row_id}/`, {
+      fetch(`api/Threshold_Logic_Config_delete/${row_id}/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
