@@ -83,7 +83,26 @@ def delete_data_by_id(request, row_id):
         return JsonResponse({'message': 'Object not found'}, status=404)
 
 
+class Trigg_Thres_By_Business_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trigg_Thres_By_Business
+        fields = '__all__'
 
+
+
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def Trigg_Thres_By_Business_view(request, pk):
+    try:
+        instance = Trigg_Thres_By_Business.objects.get(pk=pk)
+    except Trigg_Thres_By_Business.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Trigg_Thres_By_Business_Serializer(instance)
+    print(serializer)
+    return Response(serializer.data)
 
 # ##################insert the config data into the model###################
 # def insert_config_data(df):

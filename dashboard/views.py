@@ -151,6 +151,33 @@ def Threshold_Login_Config_view(request):
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+
+        if form_id == 'modal_trigger_threshold_business_edit':
+            print('modal_trigger_threshold_business_edit')
+            try:
+                trigger_id = request.POST.get('Trigger_Threhold_by_Business_Form_id')
+                print("trigger_id:",trigger_id)
+                threshold_login_config = Trigg_Thres_By_Business.objects.get(id=trigger_id)
+
+                # Update fields based on the form data
+                threshold_login_config.trigg_desc = request.POST.get('Trigg_Desc_Threshold_Logic_Form_edit')
+                threshold_login_config.thres_description = request.POST.get('Thres_Description_Threshold_Logic_Form_edit')
+                threshold_login_config.thres_query_logic = request.POST.get('Thres_Query_Logic_Threshold_Logic_Form_edit')
+                threshold_login_config.operation = request.POST.get('Operation_Threshold_Logic_Form_edit')
+                threshold_login_config.analysis_period = request.POST.get('Analysis_Period_Threshold_Logic_Form_edit')
+                threshold_login_config.num_thresholds_required = request.POST.get('Num_Threshold_Required_Threshold_Logic_Form_edit')
+                threshold_login_config.segment_threshold_requirement_flag = request.POST.get('Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit')
+                threshold_login_config.FLS_Threshold_Requirement_Flag = request.POST.get('FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit')
+
+                threshold_login_config.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'Threshold_logic.html', context)
+            except Trigg_Thres_By_Business.DoesNotExist:
+                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))
         
         
 
