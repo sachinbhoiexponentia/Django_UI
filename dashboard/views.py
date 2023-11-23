@@ -31,6 +31,7 @@ def Threshold_Login_Config_view(request):
 
     queryset3 = FLS_Avg_Threshold_Output.objects.all()
     FLS_Avg_Threshold_Output_df = pd.DataFrame(list(queryset3.values()))
+    # FLS_Avg_Threshold_Output_df= FLS_Avg_Threshold_Output_df.apply(lambda x: pd.to_numeric(x, errors='coerce')).astype('Int64')
     FLS_Avg_Threshold_Output_headers = list(FLS_Avg_Threshold_Output_df.columns)
     FLS_Avg_Threshold_Output_data = FLS_Avg_Threshold_Output_df.values.tolist()
 
@@ -152,24 +153,28 @@ def Threshold_Login_Config_view(request):
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
 
-        if form_id == 'modal_trigger_threshold_business_edit':
-            print('modal_trigger_threshold_business_edit')
+        if form_id == 'Trigger_Threhold_by_Business_Form_edit':
+            print('Trigger_Threhold_by_Business_Form_edit')
             try:
+                print(request.POST)
                 trigger_id = request.POST.get('Trigger_Threhold_by_Business_Form_id')
                 print("trigger_id:",trigger_id)
-                threshold_login_config = Trigg_Thres_By_Business.objects.get(id=trigger_id)
+                trigg_Thres_By_Business = Trigg_Thres_By_Business.objects.get(id=trigger_id)
 
                 # Update fields based on the form data
-                threshold_login_config.trigg_desc = request.POST.get('Trigg_Desc_Threshold_Logic_Form_edit')
-                threshold_login_config.thres_description = request.POST.get('Thres_Description_Threshold_Logic_Form_edit')
-                threshold_login_config.thres_query_logic = request.POST.get('Thres_Query_Logic_Threshold_Logic_Form_edit')
-                threshold_login_config.operation = request.POST.get('Operation_Threshold_Logic_Form_edit')
-                threshold_login_config.analysis_period = request.POST.get('Analysis_Period_Threshold_Logic_Form_edit')
-                threshold_login_config.num_thresholds_required = request.POST.get('Num_Threshold_Required_Threshold_Logic_Form_edit')
-                threshold_login_config.segment_threshold_requirement_flag = request.POST.get('Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit')
-                threshold_login_config.FLS_Threshold_Requirement_Flag = request.POST.get('FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit')
+                trigg_Thres_By_Business.Channel = request.POST.get('channel_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.Subchannel = request.POST.get('subchannel_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.DemoSeg= request.POST.get('demoseg_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.ValueSeg = request.POST.get('valueseg_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.Trigger_id = request.POST.get('trigger_id_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.Trigg_Desc= request.POST.get('trigg_description_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.Segment_Threshold= request.POST.get('segment_threshold_1_Trigger_Threhold_by_Business_Form_edit')
+                trigg_Thres_By_Business.FLSAvg_Threshold= request.POST.get('flavg_threshold_Trigger_Threhold_by_Business_Form_edit')
+                
 
-                threshold_login_config.save()
+                trigg_Thres_By_Business.save()
 
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'Threshold_logic.html', context)

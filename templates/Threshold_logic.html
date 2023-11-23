@@ -1062,7 +1062,9 @@
               <div class="modal-body">
                 <form id="Trigger_Threhold_by_Business_Form_edit" method="post" enctype="multipart/form-data">
                   {% csrf_token %}
-                  <input type="hidden" id="Trigger_Threhold_by_Business_Form_id" name="form_identifier"
+                  <input type="hidden" id="Trigger_Threhold_by_Business_Form_edit" name="form_identifier"
+                    value="Trigger_Threhold_by_Business_Form_edit" />
+                    <input type="hidden" id="Trigger_Threhold_by_Business_Form_id" name="Trigger_Threhold_by_Business_Form_id"
                     value="Trigger_Threhold_by_Business_Form_id" />
                   <div class="form-row">
                     <div class="form-group_clo">
@@ -1139,10 +1141,9 @@
                     </div>
                   </div>
 
-                  <button type="button" id="validateButton_trigger_threshold_business"
-                    class="btn btn-info btn-lg submit_validate" data-toggle="modal" {% comment %}
-                    data-target="#submit_trigger_threshold_business" {% endcomment %} {% comment %}
-                    data-form-id="Trigger_Threhold_by_Business_Form" {% endcomment %}>Submit</button>
+                  <button type="submit" id="validateButton_trigger_threshold_business"
+                    class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    data-form-id="Trigger_Threhold_by_Business_Form" >Submit</button>
                 </form>
               </div>
             </div>
@@ -1904,7 +1905,7 @@
     function getSourceData_TTB(rowId) {
 
       $(document).ready(function () {
-        var apiUrl = `api/Trigg_Thres_By_Business_view/${rowId}`;
+        var apiUrl = `api/Trigg_Thres_By_Business_data/${rowId}`;
         $.ajax({
           url: apiUrl,
           type: 'GET',
