@@ -73,15 +73,38 @@ def threshold_logic_config_delete_data_by_id(request, row_id):
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
 ###############################################################################################
-
-
 class Trigg_Thres_By_Business_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Trigg_Thres_By_Business
         fields = '__all__'
 
 
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def Trigg_Thres_By_Business_view(request, pk):
+    try:
+        instance = Trigg_Thres_By_Business.objects.get(pk=pk)
+    except Trigg_Thres_By_Business.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
+    serializer = Trigg_Thres_By_Business_Serializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+
+@csrf_exempt
+@login_required
+@require_POST
+def Trigg_Thres_By_Business_delete_data_by_id(request, row_id):
+    try:
+        print(row_id)
+        instance = Trigg_Thres_By_Business.objects.get(id=row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
 
 ############################# Channel_Task_Mapping edit and delete ##########################
 class Channel_Task_MappingSerializer(serializers.ModelSerializer):
@@ -115,10 +138,39 @@ def channel_task_mapping_delete_data_by_id(request, row_id):
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
 ###############################################################################################
+class Default_Channel_Trigg_thres_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Default_Channel_Trigg_thres
+        fields = '__all__'
 
 
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def Default_Channel_Trigg_thres_view(request, pk):
+    try:
+        print("pk:",pk)
+        instance = Default_Channel_Trigg_thres.objects.get(pk=pk)
+        print("instance:",instance)
+    except Default_Channel_Trigg_thres.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
+    serializer = Default_Channel_Trigg_thres_Serializer(instance)
+    print(serializer)
+    return Response(serializer.data)
 
+@csrf_exempt
+@login_required
+@require_POST
+def Default_Channel_Trigg_thres_delete_data_by_id(request, row_id):
+    try:
+        print(row_id)
+        instance = Default_Channel_Trigg_thres.objects.get(id=row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
 
 # @login_required
 # class Threshold_Login_Config_get_data(APIView):
@@ -328,6 +380,24 @@ def channel_task_mapping_delete_data_by_id(request, row_id):
 # df_task_closure_config = pd.read_excel('Config Template 081123.xlsx', sheet_name='2.a Task Closure Config', skiprows=1)
 # print(df_task_closure_config)
 # insert_task_closure_config_data(df_task_closure_config)
+
+
+
+# #################insert the config data into the model###################
+# def insert_channel_task_mapping_data(df):
+#     for index, row in df.iterrows():
+#         default_Channel_Trigg_thres= Default_Channel_Trigg_thres(
+#             Channel=row['Channel'],
+#             Trigger_id=row['Trigger_id'],
+#             Trigg_Desc=row['Trigg_Desc'],
+#             Segment_Threshold_1=row['Segment_Threshold_1'],
+#             FLSAvg_Threshold_2=row['FLSAvg_Threshold_2']
+#         )
+#         default_Channel_Trigg_thres.save()
+# default_Channel_Trigg_thres = pd.read_excel('Config Template 081123.xlsx', sheet_name='3.a Channel_Task_Mapping')
+# print(default_Channel_Trigg_thres)
+# insert_channel_task_mapping_data(default_Channel_Trigg_thres)
+
 
 
 def upload_to_s3(request,sheet_name):

@@ -26,8 +26,11 @@ def Threshold_Logic_Config_view(request):
 
     queryset3 = Default_Channel_Trigg_thres.objects.all()
     Default_Channel_Trigg_thres_df = pd.DataFrame(list(queryset3.values()))
+    print(Default_Channel_Trigg_thres_df)
     Default_Channel_Trigg_thres_headers = list(Default_Channel_Trigg_thres_df.columns)
     Default_Channel_Trigg_thres_data = Default_Channel_Trigg_thres_df.values.tolist()
+    print("Default_Channel_Trigg_thres_headers:",Default_Channel_Trigg_thres_headers)
+    print("Default_Channel_Trigg_thres_data:",Default_Channel_Trigg_thres_data)
 
     context = {'Default_Channel_Trigg_thres_headers':Default_Channel_Trigg_thres_headers,
                'Default_Channel_Trigg_thres_data':Default_Channel_Trigg_thres_data,
@@ -153,6 +156,34 @@ def Threshold_Logic_Config_view(request):
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'Threshold_logic.html', context)
             except Trigg_Thres_By_Business.DoesNotExist:
+                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))
+            
+
+
+        if form_id == 'Default_Channel_Trigg_thres_Form_Edit':
+            print('Default_Channel_Trigg_thres_Form_Edit')
+            try:
+                # print(request.POST)
+                id = request.POST.get('Default_Channel_Trigg_thres_Form_id')
+                # print("trigger_id:",trigger_id)
+                default_Channel_Trigg_thres = Default_Channel_Trigg_thres.objects.get(id=id)
+
+                # Update fields based on the form data
+                default_Channel_Trigg_thres.Channel = request.POST.get('Channel_edit')
+                default_Channel_Trigg_thres.Trigger_id = request.POST.get('Trigger_id_edit')
+                default_Channel_Trigg_thres.Trigg_Desc = request.POST.get('Trigg_Desc_edit')
+                default_Channel_Trigg_thres.Segment_Threshold_1= request.POST.get('Segment_Threshold_1_edit')
+                default_Channel_Trigg_thres.FLSAvg_Threshold_2= request.POST.get('FLSAvg_Threshold_2_edit')
+                
+
+                default_Channel_Trigg_thres.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'Threshold_logic.html', context)
+            except Default_Channel_Trigg_thres.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
             except Exception as e:
                 print('Error while updating the data ', e)
