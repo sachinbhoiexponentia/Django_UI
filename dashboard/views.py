@@ -308,19 +308,70 @@ def TOAM_Module_View(request):
         print('data',data)
         if form_id == 'optimization_rules_Form':
             print('optimization_rules_Form') 
-        try:  
-            optimization_rules = Optimization_Rules(
-                Task_No = request.POST.get('task_no') ,
-                Constraint_Description = request.POST.get('constraint') ,
-                Category_Task_Associated_with =request.POST.get('category_task_allocated_with') ,
-                Min_Task_Count_FLS = request.POST.get('min_task_count_fls') ,
-                Max_Task_Count_FLS = request.POST.get('max_task_count_fls') ,
-                Mutual_Exclusion_Criteria = request.POST.get('mutual_exclusion_criteria') ,
-                Task_Priority =request.POST.get('task_priority') )
-            optimization_rules.save()
-            messages.success(request, 'Form saved successfully')
-        except Exception as e:
-            print('Error while saving the data ',e)  
-            messages.error(request, e)    
+            try:  
+                optimization_rules = Optimization_Rules(
+                    Task_No = request.POST.get('task_no') ,
+                    Constraint_Description = request.POST.get('constraint') ,
+                    Category_Task_Associated_with =request.POST.get('category_task_allocated_with') ,
+                    Min_Task_Count_FLS = request.POST.get('min_task_count_fls') ,
+                    Max_Task_Count_FLS = request.POST.get('max_task_count_fls') ,
+                    Mutual_Exclusion_Criteria = request.POST.get('mutual_exclusion_criteria') ,
+                    Task_Priority =request.POST.get('task_priority') )
+                optimization_rules.save()
+                messages.success(request, 'Form saved successfully')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e)    
+            
+            
+        if form_id == 'allocation_parameters_Form':
+            print('allocation_parameters_Form') 
+            try:
+                allocation_parameters = Allocation_Parameters(
+                    Task_id=request.POST.get('task_id'),
+                    Channel=request.POST.get('channel'),
+                    Subchannel=request.POST.get('subchannel'),
+                    DemoSeg=request.POST.get('demoseg'),
+                    ValueSeg=request.POST.get('valueseg'),
+                    Segment_id=request.POST.get('segment_id'),
+                    Due_Days=request.POST.get('due_days'),
+                    Buffer_Days=request.POST.get('buffer_days'),
+                    XX_Value=request.POST.get('xx_value'),
+                    XX_Type=request.POST.get('xx_type'),
+                    PricePoint_Reward=request.POST.get('price_point_reward'))
+                allocation_parameters.save()
+                messages.success(request, 'Form saved successfully')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e) 
+                
+                
+                 
+        if form_id == 'product_mix_focus_Form':
+            print('product_mix_focus_Form')
+            try:
+                product_mix_focus = Product_Mix_Focus(
+                    Channel=request.POST.get('channel'),
+                    Subchannel=request.POST.get('subchannel'),
+                    DemoSeg=request.POST.get('demoseg'),
+                    ValueSeg=request.POST.get('valueseg'),
+                    Focus_Product=request.POST.get('focus_product'),
+                    prod_mix_non_par_annuity_immediate=request.POST.get('prod_mix_non_par_annuity_immediate'),
+                    prod_mix_non_par_c2p=request.POST.get('prod_mix_non_par_c2p'),
+                    prod_mix_non_par_sanchay=request.POST.get('prod_mix_non_par_sanchay'),
+                    prod_mix_non_par_annuity_pgp=request.POST.get('prod_mix_non_par_annuity_pgp'),
+                    prod_mix_non_par_health=request.POST.get('prod_mix_non_par_health'),
+                    prod_mix_par_others=request.POST.get('prod_mix_par_others'),
+                    prod_mix_par_ppt_10=request.POST.get('prod_mix_par_ppt_10'),
+                    prod_mix_ul_others=request.POST.get('prod_mix_ul_others'),
+                    prod_mix_ul_ppt_10=request.POST.get('prod_mix_ul_ppt_10'),
+                    prod_mix_ul_single_pre=request.POST.get('prod_mix_ul_single_pre')
+                )
+                product_mix_focus.save()
+                messages.success(request, 'Product Mix Focus saved successfully')
+            except Exception as e:
+                print('Error while saving the data ', e)
+                messages.error(request, 'Error while saving the data: {}'.format(str(e)))   
+                        
     
     return render(request, 'TOAM.html',context)
