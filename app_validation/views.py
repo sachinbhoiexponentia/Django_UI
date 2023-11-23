@@ -43,18 +43,6 @@ class Threshold_Login_ConfigSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# @login_required
-# class Threshold_Login_Config_get_data(APIView):
-#     def get(self, request, pk):
-#         try:
-#             instance = Threshold_Login_Config.objects.get(pk=pk)
-        
-#         except Threshold_Login_Config.DoesNotExist:
-#             return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        
-#         serializer = Threshold_Login_ConfigSerializer(instance)
-#         return Response(serializer.data)
 @csrf_exempt
 @login_required
 @api_view(['GET'])
@@ -84,6 +72,39 @@ def delete_data_by_id(request, row_id):
 
 
 
+class Optimization_Rule_DataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Optimization_Rules
+        fields = '__all__'
+
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def optimization_rules_detail_view(request, pk):
+    try:
+        instance = Optimization_Rules.objects.get(pk=pk)
+    except Optimization_Rules.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Optimization_Rule_DataSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def optimization_rules_delete_by_id(request, row_id):
+    try:
+        # Assuming YourModel has a primary key named 'id'
+        print(row_id)
+        instance = Optimization_Rules.objects.get(Task_No = row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+    
 
 # ##################insert the config data into the model###################
 # def insert_config_data(df):
