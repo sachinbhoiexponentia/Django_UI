@@ -5,7 +5,6 @@ from app_validation.models import *
 from django.apps import apps
 from .controller import mainValidate_function,s3_upload
 from .config import s3_bucket,s3_path
-from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
