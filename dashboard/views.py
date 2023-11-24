@@ -7,6 +7,18 @@ from django.contrib import messages
 
 
 
+
+def Threshold_form_success(requests):
+    return render(requests, 'threshold_success_page.html')
+def Closure_form_success(requests):
+    return render(requests, 'closure_success_page.html')
+def TNT_form_success(requests):
+    return render(requests, 'tnt_success_page.html')
+def TOAM_form_success(requests):
+    return render(requests, 'toam_success_page.html')
+    
+
+
 @login_required
 def Threshold_Logic_Config_view(request):
     
@@ -59,11 +71,12 @@ def Threshold_Logic_Config_view(request):
                     segment_threshold_requirement_flag=request.POST.get('Segment_Threshold_Requirement_Flag'),
                     FLS_Threshold_Requirement_Flag=request.POST.get('FLS_Threshold_Requirement_Flag'))
                 threshold_logic_config.save()
-                messages.success(request, 'Form saved successfully')
-                return render(request, 'Threshold_logic.html', context)
+                messages.success(request, 'Form saved successfully!')
+                return render(request, 'threshold_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)
                 messages.error(request, e) 
+                return render(request, 'threshold_success_page.html')
                 
             
         if form_id == 'Trigger_Threhold_by_Business_Form':
@@ -82,10 +95,11 @@ def Threshold_Logic_Config_view(request):
                     FLSAvg_Threshold=request.POST.get('flsavg_threshold')) 
                 trigg_thres_by_business.save()
                 messages.success(request, 'Form saved successfully')  
-                return render(request, 'Threshold_logic.html', context)
+                return render(request, 'threshold_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)
                 messages.error(request, e) 
+                return render(request, 'threshold_success_page.html')
         
                 
         if form_id == 'default_channel_trigg_thres_Form':
@@ -98,10 +112,11 @@ def Threshold_Logic_Config_view(request):
                     Segment_Threshold_1 = request.POST.get('segment_threshold_1'),
                     FLSAvg_Threshold_2 = request.POST.get('flsavg_threshold_2'))
                 default_channel_trigg_thres_output.save()
-                messages.success(request, 'Form saved successfully')
+                return render(request, 'threshold_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)
+                return render(request, 'threshold_success_page.html')
 
         if form_id == 'Threshold_Logic_Form_edit':
             print('Threshold_Logic_Form_edit')
@@ -123,12 +138,15 @@ def Threshold_Logic_Config_view(request):
                 threshold_logic_config.save()
 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'Threshold_logic.html', context)
+                return render(request, 'threshold_success_page.html')
             except Threshold_Logic_Config.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                return render(request, 'threshold_success_page.html')
+                
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'threshold_success_page.html')
 
         if form_id == 'Trigger_Threhold_by_Business_Form_edit':
             print('Trigger_Threhold_by_Business_Form_edit')
@@ -137,7 +155,6 @@ def Threshold_Logic_Config_view(request):
                 trigger_id = request.POST.get('Trigger_Threhold_by_Business_Form_id')
                 print("trigger_id:",trigger_id)
                 trigg_Thres_By_Business = Trigg_Thres_By_Business.objects.get(id=trigger_id)
-
                 # Update fields based on the form data
                 trigg_Thres_By_Business.Channel = request.POST.get('channel_Trigger_Threhold_by_Business_Form_edit')
                 trigg_Thres_By_Business.Subchannel = request.POST.get('subchannel_Trigger_Threhold_by_Business_Form_edit')
@@ -149,17 +166,17 @@ def Threshold_Logic_Config_view(request):
                 trigg_Thres_By_Business.Trigg_Desc= request.POST.get('trigg_description_Trigger_Threhold_by_Business_Form_edit')
                 trigg_Thres_By_Business.Segment_Threshold= request.POST.get('segment_threshold_1_Trigger_Threhold_by_Business_Form_edit')
                 trigg_Thres_By_Business.FLSAvg_Threshold= request.POST.get('flavg_threshold_Trigger_Threhold_by_Business_Form_edit')
-                
-
                 trigg_Thres_By_Business.save()
 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'Threshold_logic.html', context)
+                return render(request, 'threshold_success_page.html')
             except Trigg_Thres_By_Business.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                return render(request, 'threshold_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'threshold_success_page.html')
             
 
 
@@ -170,24 +187,23 @@ def Threshold_Logic_Config_view(request):
                 id = request.POST.get('Default_Channel_Trigg_thres_Form_id')
                 # print("trigger_id:",trigger_id)
                 default_Channel_Trigg_thres = Default_Channel_Trigg_thres.objects.get(id=id)
-
                 # Update fields based on the form data
                 default_Channel_Trigg_thres.Channel = request.POST.get('Channel_edit')
                 default_Channel_Trigg_thres.Trigger_id = request.POST.get('Trigger_id_edit')
                 default_Channel_Trigg_thres.Trigg_Desc = request.POST.get('Trigg_Desc_edit')
                 default_Channel_Trigg_thres.Segment_Threshold_1= request.POST.get('Segment_Threshold_1_edit')
                 default_Channel_Trigg_thres.FLSAvg_Threshold_2= request.POST.get('FLSAvg_Threshold_2_edit')
-                
-
                 default_Channel_Trigg_thres.save()
 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'Threshold_logic.html', context)
+                return render(request, 'threshold_success_page.html')
             except Default_Channel_Trigg_thres.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                return render(request, 'threshold_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'threshold_success_page.html')
         
         
 
@@ -218,9 +234,11 @@ def closure_Config_view(request):
                 Closure_True_Query = request.POST.get('closure_true_query')) 
                 task_closure_config.save()
                 messages.success(request, 'Form saved successfully')
+                return render(request, 'closure_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)
+                return render(request, 'closure_success_page.html')
                     
         if form_id == 'task_closure_Form_edit':
             print('task_closure_Form_edit')
@@ -237,12 +255,14 @@ def closure_Config_view(request):
                 threshold_login_config.save()
 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'closure_logic.html', context)
+                return render(request, 'closure_success_page.html')
             except Threshold_Logic_Config.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                return render(request, 'closure_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'closure_success_page.html')
     
     return render(request,'closure_logic.html',context)
 
@@ -293,9 +313,11 @@ def TNT_Module_View(request):
                     Task = request.POST.get('task'))
                 channel_task_mapping.save()
                 messages.success(request, 'Form saved successfully')
+                return render(request, 'tnt_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)
+                return render(request, 'tnt_success_page.html')
 
 
         if form_id == 'task_trigger_mapping_Form':
@@ -308,9 +330,11 @@ def TNT_Module_View(request):
                 Trigger = request.POST.get('trigger'))
                 task_trigger_mapping.save()
                 messages.success(request, 'Form saved successfully')
+                return render(request, 'tnt_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)
+                return render(request, 'tnt_success_page.html')
 
 
         if form_id == 'trigger_on_query_logic_Form':
@@ -325,9 +349,11 @@ def TNT_Module_View(request):
                     query = request.POST.get('query'))
                 trigger_on_query_logic.save()
                 messages.success(request, 'Form saved successfully')
+                return render(request, 'tnt_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)
+                return render(request, 'tnt_success_page.html')
                 
        
         if form_id == 'channel_task_mapping_Form_edit':
@@ -347,12 +373,14 @@ def TNT_Module_View(request):
                 channel_task_mapping.save()
                 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'TNT.html', context)
+                return render(request, 'tnt_success_page.html')
             except Threshold_Logic_Config.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                return render(request, 'tnt_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'tnt_success_page.html')
                 
                    
         if form_id == 'trigger_on_query_logic_Form_edit':
@@ -361,24 +389,22 @@ def TNT_Module_View(request):
                 trigger_id = request.POST.get('trigger_id_tql')
                 print("trigger_id:", trigger_id)
                 trigger_on_query = Trigger_ON_Query.objects.get(Trigger_id =trigger_id)
-
-
                 trigger_on_query.Trigger_Description_Discussed = request.POST.get('trigger_description_discussed_tql')
                 trigger_on_query.Assignment_level = request.POST.get('assignment_level_tql')
                 trigger_on_query.Iteration_Level = request.POST.get('iteration_level_tql')
                 trigger_on_query.Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic_tql')
                 trigger_on_query.query  = request.POST.get('query_tql')
-
-
                 trigger_on_query.save()
 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'TNT.html', context)
+                return render(request, 'tnt_success_page.html')
             except Task_Trigger_Mapping.DoesNotExist:
                 messages.error(request, 'Record with Task ID {} not found'.format(task_id))
+                return render(request, 'tnt_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'tnt_success_page.html')
 
 
 
@@ -389,21 +415,20 @@ def TNT_Module_View(request):
                 task_id = request.POST.get('task_id_ttm')
                 print("task_id:", task_id)
                 task_trigger_mapping = Task_Trigger_Mapping.objects.get(Task_id=task_id)
-
-
                 task_trigger_mapping.Task_Desc = request.POST.get('task_desc_ttm')
                 task_trigger_mapping.Task_Stage = request.POST.get('task_stage_ttm')
                 task_trigger_mapping.Trigger = request.POST.get('trigger_ttm')
-
                 task_trigger_mapping.save()
 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'TNT.html', context)
+                return render(request, 'tnt_success_page.html')
             except Task_Trigger_Mapping.DoesNotExist:
                 messages.error(request, 'Record with Task ID {} not found'.format(task_id))
+                return render(request, 'tnt_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'tnt_success_page.html')
 
             
     return render(request, 'TNT.html',context)
@@ -455,9 +480,11 @@ def TOAM_Module_View(request):
                     Task_Priority =request.POST.get('task_priority') )
                 optimization_rules.save()
                 messages.success(request, 'Form saved successfully')
+                return render(request, 'toam_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)    
+                return render(request, 'toam_success_page.html')
         if form_id == 'optimization_rules_Form_edit':
             print('optimization_rules_Form_edit')
             try:
@@ -476,12 +503,14 @@ def TOAM_Module_View(request):
                 threshold_login_config.save()
 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'TOAM.html', context)
+                return render(request, 'toam_success_page.html')
             except Task_Constraint_Rules.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                return render(request, 'toam_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))        
+                messages.error(request, 'Error while updating the data: {}'.format(e))      
+                return render(request, 'toam_success_page.html')  
             
         if form_id == 'allocation_parameters_Form':
             print('allocation_parameters_Form') 
@@ -500,9 +529,11 @@ def TOAM_Module_View(request):
                     PricePoint_Reward=request.POST.get('price_point_reward'))
                 allocation_parameters.save()
                 messages.success(request, 'Form saved successfully')
+                return render(request, 'toam_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e) 
+                return render(request, 'toam_success_page.html')
             
         if form_id == 'allocation_parameters_Form_edit':
             print('allocation_parameters_Form_edit') 
@@ -526,12 +557,15 @@ def TOAM_Module_View(request):
                 threshold_login_config.save()
 
                 messages.success(request, 'Form updated successfully')
+                return render(request, 'toam_success_page.html')
                 return render(request, 'TOAM.html', context)
             except Task_Constraint_Rules.DoesNotExist:
                 messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                return render(request, 'toam_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))               
+                messages.error(request, 'Error while updating the data: {}'.format(e))     
+                return render(request, 'toam_success_page.html')          
                 
                 
                  
@@ -547,9 +581,11 @@ def TOAM_Module_View(request):
                     Default_Tasks = request.POST.get('default_tasks'))
                 microsegment_default_tasks.save()
                 messages.success(request, 'Product Mix Focus saved successfully')
+                return render(request, 'toam_success_page.html')
             except Exception as e:
                 print('Error while saving the data ', e)
-                messages.error(request, 'Error while saving the data: {}'.format(str(e)))   
+                messages.error(request, 'Error while saving the data: {}'.format(str(e)))  
+                return render(request, 'toam_success_page.html') 
 
 
         if form_id == 'microsegment_default_tasks_Form_edit':
@@ -569,12 +605,14 @@ def TOAM_Module_View(request):
                 microsegment_default_tasks.save()
 
                 messages.success(request, 'Form updated successfully')
-                return render(request, 'TOAM.html', context)
+                return render(request, 'toam_success_page.html')
             except Microsegment_Default_Tasks.DoesNotExist:
                 messages.error(request, 'Record with Segment ID {} not found'.format(id))
+                return render(request, 'toam_success_page.html')
             except Exception as e:
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'toam_success_page.html')
 
 
                         
