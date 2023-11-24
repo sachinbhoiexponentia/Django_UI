@@ -246,6 +246,86 @@ def task_trigger_mapping_delete_data_by_id(request, task_id):
 
 
 
+############################# closure edit and delete ##########################
+class Task_Closure_ConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task_Closure_Config
+        fields = '__all__'
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def task_closure_detail_view(request, pk):
+    try:
+        instance = Task_Closure_Config.objects.get(pk=pk)
+    except Task_Closure_Config.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Task_Closure_ConfigSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def task_closure_delete_by_id(request, row_id):
+    try:
+        print(row_id)
+        instance = Task_Closure_Config.objects.get(pk=row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+###############################################################################################
+
+
+
+
+
+############################# Allocation_Parameters_DataSerializer edit and delete ##########################
+class Allocation_Parameters_DataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Allocation_Parameters
+        fields = '__all__'
+
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def allocation_parameters_detail_view(request, pk):
+    try:
+        instance = Allocation_Parameters.objects.get(pk=pk)
+    except Allocation_Parameters.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Allocation_Parameters_DataSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def allocation_parameters_delete_by_id(request, row_id):
+    try:
+        # Assuming YourModel has a primary key named 'id'
+        print(row_id)
+        instance = Allocation_Parameters.objects.get(pk = row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+##############################################################################################
+
+
+
+
+
+
+
+
+
 
 ############################# Microsegment_Default_Tasks edit and delete ##########################
 class Microsegment_Default_TasksSerializer(serializers.ModelSerializer):
@@ -303,6 +383,39 @@ def microsegment_default_tasks_delete_data_by_id(request, mdt_pk_id):
 #         serializer = Threshold_Login_ConfigSerializer(instance)
 #         return Response(serializer.data)
 
+class Task_Constraint_Rules_DataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task_Constraint_Rules
+        fields = '__all__'
+
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def task_constraint_rules_detail_view(request, pk):
+    try:
+        instance = Task_Constraint_Rules.objects.get(pk=pk)
+    except Task_Constraint_Rules.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Task_Constraint_Rules_DataSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def task_constraint_rules_delete_by_id(request, row_id):
+    try:
+        # Assuming YourModel has a primary key named 'id'
+        print(row_id)
+        instance = Task_Constraint_Rules.objects.get(Task_No = row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+    
 
 # ##################insert the config data into the model###################
 # def insert_config_data(df):
