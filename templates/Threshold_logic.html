@@ -1312,7 +1312,7 @@
       <div id="Default_Channel_Trigg_thres_visible" class="tabcontent">
         <div class="button1-container">
           <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
-            data-target="#myModal4"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
+            data-target="#Default_Channel_Trigg_thres"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
           <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
         </div>
@@ -1394,7 +1394,7 @@
 
 
                   <button type="button" id="validateButton_fls_avg_thres" class="btn btn-info btn-lg submit_validate"
-                    data-toggle="modal" {% comment %} data-target="#myModal8" {% endcomment %}>Validate</button>
+                    data-toggle="modal" data-target="#myModal8" >Validate</button>
 
                 </form>
 
@@ -1460,9 +1460,29 @@
             </div>
           </div>
         </div>
+       
       </div>
 
+      <div id="myModal8" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
 
+          
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal"
+                style="border: 1px; height: 5px;">&times;</button>
+
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Do you want to add new channel?</p>
+              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
 
 
 

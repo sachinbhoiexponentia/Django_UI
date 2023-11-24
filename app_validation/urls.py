@@ -11,5 +11,5 @@ urlpatterns = [
     path('api/Channel_Task_Mapping_delete/<int:row_id>/', channel_task_mapping_delete_data_by_id, name='delete_data_by_id'),
     path('api/Default_Channel_Trigg_thres_data/<int:pk>/', Default_Channel_Trigg_thres_view, name='get_by_id'),
     path('api/Default_Channel_Trigg_thres_delete/<int:row_id>/', Default_Channel_Trigg_thres_delete_data_by_id, name='delete_data_by_id'),
-    path('upload/<sheet_name>/', upload_to_s3, name='upload_to_s3'),
+    path('upload/<sheet_name>/', upload_to_s3, name='upload_to_s3')
 ]
