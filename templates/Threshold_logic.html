@@ -673,10 +673,10 @@
           Config</button>
         <button class="tablinks" onclick="openCity(event, 'Trigger_Threhold_by_Business_visible')">Trigg Thres by
           Business</button>
-        <button class="tablinks" onclick="openCity(event, 'Segment_thres1_output_visible')">Segment thres1
-          output</button>
-        <button class="tablinks" onclick="openCity(event, 'FLS_Avg_thresh2_output_visible')">FLS Avg thres2
-          output</button>
+        <!-- <button class="tablinks" onclick="openCity(event, 'Segment_thres1_output_visible')">Segment thres1
+          output</button> -->
+        <button class="tablinks" onclick="openCity(event, 'Default_Channel_Trigg_thres_visible')">Default Channel Trigg
+          thres</button>
 
       </div>
       <br><br>
@@ -817,13 +817,13 @@
             </div>
           </div>
         </div>
-        
+
         <div id="modal_threshold_logic_config_edit" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title">Edit</h1>
+                <h1 class="modal-title">Edit </h1>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
               </div>
@@ -903,6 +903,250 @@
             </div>
           </div>
         </div>
+      </div>
+
+
+
+      <div id="submit_threshold_logic_config" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Do you want to add a new channel?</p>
+              <button type="button" id="submit_button__threshold_logic_config"
+                style="background-color:#736CEB; color: white;">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+      <div id="Trigger_Threhold_by_Business_visible" class="tabcontent">
+        <div class="button1-container">
+          <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
+            data-target="#modal_trigger_threshold_business"><span><img src="{% static 'add.png' %}"
+                class="me-1"></span>Add New</button>
+          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
+          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+        </div>
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                {% for header in Trigg_Thres_By_Business_headers %}
+                <th>{{ header }}</th>
+                {% endfor %}
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in Trigg_Thres_By_Business_data %}
+              <tr>
+                {% for value in row %}
+                <td>
+                  {{value}}
+                </td>
+                {% endfor %}
+                <td>
+                  <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TTB({{ row.0 }})" data-toggle="modal"
+                    data-target="#modal_trigger_threshold_business_edit" style="color: black;"></i>
+                  <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TTB({{ row.0 }})"
+                    data-toggle="modal" data-target="#myModal_delete_TTB" style="color: black;"></i>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+        <div id="modal_trigger_threshold_business" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">Add New</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <form id="Trigger_Threhold_by_Business_Form" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" id="Trigger_Threhold_by_Business_Form" name="form_identifier"
+                    value="Trigger_Threhold_by_Business_Form" />
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="channel" class="label1_">Channel</label><br>
+                      <input class="first" name="channel" id="channel" type="text" placeholder="Channel" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="subchannel" class="label">Subchannel</label><br>
+                      <input class="last" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label><br>
+                      <input class="first1" name="channel_subchannel_id" id="channel_subchannel_id" type="text"
+                        placeholder="Channel_Subchannel_ID" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="demoseg" class="label_">DemoSeg</label><br>
+                      <input class="last1" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="valueseg" class="label2_">ValueSeg</label><br>
+                      <input class="first2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="demoseg_valueseg_id" class="label_last">DemoSeg_ValueSeg_ID</label><br>
+                      <input class="last2" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text"
+                        placeholder="DemoSeg_ValueSeg_ID" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="trigger_id" class="label3_">Trigger_id</label><br>
+                      <input class="first3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
+                    </div>
+
+                    <div class="form-group_clo">
+                      <label for="trigg_description" class="label3_last">Trigg_Description</label><br>
+                      <input class="last3" name="trigg_description" id="trigg_description" type="text"
+                        placeholder="Trigg_Description" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="segment_threshold_1" class="label1">Segment_Threshold_1_</label><br>
+                      <input class="first" name="segment_threshold_1" id="segment_threshold_1" type="text"
+                        placeholder="Segment_Threshold_1_" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="flavg_threshold" class="label1">FLSAvg_Threshold</label><br>
+                      <input class="first" name="flavg_threshold" id="flavg_threshold" type="text"
+                        placeholder="FLSAvg_Threshold_" />
+                    </div>
+                  </div>
+
+                  <button type="button" id="validateButton_trigger_threshold_business"
+                    class="btn btn-info btn-lg submit_validate" data-toggle="modal" {% comment %}
+                    data-target="#submit_trigger_threshold_business" {% endcomment %} {% comment %}
+                    data-form-id="Trigger_Threhold_by_Business_Form" {% endcomment %}>Validate</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="modal_trigger_threshold_business_edit" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">Add New</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <form id="Trigger_Threhold_by_Business_Form_edit" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" id="Trigger_Threhold_by_Business_Form_edit" name="form_identifier"
+                    value="Trigger_Threhold_by_Business_Form_edit" />
+                  <input type="hidden" id="Trigger_Threhold_by_Business_Form_id"
+                    name="Trigger_Threhold_by_Business_Form_id" value="Trigger_Threhold_by_Business_Form_id" />
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="channel_Trigger_Threhold_by_Business_Form_edit" class="label1_">Channel</label><br>
+                      <input class="first" name="channel_Trigger_Threhold_by_Business_Form_edit"
+                        id="channel_Trigger_Threhold_by_Business_Form_edit" type="text" placeholder="Channel" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="subchannel_Trigger_Threhold_by_Business_Form_edit"
+                        class="label">Subchannel</label><br>
+                      <input class="last" name="subchannel_Trigger_Threhold_by_Business_Form_edit"
+                        id="subchannel_Trigger_Threhold_by_Business_Form_edit" type="text" placeholder="Subchannel" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="channel_subchannel_id_Trigger_Threhold_by_Business_Form_edit"
+                        class="label1_">Channel_Subchannel_ID</label><br>
+                      <input class="first1" name="channel_subchannel_id_Trigger_Threhold_by_Business_Form_edit"
+                        id="channel_subchannel_id_Trigger_Threhold_by_Business_Form_edit" type="text"
+                        placeholder="Channel_Subchannel_ID" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="demoseg_Trigger_Threhold_by_Business_Form_edit" class="label_">DemoSeg</label><br>
+                      <input class="last1" name="demoseg_Trigger_Threhold_by_Business_Form_edit"
+                        id="demoseg_Trigger_Threhold_by_Business_Form_edit" type="text" placeholder="DemoSeg" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="valueseg_Trigger_Threhold_by_Business_Form_edit" class="label2_">ValueSeg</label><br>
+                      <input class="first2" name="valueseg_Trigger_Threhold_by_Business_Form_edit"
+                        id="valueseg_Trigger_Threhold_by_Business_Form_edit" type="text" placeholder="ValueSeg" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="demoseg_valueseg_id_Trigger_Threhold_by_Business_Form_edit"
+                        class="label_last">DemoSeg_ValueSeg_ID</label><br>
+                      <input class="last2" name="demoseg_valueseg_id_Trigger_Threhold_by_Business_Form_edit"
+                        id="demoseg_valueseg_id_Trigger_Threhold_by_Business_Form_edit" type="text"
+                        placeholder="DemoSeg_ValueSeg_ID" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="trigger_id_Trigger_Threhold_by_Business_Form_edit"
+                        class="label3_">Trigger_id</label><br>
+                      <input class="first3" name="trigger_id_Trigger_Threhold_by_Business_Form_edit"
+                        id="trigger_id_Trigger_Threhold_by_Business_Form_edit" type="text" placeholder="Trigger_id" />
+                    </div>
+
+                    <div class="form-group_clo">
+                      <label for="trigg_description_Trigger_Threhold_by_Business_Form_edit"
+                        class="label3_last">Trigg_Description</label><br>
+                      <input class="last3" name="trigg_description_Trigger_Threhold_by_Business_Form_edit"
+                        id="trigg_description_Trigger_Threhold_by_Business_Form_edit" type="text"
+                        placeholder="Trigg_Description" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="segment_threshold_1_Trigger_Threhold_by_Business_Form_edit"
+                        class="label1">Segment_Threshold_1_</label><br>
+                      <input class="first" name="segment_threshold_1_Trigger_Threhold_by_Business_Form_edit"
+                        id="segment_threshold_1_Trigger_Threhold_by_Business_Form_edit" type="text"
+                        placeholder="Segment_Threshold_1_" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="flavg_threshold_Trigger_Threhold_by_Business_Form_edit"
+                        class="label1">FLSAvg_Threshold</label><br>
+                      <input class="first" name="flavg_threshold_Trigger_Threhold_by_Business_Form_edit"
+                        id="flavg_threshold_Trigger_Threhold_by_Business_Form_edit" type="text"
+                        placeholder="FLSAvg_Threshold_" />
+                    </div>
+                  </div>
+
+                  <button type="submit" id="validateButton_trigger_threshold_business"
+                    class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    data-form-id="Trigger_Threhold_by_Business_Form">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -910,244 +1154,67 @@
           <div class="modal-dialog modal-md">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                <h1 class="modal-title">Add New</h1>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <div class="modal-body">
-                <p style="color: black;">Do you want to add a new channel?</p>
-                <button type="button" id="submit_button__threshold_logic_config"
-                  style="background-color:#736CEB; color: white;">Submit</button>
+                <form id="segment_threshold_Form" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" id="segment_threshold_Form" name="form_identifier"
+                    value="segment_threshold_Form" />
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="channel" class="label1">Channel</label><br>
+                      <input class="first" id="channel" name="channel" type="text" placeholder="Channel" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="subchannel" class="label">Subchannel</label><br>
+                      <input class="last" id="subchannel" name="subchannel" type="text" placeholder="SubChannel" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label><br>
+                      <input class="first1" id="channel_subchannel_id" name="channel_subchannel_id" type="text"
+                        placeholder="Channel_Subchannel_ID" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="demoseg" class="label_">DemoSeg</label><br>
+                      <input class="last1" id="demoseg" name="demoseg" type="text" placeholder="DemoSeg" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="valueseg" class="label2_">ValueSeg</label><br>
+                      <input class="first2" id="valueseg" name="valueseg" type="text" placeholder="ValueSeg" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="demoseg_valueseg_id" class="label2_">DemoSeg_ValueSeg_ID</label><br>
+                      <input class="first2" id="demoseg_valueseg_id" name="demoseg_valueseg_id" type="text"
+                        placeholder="DemoSeg_ValueSeg_ID" />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group_clo">
+                      <label for="trigger_id" class="label2_">Trigger_id</label><br>
+                      <input class="first2" id="trigger_id" name="trigger_id" type="text" placeholder="Trigger_id" />
+                    </div>
+                    <div class="form-group_clo">
+                      <label for="segment_threshold" class="label2_">Segment_Threshold</label><br>
+                      <input class="first2" id="segment_threshold" name="segment_threshold" type="text"
+                        placeholder="Segment_Threshold" />
+                    </div>
+                  </div>
+                  <button type="button" id="validateButton_segment_threshold"
+                    class="btn btn-info btn-lg submit_validate" data-toggle="modal" {% comment %}
+                    data-target="#myModal7" {% endcomment %}>Validate</button>
+                </form>
               </div>
             </div>
           </div>
-        </div>
-
-
-
-
-
-
-
-
-        <div id="Trigger_Threhold_by_Business_visible" class="tabcontent">
-          <div class="button1-container">
-            <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
-              data-target="#modal_trigger_threshold_business"><span><img src="{% static 'add.png' %}"
-                  class="me-1"></span>Add New</button>
-            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}"
-                  class="me-1">Download</button>
-            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
-          </div>
-          <div class="table-container">
-            <table class="custom-table">
-              <thead>
-                <tr>
-                  {% for header in Trigg_Thres_By_Business_headers %}
-                  <th>{{ header }}</th>
-                  {% endfor %}
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for row in Trigg_Thres_By_Business_data %}
-                <tr>
-                  {% for value in row %}
-                  <td>
-                    {{value}}
-                  </td>
-                  {% endfor %}
-                  <td>
-                    <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#modal_trigger_threshold_business_edit"
-                      style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal2_delete"
-                      style="color: black;"></i>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div id="modal_trigger_threshold_business" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title">Add New</h1>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <form id="Trigger_Threhold_by_Business_Form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="Trigger_Threhold_by_Business_Form" name="form_identifier"
-                      value="Trigger_Threhold_by_Business_Form" />
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel" class="label1_">Channel</label><br>
-                        <input class="first" name="channel" id="channel" type="text" placeholder="Channel" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="subchannel" class="label">Subchannel</label><br>
-                        <input class="last" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label><br>
-                        <input class="first1" name="channel_subchannel_id" id="channel_subchannel_id" type="text"
-                          placeholder="Channel_Subchannel_ID" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg" class="label_">DemoSeg</label><br>
-                        <input class="last1" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="valueseg" class="label2_">ValueSeg</label><br>
-                        <input class="first2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg_valueseg_id" class="label_last">DemoSeg_ValueSeg_ID</label><br>
-                        <input class="last2" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text"
-                          placeholder="DemoSeg_ValueSeg_ID" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="trigger_id" class="label3_">Trigger_id</label><br>
-                        <input class="first3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
-                      </div>
-
-                      <div class="form-group_clo">
-                        <label for="trigg_description" class="label3_last">Trigg_Description</label><br>
-                        <input class="last3" name="trigg_description" id="trigg_description" type="text"
-                          placeholder="Trigg_Description" />
-                      </div>
-                    </div>
-
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="segment_threshold_1" class="label1">Segment_Threshold_1_</label><br>
-                        <input class="first" name="segment_threshold_1" id="segment_threshold_1" type="text"
-                          placeholder="Segment_Threshold_1_" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="flavg_threshold" class="label1">FLSAvg_Threshold</label><br>
-                        <input class="first" name="flavg_threshold" id="flavg_threshold" type="text"
-                          placeholder="FLSAvg_Threshold_" />
-                      </div>
-                    </div>
-
-                    <button type="button" id="validateButton_trigger_threshold_business"
-                      class="btn btn-info btn-lg submit_validate" data-toggle="modal" {% comment %}
-                      data-target="#submit_trigger_threshold_business" {% endcomment %} {% comment %}
-                      data-form-id="Trigger_Threhold_by_Business_Form" {% endcomment %}>Validate</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="modal_trigger_threshold_business_edit" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title">Add New</h1>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <form id="Trigger_Threhold_by_Business_Form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="Trigger_Threhold_by_Business_Form" name="form_identifier"
-                      value="Trigger_Threhold_by_Business_Form" />
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel" class="label1_">Channel</label><br>
-                        <input class="first" name="channel" id="channel" type="text" placeholder="Channel" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="subchannel" class="label">Subchannel</label><br>
-                        <input class="last" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label><br>
-                        <input class="first1" name="channel_subchannel_id" id="channel_subchannel_id" type="text"
-                          placeholder="Channel_Subchannel_ID" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg" class="label_">DemoSeg</label><br>
-                        <input class="last1" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="valueseg" class="label2_">ValueSeg</label><br>
-                        <input class="first2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg_valueseg_id" class="label_last">DemoSeg_ValueSeg_ID</label><br>
-                        <input class="last2" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text"
-                          placeholder="DemoSeg_ValueSeg_ID" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="trigger_id" class="label3_">Trigger_id</label><br>
-                        <input class="first3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
-                      </div>
-
-                      <div class="form-group_clo">
-                        <label for="trigg_description" class="label3_last">Trigg_Description</label><br>
-                        <input class="last3" name="trigg_description" id="trigg_description" type="text"
-                          placeholder="Trigg_Description" />
-                      </div>
-                    </div>
-
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="segment_threshold_1" class="label1">Segment_Threshold_1_</label><br>
-                        <input class="first" name="segment_threshold_1" id="segment_threshold_1" type="text"
-                          placeholder="Segment_Threshold_1_" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="flavg_threshold" class="label1">FLSAvg_Threshold</label><br>
-                        <input class="first" name="flavg_threshold" id="flavg_threshold" type="text"
-                          placeholder="FLSAvg_Threshold_" />
-                      </div>
-                    </div>
-
-                    <button type="button" id="validateButton_trigger_threshold_business"
-                      class="btn btn-info btn-lg submit_validate" data-toggle="modal" {% comment %}
-                      data-target="#submit_trigger_threshold_business" {% endcomment %} {% comment %}
-                      data-form-id="Trigger_Threhold_by_Business_Form" {% endcomment %}>Validate</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <!-- <div id="myModal2_delete" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-md">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                <button type="button" class="close" data-dismiss="modal"
-                  style="border: 1px; height: 5px;">&times;</button>
-
-              </div>
-              <div class="modal-body">
-                <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
-              </div>
-
-            </div>
-          </div>
-        </div> -->
         </div>
         <div id="submit_trigger_threshold_business" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
@@ -1167,366 +1234,270 @@
 
           </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div id="Segment_thres1_output_visible" class="tabcontent">
-          <div class="button1-container">
-            <button class="button-with-image blueBorder ms-auto" id="formButton3" data-toggle="modal"
-              data-target="#myModal3"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}"
-                  class="me-1">Download</button>
-            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+        <div id="myModal3_delete" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
+                <button type="button" class="close" data-dismiss="modal"
+                  style="border: 1px; height: 5px;">&times;</button>
+              </div>
+              <div class="modal-body">
+                <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
+                <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
+              </div>
+            </div>
           </div>
-          <div class="table-container">
-            <table class="custom-table">
-              <thead>
-                <tr>
-                  {% for header in Segment_Threshold_Output_headers %}
-                  <th>{{ header }}</th>
-                  {% endfor %}
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for row in Segment_Threshold_Output_data %}
-                <tr>
-                  {% for value in row %}
-                  <td>
-                    {{value}}
-                  </td>
-                  {% endfor %}
-                  <td>
-                    <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
-                      style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                      style="color: black;"></i>
-                  </td>
-                </tr>
+        </div>
+      </div>
+
+      <div id="submit_segment_threshold_view" class="modal fade" style role="dialog">
+        <div class="modal-dialog modal-md">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal"
+                style="border: 1px; height: 5px;">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Do you want to add new channel?</p>
+              <button type="button" id="submit_segment_threshold"
+                style="background-color:#736CEB; color: white;">Submit3</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div id="myModal7" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal"
+                style="border: 1px; height: 5px;">&times;</button>
+
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Do you want to add new channel?</p>
+              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+      <div id="Default_Channel_Trigg_thres_visible" class="tabcontent">
+        <div class="button1-container">
+          <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
+            data-target="#Default_Channel_Trigg_thres"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
+          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
+          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+        </div>
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                {% for header in Default_Channel_Trigg_thres_headers %}
+                <th>{{ header }}</th>
                 {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div id="myModal3" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title">Add New</h1>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <form id="segment_threshold_Form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="segment_threshold_Form" name="form_identifier"
-                      value="segment_threshold_Form" />
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel" class="label1">Channel</label><br>
-                        <input class="first" id="channel" name="channel" type="text" placeholder="Channel" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="subchannel" class="label">Subchannel</label><br>
-                        <input class="last" id="subchannel" name="subchannel" type="text" placeholder="SubChannel" />
-                      </div>
-                    </div>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in Default_Channel_Trigg_thres_data %}
+              <tr>
+                {% for value in row %}
+                <td>
+                  {{value}}
+                </td>
 
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="channel_subchannel_id" class="label1_">Channel_Subchannel_ID</label><br>
-                        <input class="first1" id="channel_subchannel_id" name="channel_subchannel_id" type="text"
-                          placeholder="Channel_Subchannel_ID" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg" class="label_">DemoSeg</label><br>
-                        <input class="last1" id="demoseg" name="demoseg" type="text" placeholder="DemoSeg" />
-                      </div>
-                    </div>
-
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="valueseg" class="label2_">ValueSeg</label><br>
-                        <input class="first2" id="valueseg" name="valueseg" type="text" placeholder="ValueSeg" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="demoseg_valueseg_id" class="label2_">DemoSeg_ValueSeg_ID</label><br>
-                        <input class="first2" id="demoseg_valueseg_id" name="demoseg_valueseg_id" type="text"
-                          placeholder="DemoSeg_ValueSeg_ID" />
-                      </div>
-                    </div>
-
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="trigger_id" class="label2_">Trigger_id</label><br>
-                        <input class="first2" id="trigger_id" name="trigger_id" type="text" placeholder="Trigger_id" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="segment_threshold" class="label2_">Segment_Threshold</label><br>
-                        <input class="first2" id="segment_threshold" name="segment_threshold" type="text"
-                          placeholder="Segment_Threshold" />
-                      </div>
-                    </div>
-                    <button type="button" id="validateButton_segment_threshold"
-                      class="btn btn-info btn-lg submit_validate" data-toggle="modal" {% comment %}
-                      data-target="#myModal7" {% endcomment %}>Validate</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="myModal3_delete" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-md">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                  <button type="button" class="close" data-dismiss="modal"
-                    style="border: 1px; height: 5px;">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="submit_segment_threshold_view" class="modal fade" style role="dialog">
-          <div class="modal-dialog modal-md">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-                <button type="button" class="close" data-dismiss="modal"
-                  style="border: 1px; height: 5px;">&times;</button>
-              </div>
-              <div class="modal-body">
-                <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_segment_threshold"
-                  style="background-color:#736CEB; color: white;">Submit3</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div id="myModal7" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-md">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-                <button type="button" class="close" data-dismiss="modal"
-                  style="border: 1px; height: 5px;">&times;</button>
-
-              </div>
-              <div class="modal-body">
-                <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit</button>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-
-        <div id="FLS_Avg_thresh2_output_visible" class="tabcontent">
-          <div class="button1-container">
-            <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
-              data-target="#myModal4"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}"
-                  class="me-1">Download</button>
-            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
-          </div>
-          <div class="table-container">
-            <table class="custom-table">
-              <thead>
-                <tr>
-                  {% for header in FLS_Avg_Threshold_Output_headers %}
-                  <th>{{ header }}</th>
-                  {% endfor %}
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for row in FLS_Avg_Threshold_Output_data %}
-                <tr>
-                  {% for value in row %}
-                  <td>
-                    {{value}}
-                  </td>
-
-                  {% endfor %}
-                  <td>
-                    <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
-                      style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                      style="color: black;"></i>
-                  </td>
-                </tr>
                 {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div id="myModal4" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title">Add New</h1>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <form id="fls_avgthres_Form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="fls_avgthres_Form" name="form_identifier" value="fls_avgthres_Form" />
-                    <div class="form-row">
-                      <div class="form-group_fls">
-                        <label for="fls_id" class="label1">FLS_id</label><br>
-                        <input class="first" name="fls_id" id="fls_id" type="text" placeholder="FLS_id" />
-                      </div>
-                      <div class="form-group_fls">
-                        <label for="channel" class="label">Channel</label><br>
-                        <input class="last" name="channel" id="channel" type="text" placeholder="Channel" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_fls">
-                        <label for="subchannel" class="label1_">Subchannel</label><br>
-                        <input class="first1" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
-                      </div>
-                      <div class="form-group_fls">
-                        <label for="channel_subchannel_id" class="label_">Channel_Subchannel_ID</label><br>
-                        <input class="last1" name="channel_subchannel_id" id="channel_subchannel_id" type="text"
-                          placeholder="Channel_Subchannel_ID" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_fls">
-                        <label for="demoseg" class="label2_">DemoSeg</label><br>
-                        <input class="first2" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
-                      </div>
-                      <div class="form-group_fls">
-                        <label for="valueseg" class="label_last">ValueSeg</label><br>
-                        <input class="last2" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_fls">
-                        <label for="demoseg_valueseg_id" class="label3_">DemoSeg_ValueSeg_ID</label><br>
-                        <input class="first3" name="demoseg_valueseg_id" id="demoseg_valueseg_id" type="text"
-                          placeholder="DemoSeg_ValueSeg_ID" />
-                      </div>
-                      <div class="form-group_fls">
-                        <label for="trigger_id" class="label3_last">Trigger_id</label><br>
-                        <input class="last3" name="trigger_id" id="trigger_id" type="text" placeholder="Trigger_id" />
-                      </div>
-                    </div>
-
-                    <div class="form-row">
-                      <div class="form-group_fls">
-                        <label for="flsavg_threshold_2" class="label1">FLSAvg_Threshold_2</label><br>
-                        <input class="first" name="flsavg_threshold_2" id="flsavg_threshold_2" type="text"
-                          placeholder="FLSAvg_Threshold_2" />
-                      </div>
-                    </div>
-
-                    <button type="button" id="validateButton_fls_avg_thres" class="btn btn-info btn-lg submit_validate"
-                      data-toggle="modal" {% comment %} data-target="#myModal8" {% endcomment %}>Validate</button>
-
-                  </form>
-
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <div id="myModal4_delete" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-md">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                  <button type="button" class="close" data-dismiss="modal"
-                    style="border: 1px; height: 5px;">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
-                </div>
-
-              </div>
-            </div>
-          </div>
+                <td>
+                  <i class="fas fa-edit" id="editButton3" data-toggle="modal"
+                    data-target="#Default_Channel_Trigg_thres_edit" onclick="getSourceData_DCTt({{ row.0 }})"
+                    style="color: black;"></i>
+                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete" onclick="DeleteSourceData_DCTt({{ row.0 }})"
+                    style="color: black;"></i>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-        <div id="submit_fls_avg_threshold_view" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-md">
-
+        <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+        <div id="Default_Channel_Trigg_thres" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-                <button type="button" class="close" data-dismiss="modal"
-                  style="border: 1px; height: 5px;">&times;</button>
+                <h1 class="modal-title">Add New</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
 
               </div>
               <div class="modal-body">
-                <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_fls_avgthresh"
-                  style="background-color:#736CEB; color: white;">Submit4</button>
+                <form id="Default_Channel_Trigg_thres_Form" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" id="Default_Channel_Trigg_thres_Form" name="form_identifier"
+                    value="Default_Channel_Trigg_thres_Form" />
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="Channel" class="label1">Channel</label><br>
+                      <input class="first" name="Channel" id="Channel" type="text" placeholder="Channel" />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="Trigger_id" class="label">Trigger_id</label><br>
+                      <input class="last" name="Trigger_id" id="Trigger_id" type="text" placeholder="Trigger_id" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="Trigg_Desc" class="label1_">Trigg_Desc </label><br>
+                      <input class="first1" name="Trigg_Desc" id="Trigg_Desc" type="text" placeholder="Trigg_Desc " />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="Segment_Threshold_1" class="label_">Segment_Threshold_1</label><br>
+                      <input class="last1" name="Segment_Threshold_1" id="Segment_Threshold_1" type="text"
+                        placeholder="Segment_Threshold_1" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="FLSAvg_Threshold_2" class="label2_">FLSAvg_Threshold_2</label><br>
+                      <input class="first2" name="FLSAvg_Threshold_2" id="FLSAvg_Threshold_2" type="text"
+                        placeholder="FLSAvg_Threshold_2" />
+                    </div>
+                  </div>
+
+
+
+                  <button type="button" id="validateButton_fls_avg_thres" class="btn btn-info btn-lg submit_validate"
+                    data-toggle="modal" data-target="#myModal8" >Validate</button>
+
+                </form>
+
               </div>
 
             </div>
           </div>
         </div>
-     </div>
+        <div id="Default_Channel_Trigg_thres_edit" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title">Add New</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+              </div>
+              <div class="modal-body">
+                <form id="Default_Channel_Trigg_thres_Form_Edit" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" id="Default_Channel_Trigg_thres_Form_Edit" name="form_identifier"
+                    value="Default_Channel_Trigg_thres_Form_Edit" />
+                  <input type="hidden" id="Default_Channel_Trigg_thres_Form_id"
+                    name="Default_Channel_Trigg_thres_Form_id" value="Default_Channel_Trigg_thres_Form_id" />
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="Channel_edit" class="label1">Channel</label><br>
+                      <input class="first" name="Channel_edit" id="Channel_edit" type="text" placeholder="Channel" />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="Trigger_id_edit" class="label">Trigger_id</label><br>
+                      <input class="last" name="Trigger_id_edit" id="Trigger_id_edit" type="text" placeholder="Trigger_id" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="Trigg_Desc_edit" class="label1_">Trigg_Desc </label><br>
+                      <input class="first1" name="Trigg_Desc_edit" id="Trigg_Desc_edit" type="text" placeholder="Trigg_Desc " />
+                    </div>
+                    <div class="form-group_fls">
+                      <label for="Segment_Threshold_1_edit" class="label_">Segment_Threshold_1</label><br>
+                      <input class="last1" name="Segment_Threshold_1_edit" id="Segment_Threshold_1_edit" type="text"
+                        placeholder="Segment_Threshold_1" />
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group_fls">
+                      <label for="FLSAvg_Threshold_2_edit" class="label2_">FLSAvg_Threshold_2</label><br>
+                      <input class="first2" name="FLSAvg_Threshold_2_edit" id="FLSAvg_Threshold_2_edit" type="text"
+                        placeholder="FLSAvg_Threshold_2" />
+                    </div>
+                  </div>
+
+
+
+                  <button type="submit" id="validateButton_fls_avg_thres" class="btn btn-info btn-lg submit_validate"
+                    data-toggle="modal" {% comment %} data-target="#myModal8" {% endcomment %}>Submit</button>
+
+                </form>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+       
+      </div>
+
+      <div id="myModal8" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+
+          
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal"
+                style="border: 1px; height: 5px;">&times;</button>
+
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Do you want to add new channel?</p>
+              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+
     </div>
+
+    <!-- <div class="button2-container">
+  <button class="button-image">Validate</button>
+</div>  -->
+
+
+    <div>
+    </div>
+
+
+
+  </div>
   </div>
 
 
@@ -1873,6 +1844,122 @@
             // Show successDiv on successful deletion
             alert(`Row ${row_id} deleted successfully`);
             $('#myModal_delete_TLC').modal('show');
+            return response.json();
+          }
+        })
+        .catch(error => {
+          // Handle other errors
+          console.error('Error deleting data:', error);
+          // Show errorDiv on other errors
+          document.getElementById('errorDiv').style.display = 'block';
+        });
+    }
+
+
+    function DeleteSourceData_TTB(row_id) {
+      fetch(`api/Trigg_Thres_By_Business_delete/${row_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 404) {
+              // Show errorDiv if object not found
+              document.getElementById('errorDiv').style.display = 'block';
+            } else {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+          } else {
+            // Show successDiv on successful deletion
+            alert(`Row ${row_id} deleted successfully`);
+            $('#myModal_delete_TTB').modal('show');
+            return response.json();
+          }
+        })
+        .catch(error => {
+          // Handle other errors
+          console.error('Error deleting data:', error);
+          // Show errorDiv on other errors
+          document.getElementById('errorDiv').style.display = 'block';
+        });
+    }
+
+    function getSourceData_TTB(rowId) {
+
+      $(document).ready(function () {
+        var apiUrl = `api/Trigg_Thres_By_Business_view/${rowId}`;
+        $.ajax({
+          url: apiUrl,
+          type: 'GET',
+          dataType: 'json',
+          success: function (data) {
+            console.log(data);
+
+            document.getElementById("Trigger_Threhold_by_Business_Form_id").value = rowId
+            document.getElementById("channel_Trigger_Threhold_by_Business_Form_edit").value = data.Channel
+            document.getElementById("subchannel_Trigger_Threhold_by_Business_Form_edit").value = data.Subchannel
+            document.getElementById("channel_subchannel_id_Trigger_Threhold_by_Business_Form_edit").value = data.Channel_Subchannel_ID
+            document.getElementById("demoseg_Trigger_Threhold_by_Business_Form_edit").value = data.DemoSeg
+            document.getElementById("valueseg_Trigger_Threhold_by_Business_Form_edit").value = data.ValueSeg
+            document.getElementById("demoseg_valueseg_id_Trigger_Threhold_by_Business_Form_edit").value = data.DemoSeg_ValueSeg_ID
+            document.getElementById("trigger_id_Trigger_Threhold_by_Business_Form_edit").value = data.Trigger_id
+            document.getElementById("trigg_description_Trigger_Threhold_by_Business_Form_edit").value = data.Trigg_Desc
+            document.getElementById("segment_threshold_1_Trigger_Threhold_by_Business_Form_edit").value = data.Segment_Threshold
+            document.getElementById("flavg_threshold_Trigger_Threhold_by_Business_Form_edit").value = data.FLSAvg_Threshold
+
+          }
+        });
+      });
+
+    }
+
+
+
+    function getSourceData_DCTt(rowId) {
+
+      $(document).ready(function () {
+        var apiUrl = `api/Default_Channel_Trigg_thres_data/${rowId}`;
+        $.ajax({
+          url: apiUrl,
+          type: 'GET',
+          dataType: 'json',
+          success: function (data) {
+            console.log(data);
+
+            document.getElementById("Default_Channel_Trigg_thres_Form_id").value = rowId
+            document.getElementById("Channel_edit").value = data.Channel
+            document.getElementById("Trigger_id_edit").value = data.Trigger_id
+            document.getElementById("Trigg_Desc_edit").value = data.Trigg_Desc
+            document.getElementById("Segment_Threshold_1_edit").value = data.Segment_Threshold_1
+            document.getElementById("FLSAvg_Threshold_2_edit").value = data.FLSAvg_Threshold_2
+
+          }
+        });
+      });
+
+    }
+
+    function DeleteSourceData_DCTt(row_id) {
+      fetch(`api/Default_Channel_Trigg_thres_delete/${row_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 404) {
+              // Show errorDiv if object not found
+              document.getElementById('errorDiv').style.display = 'block';
+            } else {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+          } else {
+            // Show successDiv on successful deletion
+            alert(`Row ${row_id} deleted successfully`);
+            $('#myModal_delete_TTB').modal('show');
             return response.json();
           }
         })

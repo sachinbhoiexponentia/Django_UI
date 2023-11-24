@@ -32,7 +32,7 @@ def custom_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('Threshold_Login_Config_View')  
+                return redirect('Threshold_Logic_Config_View')  
             else:
                 request.session['login_error'] = 'Invalid credentials'
                 return redirect('login')  
