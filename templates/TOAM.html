@@ -687,7 +687,7 @@
         <button class="tablinks" onclick="openCity(event, 'London')">Optimization Rules</button>
         <button class="tablinks" onclick="openCity(event, 'Paris')">Allocation Parameters</button>
         <button class="tablinks" onclick="openCity(event, 'Tokyo')">Microsegment Default Tasks</button>
-        <button class="tablinks" onclick="openCity(event, 'india')">Default Task Inactive FLS</button>
+        {% comment %} <button class="tablinks" onclick="openCity(event, 'india')">Default Task Inactive FLS</button> {% endcomment %}
       </div>
       <!-- <div class="button1-container">
       <button class="button-with-image"></button>
@@ -983,7 +983,10 @@
 
 
           </div>
-</div></div>
+</div>
+
+
+</div>
 
 
 
@@ -1132,100 +1135,112 @@
                 </div>
               </div>
             </div>
-            <div id="myModal2_edit" class="modal fade" role="dialog">
+            
+            
+            <div id="modal_allocation_parameters_form_edit" class="modal fade" role="dialog">
               <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
                 <div class="modal-content">
                   <div class="modal-header">
                     <h1 class="modal-title">Edit</h1>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-
+  
                   </div>
                   <div class="modal-body">
-                    {% comment %} for edit {% endcomment %}
-                    <form id="form2">
-                      <div class="form-row">
-                        <div class="form-group_clo">
-                          <label for="first" class="label1">Channel</label>
-                          <input class="first" name="first" type="text" placeholder="Channel" />
-                        </div>
-                        <div class="form-group_clo">
-                          <label for="last" class="label">Subchannel</label>
-                          <input class="last" name="last" type="text" placeholder="Subchannel" />
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group_clo">
-                          <label for="first1" class="label1_">Channel_Subchannel_ID</label>
-                          <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
-                        </div>
-                        <div class="form-group_clo">
-                          <label for="last1" class="label_">DemoSeg</label>
-                          <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group_clo">
-                          <label for="first2" class="label2_">ValueSeg</label>
-                          <input class="first2" name="" type="text" placeholder="ValueSeg" />
-                        </div>
-                        <div class="form-group_clo">
-                          <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label>
-                          <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
-                        </div>
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group_clo">
-                          <label for="first3" class="label3_">Trigger_id</label>
-                          <input class="first3" name="" type="text" placeholder="Trigger_id" />
-                        </div>
+                    <form id="allocation_parameters_Form_edit" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <input type="hidden" id="allocation_parameters_Form_edit" name="form_identifier"
+                        value="allocation_parameters_Form_edit" />
 
-                        <div class="form-group_clo">
-                          <label for="last3" class="label3_last">Trigg_Description</label>
-                          <input class="last3" name="province" type="text" placeholder="Trigg_Description" />
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <!-- <label for="task_no" class="label1_">Task No.</label> -->
+                            <input class="first1" name="AP_Task_id" id="AP_Task_id" type="hidden"
+                              placeholder="Task_id" />
+                          </div>
                         </div>
-                      </div>
-
-                      <div class="form-row">
-                        <div class="form-group_clo">
-                          <label for="first" class="label1">Segment_Threshold_1_</label>
-                          <input class="first" name="first" type="text" placeholder="Segment_Threshold_1_" />
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="constraint" class="label1_">Constraint</label>
+                            <input class="first1" name="AP_Channel" id="AP_Channel" type="text"
+                              placeholder="Channel" />
+                          </div>
                         </div>
-                        <div class="form-group_clo">
-                          <label for="first" class="label1">FLSAvg_Threshold_2</label>
-                          <input class="first" name="first" type="text" placeholder="FLSAvg_Threshold_2" />
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="category_task_allocated_with" class="label1_">Category Task Allocated With</label>
+                            <input class="first1" name="AP_Subchannel" id="AP_Subchannel" type="text"
+                              placeholder="Subchannel" />
+                          </div>
                         </div>
-                      </div>
-
-                      <button type="button" id="submit2" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                        data-target="#myModal6">Validate</button>
-
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="min_task_count_fls" class="label1_">Min Task Count FLS</label>
+                            <input class="first1" name="AP_DemoSeg" id="AP_DemoSeg" type="text"
+                              placeholder="DemoSeg" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="max_task_count_fls" class="label1_">Max Task Count FLS</label>
+                            <input class="first1" name="AP_ValueSeg" id="AP_ValueSeg" type="text"
+                              placeholder="ValueSeg" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="mutual_exclusion_criteria" class="label1_">Mutual Exclusion Criteria</label>
+                            <input class="first1" name="AP_Segment_id" id="AP_Segment_id"
+                              type="text" placeholder="Segment_id" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="task_priority" class="label1_">Task Priority</label>
+                            <input class="first1" name="AP_Due_Days" id="AP_Due_Days" type="text"
+                              placeholder="Due_Days" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="min_task_count_fls" class="label1_">Min Task Count FLS</label>
+                            <input class="first1" name="AP_Buffer_Days" id="AP_Buffer_Days" type="text"
+                              placeholder="Buffer_Days" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="max_task_count_fls" class="label1_">Max Task Count FLS</label>
+                            <input class="first1" name="AP_XX_Value" id="AP_XX_Value" type="text"
+                              placeholder="XX_Value" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="mutual_exclusion_criteria" class="label1_">Mutual Exclusion Criteria</label>
+                            <input class="first1" name="AP_XX_Type" id="AP_XX_Type"
+                              type="text" placeholder="XX_Type" />
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group_thre">
+                            <label for="task_priority" class="label1_">Task Priority</label>
+                            <input class="first1" name="AP_PricePoint_Reward" id="AP_PricePoint_Reward" type="text"
+                              placeholder="PricePoint_Reward" />
+                          </div>
+                        </div>
+                      <button type="submit" id="validateButton_threshold_logic_config"
+                        class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                        data-form-id="allocation_parameters_Form">Submit</button>
                     </form>
-
                   </div>
-
                 </div>
               </div>
             </div>
-            <div id="mkmk" class="modal fade" role="dialog">
-              <div class="modal-dialog modal-md">
+           
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                    <button type="button" class="close" data-dismiss="modal"
-                      style="border: 1px; height: 5px;">&times;</button>
 
-                  </div>
-                  <div class="modal-body">
-                    <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                    <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
+            
           </div>
           <div id="submit_allocation_parameters" class="modal fade" role="dialog">
             <div class="modal-dialog modal-md">
@@ -2064,6 +2079,7 @@
         // Update form fields with retrieved data
         document.getElementById("mdt_pk_id").value = data.id;
         document.getElementById("channel_mdt").value = data.Channel;
+        document.getElementById("subchannel_mdt").value = data.Subchannel;
         document.getElementById("demoseg_mdt").value = data.DemoSeg;
         document.getElementById("valueseg_mdt").value = data.ValueSeg; // Assuming Trigger is a simple
         document.getElementById("segment_id_mdt").value = data.Segment_id; // Assuming Trigger is a 
@@ -2120,7 +2136,7 @@ function DeleteSourceData_mdt(rowId) {
 
   function getSourceData_AP(rowId) {
   $(document).ready(function () {
-    var apiUrl = `api/microsegment_default_tasks_get_data/${rowId}`;
+    var apiUrl = `api/allocation_parameters_get_data/${rowId}`;
     $.ajax({
       url: apiUrl,
       type: 'GET',
@@ -2131,12 +2147,17 @@ function DeleteSourceData_mdt(rowId) {
         $('#successMessage').text('Data loaded successfully!');
 
         // Update form fields with retrieved data
-        document.getElementById("mdt_pk_id").value = data.id;
-        document.getElementById("channel_mdt").value = data.Channel;
-        document.getElementById("demoseg_mdt").value = data.DemoSeg;
-        document.getElementById("valueseg_mdt").value = data.ValueSeg; // Assuming Trigger is a simple
-        document.getElementById("segment_id_mdt").value = data.Segment_id; // Assuming Trigger is a 
-        document.getElementById("default_tasks_mdt").value = data.Default_Tasks; // Assuming Trigger is a simple string field
+        document.getElementById("AP_Task_id").value = rowId;
+        document.getElementById("AP_Channel").value = data.Channel;
+        document.getElementById("AP_Subchannel").value = data.Subchannel;
+        document.getElementById("AP_DemoSeg").value = data.DemoSeg;
+        document.getElementById("AP_ValueSeg").value = data.ValueSeg;
+        document.getElementById("AP_Segment_id").value = data.Segment_id;
+        document.getElementById("AP_Due_Days").value = data.Due_Days; 
+        document.getElementById("AP_Buffer_Days").value = data.Buffer_Days; 
+        document.getElementById("AP_XX_Value").value = data.XX_Value; 
+        document.getElementById("AP_XX_Type").value = data.XX_Type; 
+        document.getElementById("AP_PricePoint_Reward").value = data.PricePoint_Reward;         
       },
       error: function () {
         // Handle error case, display an error message or take appropriate action
@@ -2145,10 +2166,6 @@ function DeleteSourceData_mdt(rowId) {
     });
   });
 }
-
-
-
-
 
 function DeleteSourceData_AP(row_id) {
 fetch(`api/allocation_parameters_delete/${row_id}/`, {
