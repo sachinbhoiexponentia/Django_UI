@@ -108,19 +108,19 @@ def Threshold_Logic_Config_view(request):
             try:
                 trigger_id = request.POST.get('Trigger_id_Threshold_Logic_Form_edit')
                 print("trigger_id:",trigger_id)
-                threshold_login_config = Threshold_Logic_Config.objects.get(trigger_id=trigger_id)
+                threshold_logic_config = Threshold_Logic_Config.objects.get(trigger_id=trigger_id)
 
                 # Update fields based on the form data
-                threshold_login_config.trigg_desc = request.POST.get('Trigg_Desc_Threshold_Logic_Form_edit')
-                threshold_login_config.thres_description = request.POST.get('Thres_Description_Threshold_Logic_Form_edit')
-                threshold_login_config.thres_query_logic = request.POST.get('Thres_Query_Logic_Threshold_Logic_Form_edit')
-                threshold_login_config.operation = request.POST.get('Operation_Threshold_Logic_Form_edit')
-                threshold_login_config.analysis_period = request.POST.get('Analysis_Period_Threshold_Logic_Form_edit')
-                threshold_login_config.num_thresholds_required = request.POST.get('Num_Threshold_Required_Threshold_Logic_Form_edit')
-                threshold_login_config.segment_threshold_requirement_flag = request.POST.get('Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit')
-                threshold_login_config.FLS_Threshold_Requirement_Flag = request.POST.get('FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit')
+                threshold_logic_config.trigg_desc = request.POST.get('Trigg_Desc_Threshold_Logic_Form_edit')
+                threshold_logic_config.thres_description = request.POST.get('Thres_Description_Threshold_Logic_Form_edit')
+                threshold_logic_config.thres_query_logic = request.POST.get('Thres_Query_Logic_Threshold_Logic_Form_edit')
+                threshold_logic_config.operation = request.POST.get('Operation_Threshold_Logic_Form_edit')
+                threshold_logic_config.analysis_period = request.POST.get('Analysis_Period_Threshold_Logic_Form_edit')
+                threshold_logic_config.num_thresholds_required = request.POST.get('Num_Threshold_Required_Threshold_Logic_Form_edit')
+                threshold_logic_config.segment_threshold_requirement_flag = request.POST.get('Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit')
+                threshold_logic_config.FLS_Threshold_Requirement_Flag = request.POST.get('FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit')
 
-                threshold_login_config.save()
+                threshold_logic_config.save()
 
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'Threshold_logic.html', context)
@@ -307,6 +307,83 @@ def TNT_Module_View(request):
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)
+                
+       
+        if form_id == 'channel_task_mapping_Form_edit':
+            print('channel_task_mapping_Form_edit')
+            try:
+                trigger_id = request.POST.get('channel_task_mapping_Form_edit_pk')
+                print("trigger_id:",trigger_id)
+                channel_task_mapping = Channel_Task_Mapping.objects.get(id=trigger_id)
+
+                # Update fields based on the form data
+                channel_task_mapping.Channel = request.POST.get('channel_ctm')
+                channel_task_mapping.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_ctm')
+                channel_task_mapping.channel_subchannel_Name = request.POST.get('channel_subchannel_name_ctm')
+                channel_task_mapping.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_ctm')
+                channel_task_mapping.DemoSeg_ValueSeg_Name = request.POST.get('demoseg_valueseg_name_ctm')
+                channel_task_mapping.Task = request.POST.get('task_ctm')
+                channel_task_mapping.save()
+                
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'TNT.html', context)
+            except Threshold_Logic_Config.DoesNotExist:
+                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))
+                
+                   
+        if form_id == 'trigger_on_query_logic_Form_edit':
+            print('trigger_on_query_logic_Form_edit')
+            try:
+                trigger_id = request.POST.get('trigger_id_tql')
+                print("trigger_id:", trigger_id)
+                trigger_on_query = Trigger_ON_Query.objects.get(Trigger_id =trigger_id)
+
+
+                trigger_on_query.Trigger_Description_Discussed = request.POST.get('trigger_description_discussed_tql')
+                trigger_on_query.Assignment_level = request.POST.get('assignment_level_tql')
+                trigger_on_query.Iteration_Level = request.POST.get('iteration_level_tql')
+                trigger_on_query.Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic_tql')
+                trigger_on_query.query  = request.POST.get('query_tql')
+
+
+                trigger_on_query.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'TNT.html', context)
+            except Task_Trigger_Mapping.DoesNotExist:
+                messages.error(request, 'Record with Task ID {} not found'.format(task_id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))
+
+
+
+
+        if form_id == 'task_trigger_mapping_Form_edit':
+            print('task_trigger_mapping_Form_edit')
+            try:
+                task_id = request.POST.get('task_id_ttm')
+                print("task_id:", task_id)
+                task_trigger_mapping = Task_Trigger_Mapping.objects.get(Task_id=task_id)
+
+
+                task_trigger_mapping.Task_Desc = request.POST.get('task_desc_ttm')
+                task_trigger_mapping.Task_Stage = request.POST.get('task_stage_ttm')
+                task_trigger_mapping.Trigger = request.POST.get('trigger_ttm')
+
+                task_trigger_mapping.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'TNT.html', context)
+            except Task_Trigger_Mapping.DoesNotExist:
+                messages.error(request, 'Record with Task ID {} not found'.format(task_id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))
+
             
     return render(request, 'TNT.html',context)
 
@@ -325,18 +402,19 @@ def TOAM_Module_View(request):
     allocation_parameters_data = allocation_parameters_df.values.tolist()
 
     # Fetch data for Product_Mix_Focus
-    queryset_product_mix_focus = Microsegment_Default_Tasks.objects.all()
-    product_mix_focus_df = pd.DataFrame(list(queryset_product_mix_focus.values()))
-    product_mix_focus_headers = list(product_mix_focus_df.columns)
-    product_mix_focus_data = product_mix_focus_df.values.tolist()
+    microsegment_default_tasks = Microsegment_Default_Tasks.objects.all()
+    microsegment_default_tasks_df = pd.DataFrame(list(microsegment_default_tasks.values()))
+    microsegment_default_tasks_headers = list(microsegment_default_tasks_df.columns)
+    microsegment_default_tasks_data = microsegment_default_tasks_df.values.tolist()
+
 
     context = {
         'optimization_rules_data_headers': optimization_rules_headers,
         'optimization_rules_data_data': optimization_rules_data,
         'allocation_parameters_data_headers': allocation_parameters_headers,
         'allocation_parameters_data_data': allocation_parameters_data,
-        'product_mix_focus_data_headers': product_mix_focus_headers,
-        'product_mix_focus_data_data': product_mix_focus_data,}
+        'microsegment_default_tasks_data_headers': microsegment_default_tasks_headers,
+        'microsegment_default_tasks_data_data': microsegment_default_tasks_data}
     
     if request.method == 'POST':
         print('Django post request')
@@ -384,22 +462,48 @@ def TOAM_Module_View(request):
                 
                 
                  
-        if form_id == 'product_mix_focus_Form':
-            print('product_mix_focus_Form')
+        if form_id == 'microsegment_default_tasks_Form':
+            print('microsegment_default_tasks_Form')
             try:
-                product_mix_focus = Microsegment_Default_Tasks(
-                    Channel=request.POST.get('channel'),
-                    Subchannel=request.POST.get('subchannel'),
-                    DemoSeg=request.POST.get('demoseg'),
-                    ValueSeg=request.POST.get('valueseg'),
-                    Segment_id=request.POST.get('segment_id'),
-                    Default_Tasks=request.POST.get('default_tasks')
-                )
-                product_mix_focus.save()
+                microsegment_default_tasks = Microsegment_Default_Tasks(
+                    Channel = request.POST.get('channel'),
+                    Subchannel = request.POST.get('subchannel'),
+                    DemoSeg = request.POST.get('demoseg'),
+                    ValueSeg = request.POST.get('valueseg'),
+                    Segment_id = request.POST.get('segment_id'),
+                    Default_Tasks = request.POST.get('default_tasks'))
+                microsegment_default_tasks.save()
                 messages.success(request, 'Product Mix Focus saved successfully')
             except Exception as e:
                 print('Error while saving the data ', e)
                 messages.error(request, 'Error while saving the data: {}'.format(str(e)))   
+
+
+        if form_id == 'microsegment_default_tasks_Form_edit':
+            print('microsegment_default_tasks_Form_edit')
+            try:
+                id = request.POST.get('mdt_pk_id')
+                print("id:", id)
+                microsegment_default_tasks = Microsegment_Default_Tasks.objects.get(id=id)
+
+                microsegment_default_tasks.Channel = request.POST.get('channel_mdt')
+                microsegment_default_tasks.Subchannel = request.POST.get('subchannel_mdt')
+                microsegment_default_tasks.DemoSeg = request.POST.get('demoseg_mdt')
+                microsegment_default_tasks.ValueSeg = request.POST.get('valueseg_mdt')
+                microsegment_default_tasks.Segment_id = request.POST.get('segment_id_mdt')
+                microsegment_default_tasks.Default_Tasks = request.POST.get('default_tasks_mdt')
+
+                microsegment_default_tasks.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'TOAM.html', context)
+            except Microsegment_Default_Tasks.DoesNotExist:
+                messages.error(request, 'Record with Segment ID {} not found'.format(id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))
+
+
                         
-    
+
     return render(request, 'TOAM.html',context)

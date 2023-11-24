@@ -684,7 +684,7 @@
         <!-- <div class="tab"> -->
         <button class="tablinks" onclick="openCity(event, 'London')">Optimization Rules</button>
         <button class="tablinks" onclick="openCity(event, 'Paris')">Allocation Parameters</button>
-        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Product Mix Focus</button>
+        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Microsegment Default Tasks</button>
         <button class="tablinks" onclick="openCity(event, 'india')">Default Task Inactive FLS</button>
       </div>
       <!-- <div class="button1-container">
@@ -748,6 +748,7 @@
                   <form id="optimization_rules_Form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" id="optimization_rules_Form" name="form_identifier" value="optimization_rules_Form" />
+                    
                     <div class="form-row">
                       <div class="form-group_thre">
                         <label for="task_no" class="label1_">Task No.</label>
@@ -1168,14 +1169,14 @@
             <table class="custom-table">
               <thead>
                 <tr>
-                  {% for header in product_mix_focus_data_headers %}
+                  {% for header in microsegment_default_tasks_data_headers %}
                   <th>{{ header }}</th>
                   {% endfor %}
                   <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-              {% for row in product_mix_focus_data_data %}
+              {% for row in microsegment_default_tasks_data_data %}
                    <tr>
                     {% for value in row %}
                       <td>
@@ -1184,10 +1185,11 @@
                      
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
+                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" onclick="getSourceData_mdt({{ row.0 }})" data-target="#Microsegment_Default_Tasks_edit_popup"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" onclick="DeleteSourceData_mdt({{ row.0 }})" data-target="#myModal4_delete"
                         style="color: black;"></i>
+
                     </td>
                    </tr>
               {% endfor %}
@@ -1195,6 +1197,9 @@
             </table>
           </div>
           <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          
+
+          
           <div id="myModal3" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
               <!-- Modal content-->
@@ -1202,201 +1207,126 @@
                 <div class="modal-header">
                   <h1 class="modal-title">Add New</h1>
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-
                 </div>
                 <div class="modal-body">
-                  <form id="product_mix_focus_Form"  data-form-id="product_mix_focus_Form" method="post" enctype="multipart/form-data">
+                <form id="microsegment_default_tasks_Form"  data-form-id="microsegment_default_tasks_Form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" id="product_mix_focus_Form" name="form_identifier" value="product_mix_focus_Form" />
-              <div class="form-row">
-                <div class="form-group_clo">
-                  <label for="id" class="label1">ID</label>
-                  <input class="first" name="id" id="id" type="text" placeholder="ID" />
-                </div>
-                <div class="form-group_clo">
-                  <label for="channel" class="label">Channel</label>
-                  <input class="last" name="channel" id="channel" type="text" placeholder="Channel" />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group_clo">
-                  <label for="subchannel" class="label">Subchannel</label>
-                  <input class="first" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
-                </div>
-                <div class="form-group_clo">
-                  <label for="demoseg" class="label">DemoSeg</label>
-                  <input class="last" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group_clo">
-                  <label for="valueseg" class="label">ValueSeg</label>
-                  <input class="first" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
-                </div>
-                <div class="form-group_clo">
-                  <label for="focus_product" class="label">Focus_Product</label>
-                  <input class="last" name="focus_product" id="focus_product" type="text" placeholder="Focus_Product" />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group_clo">
-                  <label for="prod_mix_non_par_annuity_immediate" class="label">prod_mix_non_par_annuity_immediate</label>
-                  <input class="first" name="prod_mix_non_par_annuity_immediate" id="prod_mix_non_par_annuity_immediate" type="text" placeholder="prod_mix_non_par_annuity_immediate" />
-                </div>
-                <div class="form-group_clo">
-                  <label for="prod_mix_non_par_c2p" class="label">prod_mix_non_par_c2p</label>
-                  <input class="last" name="prod_mix_non_par_c2p" id="prod_mix_non_par_c2p" type="text" placeholder="prod_mix_non_par_c2p" />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group_clo">
-                  <label for="prod_mix_non_par_sanchay" class="label">prod_mix_non_par_sanchay</label>
-                  <input class="first" name="prod_mix_non_par_sanchay" id="prod_mix_non_par_sanchay" type="text" placeholder="prod_mix_non_par_sanchay" />
-                </div>
-                <div class="form-group_clo">
-                  <label for="prod_mix_non_par_annuity_pgp" class="label">prod_mix_non_par_annuity_pgp</label>
-                  <input class="last" name="prod_mix_non_par_annuity_pgp" id="prod_mix_non_par_annuity_pgp" type="text" placeholder="prod_mix_non_par_annuity_pgp" />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group_clo">
-                  <label for="prod_mix_non_par_health" class="label">prod_mix_non_par_health</label>
-                  <input class="first" name="prod_mix_non_par_health" id="prod_mix_non_par_health" type="text" placeholder="prod_mix_non_par_health" />
-                </div>
-                <div class="form-group_clo">
-                  <label for="prod_mix_par_others" class="label">prod_mix_par_others</label>
-                  <input class="last" name="prod_mix_par_others" id="prod_mix_par_others" type="text" placeholder="prod_mix_par_others" />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group_clo">
-                  <label for="prod_mix_par_ppt_10" class="label">prod_mix_par_ppt_10</label>
-                  <input class="first" name="prod_mix_par_ppt_10" id="prod_mix_par_ppt_10" type="text" placeholder="prod_mix_par_ppt_10" />
-                </div>
-                <div class="form-group_clo">
-                  <label for="prod_mix_ul_others" class="label">prod_mix_ul_others</label>
-                  <input class="last" name="prod_mix_ul_others" id="prod_mix_ul_others" type="text" placeholder="prod_mix_ul_others" />
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group_clo">
-                  <label for="prod_mix_ul_ppt_10" class="label">prod_mix_ul_ppt_10</label>
-                  <input class="first" name="prod_mix_ul_ppt_10" id="prod_mix_ul_ppt_10" type="text" placeholder="prod_mix_ul_ppt_10" />
-                </div>
-                <div class="form-group_clo">
-                  <label for="prod_mix_ul_single_pre" class="label">prod_mix_ul_single_pre</label>
-                  <input class="last" name="prod_mix_ul_single_pre" id="prod_mix_ul_single_pre" type="text" placeholder="prod_mix_ul_single_pre" />
-                </div>
-              </div>
+                    <input type="hidden" id="microsegment_default_tasks_Form" name="form_identifier" value="microsegment_default_tasks_Form" />
 
 
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="channel" class="label1">Channel </label>
+                          <input class="first" name="channel" id="channel" type="text" placeholder="channel" />
+                        </div>
+                      </div>
 
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="subchannel" class="label">Subchannel</label>
+                          <input class="first" name="subchannel" id="subchannel" type="text" placeholder="Subchannel" />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="demoseg" class="label">DemoSeg</label>
+                          <input class="last" name="demoseg" id="demoseg" type="text" placeholder="DemoSeg" />
+                        </div>
+                      </div>
 
-                    <button type="button" id="validateButton_product_mix_focus" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="valueseg" class="label">ValueSeg</label>
+                          <input class="first" name="valueseg" id="valueseg" type="text" placeholder="ValueSeg" />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="segment_id" class="label">Segment_id</label>
+                          <input class="last" name="segment_id" id="segment_id" type="text" placeholder="Segment_id" />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="default_tasks" class="label">Default_Tasks</label>
+                          <input class="first" name="default_tasks" id="default_tasks" type="text" placeholder="Default_Tasks" />
+                        </div>
+
+                      </div>
+
+                    <button type="button" id="validateButton_microsegment_default_task" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
                       {% comment %} data-target="#myModal7" {% endcomment %}
                       >Validate</button>
-
                   </form>
-
                 </div>
-
               </div>
             </div>
           </div>
-          <div id="myModal3_edit" class="modal fade" role="dialog">
+        </div>
+
+
+
+        <div id="Microsegment_Default_Tasks_edit_popup" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title">Add New</h1>
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-
                 </div>
                 <div class="modal-body">
-                  {% comment %} for edit {% endcomment %}
-                  <form id="form3">
+                <form id="microsegment_default_tasks_Form_edit"  data-form-id="microsegment_default_tasks_Form_edit" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="first" class="label1">Channel</label>
-                        <input class="first" name="first" type="text" placeholder="Channel" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="last" class="label">Subchannel</label>
-                        <input class="last" name="last" type="text" placeholder="Subchannel" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="first1" class="label1_">Channel_Subchannel_ID</label>
-                        <input class="first1" name="street" type="text" placeholder="Channel_Subchannel_ID" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="last1" class="label_">DemoSeg</label>
-                        <input class="last1" name="apt" type="text" placeholder="DemoSeg" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="first2" class="label2_">ValueSeg</label>
-                        <input class="first2" name="" type="text" placeholder="ValueSeg" />
-                      </div>
-                      <div class="form-group_clo">
-                        <label for="last2" class="label_last">DemoSeg_ValueSeg_ID</label>
-                        <input class="last2" name="province" type="text" placeholder="DemoSeg_ValueSeg_ID" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_clo">
-                        <label for="first3" class="label3_">Trigger_id</label>
-                        <input class="first3" name="" type="text" placeholder="Trigger_id" />
+                    <input type="hidden" id="microsegment_default_tasks_Form_edit" name="form_identifier" value="microsegment_default_tasks_Form_edit" />
+
+                     <input class="first1" id="mdt_pk_id"
+                        name="mdt_pk_id" placeholder="mdt_pk_id" type="hidden" />
+
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="channel_mdt" class="label1">Channel </label>
+                          <input class="first" name="channel_mdt" id="channel_mdt" type="text" placeholder="channel" />
+                        </div>
                       </div>
 
-                      <div class="form-group_clo">
-                        <label for="last3" class="label3_last">Threshold_1(MicroSegment Benchmarks)</label>
-                        <input class="last3" name="province" type="text"
-                          placeholder="Threshold_1(MicroSegment Benchmarks)" />
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="subchannel_mdt" class="label">Subchannel</label>
+                          <input class="first" name="subchannel_mdt" id="subchannel_mdt" type="text" placeholder="Subchannel" />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="demoseg_mdt" class="label">DemoSeg</label>
+                          <input class="last" name="demoseg_mdt" id="demoseg_mdt" type="text" placeholder="DemoSeg" />
+                        </div>
                       </div>
-                    </div>
 
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="valueseg_mdt" class="label">ValueSeg</label>
+                          <input class="first" name="valueseg_mdt" id="valueseg_mdt" type="text" placeholder="ValueSeg" />
+                        </div>
+                        <div class="form-group_clo">
+                          <label for="segment_id_mdt" class="label">Segment_id</label>
+                          <input class="last" name="segment_id_mdt" id="segment_id_mdt" type="text" placeholder="Segment_id" />
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group_clo">
+                          <label for="default_tasks_mdt" class="label">Default_Tasks</label>
+                          <input class="first" name="default_tasks_mdt" id="default_tasks_mdt" type="text" placeholder="Default_Tasks" />
+                        </div>
+                      </div>
+
+                    <button type="submit" id="validateButton_microsegment_default_task" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      {% comment %} data-target="#myModal7" {% endcomment %}
+                      >Submit</button>
                   </form>
-
                 </div>
-
               </div>
             </div>
           </div>
-          <div id="myModal3_delete" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-md">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                  <button type="button" class="close" data-dismiss="modal"
-                    style="border: 1px; height: 5px;">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
         </div>
 
 
-        <div id="submit_product_mix_focus" class="modal fade" role="dialog">
+        <div id="submit_microsegment_default_task" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
             <!-- Modal content-->
             <div class="modal-content">
@@ -1408,7 +1338,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_button_product_mix_focus" style="background-color:#736CEB; color: white;">Submit 3</button>
+                <button type="button" id="submit_button_microsegment_default_tasks" style="background-color:#736CEB; color: white;">Submit3</button>
               </div>
 
             </div>
@@ -1924,9 +1854,9 @@
 
   {% comment %} 3 {% endcomment %}
       $(document).ready(function () {
-      $('#validateButton_product_mix_focus').on('click', function (event) {
+      $('#validateButton_microsegment_default_task').on('click', function (event) {
           event.preventDefault(); // Prevent the default form submission
-          var formData = $('#product_mix_focus_Form').serialize();
+          var formData = $('#microsegment_default_tasks_Form').serialize();
           formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
           $.ajax({
               type: 'GET',
@@ -1936,7 +1866,7 @@
               success: function (response) {
                   if (response.is_valid) {
                       // Handle success (e.g., update UI, show a message)
-                      $('#submit_product_mix_focus').modal('show');
+                      $('#submit_microsegment_default_task').modal('show');
                   } else {
                       // Handle validation errors (e.g., display error messages)
                       $('#error_threshold_logic_config').modal('show');
@@ -1951,12 +1881,77 @@
   }); 
 
   $(document).ready(function () {
-    $('#submit_button_product_mix_focus').on('click', function () {
-        $('#product_mix_focus_Form').submit();
+    $('#submit_button_microsegment_default_tasks').on('click', function () {
+        $('#microsegment_default_tasks_Form').submit();
     });
   });
 
 
+
+
+
+
+
+  function getSourceData_mdt(rowId) {
+  $(document).ready(function () {
+    var apiUrl = `api/microsegment_default_tasks_get_data/${rowId}`;
+    $.ajax({
+      url: apiUrl,
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        // Display success message on the webpage
+        $('#successMessage').text('Data loaded successfully!');
+
+        // Update form fields with retrieved data
+        document.getElementById("mdt_pk_id").value = data.id;
+        document.getElementById("channel_mdt").value = data.Channel;
+        document.getElementById("demoseg_mdt").value = data.DemoSeg;
+        document.getElementById("valueseg_mdt").value = data.ValueSeg; // Assuming Trigger is a simple
+        document.getElementById("segment_id_mdt").value = data.Segment_id; // Assuming Trigger is a 
+        document.getElementById("default_tasks_mdt").value = data.Default_Tasks; // Assuming Trigger is a simple string field
+      },
+      error: function () {
+        // Handle error case, display an error message or take appropriate action
+        $('#errorMessage').text('Error loading data. Please try again.');
+      }
+    });
+  });
+}
+
+
+
+
+function DeleteSourceData_mdt(rowId) {
+  fetch(`api/microsegment_default_tasks_delete/${rowId}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 404) {
+          // Show errorDiv if object not found
+          document.getElementById('errorDiv').style.display = 'block';
+        } else {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } else {
+        // Show successDiv on successful deletion
+        alert(`Row ${rowId} deleted successfully`);
+        $('#myModal_delete_TLC').modal('show');
+        return response.json();
+      }
+    })
+    .catch(error => {
+      // Handle other errors
+      console.error('Error deleting data:', error);
+      // Show errorDiv on other errors
+      document.getElementById('errorDiv').style.display = 'block';
+    });
+}
 
 
 
