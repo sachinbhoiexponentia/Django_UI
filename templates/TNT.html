@@ -651,7 +651,7 @@
   <div>
     <div class="sidebar">
       <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
-      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
+      <a href="/closure_Config_view"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
       <a href="/TNT_Module_View"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
       <a href="/TOAM_Module_View">
         <div class="d-flex">
@@ -720,9 +720,9 @@
                      
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
+                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" onclick="getSourceData_CTM({{ row.0 }})" data-target="#channel_task_mapping_Form_edit_pop_up"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" onclick="DeleteSourceData_CTM({{ row.0 }})" data-target="#myModal4_delete"
                         style="color: black;"></i>
                     </td>
                    </tr>
@@ -730,8 +730,6 @@
             </tbody>
             </table>
           </div>
-          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
-
           <div id="myModal1" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
               <!-- Modal content-->
@@ -785,55 +783,86 @@
                       >Validate</button>
                   </form>
                 </div>
-
-              </div>
-            </div>
-          </div>
-          <div id="myModal_delete" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-md">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                  <button type="button" class="close" data-dismiss="modal"
-                    style="border: 1px; height: 5px;">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
-                </div>
-
               </div>
             </div>
           </div>
         </div>
+
         <div id="submit_channel_task_mapping" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
-
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
                 <button type="button" class="close" data-dismiss="modal"
                   style="border: 1px; height: 5px;">&times;</button>
-
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
                 <button type="button" id="submit_button__channel_task_mappping" style="background-color:#736CEB; color: white;">Submit</button>
               </div>
-
             </div>
-
           </div>
         </div>
 
-
-
-
-
+          <div id="channel_task_mapping_Form_edit_pop_up" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Edit</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <form id="channel_task_mapping_Form_edit"  data-form-id="channel_task_mapping_Form_edit" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_identifier" value="channel_task_mapping_Form_edit" />
+                    <input class="first1" id="channel_task_mapping_Form_edit_pk"
+                        name="channel_task_mapping_Form_edit_pk" placeholder="Trigger_id" type="hidden" />
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="channel_ctm" class="label1_">Channel</label>
+                        <input class="first1" name="channel_ctm" id="channel_ctm" type="text" placeholder="Channel" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="channel_subchannel_id_ctm" class="label1_">Channel_Subchannel_ID</label>
+                        <input class="first1" name="channel_subchannel_id_ctm" id="channel_subchannel_id_ctm" type="text" placeholder="Channel_Subchannel_ID" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="channel_subchannel_name_ctm" class="label1_">Channel_Subchannel_Name</label>
+                        <input class="first1" name="channel_subchannel_name_ctm" id="channel_subchannel_name_ctm" type="text" placeholder="Channel_Subchannel_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="demoseg_valueseg_id_ctm" class="label1_">DemoSeg_ValueSeg_ID</label>
+                        <input class="first1" name="demoseg_valueseg_id_ctm" id="demoseg_valueseg_id_ctm" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="demoseg_valueseg_name_ctm" class="label1_">DemoSeg_ValueSeg_Name</label>
+                        <input class="first1" name="demoseg_valueseg_name_ctm" id="demoseg_valueseg_name_ctm" type="text" placeholder="DemoSeg_ValueSeg_Name" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="task_ctm" class="label1_">Task</label>
+                        <input class="first1" name="task_ctm" id="task_ctm" type="text" placeholder="Task" />
+                      </div>
+                    </div>
+                    <button type="submit" id="" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      {% comment %} data-target="#myModal5" {% endcomment %}
+                      >Save</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
 
@@ -869,10 +898,11 @@
                      
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
+                      <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TTM({{ row.0 }})" data-toggle="modal" data-target="#TTM_edit_pop_up_form"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TTM({{ row.0 }})" data-toggle="modal" 
                         style="color: black;"></i>
+                    </td>
                     </td>
                    </tr>
               {% endfor %}
@@ -880,6 +910,7 @@
             </table>
           </div>
           <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          
           <div id="myModal2" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
 
@@ -921,24 +952,7 @@
               </div>
             </div>
           </div>
-          
-          <div id="myModal2_delete" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-md">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title" style="font-size: 15px; color: black;">Delete</h1>
-                  <button type="button" class="close" data-dismiss="modal"
-                    style="border: 1px; height: 5px;">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <p style="color: black;">Are you sure want to delete trigger Id "1"?</p>
-                  <button type="button" id="submit" style="background-color:#736CEB; color: white;">Delete</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      
         <div id="submit_task_trigger_mapping" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -957,6 +971,49 @@
 
 
 
+        <div id="TTM_edit_pop_up_form" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Edit</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <form id="task_trigger_mapping_Form_edit"  method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_identifier" value="task_trigger_mapping_Form_edit" />
+
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="task_id_ttm" class="label1">Task_id</label>
+                        <input class="first" name="task_id_ttm" id="task_id_ttm" type="text" placeholder="Task_id" type="hidden"/>
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="task_desc_ttm" class="label">Task_Desc</label>
+                        <input class="last" name="task_desc_ttm" id="task_desc_ttm" type="text" placeholder="Task_Desc" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo_ttm">
+                        <label for="task_stage" class="label1_">Task_Stage</label>
+                        <input class="first1" name="task_stage_ttm" id="task_stage_ttm" type="text" placeholder="Task_Stage" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="trigger_ttm" class="label_">Trigger</label>
+                        <input class="last1" name="trigger_ttm" id="trigger_ttm" type="text" placeholder="DemoSeg" />
+                      </div>
+                    </div>
+                    <button type="submit" id="" class="btn btn-info btn-lg submit_validate" 
+                    {% comment %} data-toggle="modal" {% endcomment %}
+                      {% comment %} data-target="#myModal6" {% endcomment %}
+                      >Save</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
 
 
 
@@ -997,9 +1054,9 @@
                      
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
+                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" onclick="getSourceData_TQL({{ row.0 }})" data-target="#TQL_edit_pop_up"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
+                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" onclick="DeleteSourceData_TQL({{ row.0 }})" 
                         style="color: black;"></i>
                     </td>
                    </tr>
@@ -1008,6 +1065,13 @@
             </table>
           </div>
           <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+
+
+
+
+
+
+
           <div id="myModal3" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
 
@@ -1096,6 +1160,61 @@
         </div>
 
 
+
+
+
+
+          <div id="TQL_edit_pop_up" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title">Edit</h1>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                  <form id="trigger_on_query_logic_Form_edit" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_identifier" value="trigger_on_query_logic_Form_edit" />
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="trigger_id_tql" class="label1">Trigger_id</label>
+                        <input class="first" name="trigger_id_tql" id="trigger_id_tql" type="text" type="hidden" placeholder="Trigger_id" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="trigger_description_discussed_tql" class="label">Trigger_Description_Discussed</label>
+                        <input class="last" name="trigger_description_discussed_tql" type="text" id="trigger_description_discussed_tql" placeholder="Trigger_Description_Discussed" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="assignment_level_tql" class="label1_">Assignment_level</label>
+                        <input class="first1" name="assignment_level_tql" id="assignment_level_tql" type="text" placeholder="Assignment_level" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="iteration_level_tql" class="label_">Iteration_Level</label>
+                        <input class="last1" name="iteration_level_tql" id="iteration_level_tql" type="text" placeholder="Iteration_Level" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_clo">
+                        <label for="trigger_on_query_logic_tql" class="label2_">Trigger_ON_Query_Logic</label>
+                        <input class="first2" name="trigger_on_query_logic_tql" id="trigger_on_query_logic_tql" type="text" placeholder="Trigger_ON_Query_Logic" />
+                      </div>
+                      <div class="form-group_clo">
+                        <label for="query_tql" class="label_last">query</label>
+                        <input class="last2" name="query_tql" id="query_tql" type="text" placeholder="query" />
+                      </div>
+                    </div>
+                    <button type="submit" id="validateButton_trigger_on_query_logic" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      {% comment %} data-target="#myModal7" {% endcomment %}
+                      >Save</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
 
     <!-- <div class="button2-container">
   <button class="button-image">Validate</button>
@@ -1253,6 +1372,194 @@
   });
 
 
+
+
+
+
+
+
+
+     function getSourceData_CTM(rowId) {
+  $(document).ready(function () {
+    var apiUrl = `api/Channel_Task_Mapping_get_data/${rowId}`;
+    $.ajax({
+      url: apiUrl,
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        // Display success message on the webpage
+        $('#successMessage').text('Data loaded successfully!');
+
+        // Update form fields with retrieved data
+        document.getElementById("channel_task_mapping_Form_edit_pk").value = rowId;
+        document.getElementById("channel_ctm").value = data.Channel;
+        document.getElementById("channel_subchannel_id_ctm").value = data.Channel_Subchannel_ID;
+        document.getElementById("channel_subchannel_name_ctm").value = data.channel_subchannel_Name;
+        document.getElementById("demoseg_valueseg_id_ctm").value = data.DemoSeg_ValueSeg_ID;
+        document.getElementById("demoseg_valueseg_name_ctm").value = data.DemoSeg_ValueSeg_Name;
+        document.getElementById("task_ctm").value = data.Task;
+      },
+      error: function () {
+        // Handle error case, display an error message or take appropriate action
+        $('#errorMessage').text('Error loading data. Please try again.');
+      }
+    });
+  });
+}
+
+
+
+
+    function DeleteSourceData_CTM(row_id) {
+      fetch(`api/Channel_Task_Mapping_delete/${row_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            if (response.status === 404) {
+              // Show errorDiv if object not found
+              document.getElementById('errorDiv').style.display = 'block';
+            } else {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+          } else {
+            // Show successDiv on successful deletion
+            alert(`Row ${row_id} deleted successfully`);
+            $('#myModal_delete_TLC').modal('show');
+            return response.json();
+          }
+        })
+        .catch(error => {
+          // Handle other errors
+          console.error('Error deleting data:', error);
+          // Show errorDiv on other errors
+          document.getElementById('errorDiv').style.display = 'block';
+        });
+    }
+
+
+    function getSourceData_TTM(rowId) {
+  $(document).ready(function () {
+    var apiUrl = `api/task_trigger_mapping_get_data/${rowId}`;
+    $.ajax({
+      url: apiUrl,
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        // Display success message on the webpage
+        $('#successMessage').text('Data loaded successfully!');
+
+        // Update form fields with retrieved data
+        document.getElementById("task_id_ttm").value = rowId;
+        document.getElementById("task_desc_ttm").value = data.Task_Desc;
+        document.getElementById("task_stage_ttm").value = data.Task_Stage;
+        document.getElementById("trigger_ttm").value = data.Trigger; // Assuming Trigger is a simple string field
+      },
+      error: function () {
+        // Handle error case, display an error message or take appropriate action
+        $('#errorMessage').text('Error loading data. Please try again.');
+      }
+    });
+  });
+}
+
+function DeleteSourceData_TTM(rowId) {
+  fetch(`api/task_trigger_mapping_delete/${rowId}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 404) {
+          // Show errorDiv if object not found
+          document.getElementById('errorDiv').style.display = 'block';
+        } else {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } else {
+        // Show successDiv on successful deletion
+        alert(`Row ${rowId} deleted successfully`);
+        $('#myModal_delete_TLC').modal('show');
+        return response.json();
+      }
+    })
+    .catch(error => {
+      // Handle other errors
+      console.error('Error deleting data:', error);
+      // Show errorDiv on other errors
+      document.getElementById('errorDiv').style.display = 'block';
+    });
+}
+
+
+
+
+
+
+    function getSourceData_TQL(rowId) {
+  $(document).ready(function () {
+    var apiUrl = `api/trigger_on_query_logic_get_data/${rowId}`;
+    $.ajax({
+      url: apiUrl,
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        // Display success message on the webpage
+        $('#successMessage').text('Data loaded successfully!');
+
+        // Update form fields with retrieved data
+        document.getElementById("trigger_id_tql").value = rowId;
+        document.getElementById("trigger_description_discussed_tql").value = data.Trigger_Description_Discussed;
+        document.getElementById("assignment_level_tql").value = data.Assignment_level;
+        document.getElementById("iteration_level_tql").value = data.Iteration_Level; // Assuming Trigger is a simple string field
+        document.getElementById("trigger_on_query_logic_tql").value = data.Trigger_ON_Query_Logic; // Assuming Trigger is a simple string field
+        document.getElementById("query_tql").value = data.query; // Assuming Trigger is a simple string field
+      },
+      error: function () {
+        // Handle error case, display an error message or take appropriate action
+        $('#errorMessage').text('Error loading data. Please try again.');
+      }
+    });
+  });
+}
+
+function DeleteSourceData_TQL(rowId) {
+  fetch(`api/trigger_on_query_logic_delete/${rowId}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 404) {
+          // Show errorDiv if object not found
+          document.getElementById('errorDiv').style.display = 'block';
+        } else {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } else {
+        // Show successDiv on successful deletion
+        alert(`Row ${rowId} deleted successfully`);
+        $('#myModal_delete_TLC').modal('show');
+        return response.json();
+      }
+    })
+    .catch(error => {
+      // Handle other errors
+      console.error('Error deleting data:', error);
+      // Show errorDiv on other errors
+      document.getElementById('errorDiv').style.display = 'block';
+    });
+}
 
   </script>
 
