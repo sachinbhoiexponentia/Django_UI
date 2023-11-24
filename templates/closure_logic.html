@@ -636,17 +636,17 @@
 </style>
 
 <body>
-  
+
 <header>
     <div class="left-buttons">
         <button></button>
         <h1 style="margin-left: 56px;">Task Closure</h1>
     </div>
 
-    <a href="{% url 'logout' %}" class="btn btn-danger" style="margin-left: auto;">Logout</a>
-
-</header>
-
+    <div class="right-buttons">
+      <button class="button-images_noti"></button>
+      <button class="button-images_admin"></button>
+      <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
 
   <div>
     <div class="sidebar">
@@ -750,12 +750,6 @@
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="itteration_level" class="label1_">Iteration Level</label>
-                        <input class="first1" name="itteration_level" id="itteration_level" type="text" placeholder="Iteration Level" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
                         <label for="closure_true_query" class="label1_">Closure True Query</label>
                         <input class="first1" name="closure_true_query" id="closure_true_query" type="text" placeholder="Closure True Query" />
                       </div>
@@ -813,6 +807,7 @@
                     {% csrf_token %}
                     <input type="hidden" id="task_closure_Form_edit" name="form_identifier"
                       value="task_closure_Form_edit" />
+                      
                     <div class="form-row">
                       <div class="form-group_thre">
                         <!-- <label for="task_no" class="label1_">Task No.</label> -->
@@ -820,19 +815,26 @@
                           placeholder="Task ID" />
                       </div>
                     </div>
+                    
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="constraint" class="label1_">Constraint</label>
+                        <label for="constraint" class="label1_">Task_Desc</label>
                         <input class="first1" name="tc_Task_Desc" id="tc_Task_Desc" type="text"
                           placeholder="Task_Desc" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="category_task_allocated_with" class="label1_">Category Task Allocated With</label>
+                        <label for="category_task_allocated_with" class="label1_">Closure_True_Query</label>
                         <input class="first1" name="tc_Closure_True_Query"
                           id="tc_Closure_True_Query" type="text"
                           placeholder="Closure_True_Query" />
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group_thre">
+                        <label for="tc_closure_sql_query" class="label1_">Closure SQL Query</label>
+                        <input class="first1" name="tc_closure_sql_query" id="tc_closure_sql_query" type="text" placeholder="Closure True Query" />
                       </div>
                     </div>
                     <button type="submit" id="validateButton_threshold_logic_config"
@@ -969,6 +971,7 @@ $(document).ready(function () {
       document.getElementById("tc_task_id").value = rowId
       document.getElementById("tc_Task_Desc").value = data.Task_Desc
       document.getElementById("tc_Closure_True_Query").value = data.Closure_True_Query
+      document.getElementById("tc_closure_sql_query").value = data.Closure_SQL_Query
     }
   });
 });

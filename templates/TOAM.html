@@ -448,7 +448,7 @@
 
   .button-images_noti {
     padding: 10px;
-    background: url("{% static 'Vector.png' %}") no-repeat right center;
+    background: url("{% static 'Vector2.png' %}") no-repeat right center;
     background-size: auto;
     border: none;
     height: 26px;
@@ -645,10 +645,10 @@
         <h1 style="margin-left: 56px;">Task Optimization & Assignment Module</h1>
     </div>
 
-    <a href="{% url 'logout' %}" class="btn btn-danger" style="margin-left: auto;">Logout</a>
-
-</header>
-
+    <div class="right-buttons">
+      <button class="button-images_noti"></button>
+      <button class="button-images_admin"></button>
+      <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
 
   <div>
     <div class="sidebar">
