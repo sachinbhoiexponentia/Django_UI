@@ -506,9 +506,9 @@ def TOAM_Module_View(request):
         if form_id == 'allocation_parameters_Form_edit':
             print('allocation_parameters_Form_edit') 
             try:
-                trigger_id = request.POST.get('AP_Task_id')
-                print("trigger_id:",trigger_id)
-                threshold_login_config = Allocation_Parameters.objects.get(Task_id=trigger_id)
+                task_id = request.POST.get('AP_Task_id')
+                print("task_id:",task_id)
+                threshold_login_config = Allocation_Parameters.objects.get(Task_id=task_id)
 
                 # Update fields based on the form data
                 threshold_login_config.Channel = request.POST.get('AP_Channel')
