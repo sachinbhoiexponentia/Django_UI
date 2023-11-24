@@ -1029,10 +1029,10 @@
 
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit" id="editButton3" data-toggle="modal" data-target="#myModal4_edit"
-                        style="color: black;"></i>
-                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete"
-                        style="color: black;"></i>
+                      <i class="fas fa-edit" id="editButton3" onclick="getSourceData_AP({{row.0}})" data-toggle="modal"
+                      data-target="#modal_allocation_parameters_form_edit" style="color: black;"></i>
+                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_AP({{ row.0 }})"
+                      data-toggle="modal" style="color: black;"></i>
                     </td>
                   </tr>
                   {% endfor %}
@@ -1954,7 +1954,7 @@
 
 
 
-      
+
      $(document).ready(function () {
     $('#validateButton_microsegment_default_task').on('click', function (event) {
         event.preventDefault(); // Prevent the default form submission
@@ -2110,6 +2110,74 @@ function DeleteSourceData_mdt(rowId) {
 }
 
 
+
+
+
+
+
+
+
+  function getSourceData_AP(rowId) {
+  $(document).ready(function () {
+    var apiUrl = `api/microsegment_default_tasks_get_data/${rowId}`;
+    $.ajax({
+      url: apiUrl,
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        // Display success message on the webpage
+        $('#successMessage').text('Data loaded successfully!');
+
+        // Update form fields with retrieved data
+        document.getElementById("mdt_pk_id").value = data.id;
+        document.getElementById("channel_mdt").value = data.Channel;
+        document.getElementById("demoseg_mdt").value = data.DemoSeg;
+        document.getElementById("valueseg_mdt").value = data.ValueSeg; // Assuming Trigger is a simple
+        document.getElementById("segment_id_mdt").value = data.Segment_id; // Assuming Trigger is a 
+        document.getElementById("default_tasks_mdt").value = data.Default_Tasks; // Assuming Trigger is a simple string field
+      },
+      error: function () {
+        // Handle error case, display an error message or take appropriate action
+        $('#errorMessage').text('Error loading data. Please try again.');
+      }
+    });
+  });
+}
+
+
+
+
+
+function DeleteSourceData_AP(row_id) {
+fetch(`api/allocation_parameters_delete/${row_id}/`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+  .then(response => {
+    if (!response.ok) {
+      if (response.status === 404) {
+        // Show errorDiv if object not found
+        document.getElementById('errorDiv').style.display = 'block';
+      } else {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } else {
+      // Show successDiv on successful deletion
+      alert(`Row ${row_id} deleted successfully`);
+      $('#myModal_delete_AP').modal('show');
+      return response.json();
+    }
+  })
+  .catch(error => {
+    // Handle other errors
+    console.error('Error deleting data:', error);
+    // Show errorDiv on other errors
+    document.getElementById('errorDiv').style.display = 'block';
+  });
+}
 
   </script>
 

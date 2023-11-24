@@ -15,15 +15,19 @@ urlpatterns = [
     
     
     # closure
+    path('closure_Config_view/api/task_closure_get_data/<int:pk>/', task_closure_detail_view, name='task_closure_detail_view'),
+    path('closure_Config_view/api/task_closure_delete/<int:row_id>/', task_closure_delete_by_id, name='task_closure_delete_by_id'),
     
     #for TOAM rohan
     path('TOAM_Module_View/api/task_constraint_rules_get_data/<int:pk>/', task_constraint_rules_detail_view, name='task_constraint_rules_detail_view'),
     path('TOAM_Module_View/api/task_constraint_rules_delete/<int:row_id>/', task_constraint_rules_delete_by_id, name='optimization_rules_delete_by_id'),
+    path('TOAM_Module_View/api/allocation_parameters_get_data/<int:pk>/', allocation_parameters_detail_view, name='allocation_parameters_detail_view'),
+    path('TOAM_Module_View/api/allocation_parameters_delete/<int:row_id>/', allocation_parameters_delete_by_id, name='allocation_parameters_delete_by_id'),
     # TOAM sachin
     path('TOAM_Module_View/api/microsegment_default_tasks_get_data/<str:mdt_pk_id>/', microsegment_default_tasks_detail_view, name='microsegment_default_tasks__detail_view'),
     path('TOAM_Module_View/api/microsegment_default_tasks_delete/<str:mdt_pk_id>/', microsegment_default_tasks_delete_data_by_id, name='microsegment_default_tasks__delete_data_by_id'),
 
-    
+
     # for TNT
     path('TNT_Module_View/api/Channel_Task_Mapping_get_data/<int:pk>/', channel_task_mapping_detail_view, name='get_by_id'),
     path('TNT_Module_View/api/Channel_Task_Mapping_delete/<int:row_id>/', channel_task_mapping_delete_data_by_id, name='delete_data_by_id'),
