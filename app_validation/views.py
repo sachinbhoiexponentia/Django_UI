@@ -604,13 +604,16 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #         task_closure_config = Task_Closure_Config(
 #             Task_id=row['Task_id'],
 #             Task_Desc=row['Task_Desc'],
-#             Closure_True_Query=row['Closure_True_Query']
+#             Closure_True_Query=row['Closure_True_Query'],
+#             Closure_SQL_Query=row['Closure_SQL_Query']
 #         )
 #         task_closure_config.save()
 
 # df_task_closure_config = pd.read_excel('Config Template 081123.xlsx', sheet_name='2.a Task Closure Config', skiprows=1)
 # print(df_task_closure_config)
 # insert_task_closure_config_data(df_task_closure_config)
+
+# Task_Closure_Config.objects.all().delete()
 
 
 
