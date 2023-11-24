@@ -11,12 +11,14 @@ __pycache__/
 *.sqlite3
 media/
 static/
+static_root/
 
 # Secret key
 secret_key.txt
 
 # Environment variables
 .env
+env/
 
 # System files
 .DS_Store

@@ -437,7 +437,30 @@ def TOAM_Module_View(request):
             except Exception as e:
                 print('Error while saving the data ',e)  
                 messages.error(request, e)    
-            
+        if form_id == 'optimization_rules_Form_edit':
+            print('optimization_rules_Form_edit')
+            try:
+                trigger_id = request.POST.get('ord_task_no')
+                print("trigger_id:",trigger_id)
+                threshold_login_config = Task_Constraint_Rules.objects.get(Task_No=trigger_id)
+
+                # Update fields based on the form data
+                threshold_login_config.Constraint_Description = request.POST.get('ord_constraint')
+                threshold_login_config.Category_Task_Associated_with = request.POST.get('ord_category_task_allocated_with')
+                threshold_login_config.Min_Task_Count_FLS = request.POST.get('ord_min_task_count_fls')
+                threshold_login_config.Max_Task_Count_FLS = request.POST.get('ord_max_task_count_fls')
+                threshold_login_config.Mutual_Exclusion_Criteria = request.POST.get('ord_mutual_exclusion_criteria')
+                threshold_login_config.Task_Priority = request.POST.get('ord_task_priority')
+
+                threshold_login_config.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'TOAM.html', context)
+            except Task_Constraint_Rules.DoesNotExist:
+                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))        
             
         if form_id == 'allocation_parameters_Form':
             print('allocation_parameters_Form') 

@@ -303,6 +303,39 @@ def microsegment_default_tasks_delete_data_by_id(request, mdt_pk_id):
 #         serializer = Threshold_Login_ConfigSerializer(instance)
 #         return Response(serializer.data)
 
+class Task_Constraint_Rules_DataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task_Constraint_Rules
+        fields = '__all__'
+
+
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def task_constraint_rules_detail_view(request, pk):
+    try:
+        instance = Task_Constraint_Rules.objects.get(pk=pk)
+    except Task_Constraint_Rules.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = Task_Constraint_Rules_DataSerializer(instance)
+    print(serializer)
+    return Response(serializer.data)
+
+@csrf_exempt
+@login_required
+@require_POST
+def task_constraint_rules_delete_by_id(request, row_id):
+    try:
+        # Assuming YourModel has a primary key named 'id'
+        print(row_id)
+        instance = Task_Constraint_Rules.objects.get(Task_No = row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
+    
 
 # ##################insert the config data into the model###################
 # def insert_config_data(df):
