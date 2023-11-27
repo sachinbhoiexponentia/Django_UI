@@ -98,7 +98,7 @@
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">
                 Download</button>
-            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Task_Constraint_Rules')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -352,30 +352,27 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div id="submit_optimization_rules" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-md">
 
-            <div id="submit_optimization_rules" class="modal fade" role="dialog">
-              <div class="modal-dialog modal-md">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                  <button type="button" class="close" data-dismiss="modal"
+                    style="border: 1px; height: 5px;">&times;</button>
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-                    <button type="button" class="close" data-dismiss="modal"
-                      style="border: 1px; height: 5px;">&times;</button>
-
-                  </div>
-                  <div class="modal-body">
-                    <p style="color: black;">Do you want to add new channel?</p>
-                    <button type="button" id="submit_button_optimization_rules"
-                      style="background-color:#736CEB; color: white;">Submit optimization</button>
-                  </div>
-
+                </div>
+                <div class="modal-body">
+                  <p style="color: black;">Do you want to add new channel?</p>
+                  <button type="button" id="submit_button_optimization_rules"
+                    style="background-color:#736CEB; color: white;">Submit optimization</button>
                 </div>
 
               </div>
+
             </div>
-
-
           </div>
 </div>
 
@@ -405,7 +402,7 @@
                 data-target="#myModal2"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
               <button class="button-with-image1"><span><img src="{% static 'Download.png' %}"
                     class="me-1">Download</button>
-              <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image2" onclick="uploadToS3('Allocation_Parameters')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
             </div>
             <div class="table-container">
               <table class="custom-table">
@@ -623,40 +620,40 @@
                               placeholder="PricePoint_Reward" />
                           </div>
                         </div>
-                      <button type="submit" id="validateButton_threshold_logic_config"
+                      <button type="submit" id="validateButton_allocation_parameters"
                         class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                        data-form-id="allocation_parameters_Form">Submit</button>
+                        data-form-id="allocation_parameters_Form_edit">Submit</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
            
-
+            <div id="submit_allocation_parameters" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-md">
+  
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                    <button type="button" class="close" data-dismiss="modal"
+                      style="border: 1px; height: 5px;">&times;</button>
+  
+                  </div>
+                  <div class="modal-body">
+                    <p style="color: black;">Do you want to add new channel?</p>
+                    <button type="button" id="submit_button_allocation_parameters"
+                      style="background-color:#736CEB; color: white;">Submit Allocation</button>
+                  </div>
+  
+                </div>
+  
+              </div>
+            </div>
 
             
           </div>
-          <div id="submit_allocation_parameters" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-md">
-
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-                  <button type="button" class="close" data-dismiss="modal"
-                    style="border: 1px; height: 5px;">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <p style="color: black;">Do you want to add new channel?</p>
-                  <button type="button" id="submit_button_allocation_parameters"
-                    style="background-color:#736CEB; color: white;">Submit Allocatiion</button>
-                </div>
-
-              </div>
-
-            </div>
-          </div>
+          
 
 
         <div id="Tokyo" class="tabcontent">
@@ -664,7 +661,7 @@
             <button class="button-with-image blueBorder ms-auto" id="formButton3" data-toggle="modal"
               data-target="#myModal3"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Microsegment_Default_Tasks')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -1298,38 +1295,38 @@
 
 
 
-      $(document).ready(function () {
-        $('#validateButton_optimization_rule').on('click', function (event) {
-          event.preventDefault(); // Prevent the default form submission
-          var formData = $('#optimization_rules_Form').serialize();
-          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
-          $.ajax({
-            type: 'GET',
-            url: '/api/validate_thresold_config_df/',
-            data: formData,
-            dataType: 'json',
-            success: function (response) {
-              if (response.is_valid) {
-                // Handle success (e.g., update UI, show a message)
-                $('#submit_optimization_rules').modal('show');
-              } else {
-                // Handle validation errors (e.g., display error messages)
-                $('#error_threshold_logic_config').modal('show');
-              }
-            },
-            error: function (xhr, status, error) {
-              console.error('AJAX request failed with error:', error);
-              alert('Internal Server Error. Please check the server logs for details.');
-            }
-          });
-        });
-      });
+      // $(document).ready(function () {
+      //   $('#validateButton_optimization_rule').on('click', function (event) {
+      //     event.preventDefault(); // Prevent the default form submission
+      //     var formData = $('#optimization_rules_Form').serialize();
+      //     formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+      //     $.ajax({
+      //       type: 'GET',
+      //       url: '/api/validate_thresold_config_df/',
+      //       data: formData,
+      //       dataType: 'json',
+      //       success: function (response) {
+      //         if (response.is_valid) {
+      //           // Handle success (e.g., update UI, show a message)
+      //           $('#submit_optimization_rules').modal('show');
+      //         } else {
+      //           // Handle validation errors (e.g., display error messages)
+      //           $('#error_threshold_logic_config').modal('show');
+      //         }
+      //       },
+      //       error: function (xhr, status, error) {
+      //         console.error('AJAX request failed with error:', error);
+      //         alert('Internal Server Error. Please check the server logs for details.');
+      //       }
+      //     });
+      //   });
+      // });
 
-      $(document).ready(function () {
-        $('#submit_button_optimization_rules').on('click', function () {
-          $('#optimization_rules_Form').submit();
-        });
-      });
+      // $(document).ready(function () {
+      //   $('#submit_button_optimization_rules').on('click', function () {
+      //     $('#optimization_rules_Form').submit();
+      //   });
+      // });
 
 
 
@@ -1359,6 +1356,11 @@
               alert('Internal Server Error. Please check the server logs for details.');
             }
           });
+        });
+      });
+      $(document).ready(function () {
+        $('#submit_button_allocation_parameters').on('click', function () {
+          $('#allocation_parameters_Form').submit();
         });
       });
 
@@ -1589,6 +1591,36 @@ fetch(`api/allocation_parameters_delete/${row_id}/`, {
     // Show errorDiv on other errors
     document.getElementById('errorDiv').style.display = 'block';
   });
+}
+
+function uploadToS3(sheetName) {
+    // Make a GET request to the server endpoint with the sheet name
+    fetch(`/upload/${sheetName}/`, {
+        method: 'GET',
+        headers: {
+            // No need for 'Content-Type' header in GET requests
+            // 'Content-Type': 'application/json',
+            // Add any other headers if needed
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response from the server
+        if (data.is_valid) {
+            // Show success alert
+            alert('Uploaded successfully');
+        } else {
+            // Show failure alert
+            alert('Upload failed');
+        }
+        // Add any additional logic or UI updates based on the response
+    })
+    .catch(error => {
+        // Handle errors
+        console.error('Error:', error);
+        // Show an error alert or handle the error in another way
+        alert('Error uploading data. Please try again.');
+    });
 }
 
   </script>

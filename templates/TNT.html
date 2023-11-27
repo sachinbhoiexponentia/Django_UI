@@ -93,7 +93,7 @@
             <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"> Download</button>
-            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Channel_Task_Mapping')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -270,7 +270,7 @@
             <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
               data-target="#myModal2"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Task_Trigger_Mapping')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -426,7 +426,7 @@
             <button class="button-with-image blueBorder ms-auto" id="formButton3" data-toggle="modal"
               data-target="#myModal3"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-            <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Trigger_ON_Query')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -955,6 +955,35 @@ function DeleteSourceData_TQL(rowId) {
       document.getElementById('errorDiv').style.display = 'block';
     });
 }
+
+function uploadToS3(sheetName) {
+    // Make a GET request to the server endpoint with the sheet name
+    fetch(`/upload/${sheetName}/`, {
+        method: 'GET',
+        headers: {
+            // No need for 'Content-Type' header in GET requests
+            // 'Content-Type': 'application/json',
+            // Add any other headers if needed
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response from the server
+        if (data.is_valid) {
+            // Show success alert
+            alert('Uploaded successfully');
+        } else {
+            // Show failure alert
+            alert('Upload failed');
+        }
+        // Add any additional logic or UI updates based on the response
+    })
+    .catch(error => {
+        // Handle errors
+        console.error('Error:', error);
+        // Show an error alert or handle the error in another way
+        alert('Error uploading data. Please try again.');
+    });
 
   </script>
 

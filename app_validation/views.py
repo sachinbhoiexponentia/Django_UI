@@ -644,17 +644,40 @@ def task_constraint_rules_delete_by_id(request, row_id):
 # print('dummy records saved')
 
 
-def upload_to_s3(request,sheet_name):
+# def upload_to_s3(request,sheet_name):
+#     try:
+#         # sheet_name = request.POST.get('sheet_name')
+#         data_model = apps.get_model(app_label='app_validation',model_name=sheet_name)
+#         data_df = pd.DataFrame(list(data_model.objects.all().values()))
+#         is_valid, errors = mainValidate_function(sheet_name, data_df)
+#         if not is_valid:
+#             return JsonResponse({'error': errors}, status = 400)
+#         is_valid, errors = s3_upload(data_df,sheet_name,s3_bucket,s3_path)
+#         if not is_valid:
+#             return JsonResponse({'error': errors}, status = 400)
+#         return JsonResponse({'message': 'Success'}, status = 200)
+#     except Exception as e:
+#         return JsonResponse({'error': str(e)}, status = 400)
+    
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def upload_to_s3(request, sheet_name):
     try:
+        print("upload to s3")
         # sheet_name = request.POST.get('sheet_name')
-        data_model = apps.get_model(app_label='app_validation',model_name=sheet_name)
+        data_model = apps.get_model(app_label='app_validation', model_name=sheet_name)
         data_df = pd.DataFrame(list(data_model.objects.all().values()))
-        is_valid, errors = mainValidate_function(sheet_name, data_df)
-        if not is_valid:
-            return JsonResponse({'error': errors}, status = 400)
-        is_valid, errors = s3_upload(data_df,sheet_name,s3_bucket,s3_path)
-        if not is_valid:
-            return JsonResponse({'error': errors}, status = 400)
-        return JsonResponse({'message': 'Success'}, status = 200)
+        print("upload data_df:",data_df)
+        # is_valid, errors = mainValidate_function(sheet_name, data_df)
+        
+        
+
+        # Save to a local CSV file
+        local_file_path = f"C:/Users/priyanandini.das/project i-earn/django-UI/iEarn/upload_csv_files/{sheet_name}_local_data.csv"
+        data_df.to_csv(local_file_path, index=False)
+
+        # Optionally, you can return the local file path in the response
+        return JsonResponse({'is_valid': True, 'errors': ['errors']})
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status = 400)
+        return JsonResponse({'is_valid': False, 'errors': [e]})
