@@ -533,7 +533,7 @@ def validate_Task_Closure_Config(Task_Closure_Config_df = None):
             Task_Closure_Config_df = df_config['Task_Closure_Config']
         
         for i in range(len(Task_Closure_Config_df)):
-            Task_id = Task_Closure_Config_df['Task_id'][i]
+            Task_id = Task_Closure_Config_df['task_id'][i]
             
             # check if TASK id is valid or exists in trigger config file 
             if not is_valid_value(Task_id) or not str(Task_id) in valid_task_ids:
@@ -541,7 +541,7 @@ def validate_Task_Closure_Config(Task_Closure_Config_df = None):
                 errors.append(f"Error in Task_Closure_Config for Task_is {Task_id}: TASK id is not valid or empty!!")
                         
             # checking if the SQL Query for task clouser is valid
-            sql = Task_Closure_Config_df["Closure_True_Query"][i]
+            sql = Task_Closure_Config_df["closure_true_query"][i]
             
             # checking if sql query is valid
             if not validate_sql_query_with_Zero_limit(sql):
@@ -559,6 +559,7 @@ def validate_Task_Closure_Config(Task_Closure_Config_df = None):
     
         
 def validate_Channel_Task_Mapping(Channel_Task_Mapping = None):
+    print('validate_Channel_Task_Mapping')
     errors = []
     try: 
         validation_flag = True
@@ -567,18 +568,18 @@ def validate_Channel_Task_Mapping(Channel_Task_Mapping = None):
         for i in range(len(Channel_Task_Mapping)):
             
             # checking if channel is valid or not
-            if not Channel_Task_Mapping['Channel'][i] in master_config_json['allowed_channel']:
+            if not Channel_Task_Mapping['channel'][i] in master_config_json['allowed_channel']:
                 validation_flag = False
                 errors.append(f"Error in config Channel_Task_Mapping: Value {Channel_Task_Mapping['Channel'][i]} for column Channel is  is not allowed.")
         
             # checking demoseg_value and its ids
-            DemoSeg_ValueSeg_Name = Channel_Task_Mapping['DemoSeg_ValueSeg_Name'][i]
+            DemoSeg_ValueSeg_Name = Channel_Task_Mapping['demoseg_valueseg_name'][i]
             DemoSeg_ValueSeg_Name = str(DemoSeg_ValueSeg_Name).split("_")
-            DemoSeg_ValueSeg_ID = Channel_Task_Mapping['DemoSeg_ValueSeg_ID'][i]
+            DemoSeg_ValueSeg_ID = Channel_Task_Mapping['demoseg_valueseg_id'][i]
             
             if len(DemoSeg_ValueSeg_Name) != 2:
                 validation_flag = False
-                errors.append(f"Error in config Channel_Task_Mapping: Value {Channel_Task_Mapping['DemoSeg_ValueSeg_Name'][i]} for cloumn DemoSeg_ValueSeg_Name is correct it should be seprated by '_' ")
+                errors.append(f"Error in config Channel_Task_Mapping: Value {Channel_Task_Mapping['demoseg_valueseg_name'][i]} for cloumn DemoSeg_ValueSeg_Name is correct it should be seprated by '_' ")
                 
             if not is_valid_value(DemoSeg_ValueSeg_Name[0]) or not is_valid_value(DemoSeg_ValueSeg_Name[1]) or not is_valid_value(DemoSeg_ValueSeg_ID):
                 validation_flag = False
@@ -591,7 +592,7 @@ def validate_Channel_Task_Mapping(Channel_Task_Mapping = None):
             # validating the Task Ids 
             # task_ids = json.loads(Channel_Task_Mapping['Task'][i])
             try:
-                task_ids = eval(Channel_Task_Mapping['Task'][i])
+                task_ids = eval(Channel_Task_Mapping['task'][i])
                 if len(set(task_ids)) != len(task_ids):
                     validation_flag = False
                     errors.append("Error in config Channel_Task_Mapping: TAsk  column should contains all the unique task ids.")
@@ -739,10 +740,12 @@ def mainValidate_function(sheet_name = None, data_df = None):
         try:
             obj = s3.get_object(Bucket= S3_BUCKET_NAME, Key=f"iearnV2-Dev_config_files/{sheet}.csv")
             df_config.update({sheet:pd.read_csv(obj['Body'])})
+            df_config = pd.read_excel('Config Template 081123.xlsx')
         except:
             print("error ",sheet)
-    valid_trigger_ids = (df_config['Trigger_ON_Query']['Trigger_id']).to_list()
-    valid_task_ids =  (df_config['Task_Trigger_Mapping']['Task_id']).to_list()
+    print('df_config',df_config)
+    valid_trigger_ids = (df_config['3.c Trigger_ON_Query']['Trigger_id']).to_list()
+    valid_task_ids =  (df_config['3.b Task_Trigger_Mapping']['Task_id']).to_list()
     
     isValid_config = True
     allerror = {}
