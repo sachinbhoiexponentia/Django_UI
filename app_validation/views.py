@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from app_validation.models import *
 from django.apps import apps
-from .controller import mainValidate_function,s3_upload
+from .controller import *
 from .config import s3_bucket,s3_path
 # from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -15,28 +15,55 @@ from django.views.decorators.http import require_POST
 from django.core.exceptions import ObjectDoesNotExist
 import pandas as pd
 
+
+
+
 @csrf_exempt
 @login_required 
 def validate_thresold_config_df_api(request):
+    # return JsonResponse({'is_valid': False, 'errors': []})
     print("validate_thresold_config_df_api function")
     if request.method == 'GET':
         print('GET Method')
-        try:
-            return JsonResponse({'is_valid': True, 'errors': ['errors']})
-            # data = request.GET
-            # parameters = dict(data.lists())
-            # print('parameters',parameters)
-            # if 'csrfmiddlewaretoken' in parameters:
-            #     csrf_token = parameters.pop('csrfmiddlewaretoken', None)
-            # sheet_name = data.get('form_identifier')
-            # print('sheet_name',sheet_name)
-            # data_df = pd.DataFrame(parameters)
-            # print('data_df',data_df)
-            # is_valid,errors = mainValidate_function(sheet_name,data_df)
-            # print('is_valid,errors',is_valid,errors)
-            # return JsonResponse({'is_valid': is_valid, 'errors': errors})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+        # try:
+            # return JsonResponse({'is_valid': True, 'errors': ['errors']})
+        data = request.GET
+        parameters = dict(data.lists())
+        print('parameters',parameters)
+        sheet_name = data.get('form_identifier')
+        # sheet_name = config_sheets[sheet_name]
+        print('sheet_name',sheet_name)
+        
+        if 'csrfmiddlewaretoken' in parameters:
+            csrf_token = parameters.pop('csrfmiddlewaretoken', None)
+        data_df = pd.DataFrame(parameters)
+        if 'form_identifier' in data_df.columns:
+            data_df = data_df.drop('form_identifier', axis=1)
+            
+        if sheet_name == 'Threshold_Logic_Form':
+            is_valid,errors = validate_thresold_config_df(data_df)
+        if sheet_name == 'Trigger_Threhold_by_Business_Form':
+            is_valid,errors = validate_Trigg_thres_bussness(data_df)
+        if sheet_name == 'closure_form':
+            is_valid,errors = validate_Task_Closure_Config(data_df)
+        if sheet_name == 'channel_task_mapping_Form':
+            is_valid,errors = validate_Channel_Task_Mapping(data_df)
+        if sheet_name == 'task_trigger_mapping_Form':
+            is_valid,errors = Validate_Task_Trigger_Mapping(data_df)
+        if sheet_name == 'trigger_on_query_logic_Form':
+            is_valid,errors = validate_Trigger_ON_Query(data_df)
+        if sheet_name == 'optimization_rules_Form_edit':
+            is_valid,errors = validate_task_constraint_rules(data_df) # optimization is changed to task constraints
+        if sheet_name == 'allocation_parameters_Form':
+            is_valid,errors = validate_allocation_parameters(data_df) 
+        if sheet_name == 'microsegment_default_tasks_Form':
+            is_valid,errors = validate_microseg_default_tasks(data_df) 
+            
+        # is_valid,errors = mainValidate_function(sheet_name,data_df)
+        print('is_valid,errors',is_valid,errors)
+        return JsonResponse({'is_valid': is_valid, 'errors': errors})
+        # except Exception as e:
+        #     return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 

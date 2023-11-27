@@ -244,10 +244,7 @@
                   </form>
                 </div>
               </div>
-        </div>
-s
-
-
+            </div>
       </div>
     </div>
 
@@ -307,7 +304,7 @@ s
 
 
 
-    $(document).ready(function () {
+    {% comment %} $(document).ready(function () {
       $('#validateButton_closure').on('click', function (event) {
           event.preventDefault(); // Prevent the default form submission
           var formData = $('#closure_form').serialize();
@@ -332,7 +329,41 @@ s
               }
           });
       });
-  }); 
+  });  {% endcomment %}
+
+
+$(document).ready(function () {
+  $('#validateButton_closure').on('click', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+    var formData = $('#closure_form').serialize();
+    formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+    $.ajax({
+      type: 'GET',
+      url: '/api/validate_thresold_config_df/',
+      data: formData,
+      dataType: 'json',
+      success: function (response) {
+        if (response.is_valid) {
+          // Handle success (e.g., update UI, show a message)
+          $('#submit_closure_view').modal('show');
+        } else {
+          // Show the errors in the error modal
+          $('#error_closure .modal-body p').html(response.errors.join('<br>'));
+          $('#error_closure').modal('show');
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX request failed with error:', error);
+        alert('Internal Server Error. Please check the server logs for details.');
+      }
+    });
+  });
+});
+
+
+
+
+
 
 $(document).ready(function () {
     $('#submit_button__closure').on('click', function () {

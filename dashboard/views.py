@@ -6,8 +6,6 @@ from django.contrib import messages
 
 
 
-
-
 def Threshold_form_success(requests):
     return render(requests, 'threshold_success_page.html')
 def Closure_form_success(requests):
@@ -16,7 +14,6 @@ def TNT_form_success(requests):
     return render(requests, 'tnt_success_page.html')
 def TOAM_form_success(requests):
     return render(requests, 'toam_success_page.html')
-    
 
 
 @login_required

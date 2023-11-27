@@ -45,6 +45,20 @@
       <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
 
 </header>
+
+<style>
+  /* Style for success messages */
+.success-message {
+    color: green;
+}
+ 
+/* Style for error messages */
+.error-message {
+    color: red;
+}
+</style>
+
+
   <div>
     <div class="sidebar">
       <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
@@ -71,8 +85,8 @@
           Business</button>
         <!-- <button class="tablinks" onclick="openCity(event, 'Segment_thres1_output_visible')">Segment thres1
           output</button> -->
-        <button class="tablinks" onclick="openCity(event, 'Default_Channel_Trigg_thres_visible')">Default Channel Trigg
-          thres</button>
+        {% comment %} <button class="tablinks" onclick="openCity(event, 'Default_Channel_Trigg_thres_visible')">Default Channel Trigg
+          thres</button> {% endcomment %}
 
       </div>
       <br><br>
@@ -209,14 +223,17 @@
                     </div>
                   </div>
                   <button type="button" id="validateButton_threshold_logic_config"
-                    class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                    data-form-id="Threshold_Logic_Form">Validate</button>
-                  {% comment %} data-target="#submit_threshold_logic_config" {% endcomment %}
+                    class="btn btn-info btn-lg submit_validate" 
+                    data-toggle="modal"
+                    >Validate111</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
+        </div>
+
+
 
         <div id="modal_threshold_logic_config_edit" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
@@ -295,7 +312,7 @@
                         id="FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit" />
                     </div>
                   </div>
-                  <button type="submit" id="validateButton_threshold_logic_config"
+                  <button type="submit" 
                     class="btn btn-info btn-lg submit_validate" data-toggle="modal"
                     data-form-id="Threshold_Logic_Form">Submit</button>
                 </form>
@@ -384,6 +401,8 @@
           </table>
         </div>
         <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+
+
         <div id="modal_trigger_threshold_business" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
             <!-- Modal content-->
@@ -457,7 +476,9 @@
                   </div>
 
                   <button type="button" id="validateButton_trigger_threshold_business"
-                    class="btn btn-info btn-lg submit_validate" data-toggle="modal" {% comment %}
+                    class="btn btn-info btn-lg submit_validate" 
+                    {% comment %} data-toggle="modal"  {% endcomment %}
+                    {% comment %}
                     data-target="#submit_trigger_threshold_business" {% endcomment %} {% comment %}
                     data-form-id="Trigger_Threhold_by_Business_Form" {% endcomment %}>Validate</button>
                 </form>
@@ -470,7 +491,7 @@
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title">Add New</h1>
+                <h1 class="modal-title">Edit</h1>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
               </div>
@@ -556,7 +577,7 @@
                     </div>
                   </div>
 
-                  <button type="submit" id="validateButton_trigger_threshold_business"
+                  <button type="submit" id=""
                     class="btn btn-info btn-lg submit_validate" data-toggle="modal"
                     data-form-id="Trigger_Threhold_by_Business_Form">Submit</button>
                 </form>
@@ -808,7 +829,9 @@
 
 
                   <button type="button" id="validateButton_fls_avg_thres" class="btn btn-info btn-lg submit_validate"
-                    data-toggle="modal" data-target="#myModal8" >Validate</button>
+                    data-toggle="modal" 
+                    {% comment %} data-target="#myModal8"  {% endcomment %}
+                    >Validate</button>
 
                 </form>
 
@@ -898,27 +921,36 @@
         </div>
       </div>
 
-
-
-
-    
-
-
-  <!-- <div id="error_threshold_logic_config" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <p style="color: black;">Error in validation, please check input values</p>
-          <button type="submit" id="error_button__threshold_logic_config"
-            style="background-color: red; color: white;">OK</button>
-        </div>
       </div>
-    </div>
-  </div> -->
+      </div>
+      </div>
+
+
+
+
+  <div id="error_threshold_logic_config" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <p style="color: black;">Error in validation, please check input values</p>
+              <button type="button" id="error_button__threshold_logic_config" style="background-color: red; color: white;">OK</button>
+          </div>
+      </div>
+  </div>
+  </div>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -983,18 +1015,15 @@
     });
 
 
-    document.addEventListener("DOMContentLoaded", function () {
+    {% comment %} document.addEventListener("DOMContentLoaded", function () {
       setupModalHandling("validateButton_threshold_logic_config", "modal_threshold_logic_config", "submit_threshold_logic_config");
-    });
-    
-    document.addEventListener("DOMContentLoaded", function () {
-      setupModalHandling("validateButton_threshold_logic_config", "modal_threshold_logic_config", "error_threshold_logic_config");
-    });
+    }); {% endcomment %}
+
     // {% comment %} mymodel, big form, mymodel5 submt form {% endcomment %}
 
-    document.addEventListener("DOMContentLoaded", function () {
+    {% comment %} document.addEventListener("DOMContentLoaded", function () {
       setupModalHandling("validateButton_trigger_threshold_business", "modal_trigger_threshold_business", "submit_trigger_threshold_business");
-    });
+    }); {% endcomment %}
 
     document.addEventListener("DOMContentLoaded", function () {
       setupModalHandling("submit3", "myModal3", "myModal7");
@@ -1024,7 +1053,7 @@
     }
 
 
-    $(document).ready(function () {
+    {% comment %} $(document).ready(function () {
       $('#validateButton_threshold_logic_config').on('click', function (event) {
         event.preventDefault(); // Prevent the default form submission
         var formData = $('#Threshold_Logic_Form').serialize();
@@ -1049,7 +1078,60 @@
           }
         });
       });
+    }); {% endcomment %}
+
+
+
+
+    $(document).ready(function () {
+  $('#validateButton_threshold_logic_config').on('click', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+    var formData = $('#Threshold_Logic_Form').serialize();
+    formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+    $.ajax({
+      type: 'GET',
+      url: '/api/validate_thresold_config_df/',
+      data: formData,
+      dataType: 'json',
+      success: function (response) {
+        if (response.is_valid) {
+          // Handle success (e.g., update UI, show a message)
+          $('#submit_threshold_logic_config').modal('show');
+        } else {
+          // Handle validation errors (e.g., display error messages)
+          displayErrors(response.errors);
+          $('#error_threshold_logic_config').modal('show');
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX request failed with error:', error);
+        alert('Internal Server Error. Please check the server logs for details.');
+      }
     });
+  });
+
+  // Function to display errors in the error modal
+  function displayErrors(errors) {
+    var errorModalBody = $('#error_threshold_logic_config .modal-body');
+    // Clear previous error messages
+    errorModalBody.empty();
+
+    // Add new error messages to the modal body
+    $.each(errors, function (index, error) {
+      errorModalBody.append('<p style="color: red;">' + error + '</p>');
+    });
+
+    // Add a button to close the modal
+    errorModalBody.append('<button type="button" id="error_button__threshold_logic_config" ' +
+      'style="background-color: red; color: white;">OK</button>');
+  }
+
+  // Click event for the OK button in the error modal
+  $(document).on('click', '#error_button__threshold_logic_config', function () {
+    $('#error_threshold_logic_config').modal('hide');
+  });
+});
+
 
     $(document).ready(function () {
       $('#submit_button__threshold_logic_config').on('click', function () {
@@ -1065,10 +1147,7 @@
 
 
 
-
-
-
-    $(document).ready(function () {
+    {% comment %} $(document).ready(function () {
       $('#validateButton_trigger_threshold_business').on('click', function (event) {
         event.preventDefault(); // Prevent the default form submission
         var formData = $('#Threshold_Logic_Form').serialize();
@@ -1080,10 +1159,8 @@
           dataType: 'json',
           success: function (response) {
             if (response.is_valid) {
-              // Handle success (e.g., update UI, show a message)
               $('#submit_trigger_threshold_business').modal('show');
             } else {
-              // Handle validation errors (e.g., display error messages)
               $('#error_threshold_logic_config').modal('show');
             }
           },
@@ -1093,7 +1170,34 @@
           }
         });
       });
+    }); {% endcomment %}
+
+    $(document).ready(function () {
+  $('#validateButton_trigger_threshold_business').on('click', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+    var formData = $('#Threshold_Logic_Form').serialize();
+    formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+    $.ajax({
+      type: 'GET',
+      url: '/api/validate_thresold_config_df/',
+      data: formData,
+      dataType: 'json',
+      success: function (response) {
+        if (response.is_valid) {
+          $('#submit_trigger_threshold_business').modal('show');
+        } else {
+          // Show the errors in the error modal
+          $('#error_threshold_logic_config .modal-body p').html(response.errors.join('<br>'));
+          $('#error_threshold_logic_config').modal('show');
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX request failed with error:', error);
+        alert('Internal Server Error. Please check the server logs for details.');
+      }
     });
+  });
+});
 
 
     $(document).ready(function () {
@@ -1101,10 +1205,6 @@
         $('#Trigger_Threhold_by_Business_Form').submit();
       });
     });
-
-
-
-
 
 
 
@@ -1181,8 +1281,6 @@
         $('#fls_avgthres_Form').submit();
       });
     });
-
-
 
 
 
