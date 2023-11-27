@@ -24,6 +24,7 @@ def validate_thresold_config_df_api(request):
     # return JsonResponse({'is_valid': False, 'errors': []})
     print("validate_thresold_config_df_api function")
     if request.method == 'GET':
+        is_valid = False
         print('GET Method')
         # try:
             # return JsonResponse({'is_valid': True, 'errors': ['errors']})
