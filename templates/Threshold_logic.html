@@ -108,7 +108,7 @@
             New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">
               Download</button>
-          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -320,6 +320,7 @@
             </div>
           </div>
         </div>
+        
       </div>
 
 
@@ -332,9 +333,24 @@
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-              <p style="color: black;">Do you want to add a new channel?</p>
+              <p style="color: black;">Do you want to add new channel?</p>
               <button type="button" id="submit_button__threshold_logic_config"
                 style="background-color:#736CEB; color: white;">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="error_threshold_logic_config" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p style="color: black;">Error in validation, please check input values</p>
+              <button type="submit" id="error_button__threshold_logic_config"
+                style="background-color: red; color: white;">OK</button>
             </div>
           </div>
         </div>
@@ -363,7 +379,7 @@
             data-target="#modal_trigger_threshold_business"><span><img src="{% static 'add.png' %}"
                 class="me-1"></span>Add New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -1133,7 +1149,7 @@
       setupModalHandling("submit4", "myModal4", "myModal8");
     });
 
-
+    
 
     function setupModalHandling(validateButton_threshold_logic_config, modalTriggerId, modalId) {
       var validateButton_threshold_logic_config = document.getElementById(validateButton_threshold_logic_config);
@@ -1575,6 +1591,37 @@
           document.getElementById('errorDiv').style.display = 'block';
         });
     }
+
+    function uploadToS3(sheetName) {
+    // Make a GET request to the server endpoint with the sheet name
+    fetch(`/upload/${sheetName}/`, {
+        method: 'GET',
+        headers: {
+            // No need for 'Content-Type' header in GET requests
+            // 'Content-Type': 'application/json',
+            // Add any other headers if needed
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response from the server
+        if (data.is_valid) {
+            // Show success alert
+            alert('Uploaded successfully');
+        } else {
+            // Show failure alert
+            alert('Upload failed');
+        }
+        // Add any additional logic or UI updates based on the response
+    })
+    .catch(error => {
+        // Handle errors
+        console.error('Error:', error);
+        // Show an error alert or handle the error in another way
+        alert('Error uploading data. Please try again.');
+    });
+}
+
 
 
   </script>

@@ -38,6 +38,6 @@ urlpatterns = [
         
 
         
-    path('upload/<sheet_name>/', upload_to_s3, name='upload_to_s3'),
+    path('upload/<str:sheet_name>/', upload_to_s3, name='upload_to_s3'),
     
 ]
