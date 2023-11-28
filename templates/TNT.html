@@ -709,8 +709,8 @@
               dataType: 'json',
               success: function (response) {
                   if (response.is_valid) {
+                    $('#error_threshold_logic_config .modal-body p').html(response.errors.join('<br>'));
                       // Handle success (e.g., update UI, show a message)
-                      $('#error_threshold_logic_config .modal-body p').html(response.errors.join('<br>'));
                       $('#submit_task_trigger_mapping').modal('show');
                   } else {
                       // Handle validation errors (e.g., display error messages)
@@ -748,8 +748,9 @@
               success: function (response) {
                   if (response.is_valid) {
                       // Handle success (e.g., update UI, show a message)
-                      $('#submit_trigger_on_query_logic').modal('show');
                       $('#error_threshold_logic_config .modal-body p').html(response.errors.join('<br>'));
+                      $('#submit_trigger_on_query_logic').modal('show');
+                      
                   } else {
                       // Handle validation errors (e.g., display error messages)
                       $('#error_threshold_logic_config').modal('show');

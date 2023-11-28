@@ -341,6 +341,16 @@
       </div>
 
 
+      {% comment %} END of Threshold logic form {% endcomment %}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -385,6 +395,9 @@
           </table>
         </div>
         <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+
+
+
 
 
         <div id="modal_trigger_threshold_business" class="modal fade" role="dialog">
@@ -470,6 +483,8 @@
             </div>
           </div>
         </div>
+
+
         <div id="modal_trigger_threshold_business_edit" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
             <!-- Modal content-->
@@ -571,6 +586,42 @@
         </div>
       </div>
     </div>
+
+        
+
+        <div id="submit_trigger_threshold_business" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                <button type="button" class="close" data-dismiss="modal"
+                  style="border: 1px; height: 5px;">&times;</button>
+              </div>
+              <div class="modal-body">
+                <p style="color: black;">Do you want to add new channel?</p>
+                <button type="button" id="submit_trigger_threshold_business_submit"
+                  style="background-color:#736CEB; color: white;">Submit2</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div id="submit_threshold_logic_config" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -637,24 +688,7 @@
             </div>
           </div>
         </div>
-        <div id="submit_trigger_threshold_business" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-md">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-                <button type="button" class="close" data-dismiss="modal"
-                  style="border: 1px; height: 5px;">&times;</button>
-              </div>
-              <div class="modal-body">
-                <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_trigger_threshold_business_submit"
-                  style="background-color:#736CEB; color: white;">Submit2</button>
-              </div>
-            </div>
 
-          </div>
-        </div>
         <div id="myModal3_delete" class="modal fade" role="dialog">
           <div class="modal-dialog modal-md">
             <!-- Modal content-->
@@ -704,6 +738,37 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <div id="myModal7" class="modal fade" role="dialog">
         <div class="modal-dialog modal-md">
 
@@ -717,13 +782,63 @@
             </div>
             <div class="modal-body">
               <p style="color: black;">Do you want to add new channel?</p>
-              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit</button>
+              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit4s</button>
             </div>
 
           </div>
 
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -777,6 +892,7 @@
 
               </div>
               <div class="modal-body">
+                
                 <form id="Default_Channel_Trigg_thres_Form" method="post" enctype="multipart/form-data">
                   {% csrf_token %}
                   <input type="hidden" id="Default_Channel_Trigg_thres_Form" name="form_identifier"
@@ -872,7 +988,7 @@
 
 
                   <button type="submit" id="validateButton_fls_avg_thres" class="btn btn-info btn-lg submit_validate"
-                    data-toggle="modal" {% comment %} data-target="#myModal8" {% endcomment %}>Submit</button>
+                    data-toggle="modal" {% comment %} data-target="#myModal8" {% endcomment %}>Submit5</button>
 
                 </form>
 
@@ -897,7 +1013,7 @@
             </div>
             <div class="modal-body">
               <p style="color: black;">Do you want to add new channel?</p>
-              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit</button>
+              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit6</button>
             </div>
 
           </div>
@@ -1159,7 +1275,7 @@
     $(document).ready(function () {
   $('#validateButton_trigger_threshold_business').on('click', function (event) {
     event.preventDefault(); // Prevent the default form submission
-    var formData = $('#Threshold_Logic_Form').serialize();
+    var formData = $('#Trigger_Threhold_by_Business_Form').serialize();
     formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
     $.ajax({
       type: 'GET',

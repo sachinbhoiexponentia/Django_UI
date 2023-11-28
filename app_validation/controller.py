@@ -222,55 +222,56 @@ def validate_thresold_config_df(thresold_config_df = None):
     errors = []
     if thresold_config_df is None:
         thresold_config_df = df_config['Threshold_Logic_Config']
-    try:
-        validation_flag = True
+    # try:
+    validation_flag = True
+    
+    for i in range(len(thresold_config_df)):
         
-        for i in range(len(thresold_config_df)):
+        trigger_id =thresold_config_df["Trigger_id"][i]
+        # Check if trigger id is valid 
+        if not is_valid_value(trigger_id):# or trigger_id not in valid_trigger_ids:
+            validation_flag = False
+            errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: trigger id is not valid or empty!!")
+        
+        sql = thresold_config_df["Thres_Query_Logic"][i]
+        # checking if sql query is valid
+        if not validate_sql_query_with_Zero_limit(sql):
+            validation_flag = False
+            errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: The SQL query is not valid") 
             
-            trigger_id =thresold_config_df["Trigger_id"][i]
-            # Check if trigger id is valid 
-            if not is_valid_value(trigger_id) or trigger_id not in valid_trigger_ids:
+        # checking if Activation_Flag is valid
+        if not thresold_config_df["Activation_Flag"][i].strip().lower() in {"y", "n", "1", "0"}:
+            validation_flag = False
+            errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: invalid Activation_Flag")
+        
+        # checking if operation is valid 
+        if not thresold_config_df["Operation"][i] in master_config_json['Allowed_operations']:
+            validation_flag = False
+            errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: Operation is not allowed.")
+        
+        # cheking if analysis period is valid it should in integer
+        if not is_valid_value(thresold_config_df['Analysis_Period'][i]) or not data_type_validation(thresold_config_df['Analysis_Period'][i], 'int'):
+            validation_flag = False
+            errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: Analysis_Period should be an integer value.")
+        
+        # cheking the value of threshold requirement flags for fls or segement and its some
+        # print('thresold_config_df["Num_Threshold_Required"]',thresold_config_df["Num_Threshold_Required"])
+        if check_thres_required(thresold_config_df["Segment_Threshold_1_Requirement_Flag"][i]) and check_thres_required(thresold_config_df["FLS_Threshold_2_Requirement_Flag"][i]):
+            if not ChecK_sum_of_threshold_required(thresold_config_df["Num_Threshold_Required"][i],thresold_config_df["Segment_Threshold_1_Requirement_Flag"][i],thresold_config_df["FLS_Threshold_2_Requirement_Flag"][i]): 
                 validation_flag = False
-                errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: trigger id is not valid or empty!!")
-            
-            sql = thresold_config_df["sql_Thres_Query_Logic"][i]
-            # checking if sql query is valid
-            if not validate_sql_query_with_Zero_limit(sql):
-                validation_flag = False
-                errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: The SQL query is not valid") 
-                
-            # checking if Activation_Flag is valid
-            if not thresold_config_df["Activation_Flag"][i].strip().lower() in {"y", "n", "1", "0"}:
-                validation_flag = False
-                errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: invalid Activation_Flag")
-            
-            # checking if operation is valid 
-            if not thresold_config_df["Operation"][i] in master_config_json['Allowed_operations']:
-                validation_flag = False
-                errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: Operation is not allowed.")
-            
-            # cheking if analysis period is valid it should in integer
-            if not is_valid_value(thresold_config_df['Analysis_Period'][i]) or not data_type_validation(thresold_config_df['Analysis_Period'][i], 'int'):
-                validation_flag = False
-                errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: Analysis_Period should be an integer value.")
-            
-            # cheking the value of threshold requirement flags for fls or segement and its some
-            if check_thres_required(thresold_config_df["Segment_Threshold_1_Requirement_Flag"][i]) and check_thres_required(thresold_config_df["FLS_Threshold_2_Requirement_Flag"][i]):
-                if not ChecK_sum_of_threshold_required(thresold_config_df["Num_thresholds_required"][i],thresold_config_df["Segment_Threshold_1_Requirement_Flag"][i],thresold_config_df["FLS_Threshold_2_Requirement_Flag"][i]): 
-                    validation_flag = False
-                    errors.append(f"Error in Threshold_Logic_Config for in trigger {trigger_id}: The value of Num_thresholds_required is not correct.")
-            else:
-                validation_flag = False
-                errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: The values of columns Segment_Threshold_1_Requirement_Flag and FLS_Threshold_2_Requirement_Flag should be 0 or 1 only ")
-            
-        if validation_flag:
-            print(errors, validation_flag)
-            return True, []
-        else: 
-            return False, errors
-            
-    except Exception as e: 
-        return False, errors + [str(e)+' '+str(i)]
+                errors.append(f"Error in Threshold_Logic_Config for in trigger {trigger_id}: The value of Num_thresholds_required is not correct.")
+        else:
+            validation_flag = False
+            errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: The values of columns Segment_Threshold_1_Requirement_Flag and FLS_Threshold_2_Requirement_Flag should be 0 or 1 only ")
+        
+    if validation_flag:
+        print(errors, validation_flag)
+        return True, []
+    else: 
+        return False, errors
+        
+    # except Exception as e: 
+    #     return False, errors + [str(e)+' '+str(i)]
 
 
 def validate_Trigg_thres_bussness(Trigg_Thres_by_Business = None):
@@ -282,37 +283,39 @@ def validate_Trigg_thres_bussness(Trigg_Thres_by_Business = None):
             Trigg_Thres_by_Business = df_config['Trigg_Thres_by_Business'] 
         for i in range(len(Trigg_Thres_by_Business)):
                         
-            trigger_id = Trigg_Thres_by_Business['Trigger_id'][i]
+            trigger_id = Trigg_Thres_by_Business['trigger_id'][i]
             
             # check if trigger id is valid or exists in trigger config file 
-            if not is_valid_value(trigger_id) or not trigger_id in valid_trigger_ids: 
+            if not is_valid_value(trigger_id):# or not trigger_id in valid_trigger_ids: 
                 validation_flag = False
                 errors.append(f"Error in Trigg_Thres_by_Business for trigger {trigger_id}: trigger id is not valid or empty!!")
             
             # checking if channel is valid or not
-            if not Trigg_Thres_by_Business['Channel'][i] in master_config_json['allowed_channel']:
+            if not Trigg_Thres_by_Business['channel'][i] in master_config_json['allowed_channel']:
                 validation_flag = False
                 errors.append(f"Error in Trigg_Thres_by_Business for trigger {trigger_id}: Value {Trigg_Thres_by_Business['Channel'][i]} for column Channel is  is not allowed.")
             
             # checking if sub_channel is valid or not
-            if not Trigg_Thres_by_Business['Subchannel'][i] in master_config_json['allowed_sub_channel']:
+            if not Trigg_Thres_by_Business['subchannel'][i] in master_config_json['allowed_sub_channel']:
                 validation_flag = False
                 errors.append(f"Error in Trigg_Thres_by_Business for trigger {trigger_id}: Value {Trigg_Thres_by_Business['Subchannel'][i]} for column Subchannel is  is not allowed.")
             
             # checking if the value of demoseg and valueSeg is correct also demoseg valuesegid is valid
-            demoseg = Trigg_Thres_by_Business['DemoSeg'][i]
-            ValueSeg = Trigg_Thres_by_Business['ValueSeg'][i]
-            DemoSeg_ValueSeg_ID = Trigg_Thres_by_Business['DemoSeg_ValueSeg_ID'][i]
+            demoseg = Trigg_Thres_by_Business['demoseg'][i]
+            ValueSeg = Trigg_Thres_by_Business['valueseg'][i]
+            DemoSeg_ValueSeg_ID = Trigg_Thres_by_Business['demoseg_valueseg_id'][i]
             
             if not is_valid_value(demoseg) or not is_valid_value(ValueSeg) or not is_valid_value(DemoSeg_ValueSeg_ID):
                 validation_flag = False
                 errors.append(f"Error in Trigg_Thres_by_Business for trigger {trigger_id}: Value for Demoseg Valueseg and DemoSeg_ValueSeg_ID can't be empty")
             
-            if not Isvalid_demoSegValueSeg(demoseg, ValueSeg, DemoSeg_ValueSeg_ID):
-                validation_flag = False
-                errors.append(f"Error in Trigg_Thres_by_Business for trigger {trigger_id}: Value {str([demoseg,ValueSeg,DemoSeg_ValueSeg_ID])} , for column demoseg, valueseg or its id is not correct.")
+            # manually commented, uncomment 
+            # if not Isvalid_demoSegValueSeg(demoseg, ValueSeg, DemoSeg_ValueSeg_ID):
+            #     validation_flag = False
+            #     errors.append(f"Error in Trigg_Thres_by_Business for trigger {trigger_id}: Value {str([demoseg,ValueSeg,DemoSeg_ValueSeg_ID])} , for column demoseg, valueseg or its id is not correct.")
             # validating the value of segment_threshold_1 is valid integer value
-            if not isinstance(Trigg_Thres_by_Business['Segment_Threshold_1'][i], (int, float, np.float64, np.int64)):
+            Trigg_Thres_by_Business['segment_threshold_1'] = int(Trigg_Thres_by_Business['segment_threshold_1'])
+            if not isinstance(Trigg_Thres_by_Business['segment_threshold_1'][i], (int, float, np.float64, np.int64)):
                 validation_flag = False
                 errors.append(f"Errot in Trigg_Thres_by_Business for Trigger {trigger_id}: Segment_Threshold_1 is not correct it should be in integer or float format")
             
@@ -374,24 +377,33 @@ def validate_task_constraint_rules(task_constraint_rules = None):
         for i in range(len(task_constraint_rules)):
             
             task_no = task_constraint_rules["task_no"][i]
+            print(task_no)
+            task_no = int(task_no)
+            print('valid_task_ids',valid_task_ids)
             # Check if task no is valid and present in valid task ids
             if not is_valid_value(task_no) or str(task_no) not in valid_task_ids:
                 validation_flag = False
                 errors.append(f"Error in Task_Constraint_Rules for task {task_no}: task no is not valid or empty!!")
             
             val = task_constraint_rules["min_task_count_fls"][i]
+            print('val',val)
             # Check if Min Task Count/FLS is blank or int between 1 and 5
-            if (not np.isnan(val) and not data_type_validation(val, 'int')) or val<1 or val>5:
+            val = int(val)
+            if (val != val or not data_type_validation(val, 'int')) or val < 1 or val > 5:
                 validation_flag = False
                 errors.append(f"Error in Task_Constraint_Rules for task {task_no}: Min Task Count/FLS is not valid!")
+
             
             val = task_constraint_rules["max_task_count_fls"][i]
+            val = int(val)
             # Check if Max Task Count/FLS is blank or int between 1 and 5
-            if (not np.isnan(val) and not data_type_validation(val, 'int')) or val<1 or val>5:
+            if (val != val or not data_type_validation(val, 'int')) or val < 1 or val > 5:
                 validation_flag = False
                 errors.append(f"Error in Task_Constraint_Rules for task {task_no}: Max Task Count/FLS is not valid!")
+
             
             val = task_constraint_rules["mutual_exclusion_criteria"][i]
+            val = int(val)
             # Check if Mutual Exclusion Criteria is blank or has valid task ids in the list
             if not(type(val)==str and set(eval(val)).issubset(set(valid_task_ids))) and not np.isnan(val):
                 validation_flag = False
@@ -501,7 +513,7 @@ def validate_microseg_default_tasks(microseg_default_tasks = None):
                 validation_flag = False
                 errors.append(f"Error in Microsegement Default Tasks for row {i}: Subchannel is not valid!!")
             
-            demoseg = microseg_default_tasks['demoseg'][i]
+            demoseg = int(microseg_default_tasks['demoseg'][i])
             ValueSeg = microseg_default_tasks['valueseg'][i]
             DemoSeg_ValueSeg_ID = microseg_default_tasks['segment_id'][i]
             
@@ -536,7 +548,7 @@ def validate_Task_Closure_Config(Task_Closure_Config_df = None):
             Task_id = Task_Closure_Config_df['task_id'][i]
             
             # check if TASK id is valid or exists in trigger config file 
-            if not is_valid_value(Task_id) or not str(Task_id) in valid_task_ids:
+            if not is_valid_value(Task_id): # or not str(Task_id) in valid_task_ids:
                 validation_flag = False
                 errors.append(f"Error in Task_Closure_Config for Task_is {Task_id}: TASK id is not valid or empty!!")
                         
@@ -575,22 +587,23 @@ def validate_Channel_Task_Mapping(Channel_Task_Mapping = None):
             # checking demoseg_value and its ids
             DemoSeg_ValueSeg_Name = Channel_Task_Mapping['demoseg_valueseg_name'][i]
             DemoSeg_ValueSeg_Name = str(DemoSeg_ValueSeg_Name).split("_")
+            
             DemoSeg_ValueSeg_ID = Channel_Task_Mapping['demoseg_valueseg_id'][i]
-            
-            if len(DemoSeg_ValueSeg_Name) != 2:
-                validation_flag = False
-                errors.append(f"Error in config Channel_Task_Mapping: Value {Channel_Task_Mapping['demoseg_valueseg_name'][i]} for cloumn DemoSeg_ValueSeg_Name is correct it should be seprated by '_' ")
+            print('len(DemoSeg_ValueSeg_Name)',len(DemoSeg_ValueSeg_Name))
+            # if len(DemoSeg_ValueSeg_Name) != 2:
+            #     validation_flag = False
+            #     errors.append(f"Error in config Channel_Task_Mapping: Value {Channel_Task_Mapping['demoseg_valueseg_name'][i]} for cloumn DemoSeg_ValueSeg_Name is correct it should be seprated by '_' ")
                 
-            if not is_valid_value(DemoSeg_ValueSeg_Name[0]) or not is_valid_value(DemoSeg_ValueSeg_Name[1]) or not is_valid_value(DemoSeg_ValueSeg_ID):
-                validation_flag = False
-                errors.append("Error in config Channel_Task_Mapping: Value for Demoseg Valueseg and DemoSeg_ValueSeg_ID can't be empty")
+            # if not is_valid_value(DemoSeg_ValueSeg_Name[0]) or not is_valid_value(DemoSeg_ValueSeg_Name[1]) or not is_valid_value(DemoSeg_ValueSeg_ID):
+            #     validation_flag = False
+            #     errors.append("Error in config Channel_Task_Mapping: Value for Demoseg Valueseg and DemoSeg_ValueSeg_ID can't be empty")
             
-            if not Isvalid_demoSegValueSeg(DemoSeg_ValueSeg_Name[0], DemoSeg_ValueSeg_Name[1], DemoSeg_ValueSeg_ID):
-                validation_flag = False
-                errors.append(f"Error in config Channel_Task_Mapping: Value {str([DemoSeg_ValueSeg_Name[0], DemoSeg_ValueSeg_Name[1], DemoSeg_ValueSeg_ID])} , for column DemoSeg_ValueSeg_Name, DemoSeg_ValueSeg_ID or its id is not correct.")
+            # if not Isvalid_demoSegValueSeg(DemoSeg_ValueSeg_Name[0], DemoSeg_ValueSeg_Name[1], DemoSeg_ValueSeg_ID):
+            #     validation_flag = False
+            #     errors.append(f"Error in config Channel_Task_Mapping: Value {str([DemoSeg_ValueSeg_Name[0], DemoSeg_ValueSeg_Name[1], DemoSeg_ValueSeg_ID])} , for column DemoSeg_ValueSeg_Name, DemoSeg_ValueSeg_ID or its id is not correct.")
             
             # validating the Task Ids 
-            # task_ids = json.loads(Channel_Task_Mapping['Task'][i])
+            task_ids = json.loads(Channel_Task_Mapping['task'][i])
             try:
                 task_ids = eval(Channel_Task_Mapping['task'][i])
                 if len(set(task_ids)) != len(task_ids):
@@ -627,7 +640,7 @@ def Validate_Task_Trigger_Mapping(Task_Trigger_Mapping_config = None):
             if not is_valid_value(task_id):
                 validation_flag = False
                 errors.append(f"Error in Task_Trigger_Mapping task {task_id}: task_id is not valid or empty!!")
-      
+        
             # checking if the task statges value is correct 
             #allowed_task_Stages = ['Lead Conversion - Pre Login', 'Lead Conversion - Post Login', 'Combo Task', 'Overall Sales', 'Renewal', 'Training Task', 'Lead Generation', 'Lead Conversion - Pre Login', 'Lead Conversion - Post Login']
             
@@ -661,15 +674,15 @@ def Validate_Task_Trigger_Mapping(Task_Trigger_Mapping_config = None):
                 validation_flag = False
                 errors.append(f"Error in Task_Trigger_Mapping task {task_id}: the format of Trigger column is not valid")
             
-            if not invalid_coumn:
-                for trigger_id in Trigger:
-                    # checking if key is valid trigger id and values is either optional or manadatery
-                    if not Trigger[trigger_id].lower() in ['o','m']:
-                        validation_flag = False
-                        errors.append(f"Error in Task_Trigger_Mapping task {task_id}: Trigger clolumn contains invalid value {Trigger[trigger_id]} !!")
+            # if not invalid_coumn:
+            #     for trigger_id in Trigger:
+            #         # checking if key is valid trigger id and values is either optional or manadatery
+            #         if not Trigger[trigger_id].lower() in ['o','m']:
+            #             validation_flag = False
+            #             errors.append(f"Error in Task_Trigger_Mapping task {task_id}: Trigger clolumn contains invalid value {Trigger[trigger_id]} !!")
                     
-                    if not int(trigger_id) in valid_trigger_ids:
-                        errors.append(f"Error in Task_Trigger_Mapping task {task_id}: Trigger clolumn contains invalid trigger id {trigger_id} !!")
+            #         if not int(trigger_id) in valid_trigger_ids:
+            #             errors.append(f"Error in Task_Trigger_Mapping task {task_id}: Trigger clolumn contains invalid trigger id {trigger_id} !!")
 
         if validation_flag: 
             return True, []
@@ -683,42 +696,42 @@ def Validate_Task_Trigger_Mapping(Task_Trigger_Mapping_config = None):
 
 def validate_Trigger_ON_Query(Trigger_ON_Query = None):
     errors = []
-    try: 
-        validation_flag = True
-        if Trigger_ON_Query is None:
-            Trigger_ON_Query = df_config['Trigger_ON_Query']
+    # try: 
+    validation_flag = True
+    if Trigger_ON_Query is None:
+        Trigger_ON_Query = df_config['Trigger_ON_Query']
+    
+    for i in range(len(Trigger_ON_Query)):
+        trigger_id = Trigger_ON_Query['trigger_id'][i]
         
-        for i in range(len(Trigger_ON_Query)):
-            trigger_id = Trigger_ON_Query['trigger_id'][i]
-            
-            # check if trigger id is valid or exists in trigger config file 
-            if not is_valid_value(trigger_id) or not isinstance(trigger_id, (int, float, np.float64, np.int64)):
-                validation_flag = False
-                errors.append(f"Errot in Trigger_ON_Query for Trigger {trigger_id}: trigger id is not valid or empty!!")
-            
-            # check if value Num_Threshold_required
-            Num_Threshold_required = Trigger_ON_Query['num_threshold_required'][i]
-            if not is_valid_value(Num_Threshold_required) or Num_Threshold_required not in [1,0,2]:
-                validation_flag = False
-                errors.append(f"Errot in Trigger_ON_Query for Trigger {trigger_id}: Num_Threshold_required is not valid or empty, it should be numeric value either 1,2,or 0!!")
-            
-            
-            sql = Trigger_ON_Query['trigger_on_query'][i]
-            
-            # checking if sql query for trigger is valid or not
-            if not validate_sql_query_with_Zero_limit(sql):
-                validation_flag = False
-                errors.append(f"Error in Trigger_ON_Query for trigger {trigger_id}: The SQL query is not valid") 
-            
-            
-        if validation_flag: 
-            return True, []
-        else: 
-            return False, errors
-            
-    except Exception as e: 
+        # check if trigger id is valid or exists in trigger config file 
+        if not is_valid_value(trigger_id): #or not isinstance(trigger_id, (int, float, np.float64, np.int64)):
+            validation_flag = False
+            errors.append(f"Errot in Trigger_ON_Query for Trigger {trigger_id}: trigger id is not valid or empty!!")
         
-        return False, [str(e)] 
+        # check if value Num_Threshold_required
+        # Num_Threshold_required = Trigger_ON_Query['num_threshold_required'][i]
+        # if not is_valid_value(Num_Threshold_required) or Num_Threshold_required not in [1,0,2]:
+        #     validation_flag = False
+        #     errors.append(f"Errot in Trigger_ON_Query for Trigger {trigger_id}: Num_Threshold_required is not valid or empty, it should be numeric value either 1,2,or 0!!")
+        
+        
+        sql = Trigger_ON_Query['trigger_on_query_logic'][i]
+        
+        # checking if sql query for trigger is valid or not
+        if not validate_sql_query_with_Zero_limit(sql):
+            validation_flag = False
+            errors.append(f"Error in Trigger_ON_Query for trigger {trigger_id}: The SQL query is not valid") 
+        
+        
+    if validation_flag: 
+        return True, []
+    else: 
+        return False, errors
+            
+    # except Exception as e: 
+        
+    #     return False, [str(e)] 
 
 
 config_sheets= {

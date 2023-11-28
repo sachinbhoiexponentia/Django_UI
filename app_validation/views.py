@@ -21,10 +21,11 @@ import pandas as pd
 @csrf_exempt
 @login_required 
 def validate_thresold_config_df_api(request):
-    # return JsonResponse({'is_valid': False, 'errors': []})
+    # return JsonResponse({'is_valid': True, 'errors': []})
     print("validate_thresold_config_df_api function")
     if request.method == 'GET':
         is_valid = False
+        errors = []
         print('GET Method')
         # try:
             # return JsonResponse({'is_valid': True, 'errors': ['errors']})
@@ -53,7 +54,7 @@ def validate_thresold_config_df_api(request):
             is_valid,errors = Validate_Task_Trigger_Mapping(data_df)
         if sheet_name == 'trigger_on_query_logic_Form':
             is_valid,errors = validate_Trigger_ON_Query(data_df)
-        if sheet_name == 'optimization_rules_Form_edit':
+        if sheet_name == 'optimization_rules_Form':
             is_valid,errors = validate_task_constraint_rules(data_df) # optimization is changed to task constraints
         if sheet_name == 'allocation_parameters_Form':
             is_valid,errors = validate_allocation_parameters(data_df) 
