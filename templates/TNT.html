@@ -653,7 +653,6 @@
 
 
 
-
     $(document).ready(function () {
       $('#validateButton_channel_task_mapping').on('click', function (event) {
           event.preventDefault(); // Prevent the default form submission
@@ -680,23 +679,24 @@
               }
           });
       });
-  }); 
+ });
+    
 
-  $(document).ready(function () {
-    $('#submit_button__channel_task_mappping').on('click', function () {
-        $('#channel_task_mapping_Form').submit();
+
+    $(document).ready(function () {
+      $('#submit_button__channel_task_mappping').on('click', function () {
+          $('#channel_task_mapping_Form').submit();
+      });
     });
-  });
 
-  $(document).ready(function() {
-    $('#error_button__threshold_logic_config').on('click', function() {
-      $('#error_threshold_logic_config').modal('hide');
+    $(document).ready(function() {
+      $('#error_button__threshold_logic_config').on('click', function() {
+        $('#error_threshold_logic_config').modal('hide');
+      });
     });
-  });
 
 
 
-{% comment %} 2 {% endcomment %}
       $(document).ready(function () {
       $('#validateButton_task_trigger_mapping').on('click', function (event) {
           event.preventDefault(); // Prevent the default form submission
@@ -723,18 +723,15 @@
               }
           });
       });
-  }); 
+    }); 
 
-  $(document).ready(function () {
-    $('#submit_button__task_trigger_mappping').on('click', function () {
-        $('#task_trigger_mapping_Form').submit();
+    $(document).ready(function () {
+      $('#submit_button__task_trigger_mappping').on('click', function () {
+          $('#task_trigger_mapping_Form').submit();
+      });
     });
-  });
 
 
-
-
-{% comment %} 3 {% endcomment %}
       $(document).ready(function () {
       $('#validateButton_trigger_on_query_logic').on('click', function (event) {
           event.preventDefault(); // Prevent the default form submission
@@ -761,14 +758,14 @@
                   alert('Internal Server Error. Please check the server logs for details.');
               }
           });
-      });
-  }); 
+        });
+    }); 
 
-  $(document).ready(function () {
-    $('#submit_button__trigger_on_query_logic').on('click', function () {
-        $('#trigger_on_query_logic_Form').submit();
+    $(document).ready(function () {
+      $('#submit_button__trigger_on_query_logic').on('click', function () {
+          $('#trigger_on_query_logic_Form').submit();
+      });
     });
-  });
 
 
 
@@ -779,7 +776,7 @@
 
 
      function getSourceData_CTM(rowId) {
-  $(document).ready(function () {
+    $(document).ready(function () {
     var apiUrl = `api/Channel_Task_Mapping_get_data/${rowId}`;
     $.ajax({
       url: apiUrl,
@@ -804,8 +801,8 @@
         $('#errorMessage').text('Error loading data. Please try again.');
       }
     });
-  });
-}
+    });
+  }
 
 
 
@@ -842,7 +839,7 @@
 
 
     function getSourceData_TTM(rowId) {
-  $(document).ready(function () {
+    $(document).ready(function () {
     var apiUrl = `api/task_trigger_mapping_get_data/${rowId}`;
     $.ajax({
       url: apiUrl,
@@ -864,8 +861,8 @@
         $('#errorMessage').text('Error loading data. Please try again.');
       }
     });
-  });
-}
+    });
+  }
 
 function DeleteSourceData_TTM(rowId) {
   fetch(`api/task_trigger_mapping_delete/${rowId}/`, {
@@ -874,28 +871,28 @@ function DeleteSourceData_TTM(rowId) {
       'Content-Type': 'application/json',
     },
   })
-    .then(response => {
-      if (!response.ok) {
-        if (response.status === 404) {
-          // Show errorDiv if object not found
-          document.getElementById('errorDiv').style.display = 'block';
+      .then(response => {
+        if (!response.ok) {
+          if (response.status === 404) {
+            // Show errorDiv if object not found
+            document.getElementById('errorDiv').style.display = 'block';
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
         } else {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          // Show successDiv on successful deletion
+          alert(`Row ${rowId} deleted successfully`);
+          $('#myModal_delete_TLC').modal('show');
+          return response.json();
         }
-      } else {
-        // Show successDiv on successful deletion
-        alert(`Row ${rowId} deleted successfully`);
-        $('#myModal_delete_TLC').modal('show');
-        return response.json();
-      }
-    })
-    .catch(error => {
-      // Handle other errors
-      console.error('Error deleting data:', error);
-      // Show errorDiv on other errors
-      document.getElementById('errorDiv').style.display = 'block';
-    });
-}
+      })
+      .catch(error => {
+        // Handle other errors
+        console.error('Error deleting data:', error);
+        // Show errorDiv on other errors
+        document.getElementById('errorDiv').style.display = 'block';
+      });
+  }
 
 
 
@@ -927,68 +924,72 @@ function DeleteSourceData_TTM(rowId) {
         $('#errorMessage').text('Error loading data. Please try again.');
       }
     });
-  });
-}
-
-function DeleteSourceData_TQL(rowId) {
-  fetch(`api/trigger_on_query_logic_delete/${rowId}/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then(response => {
-      if (!response.ok) {
-        if (response.status === 404) {
-          // Show errorDiv if object not found
-          document.getElementById('errorDiv').style.display = 'block';
-        } else {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-      } else {
-        // Show successDiv on successful deletion
-        alert(`Row ${rowId} deleted successfully`);
-        $('#myModal_delete_TLC').modal('show');
-        return response.json();
-      }
-    })
-    .catch(error => {
-      // Handle other errors
-      console.error('Error deleting data:', error);
-      // Show errorDiv on other errors
-      document.getElementById('errorDiv').style.display = 'block';
     });
-}
+  }
 
-function uploadToS3(sheetName) {
-    // Make a GET request to the server endpoint with the sheet name
-    fetch(`/upload/${sheetName}/`, {
-        method: 'GET',
-        headers: {
-            // No need for 'Content-Type' header in GET requests
-            // 'Content-Type': 'application/json',
-            // Add any other headers if needed
-        },
+  function DeleteSourceData_TQL(rowId) {
+    fetch(`api/trigger_on_query_logic_delete/${rowId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response from the server
-        if (data.is_valid) {
-            // Show success alert
-            alert('Uploaded successfully');
+      .then(response => {
+        if (!response.ok) {
+          if (response.status === 404) {
+            // Show errorDiv if object not found
+            document.getElementById('errorDiv').style.display = 'block';
+          } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
         } else {
-            // Show failure alert
-            alert('Upload failed');
+          // Show successDiv on successful deletion
+          alert(`Row ${rowId} deleted successfully`);
+          $('#myModal_delete_TLC').modal('show');
+          return response.json();
         }
-        // Add any additional logic or UI updates based on the response
-    })
-    .catch(error => {
-        // Handle errors
-        console.error('Error:', error);
-        // Show an error alert or handle the error in another way
-        alert('Error uploading data. Please try again.');
-    });
+      })
+      .catch(error => {
+        // Handle other errors
+        console.error('Error deleting data:', error);
+        // Show errorDiv on other errors
+        document.getElementById('errorDiv').style.display = 'block';
+      });
+  }
 
+
+  
+
+    function uploadToS3(sheetName) {
+        // Make a GET request to the server endpoint with the sheet name
+        fetch(`/upload/${sheetName}/`, {
+            method: 'GET',
+            headers: {
+                // No need for 'Content-Type' header in GET requests
+                // 'Content-Type': 'application/json',
+                // Add any other headers if needed
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response from the server
+            if (data.is_valid) {
+                // Show success alert
+                alert('Uploaded successfully');
+            } else {
+                // Show failure alert
+                alert('Upload failed');
+            }
+            // Add any additional logic or UI updates based on the response
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Error:', error);
+            // Show an error alert or handle the error in another way
+            alert('Error uploading data. Please try again.');
+        });
+
+      };
   </script>
 
 </body>

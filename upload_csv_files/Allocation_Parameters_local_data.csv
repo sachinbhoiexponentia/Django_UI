@@ -1,0 +1,6 @@
+Task_id,Channel,Subchannel,DemoSeg,ValueSeg,Segment_id,Due_Days,Buffer_Days,XX_Value,XX_Type,PricePoint_Reward
+1,Direct,BCSS,1.0,1.0,11.0,2.0,1.0,nan,nan,200.0
+4,Direct,Loyalty,1.0,2.0,12.0,2.0,1.0,nan,nan,350.0
+13d,Direct,BCSS,2.0,3.0,23.0,5.0,1.0,category,non_par_c2p,500.0
+nan,nan,nan,,,,,,epi,300000,
+12,12,12,121.0,212.0,2.0,21.0,21.0,21,21,21.0

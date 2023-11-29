@@ -42,26 +42,26 @@ def validate_thresold_config_df_api(request):
         if 'form_identifier' in data_df.columns:
             data_df = data_df.drop('form_identifier', axis=1)
             
-        if sheet_name == 'Threshold_Logic_Form':
-            is_valid,errors = validate_thresold_config_df(data_df)
-        if sheet_name == 'Trigger_Threhold_by_Business_Form':
-            is_valid,errors = validate_Trigg_thres_bussness(data_df)
-        if sheet_name == 'closure_form':
-            is_valid,errors = validate_Task_Closure_Config(data_df)
-        if sheet_name == 'channel_task_mapping_Form':
-            is_valid,errors = validate_Channel_Task_Mapping(data_df)
-        if sheet_name == 'task_trigger_mapping_Form':
-            is_valid,errors = Validate_Task_Trigger_Mapping(data_df)
-        if sheet_name == 'trigger_on_query_logic_Form':
-            is_valid,errors = validate_Trigger_ON_Query(data_df)
-        if sheet_name == 'optimization_rules_Form':
-            is_valid,errors = validate_task_constraint_rules(data_df) # optimization is changed to task constraints
-        if sheet_name == 'allocation_parameters_Form':
-            is_valid,errors = validate_allocation_parameters(data_df) 
-        if sheet_name == 'microsegment_default_tasks_Form':
-            is_valid,errors = validate_microseg_default_tasks(data_df) 
+        # if sheet_name == 'Threshold_Logic_Form':
+        #     is_valid,errors = validate_thresold_config_df(data_df)
+        # if sheet_name == 'Trigger_Threhold_by_Business_Form':
+        #     is_valid,errors = validate_Trigg_thres_bussness(data_df)
+        # if sheet_name == 'closure_form':
+        #     is_valid,errors = validate_Task_Closure_Config(data_df)
+        # if sheet_name == 'channel_task_mapping_Form':
+        #     is_valid,errors = validate_Channel_Task_Mapping(data_df)
+        # if sheet_name == 'task_trigger_mapping_Form':
+        #     is_valid,errors = Validate_Task_Trigger_Mapping(data_df)
+        # if sheet_name == 'trigger_on_query_logic_Form':
+        #     is_valid,errors = validate_Trigger_ON_Query(data_df)
+        # if sheet_name == 'optimization_rules_Form':
+        #     is_valid,errors = validate_task_constraint_rules(data_df) 
+        # if sheet_name == 'allocation_parameters_Form':
+        #     is_valid,errors = validate_allocation_parameters(data_df) 
+        # if sheet_name == 'microsegment_default_tasks_Form':
+        #     is_valid,errors = validate_microseg_default_tasks(data_df) 
             
-        # is_valid,errors = mainValidate_function(sheet_name,data_df)
+        is_valid,errors = mainValidate_function(sheet_name,data_df)
         print('is_valid,errors',is_valid,errors)
         return JsonResponse({'is_valid': is_valid, 'errors': errors})
         # except Exception as e:
@@ -703,7 +703,7 @@ def upload_to_s3(request, sheet_name):
         
 
         # Save to a local CSV file
-        local_file_path = f"C:/Users/priyanandini.das/project i-earn/django-UI/iEarn/upload_csv_files/{sheet_name}_local_data.csv"
+        local_file_path = f"upload_csv_files/{sheet_name}_local_data.csv"
         data_df.to_csv(local_file_path, index=False)
 
         # Optionally, you can return the local file path in the response
