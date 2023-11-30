@@ -28,9 +28,11 @@
 
 </head>
 
-
-
-
+<style>
+.hand-cursor {
+    cursor: pointer;
+}
+</style>
 
 <body>
 
@@ -89,7 +91,7 @@
             <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"> Download</button>
-            <button class="button-with-image2" onclick="uploadToS3('Task_Closure_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Task_Closure_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -112,9 +114,9 @@
                          
                         {% endfor %}
                         <td>
-                          <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TC({{row.0}})" data-toggle="modal"
+                          <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TC({{row.0}})" data-toggle="modal"
                       data-target="#modal_task_closure_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TC({{ row.0 }})"
+                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="DeleteSourceData_TC({{ row.0 }})"
                       data-toggle="modal" style="color: black;"></i>
                         </td>
                        </tr>

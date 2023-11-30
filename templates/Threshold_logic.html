@@ -56,6 +56,10 @@
 .error-message {
     color: red;
 }
+
+.hand-cursor {
+    cursor: pointer;
+}
 </style>
 
 
@@ -108,7 +112,7 @@
             New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">
               Download</button>
-          <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -131,9 +135,9 @@
                 {% endfor %}
                 <td>
 
-                  <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TLC({{ row.0 }})" data-toggle="modal"
+                  <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TLC({{ row.0 }})" data-toggle="modal"
                     data-target="#modal_threshold_logic_config_edit" style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TLC({{ row.0 }})"
+                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="DeleteSourceData_TLC({{ row.0 }})"
                     data-toggle="modal" style="color: black;"></i>
                 </td>
               </tr>
@@ -379,7 +383,7 @@
             data-target="#modal_trigger_threshold_business"><span><img src="{% static 'add.png' %}"
                 class="me-1"></span>Add New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-          <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -400,9 +404,9 @@
                 </td>
                 {% endfor %}
                 <td>
-                  <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TTB({{ row.0 }})" data-toggle="modal"
+                  <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TTB({{ row.0 }})" data-toggle="modal"
                     data-target="#modal_trigger_threshold_business_edit" style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TTB({{ row.0 }})"
+                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="DeleteSourceData_TTB({{ row.0 }})"
                     data-toggle="modal" data-target="#myModal_delete_TTB" style="color: black;"></i>
                 </td>
               </tr>
@@ -864,7 +868,7 @@
           <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
             data-target="#Default_Channel_Trigg_thres"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -886,10 +890,11 @@
 
                 {% endfor %}
                 <td>
-                  <i class="fas fa-edit" id="editButton3" data-toggle="modal"
+                  <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal"
                     data-target="#Default_Channel_Trigg_thres_edit" onclick="getSourceData_DCTt({{ row.0 }})"
                     style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete" onclick="DeleteSourceData_DCTt({{ row.0 }})"
+
+                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete" onclick="DeleteSourceData_DCTt({{ row.0 }})"
                     style="color: black;"></i>
                 </td>
               </tr>

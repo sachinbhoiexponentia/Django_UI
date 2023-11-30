@@ -5,7 +5,7 @@ WHERE LOWER(lead_status) = 'new'
   AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})
   AND (meeting_setup_date IS not NULL OR meeting_setup_date <> 'null')",Average,180.0,1,1.0,
 4,000000000000000If average time between lead generation and first meeting has been greater than X for the last Y leads for the FLS,X- (Average # days for segment/fls between lead generation and conduct of first meeting)+ 1,"select fls_id, datediff(latest_meeting_scheduled_date,lead_generation_date)+1 AS TAT from lead_tableWHERE updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,2,1.0,1.0
-5,"If the ""Follow Up"" date has elapsed, and no follow up meeting has happened",0,nan,nan,nan,0,0.0,
+5,If Last N month's avg TAT between lead generation and set up of meeting has been greater than segment benchmark X,X- (Average # days for segment between lead generation and setup of first meeting)+ 1,"select fls_id, datediff(meeting_setup_date,lead_generation_date)+1 AS TAT from lead_table WHERE updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180,2,,
 8,If x days have elapsed since application login and application is still pending for verification ,X- Segment average TAT for last N days  from login till conversion ,"SELECT lead_table.fls_id,
 datediff(policy_table.policy_issuance_date,lead_table.application_login_date) as TAT
 FROM lead_table
@@ -46,6 +46,7 @@ WHERE lead_table.updated_dttm >= DATE_SUB(CURRENT_DATE(), {});",Average,180.0,1,
 58,If there has been >1 application logged in by FLS in past XX days,X - Set by business team,nan,Manual,nan,1,1.0,
 101,Policy Status should not be blank (STATCODE should be IF),0,nan,nan,nan,0,,
 102,Repetitive Task =='No' ( No teams have contacted and aversion status has been updated from external actvities),0,nan,nan,nan,0,,
+120,demo,demo,demo,Average,180,2,,
 1001,demo,demo,demo,ds,12,12,,
 1002,,,,,,12,,
 1004,,,,,,4,,
