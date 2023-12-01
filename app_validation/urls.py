@@ -36,7 +36,10 @@ urlpatterns = [
     path('TNT_Module_View/api/trigger_on_query_logic_get_data/<str:Trigger_id>/', trigger_on_query_detail_view, name='trigger_on_query_logic_detail_view'),
     path('TNT_Module_View/api/trigger_on_query_logic_delete/<str:Trigger_id>/', trigger_on_query_delete_data_by_id, name='trigger_on_query_logic_delete_data_by_id'),
         
-
+    # for product
+    path('product_cat_conf/api/pcc_get_data/<int:pk>/', Product_Category_Config_view, name='Product_Category_Config_view'),
+    path('product_cat_conf/api/pcc_delete/<int:row_id>/', Product_Category_Config_delete_data_by_id, name='Product_Category_Config_delete_data_by_id'),
+    
         
     path('upload/<str:sheet_name>/', upload_to_s3, name='upload_to_s3'),
     

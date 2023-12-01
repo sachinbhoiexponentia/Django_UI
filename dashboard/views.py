@@ -615,3 +615,62 @@ def TOAM_Module_View(request):
                         
 
     return render(request, 'TOAM.html',context)
+
+
+@login_required
+def Product_Category_Config_view(request):
+    queryset = Product_Category_Config.objects.all()
+    Product_Category_Config_df = pd.DataFrame(list(queryset.values()))
+    Product_Category_Config_headers = list(Product_Category_Config_df.columns)
+    Product_Category_Config_data = Product_Category_Config_df.values.tolist()
+
+    context = {'Product_Category_Config_headers':Product_Category_Config_headers,'Product_Category_Config_data':Product_Category_Config_data }
+    # if form_id == 'product_cat_conf_add_form':
+    #     print()
+    if request.method == 'POST':
+        print('Django post request')
+        data = request.POST
+        form_id = data.get('form_identifier')
+        print('data',data)    
+        if form_id == 'product_cat_conf_add_form':
+            print('product_cat_conf_add_form')
+            try:  
+                product_category_config = Product_Category_Config(ProductCategoryName=request.POST.get('ProductCategoryName'),
+                        FilterQueryOnPolicyTable=request.POST.get('FilterQueryOnPolicyTable'),
+                        TrainingTopics=request.POST.get('TrainingTopics'),
+                        SellingTaskNo=request.POST.get('SellingTaskNo'),
+                        TrainingTaskNo=request.POST.get('TrainingTaskNo')) 
+                product_category_config.save()
+                messages.success(request, 'Form saved successfully')
+                return render(request, 'product_success_page.html')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e)
+                return render(request, 'product_success_page.html')
+                    
+        if form_id == 'product_cat_conf_edit_form':
+            print('product_cat_conf_edit_form')
+            try:
+                trigger_id = request.POST.get('id_edit')
+                print("trigger_id:",trigger_id)
+                product_category_config = Product_Category_Config.objects.get(pk=trigger_id)
+
+                # Update fields based on the form data
+                product_category_config.ProductCategoryName = request.POST.get('ProductCategoryName_edit')
+                product_category_config.FilterQueryOnPolicyTable = request.POST.get('FilterQueryOnPolicyTable_edit')
+                product_category_config.TrainingTopics = request.POST.get('TrainingTopics_edit')
+                product_category_config.SellingTaskNo= request.POST.get('SellingTaskNo_edit')
+                product_category_config.TrainingTaskNo= request.POST.get('TrainingTaskNo_edit')
+                product_category_config.save()
+
+                messages.success(request, 'Form updated successfully')
+                return render(request, 'product_success_page.html')
+            except Threshold_Logic_Config.DoesNotExist:
+                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                return render(request, 'product_success_page.html')
+            except Exception as e:
+                print('Error while updating the data ', e)
+                messages.error(request, 'Error while updating the data: {}'.format(e))
+                return render(request, 'product_success_page.html')
+    
+    return render(request,'Product Category Config.html',context)
