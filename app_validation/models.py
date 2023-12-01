@@ -105,7 +105,7 @@ class Task_Constraint_Rules(models.Model):
         return f"{self.Task_No} - {self.Constraint_Description} - {self.Category_Task_Associated_with} - {self.Min_Task_Count_FLS} - {self.Max_Task_Count_FLS} - {self.Mutual_Exclusion_Criteria} - {self.Task_Priority}"
 
 
-class Allocation_Parameters(models.Model):
+class Allocation_Parameters(models.Model): 
     Task_id = models.CharField(primary_key=True,max_length=50)
     Channel = models.CharField(max_length=100)
     Subchannel = models.CharField(max_length=100)
@@ -133,3 +133,12 @@ class Microsegment_Default_Tasks(models.Model):
     def __str__(self):
         return f"{self.Channel} - {self.Subchannel} - {self.DemoSeg} - {self.ValueSeg} - {self.Segment_id} - {self.Default_Tasks}"
     
+
+class Product_Category_Config(models.Model):
+    ProductCategoryName=models.CharField(max_length=100)
+    FilterQueryOnPolicyTable=models.CharField(max_length=100)
+    TrainingTopics=models.CharField(max_length=100)
+    SellingTaskNo=models.CharField(max_length=100)
+    TrainingTaskNo=models.CharField(max_length=100)
+    def __str__(self):
+        return f"{self.ProductCategoryName} - {self.FilterQueryOnPolicyTable} - {self.TrainingTopics} - {self.SellingTaskNo} - {self.TrainingTaskNo}"
