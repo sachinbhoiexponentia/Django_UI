@@ -37,7 +37,7 @@
   <header>
     <div class="left-buttons">
       <button></button>
-      <h1 style="margin-left: 56px;">Task Closure</h1>
+      <h1 style="margin-left: 56px;">Product Category Config</h1>
     </div>
 
     <div class="right-buttons">
@@ -51,7 +51,7 @@
   </header>
   <div>
     <div class="sidebar">
-      <a href="/product_cat_conf"><img src="{% static 'Ellipse 4.png' %}" alt="Product Category Icon"> Product Category</a>
+        <a href="/product_cat_conf"><img src="{% static 'Ellipse 4.png' %}" alt="Product Category Icon"> Product Category</a>
       <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Home Icon"> Threshold Logic</a>
       <a href="/closure_Config_view"><img src="{% static 'Ellipse 4.png' %}" alt="Services Icon"> Task Closure</a>
       <a href="/TNT_Module_View"><img src="{% static 'Ellipse 4.png' %}" alt="Clients Icon"> TNT Module</a>
@@ -68,7 +68,7 @@
     <div class="content">
       <div class="button-container">
         <!-- <div class="tab"> -->
-        <button class="tablinks" onclick="openCity(event, 'London')">Task Closure Configure</button>
+        <button class="tablinks" onclick="openCity(event, 'London')">Product Category Config</button>
 
       </div>
 
@@ -97,14 +97,14 @@
                 <thead>
                     <tr>
                      
-                      {% for header in Task_Closure_Config_headers %}
+                      {% for header in Product_Category_Config_headers %}
                       <th>{{ header }}</th>
                       {% endfor %}
                       <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                  {% for row in Task_Closure_Config_data%}
+                  {% for row in Product_Category_Config_data%}
                        <tr>
                         {% for value in row %}
                           <td>
@@ -113,9 +113,9 @@
                          
                         {% endfor %}
                         <td>
-                          <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TC({{row.0}})" data-toggle="modal"
+                          <i class="fas fa-edit" id="editButton3" onclick="getSourceData_PCC({{row.0}})" data-toggle="modal"
                       data-target="#modal_task_closure_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TC({{ row.0 }})"
+                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_PCC({{ row.0 }})"
                       data-toggle="modal" style="color: black;"></i>
                         </td>
                        </tr>
@@ -135,35 +135,21 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="closure_form" method="post" enctype="multipart/form-data">
+                  <form id="product_cat_conf_add_form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" id="closure_form" name="form_identifier" value="closure_form" />
+                    <input type="hidden" id="product_cat_conf_add_form" name="form_identifier" value="product_cat_conf_add_form" />
+                    {% for header in Product_Category_Config_headers %}
+                    {% if header != 'id' %}
                     <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="task_id" class="label1_">Task_id</label>
-                        <input class="first1" name="task_id" id="task_id" type="text" placeholder="Task_id" />
-                      </div>
+                        <div class="form-group_thre">
+                            <label for={{header}} class="label1_">{{header}}</label>
+                            <input class="first1" name={{header}} id={{header}} type="text" placeholder={{header}} />
+                        </div>
                     </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="task_desc" class="label1_">Task_Desc</label>
-                        <input class="first1" name="task_desc" id="task_desc" type="text" placeholder="Task_Desc" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="closure_true_query" class="label1_">Closure True Query</label>
-                        <input class="first1" name="closure_true_query" id="closure_true_query" type="text" placeholder="Closure True Query" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="closure_sql_query" class="label1_">Closure Sql Query</label>
-                        <input class="first1" name="closure_sql_query" id="closure_sql_query" type="text" placeholder="Closure True Query" />
-                      </div>
-                    </div>
+                    {%endif%}
+                    {% endfor %}
                     <button type="button" id="validateButton_closure" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                      {% comment %} data-target="#myModal5" {% endcomment %}
+                    {% comment %} data-target="#myModal5" {% endcomment %}
                       >Validate</button>
                   </form>
 
@@ -205,40 +191,24 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="task_closure_Form_edit" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="task_closure_Form_edit" name="form_identifier"
-                      value="task_closure_Form_edit" />
-                      
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <!-- <label for="task_no" class="label1_">Task No.</label> -->
-                        <input class="first1" name="tc_task_id" id="tc_task_id" type="hidden"
-                          placeholder="Task ID" />
-                      </div>
-                    </div>
                     
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="constraint" class="label1_">Task_Desc</label>
-                        <input class="first1" name="tc_Task_Desc" id="tc_Task_Desc" type="text"
-                          placeholder="Task_Desc" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="category_task_allocated_with" class="label1_">Closure_True_Query</label>
-                        <input class="first1" name="tc_Closure_True_Query"
-                          id="tc_Closure_True_Query" type="text"
-                          placeholder="Closure_True_Query" />
-                      </div>
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group_thre">
-                        <label for="tc_closure_sql_query" class="label1_">Closure SQL Query</label>
-                        <input class="first1" name="tc_closure_sql_query" id="tc_closure_sql_query" type="text" placeholder="Closure True Query" />
-                      </div>
-                    </div>
+                    <form id="product_cat_conf_edit_form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" id="product_cat_conf_edit_form" name="form_identifier" value="product_cat_conf_edit_form" />
+                        {% for header in Product_Category_Config_headers %}
+                        <div class="form-row">
+                            <div class="form-group_thre">
+                            {% if header == 'id' %}
+                            <input class="first1" name="{{header}}_edit" id="{{header}}_edit" type="hidden" />
+                            {% else %}
+                            <label for={{header}} class="label1_">{{header}}</label>
+                            <input class="first1" name="{{header}}_edit" id="{{header}}_edit" type="text" placeholder={{header}} />
+                            </div>
+                          </div>
+                        {%endif%}
+                        {% endfor %}
+                        
+                        
                     <button type="submit" id="validateButton_threshold_logic_config"
                       class="btn btn-info btn-lg submit_validate" data-toggle="modal"
                       data-form-id="modal_task_closure_form">Submit</button>
@@ -300,39 +270,6 @@
     }
 
 
-
-
-
-
-
-    {% comment %} $(document).ready(function () {
-      $('#validateButton_closure').on('click', function (event) {
-          event.preventDefault(); // Prevent the default form submission
-          var formData = $('#closure_form').serialize();
-          formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
-          $.ajax({
-              type: 'GET',
-              url: '/api/validate_thresold_config_df/',
-              data: formData,
-              dataType: 'json',
-              success: function (response) {
-                  if (response.is_valid) {
-                      // Handle success (e.g., update UI, show a message)
-                      $('#submit_closure_view').modal('show');
-                  } else {
-                      // Handle validation errors (e.g., display error messages)
-                      $('#error_closure').modal('show');
-                  }
-              },
-              error: function (xhr, status, error) {
-                  console.error('AJAX request failed with error:', error);
-                  alert('Internal Server Error. Please check the server logs for details.');
-              }
-          });
-      });
-  });  {% endcomment %}
-
-
 $(document).ready(function () {
   $('#validateButton_closure').on('click', function (event) {
     event.preventDefault(); // Prevent the default form submission
@@ -368,7 +305,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('#submit_button__closure').on('click', function () {
-        $('#closure_form').submit();
+        $('#product_cat_conf_add_form').submit();
     });
 });
 
@@ -391,28 +328,29 @@ $(document).ready(function() {
 
 
 
-function getSourceData_TC(rowId) {
+function getSourceData_PCC(rowId) {
 
 $(document).ready(function () {
-  var apiUrl = `api/task_closure_get_data/${rowId}`;
+  var apiUrl = `api/pcc_get_data/${rowId}`;
   $.ajax({
     url: apiUrl,
     type: 'GET',
     dataType: 'json',
     success: function (data) {
-      console.log(data);
-      document.getElementById("tc_task_id").value = rowId
-      document.getElementById("tc_Task_Desc").value = data.Task_Desc
-      document.getElementById("tc_Closure_True_Query").value = data.Closure_True_Query
-      document.getElementById("tc_closure_sql_query").value = data.Closure_SQL_Query
+      document.getElementById("id_edit").value = rowId
+      document.getElementById("ProductCategoryName_edit").value = data.ProductCategoryName
+      document.getElementById("FilterQueryOnPolicyTable_edit").value = data.FilterQueryOnPolicyTable
+      document.getElementById("TrainingTopics_edit").value = data.TrainingTopics
+      document.getElementById("SellingTaskNo_edit").value = data.SellingTaskNo
+      document.getElementById("TrainingTaskNo_edit").value = data.TrainingTaskNo
     }
   });
 });
 
 }
 
-function DeleteSourceData_TC(row_id) {
-fetch(`api/task_closure_delete/${row_id}/`, {
+function DeleteSourceData_PCC(row_id) {
+fetch(`api/pcc_delete/${row_id}/`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
