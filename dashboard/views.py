@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from app_validation.models import *
 import pandas as pd
 from django.contrib import messages
+from django.apps import apps
 
 
 
@@ -591,7 +592,6 @@ def TOAM_Module_View(request):
                 id = request.POST.get('mdt_pk_id')
                 print("id:", id)
                 microsegment_default_tasks = Microsegment_Default_Tasks.objects.get(id=id)
-
                 microsegment_default_tasks.Channel = request.POST.get('channel_mdt')
                 microsegment_default_tasks.Subchannel = request.POST.get('subchannel_mdt')
                 microsegment_default_tasks.DemoSeg = request.POST.get('demoseg_mdt')
@@ -610,8 +610,20 @@ def TOAM_Module_View(request):
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
                 return render(request, 'toam_success_page.html')
-
-
-                        
-
     return render(request, 'TOAM.html',context)
+
+
+
+
+
+def upload_to_s3(modal_name):
+    try:
+        print("upload to s3")
+        data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
+        data_df = pd.DataFrame(list(data_model.objects.all().values()))
+        print("upload data_df:",data_df)
+        local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
+        data_df.to_csv(local_file_path, index=False)
+        return True
+    except Exception as e:
+        return False

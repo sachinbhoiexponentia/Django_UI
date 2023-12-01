@@ -699,9 +699,26 @@ def upload_to_s3(request, sheet_name):
         data_df = pd.DataFrame(list(data_model.objects.all().values()))
         print("upload data_df:",data_df)
         # is_valid, errors = mainValidate_function(sheet_name, data_df)
-        
-        
+        # Save to a local CSV file
+        local_file_path = f"upload_csv_files/{sheet_name}_local_data.csv"
+        data_df.to_csv(local_file_path, index=False)
 
+        # Optionally, you can return the local file path in the response
+        return JsonResponse({'is_valid': True, 'errors': ['errors']})
+    except Exception as e:
+        return JsonResponse({'is_valid': False, 'errors': [e]})
+
+
+
+
+def upload_to_s3(sheet_name):
+    try:
+        print("upload to s3")
+        # sheet_name = request.POST.get('sheet_name')
+        data_model = apps.get_model(app_label='app_validation', model_name=sheet_name)
+        data_df = pd.DataFrame(list(data_model.objects.all().values()))
+        print("upload data_df:",data_df)
+        # is_valid, errors = mainValidate_function(sheet_name, data_df)
         # Save to a local CSV file
         local_file_path = f"upload_csv_files/{sheet_name}_local_data.csv"
         data_df.to_csv(local_file_path, index=False)
