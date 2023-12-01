@@ -28,9 +28,45 @@
 
 </head>
 
+<style>
+.hand-cursor {
+    cursor: pointer;
+}
 
-
-
+.popup{
+    width: 400px;
+    background: #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 24px;
+    border: 1px solid #736CEB;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    display: none;
+    transition: transform 0.4s, top 0.4s;
+}
+.showPopup{
+  display: block;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+.popup p{
+  margin-bottom: 24px;
+}
+.btn{
+  padding: .5rem 1.2rem;
+}
+.update{
+  background-color: #736CEB !important;
+}
+.update:hover{
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+}
+</style>
 
 <body>
 
@@ -89,16 +125,23 @@
             <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"> Download</button>
-            <button class="button-with-image2" onclick="uploadToS3('Task_Closure_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Task_Closure_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
                 <thead>
                     <tr>
                      
-                      {% for header in Task_Closure_Config_headers %}
+                      <!-- {% for header in Task_Closure_Config_headers %}
                       <th>{{ header }}</th>
-                      {% endfor %}
+                      {% endfor %} -->
+
+                      <th>Task ID</th>
+                      <th>Task Description</th>
+                      <th>Closure True Query</th>
+                      <th>Closure SQL Query</th>
+
+
                       <th>Actions</th>
                     </tr>
                 </thead>
@@ -112,10 +155,15 @@
                          
                         {% endfor %}
                         <td>
-                          <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TC({{row.0}})" data-toggle="modal"
+                          <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TC({{row.0}})" data-toggle="modal"
                       data-target="#modal_task_closure_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TC({{ row.0 }})"
+                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation()"
                       data-toggle="modal" style="color: black;"></i>
+                      <div class="popup" id="deletePopup">
+                        <p>Do you want to delete?</p>
+                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
+                        <button class="btn btn-primary update" onclick="DeleteSourceData_TC({{ row.0 }})">Yes, Delete</button>
+                      </div>
                         </td>
                        </tr>
                   {% endfor %}
@@ -298,9 +346,15 @@
       evt.currentTarget.className += " active";
     }
 
+    let deletePopup = document.getElementById("deletePopup");
 
+    function deleteConfirmation(){
+      deletePopup.classList.add("showPopup")
+    }
 
-
+    function closePopup(){
+      deletePopup.classList.remove("showPopup")
+    }
 
 
 
@@ -411,6 +465,8 @@ $(document).ready(function () {
 }
 
 function DeleteSourceData_TC(row_id) {
+  document.getElementById("deletePopup").style.display="none";
+
 fetch(`api/task_closure_delete/${row_id}/`, {
   method: 'POST',
   headers: {

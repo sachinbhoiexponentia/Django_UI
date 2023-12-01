@@ -22,3 +22,4 @@ id,Channel,Subchannel,Channel_Subchannel_ID,DemoSeg,ValueSeg,DemoSeg_ValueSeg_ID
 22,12,12,12,121,212,12,12,xcds,12,
 23,1232,12,12,121,212,12,12,xcds,12,
 24,Direct,BCSS,131323,SegmentA,ValueX,1101,120,Demo,1,
+25,Direct,BCSS,12,121,212,12,12,Demo,1,

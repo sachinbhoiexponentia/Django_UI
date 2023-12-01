@@ -24,7 +24,41 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'toam_styles.css' %}">
 
-
+<style>
+  .popup{
+    width: 400px;
+    background: #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 24px;
+    border: 1px solid #736CEB;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    display: none;
+    transition: transform 0.4s, top 0.4s;
+}
+.showPopup{
+  display: block;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+.popup p{
+  margin-bottom: 24px;
+}
+.btn{
+  padding: .5rem 1.2rem;
+}
+.update{
+  background-color: #736CEB !important;
+}
+.update:hover{
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+}
+</style>
 
 </head>
 
@@ -98,16 +132,25 @@
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">
                 Download</button>
-            <button class="button-with-image2" onclick="uploadToS3('Task_Constraint_Rules')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Task_Constraint_Rules')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
               <thead>
                 <tr>
 
-                  {% for header in optimization_rules_data_headers %}
+                  <!-- {% for header in optimization_rules_data_headers %}
                   <th>{{ header }}</th>
-                  {% endfor %}
+                  {% endfor %} -->
+
+                  <th>Task Number</th>
+                  <th>Constraint Description</th>
+                  <th>Category Task Associaed With</th>
+                  <th>Min Task Count FLS</th>
+                  <th>Max Task Count FLS</th>
+                  <th>Mutual Exclusion Crteria</th>
+                  <th>Task Priority</th>
+                
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -123,8 +166,14 @@
                   <td>
                     <i class="fas fa-edit" id="editButton3" onclick="getSourceData_ORD({{row.0}})" data-toggle="modal"
                       data-target="#modal_optimization_rules_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_ORD({{ row.0 }})"
+                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="deleteConfirmation()"
                       data-toggle="modal" style="color: black;"></i>
+
+                      <div class="popup" id="deletePopup">
+                        <p>Do you want to delete?</p>
+                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
+                        <button class="btn btn-primary update" onclick="DeleteSourceData_ORD({{ row.0 }})">Yes, Delete</button>
+                      </div>
                   </td>
                 </tr>
                 {% endfor %}
@@ -402,15 +451,28 @@
                 data-target="#myModal2"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
               <button class="button-with-image1"><span><img src="{% static 'Download.png' %}"
                     class="me-1">Download</button>
-              <button class="button-with-image2" onclick="uploadToS3('Allocation_Parameters')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image2" onclick="uploadToS3('Allocation_Parameters')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
             </div>
             <div class="table-container">
               <table class="custom-table">
                 <thead>
                   <tr>
-                    {% for header in allocation_parameters_data_headers %}
+                    <!-- {% for header in allocation_parameters_data_headers %}
                     <th>{{ header }}</th>
-                    {% endfor %}
+                    {% endfor %} -->
+
+                    <th>Task ID</th>
+                    <th>Channel</th>
+                    <th>Subchannel</th>
+                    <th>Demo Segment</th>
+                    <th>Value Segment</th>
+                    <th>Segment ID</th>
+                    <th>Due Days</th>
+                    <th>Buffer Days</th>
+                    <th>XX Value</th>
+                    <th>XX Type</th>
+                    <th>Price Point Reward</th>
+
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -426,8 +488,14 @@
                     <td>
                       <i class="fas fa-edit" id="editButton3" onclick="getSourceData_AP({{row.0}})" data-toggle="modal"
                       data-target="#modal_allocation_parameters_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_AP({{ row.0 }})"
+                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="deleteConfirmation2()"
                       data-toggle="modal" style="color: black;"></i>
+
+                      <div class="popup" id="deletePopup2">
+                        <p>Do you want to delete?</p>
+                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2()">Cancel</button>
+                        <button class="btn btn-primary update" onclick="DeleteSourceData_AP({{ row.0 }})">Yes, Delete</button>
+                      </div>
                     </td>
                   </tr>
                   {% endfor %}
@@ -661,15 +729,24 @@
             <button class="button-with-image blueBorder ms-auto" id="formButton3" data-toggle="modal"
               data-target="#myModal3"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
             <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-            <button class="button-with-image2" onclick="uploadToS3('Microsegment_Default_Tasks')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image2" onclick="uploadToS3('Microsegment_Default_Tasks')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
               <thead>
                 <tr>
-                  {% for header in microsegment_default_tasks_data_headers %}
+                  <!-- {% for header in microsegment_default_tasks_data_headers %}
                   <th>{{ header }}</th>
-                  {% endfor %}
+                  {% endfor %} -->
+
+                  <th>ID</th>
+                  <th>Channel</th>
+                  <th>Subchannel</th>
+                  <th>Demo Segment</th>
+                  <th>Value Segment</th>
+                  <th>Segment ID</th>
+                  <th>Default Tasks</th>
+
                   <th>Actions</th>
                 </tr>
             </thead>
@@ -685,8 +762,14 @@
                     <td>
                       <i class="fas fa-edit" id="editButton3" data-toggle="modal" onclick="getSourceData_mdt({{ row.0 }})" data-target="#Microsegment_Default_Tasks_edit_popup"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" onclick="DeleteSourceData_mdt({{ row.0 }})" data-target="#myModal4_delete"
-                        style="color: black;"></i>
+                        <i class="fas fa-trash-alt" id="deleteButton5" onclick="deleteConfirmation3()"
+                        data-toggle="modal" style="color: black;"></i>
+
+                        <div class="popup" id="deletePopup3">
+                          <p>Do you want to delete?</p>
+                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup3()">Cancel</button>
+                          <button class="btn btn-primary update" onclick="DeleteSourceData_mdt({{ row.0 }})">Yes, Delete</button>
+                        </div>
 
                     </td>
                    </tr>
@@ -875,7 +958,7 @@
                 data-target="#myModal4"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
               <button class="button-with-image1"><span><img src="{% static 'Download.png' %}"
                     class="me-1">Download</button>
-              <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
             </div>
             <div class="table-container">
               <table class="custom-table">
@@ -1177,6 +1260,32 @@
         evt.currentTarget.className += " active";
       }
 
+    let deletePopup = document.getElementById("deletePopup");
+    let deletePopup2 = document.getElementById("deletePopup2");
+    let deletePopup3 = document.getElementById("deletePopup3");
+
+
+    function deleteConfirmation(){
+      deletePopup.classList.add("showPopup")
+    }
+
+    function deleteConfirmation2(){
+      deletePopup2.classList.add("showPopup")
+    }
+
+    function deleteConfirmation3(){
+      deletePopup3.classList.add("showPopup")
+    }
+
+    function closePopup(){
+      deletePopup.classList.remove("showPopup")
+    }
+    function closePopup2(){
+      deletePopup2.classList.remove("showPopup")
+    }
+    function closePopup3(){
+      deletePopup3.classList.remove("showPopup")
+    }
 
 
       document.addEventListener("DOMContentLoaded", function () {
@@ -1432,6 +1541,8 @@
       }
 
       function DeleteSourceData_ORD(row_id) {
+      document.getElementById("deletePopup").style.display="none";
+
         fetch(`api/task_constraint_rules_delete/${row_id}/`, {
           method: 'POST',
           headers: {
@@ -1497,6 +1608,8 @@
 
 
 function DeleteSourceData_mdt(rowId) {
+  document.getElementById("deletePopup3").style.display="none";
+
   fetch(`api/microsegment_default_tasks_delete/${rowId}/`, {
     method: 'POST',
     headers: {
@@ -1568,6 +1681,8 @@ function DeleteSourceData_mdt(rowId) {
 }
 
 function DeleteSourceData_AP(row_id) {
+  document.getElementById("deletePopup2").style.display="none";
+
 fetch(`api/allocation_parameters_delete/${row_id}/`, {
   method: 'POST',
   headers: {

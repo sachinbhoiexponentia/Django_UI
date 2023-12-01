@@ -56,6 +56,44 @@
 .error-message {
     color: red;
 }
+
+.hand-cursor {
+    cursor: pointer;
+}
+
+.popup{
+    width: 400px;
+    background: #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 24px;
+    border: 1px solid #736CEB;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    display: none;
+    transition: transform 0.4s, top 0.4s;
+}
+.showPopup{
+  display: block;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+.popup p{
+  margin-bottom: 24px;
+}
+.btn{
+  padding: .5rem 1.2rem;
+}
+.update{
+  background-color: #736CEB !important;
+}
+.update:hover{
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+}
 </style>
 
 
@@ -75,6 +113,7 @@
       </a>
       <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a>
     </div>
+
     <div class="content">
 
       <div class="button-container">
@@ -98,7 +137,14 @@
       </ul>
       {% endif %}
 
-      
+      <!-- Confirmation Popup  -->
+    <div class="popup" id="popup">
+      <p>Do you want to update?</p>
+      <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
+      <button class="btn btn-primary update" onclick="uploadToS3('Threshold_Logic_Config')">Yes, Update</button>
+    </div>
+
+    
 
 
       <div id="Threshold_Logic_Config_visible" class="tabcontent">
@@ -108,15 +154,25 @@
             New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">
               Download</button>
-          <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image2" onclick="updateConfirmation()"><span><img src="{% static 'Upload.png' %}" class="me-1" >Update</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
             <thead>
               <tr>
-                {% for header in Threshold_Logic_Config_headers %}
+                <!-- {% for header in Threshold_Logic_Config_headers %}
                 <th>{{ header }}</th>
-                {% endfor %}
+                {% endfor %} -->
+                <th>Trigger ID</th>
+                <th>Trigger Description</th>
+                <th>Threshold Description</th>
+                <th>Threshold Query Logic</th>
+                <th>Operation</th>
+                <th>Analysis Period</th>
+                <th>Number of Thresholds Required</th>
+                <th>Segment Threshold Requirement Flag</th>
+                <th>FLS Threshold Requirement Flag</th>
+
                 <th>Actions</th>
               </tr>
             </thead>
@@ -131,10 +187,16 @@
                 {% endfor %}
                 <td>
 
-                  <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TLC({{ row.0 }})" data-toggle="modal"
+                  <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TLC({{ row.0 }})" data-toggle="modal"
                     data-target="#modal_threshold_logic_config_edit" style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TLC({{ row.0 }})"
+                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation()"
                     data-toggle="modal" style="color: black;"></i>
+
+                    <div class="popup" id="deletePopup">
+                      <p>Do you want to delete?</p>
+                      <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
+                      <button class="btn btn-primary update" onclick="DeleteSourceData_TLC({{ row.0 }})">Yes, Delete</button>
+                    </div>
                 </td>
               </tr>
               {% endfor %}
@@ -234,6 +296,7 @@
         </div>
 
 
+        
 
         <div id="modal_threshold_logic_config_edit" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
@@ -379,15 +442,28 @@
             data-target="#modal_trigger_threshold_business"><span><img src="{% static 'add.png' %}"
                 class="me-1"></span>Add New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-          <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
             <thead>
               <tr>
-                {% for header in Trigg_Thres_By_Business_headers %}
+                <!-- {% for header in Trigg_Thres_By_Business_headers %}
                 <th>{{ header }}</th>
-                {% endfor %}
+                {% endfor %} -->
+
+                <th>ID</th>
+                <th>Channel</th>
+                <th>Subchannel</th>
+                <th>Channel Subchannel ID</th>
+                <th>Demo Segment</th>
+                <th>Value Segment</th>
+                <th>Demo Segment Value Segment ID</th>
+                <th>Trigger ID</th>
+                <th>Trigger Description</th>
+                <th>Segment Threshold</th>
+                <th>FLS Avg Threshold</th>
+
                 <th>Actions</th>
               </tr>
             </thead>
@@ -400,10 +476,16 @@
                 </td>
                 {% endfor %}
                 <td>
-                  <i class="fas fa-edit" id="editButton3" onclick="getSourceData_TTB({{ row.0 }})" data-toggle="modal"
+                  <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TTB({{ row.0 }})" data-toggle="modal"
                     data-target="#modal_trigger_threshold_business_edit" style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" onclick="DeleteSourceData_TTB({{ row.0 }})"
+                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation2()"
                     data-toggle="modal" data-target="#myModal_delete_TTB" style="color: black;"></i>
+
+                    <div class="popup" id="deletePopup2">
+                      <p>Do you want to delete?</p>
+                      <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2()">Cancel</button>
+                      <button class="btn btn-primary update" onclick="DeleteSourceData_TTB({{ row.0 }})">Yes, Delete</button>
+                    </div>
                 </td>
               </tr>
               {% endfor %}
@@ -412,7 +494,7 @@
         </div>
         <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
 
-
+        
 
 
 
@@ -817,35 +899,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -864,8 +918,11 @@
           <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
             data-target="#Default_Channel_Trigg_thres"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
           <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image2" onclick="openPopup()"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
         </div>
+
+        
+
         <div class="table-container">
           <table class="custom-table">
             <thead>
@@ -886,10 +943,11 @@
 
                 {% endfor %}
                 <td>
-                  <i class="fas fa-edit" id="editButton3" data-toggle="modal"
+                  <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal"
                     data-target="#Default_Channel_Trigg_thres_edit" onclick="getSourceData_DCTt({{ row.0 }})"
                     style="color: black;"></i>
-                  <i class="fas fa-trash-alt" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete" onclick="DeleteSourceData_DCTt({{ row.0 }})"
+
+                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" data-target="#myModal4_delete" onclick="DeleteSourceData_DCTt({{ row.0 }})"
                     style="color: black;"></i>
                 </td>
               </tr>
@@ -1096,7 +1154,33 @@
       }
     }
 
+    let popup = document.getElementById("popup");
+    let deletePopup = document.getElementById("deletePopup");
+    let deletePopup2 = document.getElementById("deletePopup2");
 
+    function updateConfirmation(){
+      popup.classList.add("showPopup")
+    }
+
+    function deleteConfirmation(){
+      deletePopup.classList.add("showPopup")
+    }
+
+    function deleteConfirmation2(){
+      deletePopup2.classList.add("showPopup")
+    }
+
+    function closePopup(){
+      popup.classList.remove("showPopup")
+    }
+
+    function closePopup(){
+      deletePopup.classList.remove("showPopup")
+    }
+
+    function closePopup2(){
+      deletePopup2.classList.remove("showPopup")
+    }
 
     document.addEventListener("DOMContentLoaded", function () {
       var formButton = document.getElementById("formButton1");
@@ -1449,6 +1533,8 @@
     }
 
     function DeleteSourceData_TLC(row_id) {
+      document.getElementById("deletePopup").style.display="none";
+
       fetch(`api/Threshold_Logic_Config_delete/${row_id}/`, {
         method: 'POST',
         headers: {
@@ -1456,6 +1542,7 @@
         },
       })
         .then(response => {
+          
           if (!response.ok) {
             if (response.status === 404) {
               // Show errorDiv if object not found
@@ -1480,6 +1567,8 @@
 
 
     function DeleteSourceData_TTB(row_id) {
+      document.getElementById("deletePopup2").style.display="none";
+
       fetch(`api/Trigg_Thres_By_Business_delete/${row_id}/`, {
         method: 'POST',
         headers: {
