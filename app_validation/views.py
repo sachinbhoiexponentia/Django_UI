@@ -1,4 +1,5 @@
-from django.http import JsonResponse
+import os
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from app_validation.models import *
@@ -745,3 +746,19 @@ def upload_to_s3(request, sheet_name):
         return JsonResponse({'is_valid': True, 'errors': ['errors']})
     except Exception as e:
         return JsonResponse({'is_valid': False, 'errors': [e]})
+
+# @csrf_exempt
+# @login_required
+# @require_POST
+# def download_csv(request):
+#     # print('rohan',request.__dict__)
+#     #   filename=request.POST
+#     filename=json.loads(request.body.decode('utf-8')).get('filename')
+#     print(f'filename  {filename}')
+#     results = pd.read_csv(f'{os.getcwd()}/upload_csv_files/{filename}_local_data.csv')
+
+#     response = HttpResponse(content_type='text/csv')
+#     response['Content-Disposition'] = f'attachment; filename={filename}.csv'
+
+#     results.to_csv(path_or_buf=response)
+#     return response
