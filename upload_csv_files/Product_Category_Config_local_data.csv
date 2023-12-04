@@ -1,0 +1,3 @@
+id,ProductCategoryName,FilterQueryOnPolicyTable,TrainingTopics,SellingTaskNo,TrainingTaskNo
+1,Category1,FilterQuery1,Topic1,TaskNo1,TrainingTaskNo1
+2,Category2,FilterQuery2,Topic2,TaskNo2,TrainingTaskNo2

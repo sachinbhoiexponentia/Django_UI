@@ -716,6 +716,32 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #         return JsonResponse({'message': 'Success'}, status = 200)
 #     except Exception as e:
 #         return JsonResponse({'error': str(e)}, status = 400)
+
+
+
+# # Inserting dummy rows
+# dummy_rows = [
+#     {
+#         "ProductCategoryName": "Category1",
+#         "FilterQueryOnPolicyTable": "FilterQuery1",
+#         "TrainingTopics": "Topic1",
+#         "SellingTaskNo": "TaskNo1",
+#         "TrainingTaskNo": "TrainingTaskNo1",
+#     },
+#     {
+#         "ProductCategoryName": "Category2",
+#         "FilterQueryOnPolicyTable": "FilterQuery2",
+#         "TrainingTopics": "Topic2",
+#         "SellingTaskNo": "TaskNo2",
+#         "TrainingTaskNo": "TrainingTaskNo2",
+#     },
+#     # Add more dummy rows as needed
+# ]
+
+# for dummy_row in dummy_rows:
+#     Product_Category_Config.objects.create(**dummy_row)
+
+# print("Dummy rows inserted successfully.")
     
 @csrf_exempt
 @login_required
