@@ -61,9 +61,8 @@ def validate_thresold_config_df_api(request):
         # if sheet_name == 'microsegment_default_tasks_Form':
         #     is_valid,errors = validate_microseg_default_tasks(data_df) 
             
-        # is_valid,errors = mainValidate_function(sheet_name,data_df)
-        # print('is_valid,errors',is_valid,errors)
-        is_valid=True
+        is_valid,errors = mainValidate_function(sheet_name,data_df)
+        print('is_valid,errors',is_valid,errors)
         return JsonResponse({'is_valid': is_valid, 'errors': errors})
         # except Exception as e:
         #     return JsonResponse({'error': str(e)}, status=500)
@@ -391,10 +390,39 @@ def microsegment_default_tasks_delete_data_by_id(request, mdt_pk_id):
 
 
 
+class Product_Category_Config_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product_Category_Config
+        fields = '__all__'
 
 
+@csrf_exempt
+@login_required
+@api_view(['GET'])
+def Product_Category_Config_view(request, pk):
+    try:
+        print("pk:",pk)
+        instance = Product_Category_Config.objects.get(pk=pk)
+        print("instance:",instance)
+    except Product_Category_Config.DoesNotExist:
+        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
+    serializer = Product_Category_Config_Serializer(instance)
+    print(serializer)
+    return Response(serializer.data)
 
+@csrf_exempt
+@login_required
+@require_POST
+def Product_Category_Config_delete_data_by_id(request, row_id):
+    try:
+        print(row_id)
+        instance = Product_Category_Config.objects.get(id=row_id)
+        instance.delete()
+        print("Deleted Successfuly")
+        return JsonResponse({'message': 'Data deleted successfully'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': 'Object not found'}, status=404)
 
 
 
@@ -447,40 +475,6 @@ def task_constraint_rules_delete_by_id(request, row_id):
         return JsonResponse({'message': 'Object not found'}, status=404)
     
 
-
-class Product_Category_Config_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product_Category_Config
-        fields = '__all__'
-
-
-@csrf_exempt
-@login_required
-@api_view(['GET'])
-def Product_Category_Config_view(request, pk):
-    try:
-        print("pk:",pk)
-        instance = Product_Category_Config.objects.get(pk=pk)
-        print("instance:",instance)
-    except Product_Category_Config.DoesNotExist:
-        return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    serializer = Product_Category_Config_Serializer(instance)
-    print(serializer)
-    return Response(serializer.data)
-
-@csrf_exempt
-@login_required
-@require_POST
-def Product_Category_Config_delete_data_by_id(request, row_id):
-    try:
-        print(row_id)
-        instance = Product_Category_Config.objects.get(id=row_id)
-        instance.delete()
-        print("Deleted Successfuly")
-        return JsonResponse({'message': 'Data deleted successfully'})
-    except ObjectDoesNotExist:
-        return JsonResponse({'message': 'Object not found'}, status=404)
 # ##################insert the config data into the model###################
 # def insert_config_data(df):
 #     print(df.columns)
@@ -746,19 +740,3 @@ def upload_to_s3(request, sheet_name):
 
 
 
-def upload_to_s3(sheet_name):
-    try:
-        print("upload to s3")
-        # sheet_name = request.POST.get('sheet_name')
-        data_model = apps.get_model(app_label='app_validation', model_name=sheet_name)
-        data_df = pd.DataFrame(list(data_model.objects.all().values()))
-        print("upload data_df:",data_df)
-        # is_valid, errors = mainValidate_function(sheet_name, data_df)
-        # Save to a local CSV file
-        local_file_path = f"upload_csv_files/{sheet_name}_local_data.csv"
-        data_df.to_csv(local_file_path, index=False)
-
-        # Optionally, you can return the local file path in the response
-        return JsonResponse({'is_valid': True, 'errors': ['errors']})
-    except Exception as e:
-        return JsonResponse({'is_valid': False, 'errors': [e]})
