@@ -2,6 +2,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    path('api/downloadToCSV/',csv_download,name='csv_download'),
     path('api/validate_thresold_config_df/', validate_thresold_config_df_api, name='validate_config'),
     # Threshold page
     path('api/Threshold_Logic_Config_get_data/<int:pk>/', threshold_logic_config_detail_view, name='threshold_logic_config_detail_view'),
