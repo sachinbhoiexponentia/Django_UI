@@ -32,6 +32,39 @@
 .hand-cursor {
     cursor: pointer;
 }
+.popup{
+    width: 400px;
+    background: #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 24px;
+    border: 1px solid #736CEB;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    display: none;
+    transition: transform 0.4s, top 0.4s;
+}
+.showPopup{
+  display: block;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+}
+.popup p{
+  margin-bottom: 24px;
+}
+.btn{
+  padding: .5rem 1.2rem;
+}
+.update{
+  background-color: #736CEB !important;
+}
+.update:hover{
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+}
 </style>
 
 
@@ -107,9 +140,18 @@
             <table class="custom-table">
               <thead>
                 <tr>
-                  {% for header in channel_task_mapping_data_headers %}
+                  <!-- {% for header in channel_task_mapping_data_headers %}
                   <th>{{ header }}</th>
-                  {% endfor %}
+                  {% endfor %} --> 
+
+                  <th>ID</th>
+                  <th>Channel</th>
+                  <th>Channel Subchannel ID</th>
+                  <th>Channel Subchannel Name</th>
+                  <th>Demo Segment Value Segment ID</th>
+                  <th>Demo Segment Value Segment Name</th>
+                  <th>Task</th>
+
                   <th>Actions</th>
                 </tr>
             </thead>
@@ -125,8 +167,15 @@
                     <td>
                       <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal" onclick="getSourceData_CTM({{ row.0 }})" data-target="#channel_task_mapping_Form_edit_pop_up"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" onclick="DeleteSourceData_CTM({{ row.0 }})" data-target="#myModal4_delete"
+                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" onclick="deleteConfirmation()" data-target="#myModal4_delete"
                         style="color: black;"></i>
+
+                        <div class="popup" id="deletePopup">
+                          <p>Do you want to delete?</p>
+                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
+                          <button class="btn btn-primary update" onclick="DeleteSourceData_CTM({{ row.0 }})">Yes, Delete</button>
+                        </div>
+
                     </td>
                    </tr>
               {% endfor %}
@@ -285,9 +334,15 @@
               <thead>
                 <tr>
                  
-                  {% for header in task_trigger_mapping_data_headers %}
+                  <!-- {% for header in task_trigger_mapping_data_headers %}
                   <th>{{ header }}</th>
-                  {% endfor %}
+                  {% endfor %} -->
+
+                  <th>Task ID</th>
+                  <th>Task Description</th>
+                  <th>Task Stage</th>
+                  <th>Trigger</th>
+
                   <th>Actions</th>
                 </tr>
             </thead>
@@ -303,8 +358,15 @@
                     <td>
                       <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TTM({{ row.0 }})" data-toggle="modal" data-target="#TTM_edit_pop_up_form"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="DeleteSourceData_TTM({{ row.0 }})" data-toggle="modal" 
+                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation2()" data-toggle="modal" 
                         style="color: black;"></i>
+
+                        <div class="popup" id="deletePopup2">
+                          <p>Do you want to delete?</p>
+                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2()">Cancel</button>
+                          <button class="btn btn-primary update" onclick="DeleteSourceData_TTM({{ row.0 }})">Yes, Delete</button>
+                        </div>
+
                     </td>
                     </td>
                    </tr>
@@ -441,9 +503,17 @@
               <thead>
                 <tr>
                  
-                  {% for header in trigger_query_logic_data_headers %}
+                  <!-- {% for header in trigger_query_logic_data_headers %}
                   <th>{{ header }}</th>
-                  {% endfor %}
+                  {% endfor %} -->
+
+                  <th>Trigger ID</th>
+                  <th>Trigger Description Discussed</th>
+                  <th>Assignment Level</th>
+                  <th>Iteration Level</th>
+                  <th>Trigger On Query Logic</th>
+                  <th>Query</th>
+                
                   <th>Actions</th>
                 </tr>
             </thead>
@@ -459,8 +529,15 @@
                     <td>
                       <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal" onclick="getSourceData_TQL({{ row.0 }})" data-target="#TQL_edit_pop_up"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" onclick="DeleteSourceData_TQL({{ row.0 }})" 
+                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" onclick="deleteConfirmation3()" 
                         style="color: black;"></i>
+
+                        <div class="popup" id="deletePopup3">
+                          <p>Do you want to delete?</p>
+                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup3()">Cancel</button>
+                          <button class="btn btn-primary update" onclick="DeleteSourceData_TQL({{ row.0 }})">Yes, Delete</button>
+                        </div>
+
                     </td>
                    </tr>
               {% endfor %}
@@ -659,6 +736,33 @@
       evt.currentTarget.className += " active";
     }
 
+    let deletePopup = document.getElementById("deletePopup");
+    let deletePopup2 = document.getElementById("deletePopup2");
+    let deletePopup3 = document.getElementById("deletePopup3");
+
+
+    function deleteConfirmation(){
+      deletePopup.classList.add("showPopup")
+    }
+
+    function deleteConfirmation2(){
+      deletePopup2.classList.add("showPopup")
+    }
+
+    function deleteConfirmation3(){
+      deletePopup3.classList.add("showPopup")
+    }
+
+    function closePopup(){
+      deletePopup.classList.remove("showPopup")
+    }
+    function closePopup2(){
+      deletePopup2.classList.remove("showPopup")
+    }
+    function closePopup3(){
+      deletePopup3.classList.remove("showPopup")
+    }
+
 
 
     $(document).ready(function () {
@@ -816,6 +920,8 @@
 
 
     function DeleteSourceData_CTM(row_id) {
+      document.getElementById("deletePopup").style.display="none";
+
       fetch(`api/Channel_Task_Mapping_delete/${row_id}/`, {
         method: 'POST',
         headers: {
@@ -873,6 +979,8 @@
   }
 
 function DeleteSourceData_TTM(rowId) {
+  document.getElementById("deletePopup2").style.display="none";
+
   fetch(`api/task_trigger_mapping_delete/${rowId}/`, {
     method: 'POST',
     headers: {
@@ -936,6 +1044,8 @@ function DeleteSourceData_TTM(rowId) {
   }
 
   function DeleteSourceData_TQL(rowId) {
+    document.getElementById("deletePopup3").style.display="none";
+
     fetch(`api/trigger_on_query_logic_delete/${rowId}/`, {
       method: 'POST',
       headers: {
