@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from app_validation.models import *
 import pandas as pd
 from django.contrib import messages
+from django.apps import apps
 
 
 
@@ -68,6 +69,7 @@ def Threshold_Logic_Config_view(request):
                     segment_threshold_requirement_flag=request.POST.get('Segment_Threshold_Requirement_Flag'),
                     FLS_Threshold_Requirement_Flag=request.POST.get('FLS_Threshold_Requirement_Flag'))
                 threshold_logic_config.save()
+                upload_to_s3('Threshold_Logic_Config')
                 messages.success(request, 'Form saved successfully!')
                 return render(request, 'threshold_success_page.html')
             except Exception as e:
@@ -91,6 +93,7 @@ def Threshold_Logic_Config_view(request):
                     Segment_Threshold=request.POST.get('segment_threshold_1'),
                     FLSAvg_Threshold=request.POST.get('flsavg_threshold')) 
                 trigg_thres_by_business.save()
+                upload_to_s3('Trigg_Thres_By_Business')
                 messages.success(request, 'Form saved successfully')  
                 return render(request, 'threshold_success_page.html')
             except Exception as e:
@@ -109,6 +112,7 @@ def Threshold_Logic_Config_view(request):
                     Segment_Threshold_1 = request.POST.get('segment_threshold_1'),
                     FLSAvg_Threshold_2 = request.POST.get('flsavg_threshold_2'))
                 default_channel_trigg_thres_output.save()
+                upload_to_s3('Default_Channel_Trigg_thres')
                 return render(request, 'threshold_success_page.html')
             except Exception as e:
                 print('Error while saving the data ',e)  
@@ -133,6 +137,7 @@ def Threshold_Logic_Config_view(request):
                 threshold_logic_config.FLS_Threshold_Requirement_Flag = request.POST.get('FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit')
 
                 threshold_logic_config.save()
+                upload_to_s3('Threshold_Logic_Config')
 
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'threshold_success_page.html')
@@ -164,7 +169,7 @@ def Threshold_Logic_Config_view(request):
                 trigg_Thres_By_Business.Segment_Threshold= request.POST.get('segment_threshold_1_Trigger_Threhold_by_Business_Form_edit')
                 trigg_Thres_By_Business.FLSAvg_Threshold= request.POST.get('flavg_threshold_Trigger_Threhold_by_Business_Form_edit')
                 trigg_Thres_By_Business.save()
-
+                upload_to_s3('Trigg_Thres_By_Business')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'threshold_success_page.html')
             except Trigg_Thres_By_Business.DoesNotExist:
@@ -191,7 +196,7 @@ def Threshold_Logic_Config_view(request):
                 default_Channel_Trigg_thres.Segment_Threshold_1= request.POST.get('Segment_Threshold_1_edit')
                 default_Channel_Trigg_thres.FLSAvg_Threshold_2= request.POST.get('FLSAvg_Threshold_2_edit')
                 default_Channel_Trigg_thres.save()
-
+                upload_to_s3('Default_Channel_Trigg_thres')    
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'threshold_success_page.html')
             except Default_Channel_Trigg_thres.DoesNotExist:
@@ -230,6 +235,7 @@ def closure_Config_view(request):
                 Task_Desc = request.POST.get('task_desc') , 
                 Closure_True_Query = request.POST.get('closure_true_query')) 
                 task_closure_config.save()
+                upload_to_s3('Task_Closure_Config') 
                 messages.success(request, 'Form saved successfully')
                 return render(request, 'closure_success_page.html')
             except Exception as e:
@@ -250,7 +256,7 @@ def closure_Config_view(request):
                 threshold_login_config.Closure_SQL_Query = request.POST.get('tc_closure_sql_query')
 
                 threshold_login_config.save()
-
+                upload_to_s3('Task_Closure_Config')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'closure_success_page.html')
             except Threshold_Logic_Config.DoesNotExist:
@@ -309,6 +315,7 @@ def TNT_Module_View(request):
                     DemoSeg_ValueSeg_Name = request.POST.get('demoseg_valueseg_name') , 
                     Task = request.POST.get('task'))
                 channel_task_mapping.save()
+                upload_to_s3('Channel_Task_Mapping')
                 messages.success(request, 'Form saved successfully')
                 return render(request, 'tnt_success_page.html')
             except Exception as e:
@@ -326,6 +333,7 @@ def TNT_Module_View(request):
                 Task_Stage = request.POST.get('task_stage') , 
                 Trigger = request.POST.get('trigger'))
                 task_trigger_mapping.save()
+                upload_to_s3('Task_Trigger_Mapping')
                 messages.success(request, 'Form saved successfully')
                 return render(request, 'tnt_success_page.html')
             except Exception as e:
@@ -345,6 +353,7 @@ def TNT_Module_View(request):
                     Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic'),
                     query = request.POST.get('query'))
                 trigger_on_query_logic.save()
+                upload_to_s3('Trigger_ON_Query')
                 messages.success(request, 'Form saved successfully')
                 return render(request, 'tnt_success_page.html')
             except Exception as e:
@@ -368,7 +377,7 @@ def TNT_Module_View(request):
                 channel_task_mapping.DemoSeg_ValueSeg_Name = request.POST.get('demoseg_valueseg_name_ctm')
                 channel_task_mapping.Task = request.POST.get('task_ctm')
                 channel_task_mapping.save()
-                
+                upload_to_s3('Channel_Task_Mapping')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'tnt_success_page.html')
             except Threshold_Logic_Config.DoesNotExist:
@@ -392,7 +401,7 @@ def TNT_Module_View(request):
                 trigger_on_query.Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic_tql')
                 trigger_on_query.query  = request.POST.get('query_tql')
                 trigger_on_query.save()
-
+                upload_to_s3('Trigger_ON_Query')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'tnt_success_page.html')
             except Task_Trigger_Mapping.DoesNotExist:
@@ -416,7 +425,7 @@ def TNT_Module_View(request):
                 task_trigger_mapping.Task_Stage = request.POST.get('task_stage_ttm')
                 task_trigger_mapping.Trigger = request.POST.get('trigger_ttm')
                 task_trigger_mapping.save()
-
+                upload_to_s3('Task_Trigger_Mapping')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'tnt_success_page.html')
             except Task_Trigger_Mapping.DoesNotExist:
@@ -476,6 +485,7 @@ def TOAM_Module_View(request):
                     Mutual_Exclusion_Criteria = request.POST.get('mutual_exclusion_criteria') ,
                     Task_Priority =request.POST.get('task_priority') )
                 optimization_rules.save()
+                upload_to_s3('Task_Constraint_Rules')
                 messages.success(request, 'Form saved successfully')
                 return render(request, 'toam_success_page.html')
             except Exception as e:
@@ -498,7 +508,7 @@ def TOAM_Module_View(request):
                 threshold_login_config.Task_Priority = request.POST.get('ord_task_priority')
 
                 threshold_login_config.save()
-
+                upload_to_s3('Task_Constraint_Rules')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'toam_success_page.html')
             except Task_Constraint_Rules.DoesNotExist:
@@ -525,6 +535,7 @@ def TOAM_Module_View(request):
                     XX_Type=request.POST.get('xx_type'),
                     PricePoint_Reward=request.POST.get('price_point_reward'))
                 allocation_parameters.save()
+                upload_to_s3('Allocation_Parameters')
                 messages.success(request, 'Form saved successfully')
                 return render(request, 'toam_success_page.html')
             except Exception as e:
@@ -552,7 +563,7 @@ def TOAM_Module_View(request):
                 threshold_login_config.PricePoint_Reward = request.POST.get('AP_PricePoint_Reward')
                 
                 threshold_login_config.save()
-
+                upload_to_s3('Allocation_Parameters')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'toam_success_page.html')
                 return render(request, 'TOAM.html', context)
@@ -577,6 +588,7 @@ def TOAM_Module_View(request):
                     Segment_id = request.POST.get('segment_id'),
                     Default_Tasks = request.POST.get('default_tasks'))
                 microsegment_default_tasks.save()
+                upload_to_s3('Microsegment_Default_Tasks')
                 messages.success(request, 'Product Mix Focus saved successfully')
                 return render(request, 'toam_success_page.html')
             except Exception as e:
@@ -591,7 +603,6 @@ def TOAM_Module_View(request):
                 id = request.POST.get('mdt_pk_id')
                 print("id:", id)
                 microsegment_default_tasks = Microsegment_Default_Tasks.objects.get(id=id)
-
                 microsegment_default_tasks.Channel = request.POST.get('channel_mdt')
                 microsegment_default_tasks.Subchannel = request.POST.get('subchannel_mdt')
                 microsegment_default_tasks.DemoSeg = request.POST.get('demoseg_mdt')
@@ -600,7 +611,7 @@ def TOAM_Module_View(request):
                 microsegment_default_tasks.Default_Tasks = request.POST.get('default_tasks_mdt')
 
                 microsegment_default_tasks.save()
-
+                upload_to_s3('Microsegment_Default_Tasks')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'toam_success_page.html')
             except Microsegment_Default_Tasks.DoesNotExist:
@@ -610,11 +621,13 @@ def TOAM_Module_View(request):
                 print('Error while updating the data ', e)
                 messages.error(request, 'Error while updating the data: {}'.format(e))
                 return render(request, 'toam_success_page.html')
-
-
-                        
-
     return render(request, 'TOAM.html',context)
+
+
+
+
+
+
 
 
 @login_required
@@ -641,6 +654,7 @@ def Product_Category_Config_view(request):
                         SellingTaskNo=request.POST.get('SellingTaskNo'),
                         TrainingTaskNo=request.POST.get('TrainingTaskNo')) 
                 product_category_config.save()
+                upload_to_s3('Product_Category_Config')
                 messages.success(request, 'Form saved successfully')
                 return render(request, 'product_success_page.html')
             except Exception as e:
@@ -662,7 +676,7 @@ def Product_Category_Config_view(request):
                 product_category_config.SellingTaskNo= request.POST.get('SellingTaskNo_edit')
                 product_category_config.TrainingTaskNo= request.POST.get('TrainingTaskNo_edit')
                 product_category_config.save()
-
+                upload_to_s3('Product_Category_Config')
                 messages.success(request, 'Form updated successfully')
                 return render(request, 'product_success_page.html')
             except Threshold_Logic_Config.DoesNotExist:
@@ -674,3 +688,19 @@ def Product_Category_Config_view(request):
                 return render(request, 'product_success_page.html')
     
     return render(request,'Product Category Config.html',context)
+
+
+
+
+
+def upload_to_s3(modal_name):
+    try:
+        print("upload to s3")
+        data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
+        data_df = pd.DataFrame(list(data_model.objects.all().values()))
+        print("upload data_df:",data_df)
+        local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
+        data_df.to_csv(local_file_path, index=False)
+        return True
+    except Exception as e:
+        return False
