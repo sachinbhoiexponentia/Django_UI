@@ -42,6 +42,7 @@ urlpatterns = [
     path('product_cat_conf/api/pcc_delete/<int:row_id>/', Product_Category_Config_delete_data_by_id, name='Product_Category_Config_delete_data_by_id'),
     
         
+    # path('download/', download_csv, name='download_csv'),
     path('upload/<str:sheet_name>/', upload_to_s3, name='upload_to_s3'),
     
 ]

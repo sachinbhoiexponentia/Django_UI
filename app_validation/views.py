@@ -1,4 +1,5 @@
-from django.http import JsonResponse
+import os
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from app_validation.models import *
@@ -736,7 +737,6 @@ def upload_to_s3(request, sheet_name):
         return JsonResponse({'is_valid': True, 'errors': ['errors']})
     except Exception as e:
         return JsonResponse({'is_valid': False, 'errors': [e]})
-
 
 
 @csrf_exempt
