@@ -1,4 +1,5 @@
-from django.http import JsonResponse
+import os
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from app_validation.models import *
@@ -10,11 +11,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import serializers
-# from django.http import JsonResponse
+from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.core.exceptions import ObjectDoesNotExist
 import pandas as pd
-
+import csv
 
 
 
@@ -764,5 +765,40 @@ def upload_to_s3(request, sheet_name):
         return JsonResponse({'is_valid': False, 'errors': [e]})
 
 
-
-
+@csrf_exempt
+@login_required
+def csv_download(request):
+    data = request.GET
+    sheet_name = data.get('form_identifier')
+    print(sheet_name)
+    if sheet_name == 'Threshold_Logic_Form':
+        queryset = Threshold_Logic_Config.objects.all()
+    if sheet_name == 'Trigger_Threhold_by_Business_Form':
+        queryset = Trigg_Thres_By_Business.objects.all()
+    if sheet_name == 'closure_form':
+        queryset = Task_Closure_Config.objects.all()
+    if sheet_name == 'channel_task_mapping_Form':
+        queryset = Channel_Task_Mapping.objects.all()
+    if sheet_name == 'task_trigger_mapping_Form':
+        queryset = Task_Trigger_Mapping.objects.all()
+    if sheet_name == 'trigger_on_query_logic_Form':
+        queryset = Trigger_ON_Query.objects.all()
+    if sheet_name == 'optimization_rules_Form':
+        queryset = Task_Constraint_Rules.objects.all()
+    if sheet_name == 'allocation_parameters_Form':
+        queryset = Allocation_Parameters.objects.all()
+    if sheet_name == 'microsegment_default_tasks_Form':
+        queryset = Microsegment_Default_Tasks.objects.all()
+    results = pd.DataFrame(list(queryset.values()))
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{sheet_name}.csv"'
+    
+    writer = csv.writer(response)
+    writer.writerow(results.columns)
+    for row in results.index:
+        # print(results.loc(row).tolist())
+        writer.writerow(results.loc[row].tolist())
+    print("I am HERE")
+    # results.to_csv(path_or_buf=response)
+    print(response)
+    return response

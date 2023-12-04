@@ -153,9 +153,10 @@
           <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
             data-target="#modal_threshold_logic_config"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add
             New</button>
-          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">
-              Download</button>
-          <button class="button-with-image2" onclick="updateConfirmation()"><span><img src="{% static 'Upload.png' %}" class="me-1" >Update</button>
+          <!-- <button class="button-with-image1" onclick="downloadCSV('Threshold_Logic_Config')"><span><img src="{% static 'Download.png' %}" class="me-1">
+              Download</button> -->
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Threshold_Logic_Config">Download</a></button>
+          <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -442,8 +443,8 @@
           <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
             data-target="#modal_trigger_threshold_business"><span><img src="{% static 'add.png' %}"
                 class="me-1"></span>Add New</button>
-          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-          <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
+          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Trigg_Thres_By_Business">Download</a></button>
+          <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -918,8 +919,8 @@
         <div class="button1-container">
           <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
             data-target="#Default_Channel_Trigg_thres"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
-          <button class="button-with-image2" onclick="openPopup()"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
+          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Trigg_Thres_By_Business">Download</a></button>
+          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
         </div>
 
         
@@ -1714,6 +1715,41 @@
     });
 }
 
+// function downloadCSV(filename) {
+//     // Make a GET request to the server endpoint with the sheet name
+//     fetch(`download/`, {
+//         method: 'POST',
+//         headers: {
+//             // No need for 'Content-Type' header in GET requests
+//             // 'Content-Type': 'application/json',
+//             // Add any other headers if needed
+//             'Content-Type':'application/json'
+//         },
+//         body:JSON.stringify({
+//           'filename':filename
+//         })
+//     })
+//     .then(response => {
+//       console.log('+++'+JSON.stringify(response))})
+//     .then(data => {
+//         // Handle the response from the server
+//         console.log('----'+data);
+//         // if (data.is_valid) {
+//         //     // Show success alert
+//         //     alert('Uploaded successfully');
+//         // } else {
+//         //     // Show failure alert
+//         //     alert('Upload failed');
+//         // }
+//         // Add any additional logic or UI updates based on the response
+//     })
+//     .catch(error => {
+//         // Handle errors
+//         console.error('Error:', error);
+//         // Show an error alert or handle the error in another way
+//         alert('Error uploading data. Please try again.');
+//     });
+// }
 
 
   </script>

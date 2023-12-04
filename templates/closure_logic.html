@@ -125,8 +125,8 @@
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"> Download</button>
-            <button class="button-with-image2" onclick="uploadToS3('Task_Closure_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
+            <button class="button-with-image1" id="downloadButtonClosure"><span><img src="{% static 'Download.png' %}" class="me-1">Download</button>
+            <button class="button-with-image2" onclick="uploadToS3('Task_Closure_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -412,6 +412,31 @@ $(document).ready(function () {
         console.error('AJAX request failed with error:', error);
         alert('Internal Server Error. Please check the server logs for details.');
       }
+    });
+  });
+});
+
+$(document).ready(function () {
+  $('#downloadButtonClosure').on('click', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+    var formData = $('#closure_form').serialize();
+    formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
+    $.ajax({
+      type: 'GET',
+      url: '/api/downloadToCSV/',
+      data: formData,
+      dataType: 'text',
+     success: function (response) {
+		var element = document.createElement('a');
+		element.href = 'data:text/csv;charset=utf-8,' + encodeURI(response);
+		element.target = '_blank';
+		element.download = 'closure_form.csv';
+		element.click();
+      },
+      error: function (xhr, status, error) {
+        console.error('AJAX request failed with error:', error);
+        alert('Internal Server Error. Please check the server logs for details.');
+      } 
     });
   });
 });
