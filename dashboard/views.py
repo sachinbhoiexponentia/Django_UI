@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from app_validation.controller import mainValidate_function
 from app_validation.models import *
 import pandas as pd
 from django.contrib import messages
@@ -23,7 +24,6 @@ def Threshold_Logic_Config_view(request):
     # Threshold_Logic_Config
     queryset = Threshold_Logic_Config.objects.all()
     Threshold_Logic_Config_df = pd.DataFrame(list(queryset.values()))
-    print(Threshold_Logic_Config_df)
     Threshold_Logic_Config_headers = list(Threshold_Logic_Config_df.columns)
     Threshold_Logic_Config_data = Threshold_Logic_Config_df.values.tolist()
 
@@ -32,18 +32,20 @@ def Threshold_Logic_Config_view(request):
     Trigg_Thres_By_Business_df = pd.DataFrame(list(queryset1.values()))
     Trigg_Thres_By_Business_headers = list(Trigg_Thres_By_Business_df.columns)
     Trigg_Thres_By_Business_data = Trigg_Thres_By_Business_df.values.tolist()
+    print(f'Threshold_Logic_Config_headers:{Threshold_Logic_Config_headers},\
+           Trigg_Thres_By_Business_headers:{Trigg_Thres_By_Business_headers}')
 
+    # queryset3 = Default_Channel_Trigg_thres.objects.all()
+    # Default_Channel_Trigg_thres_df = pd.DataFrame(list(queryset3.values()))
+    # print(Default_Channel_Trigg_thres_df)
+    # Default_Channel_Trigg_thres_headers = list(Default_Channel_Trigg_thres_df.columns)
+    # Default_Channel_Trigg_thres_data = Default_Channel_Trigg_thres_df.values.tolist()
+    # print("Default_Channel_Trigg_thres_headers:",Default_Channel_Trigg_thres_headers)
+    # print("Default_Channel_Trigg_thres_data:",Default_Channel_Trigg_thres_data)
 
-    queryset3 = Default_Channel_Trigg_thres.objects.all()
-    Default_Channel_Trigg_thres_df = pd.DataFrame(list(queryset3.values()))
-    print(Default_Channel_Trigg_thres_df)
-    Default_Channel_Trigg_thres_headers = list(Default_Channel_Trigg_thres_df.columns)
-    Default_Channel_Trigg_thres_data = Default_Channel_Trigg_thres_df.values.tolist()
-    print("Default_Channel_Trigg_thres_headers:",Default_Channel_Trigg_thres_headers)
-    print("Default_Channel_Trigg_thres_data:",Default_Channel_Trigg_thres_data)
-
-    context = {'Default_Channel_Trigg_thres_headers':Default_Channel_Trigg_thres_headers,
-               'Default_Channel_Trigg_thres_data':Default_Channel_Trigg_thres_data,
+    context = {
+        # 'Default_Channel_Trigg_thres_headers':Default_Channel_Trigg_thres_headers,
+            #    'Default_Channel_Trigg_thres_data':Default_Channel_Trigg_thres_data,
                'Trigg_Thres_By_Business_headers':Trigg_Thres_By_Business_headers,
                'Threshold_Logic_Config_headers': Threshold_Logic_Config_headers,
                'Threshold_Logic_Config_data': Threshold_Logic_Config_data,
@@ -121,92 +123,105 @@ def Threshold_Logic_Config_view(request):
 
         if form_id == 'Threshold_Logic_Form_edit':
             print('Threshold_Logic_Form_edit')
-            try:
-                trigger_id = request.POST.get('Trigger_id_Threshold_Logic_Form_edit')
-                print("trigger_id:",trigger_id)
-                threshold_logic_config = Threshold_Logic_Config.objects.get(trigger_id=trigger_id)
+            valid,errors = validateedit(form_id,request)
+            if valid:
+                try:
+                    trigger_id = request.POST.get('Trigger_id_edit')
+                    print("trigger_id:",trigger_id)
+                    threshold_logic_config = Threshold_Logic_Config.objects.get(trigger_id=trigger_id)
 
-                # Update fields based on the form data
-                threshold_logic_config.trigg_desc = request.POST.get('Trigg_Desc_Threshold_Logic_Form_edit')
-                threshold_logic_config.thres_description = request.POST.get('Thres_Description_Threshold_Logic_Form_edit')
-                threshold_logic_config.thres_query_logic = request.POST.get('Thres_Query_Logic_Threshold_Logic_Form_edit')
-                threshold_logic_config.operation = request.POST.get('Operation_Threshold_Logic_Form_edit')
-                threshold_logic_config.analysis_period = request.POST.get('Analysis_Period_Threshold_Logic_Form_edit')
-                threshold_logic_config.num_thresholds_required = request.POST.get('Num_Threshold_Required_Threshold_Logic_Form_edit')
-                threshold_logic_config.segment_threshold_requirement_flag = request.POST.get('Segment_Threshold_1_Requirement_Flag_Threshold_Logic_Form_edit')
-                threshold_logic_config.FLS_Threshold_Requirement_Flag = request.POST.get('FLS_Threshold_2_Requirement_Flag_Threshold_Logic_Form_edit')
+                    # Update fields based on the form data
+                    threshold_logic_config.trigg_desc = request.POST.get('Trigg_Desc_edit')
+                    threshold_logic_config.thres_description = request.POST.get('Thres_Description_edit')
+                    threshold_logic_config.thres_query_logic = request.POST.get('Thres_Query_Logic_edit')
+                    threshold_logic_config.operation = request.POST.get('Operation_edit')
+                    threshold_logic_config.analysis_period = request.POST.get('Analysis_Period_edit')
+                    threshold_logic_config.num_thresholds_required = request.POST.get('Num_Threshold_Required_edit')
+                    threshold_logic_config.segment_threshold_requirement_flag = request.POST.get('Segment_Threshold_1_Requirement_Flag_edit')
+                    threshold_logic_config.FLS_Threshold_Requirement_Flag = request.POST.get('FLS_Threshold_2_Requirement_Flag_edit')
 
-                threshold_logic_config.save()
-                upload_to_s3('Threshold_Logic_Config')
+                    threshold_logic_config.save()
+                    upload_to_s3('Threshold_Logic_Config')
 
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'threshold_success_page.html')
-            except Threshold_Logic_Config.DoesNotExist:
-                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                return render(request, 'threshold_success_page.html')
-                
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'threshold_success_page.html')
+                except Threshold_Logic_Config.DoesNotExist:
+                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                    return render(request, 'threshold_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'threshold_success_page.html')
+            else:    
+                messages.error(request, errors)
                 return render(request, 'threshold_success_page.html')
 
         if form_id == 'Trigger_Threhold_by_Business_Form_edit':
             print('Trigger_Threhold_by_Business_Form_edit')
-            try:
-                print(request.POST)
-                trigger_id = request.POST.get('Trigger_Threhold_by_Business_Form_id')
-                print("trigger_id:",trigger_id)
-                trigg_Thres_By_Business = Trigg_Thres_By_Business.objects.get(id=trigger_id)
-                # Update fields based on the form data
-                trigg_Thres_By_Business.Channel = request.POST.get('channel_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.Subchannel = request.POST.get('subchannel_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.DemoSeg= request.POST.get('demoseg_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.ValueSeg = request.POST.get('valueseg_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.Trigger_id = request.POST.get('trigger_id_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.Trigg_Desc= request.POST.get('trigg_description_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.Segment_Threshold= request.POST.get('segment_threshold_1_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.FLSAvg_Threshold= request.POST.get('flavg_threshold_Trigger_Threhold_by_Business_Form_edit')
-                trigg_Thres_By_Business.save()
-                upload_to_s3('Trigg_Thres_By_Business')
-                messages.success(request, 'Form updated successfully')
+            valid,errors = validateedit(form_id,request)
+            valid=True
+            if valid:
+                try:
+                    print(request.POST)
+                    trigger_id = request.POST.get('id_edit')
+                    print("trigger_id:",trigger_id)
+                    trigg_Thres_By_Business = Trigg_Thres_By_Business.objects.get(id=trigger_id)
+                    # Update fields based on the form data
+                    trigg_Thres_By_Business.Channel = request.POST.get('channel_edit')
+                    trigg_Thres_By_Business.Subchannel = request.POST.get('subchannel_edit')
+                    trigg_Thres_By_Business.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_edit')
+                    trigg_Thres_By_Business.DemoSeg= request.POST.get('demoseg_edit')
+                    trigg_Thres_By_Business.ValueSeg = request.POST.get('valueseg_edit')
+                    trigg_Thres_By_Business.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_edit')
+                    trigg_Thres_By_Business.Trigger_id = request.POST.get('trigger_id_edit')
+                    trigg_Thres_By_Business.Trigg_Desc= request.POST.get('trigg_description_edit')
+                    trigg_Thres_By_Business.Segment_Threshold= request.POST.get('segment_threshold_1_edit')
+                    trigg_Thres_By_Business.FLSAvg_Threshold= request.POST.get('flavg_threshold_edit')
+                    trigg_Thres_By_Business.save()
+                    upload_to_s3('Trigg_Thres_By_Business')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'threshold_success_page.html')
+                except Trigg_Thres_By_Business.DoesNotExist:
+                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                    return render(request, 'threshold_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'threshold_success_page.html')
+            else:
+                messages.error(request, errors)
                 return render(request, 'threshold_success_page.html')
-            except Trigg_Thres_By_Business.DoesNotExist:
-                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                return render(request, 'threshold_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
-                return render(request, 'threshold_success_page.html')
-            
 
 
         if form_id == 'Default_Channel_Trigg_thres_Form_Edit':
             print('Default_Channel_Trigg_thres_Form_Edit')
-            try:
-                # print(request.POST)
-                id = request.POST.get('Default_Channel_Trigg_thres_Form_id')
-                # print("trigger_id:",trigger_id)
-                default_Channel_Trigg_thres = Default_Channel_Trigg_thres.objects.get(id=id)
-                # Update fields based on the form data
-                default_Channel_Trigg_thres.Channel = request.POST.get('Channel_edit')
-                default_Channel_Trigg_thres.Trigger_id = request.POST.get('Trigger_id_edit')
-                default_Channel_Trigg_thres.Trigg_Desc = request.POST.get('Trigg_Desc_edit')
-                default_Channel_Trigg_thres.Segment_Threshold_1= request.POST.get('Segment_Threshold_1_edit')
-                default_Channel_Trigg_thres.FLSAvg_Threshold_2= request.POST.get('FLSAvg_Threshold_2_edit')
-                default_Channel_Trigg_thres.save()
-                upload_to_s3('Default_Channel_Trigg_thres')    
-                messages.success(request, 'Form updated successfully')
+            valid,errors = validateedit(form_id,request)
+            if valid:
+                try:
+                    # print(request.POST)
+                    id = request.POST.get('Default_Channel_Trigg_thres_Form_id_edit')
+                    # print("trigger_id:",trigger_id)
+                    default_Channel_Trigg_thres = Default_Channel_Trigg_thres.objects.get(id=id)
+                    # Update fields based on the form data
+                    default_Channel_Trigg_thres.Channel = request.POST.get('Channel_edit')
+                    default_Channel_Trigg_thres.Trigger_id = request.POST.get('Trigger_id_edit')
+                    default_Channel_Trigg_thres.Trigg_Desc = request.POST.get('Trigg_Desc_edit')
+                    default_Channel_Trigg_thres.Segment_Threshold_1= request.POST.get('Segment_Threshold_1_edit')
+                    default_Channel_Trigg_thres.FLSAvg_Threshold_2= request.POST.get('FLSAvg_Threshold_2_edit')
+                    default_Channel_Trigg_thres.save()
+                    upload_to_s3('Default_Channel_Trigg_thres')    
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'threshold_success_page.html')
+                except Default_Channel_Trigg_thres.DoesNotExist:
+                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                    return render(request, 'threshold_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'threshold_success_page.html')
+            else:
+                messages.error(request, errors)
                 return render(request, 'threshold_success_page.html')
-            except Default_Channel_Trigg_thres.DoesNotExist:
-                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                return render(request, 'threshold_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
-                return render(request, 'threshold_success_page.html')
-        
         
 
     return render(request, 'Threshold_logic.html', context)
@@ -245,26 +260,31 @@ def closure_Config_view(request):
                     
         if form_id == 'task_closure_Form_edit':
             print('task_closure_Form_edit')
-            try:
-                trigger_id = request.POST.get('tc_task_id')
-                print("trigger_id:",trigger_id)
-                threshold_login_config = Task_Closure_Config.objects.get(pk=trigger_id)
+            valid,errors = validateedit(form_id,request)
+            if valid:
+                try:
+                    trigger_id = request.POST.get('task_id_edit')
+                    print("trigger_id:",trigger_id)
+                    threshold_login_config = Task_Closure_Config.objects.get(pk=trigger_id)
 
-                # Update fields based on the form data
-                threshold_login_config.Task_Desc = request.POST.get('tc_Task_Desc')
-                threshold_login_config.Closure_True_Query = request.POST.get('tc_Closure_True_Query')
-                threshold_login_config.Closure_SQL_Query = request.POST.get('tc_closure_sql_query')
+                    # Update fields based on the form data
+                    threshold_login_config.Task_Desc = request.POST.get('Task_Desc_edit')
+                    threshold_login_config.Closure_True_Query = request.POST.get('closure_true_query_edit')
+                    threshold_login_config.Closure_SQL_Query = request.POST.get('closure_sql_query_edit')
 
-                threshold_login_config.save()
-                upload_to_s3('Task_Closure_Config')
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'closure_success_page.html')
-            except Threshold_Logic_Config.DoesNotExist:
-                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                return render(request, 'closure_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
+                    threshold_login_config.save()
+                    upload_to_s3('Task_Closure_Config')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'closure_success_page.html')
+                except Threshold_Logic_Config.DoesNotExist:
+                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                    return render(request, 'closure_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'closure_success_page.html')
+            else:
+                messages.error(request, errors)
                 return render(request, 'closure_success_page.html')
     
     return render(request,'closure_logic.html',context)
@@ -364,78 +384,93 @@ def TNT_Module_View(request):
        
         if form_id == 'channel_task_mapping_Form_edit':
             print('channel_task_mapping_Form_edit')
-            try:
-                trigger_id = request.POST.get('channel_task_mapping_Form_edit_pk')
-                print("trigger_id:",trigger_id)
-                channel_task_mapping = Channel_Task_Mapping.objects.get(id=trigger_id)
+            valid,errors = validateedit(form_id,request)
+            valid = True
+            if valid:
+                try:
+                    trigger_id = request.POST.get('channel_task_mapping_Form_edit')
+                    print("trigger_id:",trigger_id)
+                    channel_task_mapping = Channel_Task_Mapping.objects.get(id=trigger_id)
 
-                # Update fields based on the form data
-                channel_task_mapping.Channel = request.POST.get('channel_ctm')
-                channel_task_mapping.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_ctm')
-                channel_task_mapping.channel_subchannel_Name = request.POST.get('channel_subchannel_name_ctm')
-                channel_task_mapping.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_ctm')
-                channel_task_mapping.DemoSeg_ValueSeg_Name = request.POST.get('demoseg_valueseg_name_ctm')
-                channel_task_mapping.Task = request.POST.get('task_ctm')
-                channel_task_mapping.save()
-                upload_to_s3('Channel_Task_Mapping')
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'tnt_success_page.html')
-            except Threshold_Logic_Config.DoesNotExist:
-                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                return render(request, 'tnt_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
-                return render(request, 'tnt_success_page.html')
-                
+                    # Update fields based on the form data
+                    channel_task_mapping.Channel = request.POST.get('channel_edit')
+                    channel_task_mapping.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_edit')
+                    channel_task_mapping.channel_subchannel_Name = request.POST.get('channel_subchannel_name_edit')
+                    channel_task_mapping.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_edit')
+                    channel_task_mapping.DemoSeg_ValueSeg_Name = request.POST.get('demoseg_valueseg_name_edit')
+                    channel_task_mapping.Task = request.POST.get('task_edit')
+                    channel_task_mapping.save()
+                    upload_to_s3('Channel_Task_Mapping')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'tnt_success_page.html')
+                except Threshold_Logic_Config.DoesNotExist:
+                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                    return render(request, 'tnt_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'tnt_success_page.html')
+            else:
+                messages.error(request, errors)
+                return render(request, 'tnt_success_page.html')    
                    
         if form_id == 'trigger_on_query_logic_Form_edit':
             print('trigger_on_query_logic_Form_edit')
-            try:
-                trigger_id = request.POST.get('trigger_id_tql')
-                print("trigger_id:", trigger_id)
-                trigger_on_query = Trigger_ON_Query.objects.get(Trigger_id =trigger_id)
-                trigger_on_query.Trigger_Description_Discussed = request.POST.get('trigger_description_discussed_tql')
-                trigger_on_query.Assignment_level = request.POST.get('assignment_level_tql')
-                trigger_on_query.Iteration_Level = request.POST.get('iteration_level_tql')
-                trigger_on_query.Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic_tql')
-                trigger_on_query.query  = request.POST.get('query_tql')
-                trigger_on_query.save()
-                upload_to_s3('Trigger_ON_Query')
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'tnt_success_page.html')
-            except Task_Trigger_Mapping.DoesNotExist:
-                messages.error(request, 'Record with Task ID {} not found'.format(task_id))
-                return render(request, 'tnt_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
-                return render(request, 'tnt_success_page.html')
-
+            valid,errors = validateedit(form_id,request)
+            valid = True
+            if valid:
+                try:
+                    trigger_id = request.POST.get('trigger_id_edit')
+                    print("trigger_id:", trigger_id)
+                    trigger_on_query = Trigger_ON_Query.objects.get(Trigger_id =trigger_id)
+                    trigger_on_query.Trigger_Description_Discussed = request.POST.get('trigger_description_discussed_edit')
+                    trigger_on_query.Assignment_level = request.POST.get('assignment_level_edit')
+                    trigger_on_query.Iteration_Level = request.POST.get('iteration_level_edit')
+                    trigger_on_query.Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic_edit')
+                    trigger_on_query.query  = request.POST.get('query_edit')
+                    trigger_on_query.save()
+                    upload_to_s3('Trigger_ON_Query')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'tnt_success_page.html')
+                except Task_Trigger_Mapping.DoesNotExist:
+                    messages.error(request, 'Record with Task ID {} not found'.format(task_id))
+                    return render(request, 'tnt_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'tnt_success_page.html')
+            else:
+                messages.error(request, errors)
+                return render(request, 'tnt_success_page.html')    
 
 
 
         if form_id == 'task_trigger_mapping_Form_edit':
             print('task_trigger_mapping_Form_edit')
-            try:
-                task_id = request.POST.get('task_id_ttm')
-                print("task_id:", task_id)
-                task_trigger_mapping = Task_Trigger_Mapping.objects.get(Task_id=task_id)
-                task_trigger_mapping.Task_Desc = request.POST.get('task_desc_ttm')
-                task_trigger_mapping.Task_Stage = request.POST.get('task_stage_ttm')
-                task_trigger_mapping.Trigger = request.POST.get('trigger_ttm')
-                task_trigger_mapping.save()
-                upload_to_s3('Task_Trigger_Mapping')
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'tnt_success_page.html')
-            except Task_Trigger_Mapping.DoesNotExist:
-                messages.error(request, 'Record with Task ID {} not found'.format(task_id))
-                return render(request, 'tnt_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
-                return render(request, 'tnt_success_page.html')
-
+            valid,errors = validateedit(form_id,request)
+            valid = True
+            if valid:
+                try:
+                    task_id = request.POST.get('task_id_edit')
+                    print("task_id:", task_id)
+                    task_trigger_mapping = Task_Trigger_Mapping.objects.get(Task_id=task_id)
+                    task_trigger_mapping.Task_Desc = request.POST.get('task_desc_edit')
+                    task_trigger_mapping.Task_Stage = request.POST.get('task_stage_edit')
+                    task_trigger_mapping.Trigger = request.POST.get('trigger_edit')
+                    task_trigger_mapping.save()
+                    upload_to_s3('Task_Trigger_Mapping')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'tnt_success_page.html')
+                except Task_Trigger_Mapping.DoesNotExist:
+                    messages.error(request, 'Record with Task ID {} not found'.format(task_id))
+                    return render(request, 'tnt_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'tnt_success_page.html')
+            else:
+                messages.error(request, errors)
+                return render(request, 'tnt_success_page.html')    
             
     return render(request, 'TNT.html',context)
 
@@ -494,31 +529,36 @@ def TOAM_Module_View(request):
                 return render(request, 'toam_success_page.html')
         if form_id == 'optimization_rules_Form_edit':
             print('optimization_rules_Form_edit')
-            try:
-                trigger_id = request.POST.get('ord_task_no')
-                print("trigger_id:",trigger_id)
-                threshold_login_config = Task_Constraint_Rules.objects.get(Task_No=trigger_id)
+            valid,errors = validateedit(form_id,request)
+            valid = True
+            if valid:
+                try:
+                    trigger_id = request.POST.get('task_no_edit')
+                    print("trigger_id:",trigger_id)
+                    threshold_login_config = Task_Constraint_Rules.objects.get(Task_No=trigger_id)
 
-                # Update fields based on the form data
-                threshold_login_config.Constraint_Description = request.POST.get('ord_constraint')
-                threshold_login_config.Category_Task_Associated_with = request.POST.get('ord_category_task_allocated_with')
-                threshold_login_config.Min_Task_Count_FLS = request.POST.get('ord_min_task_count_fls')
-                threshold_login_config.Max_Task_Count_FLS = request.POST.get('ord_max_task_count_fls')
-                threshold_login_config.Mutual_Exclusion_Criteria = request.POST.get('ord_mutual_exclusion_criteria')
-                threshold_login_config.Task_Priority = request.POST.get('ord_task_priority')
+                    # Update fields based on the form data
+                    threshold_login_config.Constraint_Description = request.POST.get('constraint_edit')
+                    threshold_login_config.Category_Task_Associated_with = request.POST.get('category_task_allocated_with_edit')
+                    threshold_login_config.Min_Task_Count_FLS = request.POST.get('min_task_count_fls_edit')
+                    threshold_login_config.Max_Task_Count_FLS = request.POST.get('max_task_count_fls_edit')
+                    threshold_login_config.Mutual_Exclusion_Criteria = request.POST.get('mutual_exclusion_criteria_edit')
+                    threshold_login_config.Task_Priority = request.POST.get('task_priority_edit')
 
-                threshold_login_config.save()
-                upload_to_s3('Task_Constraint_Rules')
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'toam_success_page.html')
-            except Task_Constraint_Rules.DoesNotExist:
-                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                return render(request, 'toam_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))      
-                return render(request, 'toam_success_page.html')  
-            
+                    threshold_login_config.save()
+                    upload_to_s3('Task_Constraint_Rules')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'toam_success_page.html')
+                except Task_Constraint_Rules.DoesNotExist:
+                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                    return render(request, 'toam_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))      
+                    return render(request, 'toam_success_page.html')  
+            else:
+                messages.error(request, errors)
+                return render(request, 'toam_success_page.html')        
         if form_id == 'allocation_parameters_Form':
             print('allocation_parameters_Form') 
             try:
@@ -545,36 +585,40 @@ def TOAM_Module_View(request):
             
         if form_id == 'allocation_parameters_Form_edit':
             print('allocation_parameters_Form_edit') 
-            try:
-                task_id = request.POST.get('AP_Task_id')
-                print("task_id:",task_id)
-                threshold_login_config = Allocation_Parameters.objects.get(Task_id=task_id)
+            valid,errors = validateedit(form_id,request)
+            valid = True
+            if valid:
+                try:
+                    task_id = request.POST.get('Task_id_edit')
+                    print("task_id:",task_id)
+                    threshold_login_config = Allocation_Parameters.objects.get(Task_id=task_id)
 
-                # Update fields based on the form data
-                threshold_login_config.Channel = request.POST.get('AP_Channel')
-                threshold_login_config.Subchannel = request.POST.get('AP_Subchannel')
-                threshold_login_config.DemoSeg = request.POST.get('AP_DemoSeg')
-                threshold_login_config.ValueSeg = request.POST.get('AP_ValueSeg')
-                threshold_login_config.Segment_id = request.POST.get('AP_Segment_id')
-                threshold_login_config.Due_Days = request.POST.get('AP_Due_Days')
-                threshold_login_config.Buffer_Days = request.POST.get('AP_Buffer_Days')
-                threshold_login_config.XX_Value = request.POST.get('AP_XX_Value')
-                threshold_login_config.XX_Type = request.POST.get('AP_XX_Type')
-                threshold_login_config.PricePoint_Reward = request.POST.get('AP_PricePoint_Reward')
-                
-                threshold_login_config.save()
-                upload_to_s3('Allocation_Parameters')
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'toam_success_page.html')
-                return render(request, 'TOAM.html', context)
-            except Task_Constraint_Rules.DoesNotExist:
-                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                return render(request, 'toam_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))     
-                return render(request, 'toam_success_page.html')          
-                
+                    # Update fields based on the form data
+                    threshold_login_config.Channel = request.POST.get('Channel_edit')
+                    threshold_login_config.Subchannel = request.POST.get('Subchannel_edit')
+                    threshold_login_config.DemoSeg = request.POST.get('DemoSeg_edit')
+                    threshold_login_config.ValueSeg = request.POST.get('ValueSeg_edit')
+                    threshold_login_config.Segment_id = request.POST.get('Segment_id_edit')
+                    threshold_login_config.Due_Days = request.POST.get('Due_Days_edit')
+                    threshold_login_config.Buffer_Days = request.POST.get('Buffer_Days_edit')
+                    threshold_login_config.XX_Value = request.POST.get('XX_Value_edit')
+                    threshold_login_config.XX_Type = request.POST.get('XX_Type_edit')
+                    threshold_login_config.PricePoint_Reward = request.POST.get('PricePoint_Reward_edit')
+                    
+                    threshold_login_config.save()
+                    upload_to_s3('Allocation_Parameters')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'toam_success_page.html')
+                except Task_Constraint_Rules.DoesNotExist:
+                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                    return render(request, 'toam_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))     
+                    return render(request, 'toam_success_page.html')          
+            else:
+                messages.error(request, errors)
+                return render(request, 'toam_success_page.html')      
                 
                  
         if form_id == 'microsegment_default_tasks_Form':
@@ -599,28 +643,34 @@ def TOAM_Module_View(request):
 
         if form_id == 'microsegment_default_tasks_Form_edit':
             print('microsegment_default_tasks_Form_edit')
-            try:
-                id = request.POST.get('mdt_pk_id')
-                print("id:", id)
-                microsegment_default_tasks = Microsegment_Default_Tasks.objects.get(id=id)
-                microsegment_default_tasks.Channel = request.POST.get('channel_mdt')
-                microsegment_default_tasks.Subchannel = request.POST.get('subchannel_mdt')
-                microsegment_default_tasks.DemoSeg = request.POST.get('demoseg_mdt')
-                microsegment_default_tasks.ValueSeg = request.POST.get('valueseg_mdt')
-                microsegment_default_tasks.Segment_id = request.POST.get('segment_id_mdt')
-                microsegment_default_tasks.Default_Tasks = request.POST.get('default_tasks_mdt')
+            valid,errors = validateedit(form_id,request)
+            valid = True
+            if valid:
+                try:
+                    id = request.POST.get('pk_id_edit')
+                    print("id:", id)
+                    microsegment_default_tasks = Microsegment_Default_Tasks.objects.get(id=id)
+                    microsegment_default_tasks.Channel = request.POST.get('channel_edit')
+                    microsegment_default_tasks.Subchannel = request.POST.get('subchannel_edit')
+                    microsegment_default_tasks.DemoSeg = request.POST.get('demoseg_edit')
+                    microsegment_default_tasks.ValueSeg = request.POST.get('valueseg_edit')
+                    microsegment_default_tasks.Segment_id = request.POST.get('segment_id_edit')
+                    microsegment_default_tasks.Default_Tasks = request.POST.get('default_tasks_edit')
 
-                microsegment_default_tasks.save()
-                upload_to_s3('Microsegment_Default_Tasks')
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'toam_success_page.html')
-            except Microsegment_Default_Tasks.DoesNotExist:
-                messages.error(request, 'Record with Segment ID {} not found'.format(id))
-                return render(request, 'toam_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
-                return render(request, 'toam_success_page.html')
+                    microsegment_default_tasks.save()
+                    upload_to_s3('Microsegment_Default_Tasks')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'toam_success_page.html')
+                except Microsegment_Default_Tasks.DoesNotExist:
+                    messages.error(request, 'Record with Segment ID {} not found'.format(id))
+                    return render(request, 'toam_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'toam_success_page.html')
+            else:
+                messages.error(request, errors)
+                return render(request, 'toam_success_page.html')      
     return render(request, 'TOAM.html',context)
 
 
@@ -664,28 +714,34 @@ def Product_Category_Config_view(request):
                     
         if form_id == 'product_cat_conf_edit_form':
             print('product_cat_conf_edit_form')
-            try:
-                trigger_id = request.POST.get('id_edit')
-                print("trigger_id:",trigger_id)
-                product_category_config = Product_Category_Config.objects.get(pk=trigger_id)
+            valid,errors = validateedit(form_id,request)
+            valid = True
+            if valid:
+                try:
+                    trigger_id = request.POST.get('id_edit')
+                    print("trigger_id:",trigger_id)
+                    product_category_config = Product_Category_Config.objects.get(pk=trigger_id)
 
-                # Update fields based on the form data
-                product_category_config.ProductCategoryName = request.POST.get('ProductCategoryName_edit')
-                product_category_config.FilterQueryOnPolicyTable = request.POST.get('FilterQueryOnPolicyTable_edit')
-                product_category_config.TrainingTopics = request.POST.get('TrainingTopics_edit')
-                product_category_config.SellingTaskNo= request.POST.get('SellingTaskNo_edit')
-                product_category_config.TrainingTaskNo= request.POST.get('TrainingTaskNo_edit')
-                product_category_config.save()
-                upload_to_s3('Product_Category_Config')
-                messages.success(request, 'Form updated successfully')
-                return render(request, 'product_success_page.html')
-            except Threshold_Logic_Config.DoesNotExist:
-                messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                return render(request, 'product_success_page.html')
-            except Exception as e:
-                print('Error while updating the data ', e)
-                messages.error(request, 'Error while updating the data: {}'.format(e))
-                return render(request, 'product_success_page.html')
+                    # Update fields based on the form data
+                    product_category_config.ProductCategoryName = request.POST.get('ProductCategoryName_edit')
+                    product_category_config.FilterQueryOnPolicyTable = request.POST.get('FilterQueryOnPolicyTable_edit')
+                    product_category_config.TrainingTopics = request.POST.get('TrainingTopics_edit')
+                    product_category_config.SellingTaskNo= request.POST.get('SellingTaskNo_edit')
+                    product_category_config.TrainingTaskNo= request.POST.get('TrainingTaskNo_edit')
+                    product_category_config.save()
+                    upload_to_s3('Product_Category_Config')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'product_success_page.html')
+                except Threshold_Logic_Config.DoesNotExist:
+                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
+                    return render(request, 'product_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'product_success_page.html')
+            else:
+                messages.error(request, errors)
+                return render(request, 'product_success_page.html')      
     
     return render(request,'Product Category Config.html',context)
 
@@ -704,3 +760,21 @@ def upload_to_s3(modal_name):
         return True
     except Exception as e:
         return False
+    
+
+def validateedit(form_id,request):
+    data = request.POST
+    parameters = dict(data.lists())
+    print(f'parameters:{parameters}')
+    sheet_name = form_id[:-5]
+    if 'csrfmiddlewaretoken' in parameters:
+        csrf_token = parameters.pop('csrfmiddlewaretoken', None)
+        data_df = pd.DataFrame(parameters)
+    if 'form_identifier' in data_df.columns:
+        data_df = data_df.drop('form_identifier', axis=1)
+    print('data_df',data_df)
+    new_col=list(map(lambda x: x.replace('_edit',''),data_df.columns))
+    data_df.columns=new_col
+    is_valid,errors = mainValidate_function(sheet_name,data_df)
+    print(f'ISVALID=={is_valid}, {errors}')
+    return is_valid,errors

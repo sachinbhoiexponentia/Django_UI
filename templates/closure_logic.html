@@ -262,7 +262,7 @@
                     <div class="form-row">
                       <div class="form-group_thre">
                         <!-- <label for="task_no" class="label1_">Task No.</label> -->
-                        <input class="first1" name="tc_task_id" id="tc_task_id" type="hidden"
+                        <input class="first1" name="task_id_edit" id="task_id_edit" type="hidden"
                           placeholder="Task ID" />
                       </div>
                     </div>
@@ -270,22 +270,22 @@
                     <div class="form-row">
                       <div class="form-group_thre">
                         <label for="constraint" class="label1_">Task_Desc</label>
-                        <input class="first1" name="tc_Task_Desc" id="tc_Task_Desc" type="text"
+                        <input class="first1" name="Task_Desc_edit" id="Task_Desc_edit" type="text"
                           placeholder="Task_Desc" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
                         <label for="category_task_allocated_with" class="label1_">Closure_True_Query</label>
-                        <input class="first1" name="tc_Closure_True_Query"
-                          id="tc_Closure_True_Query" type="text"
+                        <input class="first1" name="closure_true_query_edit"
+                          id="closure_true_query_edit" type="text"
                           placeholder="Closure_True_Query" />
                       </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group_thre">
-                        <label for="tc_closure_sql_query" class="label1_">Closure SQL Query</label>
-                        <input class="first1" name="tc_closure_sql_query" id="tc_closure_sql_query" type="text" placeholder="Closure True Query" />
+                        <label for="closure_sql_query_edit" class="label1_">Closure SQL Query</label>
+                        <input class="first1" name="closure_sql_query_edit" id="closure_sql_query_edit" type="text" placeholder="Closure True Query" />
                       </div>
                     </div>
                     <button type="submit" id="validateButton_threshold_logic_config"
@@ -481,10 +481,10 @@ $(document).ready(function () {
     dataType: 'json',
     success: function (data) {
       console.log(data);
-      document.getElementById("tc_task_id").value = rowId
-      document.getElementById("tc_Task_Desc").value = data.Task_Desc
-      document.getElementById("tc_Closure_True_Query").value = data.Closure_True_Query
-      document.getElementById("tc_closure_sql_query").value = data.Closure_SQL_Query
+      document.getElementById("task_id_edit").value = rowId
+      document.getElementById("Task_Desc_edit").value = data.Task_Desc
+      document.getElementById("closure_true_query_edit").value = data.Closure_True_Query
+      document.getElementById("closure_sql_query_edit").value = data.Closure_SQL_Query
     }
   });
 });

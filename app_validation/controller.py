@@ -1,4 +1,5 @@
 import json,ast
+import traceback
 import pandas as pd
 import numpy as np
 import sqlparse
@@ -264,9 +265,9 @@ def validate_thresold_config_df(thresold_config_df = None):
             errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: The SQL query is not valid") 
             
         # checking if Activation_Flag is valid
-        if not thresold_config_df["Activation_Flag"][i].strip().lower() in {"y", "n", "1", "0"}:
-            validation_flag = False
-            errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: invalid Activation_Flag")
+        # if not thresold_config_df["Activation_Flag"][i].strip().lower() in {"y", "n", "1", "0"}:
+        #     validation_flag = False
+        #     errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: invalid Activation_Flag")
         
         # checking if operation is valid 
         if not thresold_config_df["Operation"][i] in master_config_json['Allowed_operations']:
@@ -598,7 +599,7 @@ def validate_Task_Closure_Config(Task_Closure_Config_df = None):
             return False, errors
             
     except Exception as e: 
-        
+        print(f'Exception: {e}, Traceback:{traceback.format_exc()}')
         return False, [str(e)] 
     
         
@@ -768,16 +769,25 @@ config_sheets= {
                 #Threshold
                 'Threshold_Logic_Form':validate_thresold_config_df,
                 'Trigger_Threhold_by_Business_Form':validate_Trigg_thres_bussness,
+                'Threshold_Logic_Form_edit':validate_thresold_config_df,
+                'Trigger_Threhold_by_Business_Form_edit':validate_Trigg_thres_bussness,
                 # Closure
                 'closure_form':validate_Task_Closure_Config,
+                'task_closure_Form':validate_Task_Closure_Config,
                 # TNT
                 'channel_task_mapping_Form':validate_Channel_Task_Mapping,
                 'task_trigger_mapping_Form':Validate_Task_Trigger_Mapping,
                 'trigger_on_query_logic_Form':validate_Trigger_ON_Query,
+                'channel_task_mapping_Form_edit':validate_Channel_Task_Mapping,
+                'task_trigger_mapping_Form_edit':Validate_Task_Trigger_Mapping,
+                'trigger_on_query_logic_Form_edit':validate_Trigger_ON_Query,
                 # TOAM
                 'optimization_rules_Form':validate_task_constraint_rules,
                 'allocation_parameters_Form':validate_allocation_parameters,
                 'microsegment_default_tasks_Form':validate_microseg_default_tasks,
+                'optimization_rules_Form_edit':validate_task_constraint_rules,
+                'allocation_parameters_Form_edit':validate_allocation_parameters,
+                'microsegment_default_tasks_Form_edit':validate_microseg_default_tasks,
                 
                 'Default_Channel_Trigg_thres':validate_Default_Channel_Trigg_thres,# not used
                 }
@@ -785,32 +795,31 @@ config_sheets= {
 
 def mainValidate_function(sheet_name = None, data_df = None):
     global df_config, valid_trigger_ids, valid_task_ids
-    for sheet in config_sheets.keys():
-        try:
-            # obj = s3.get_object(Bucket= S3_BUCKET_NAME, Key=f"iearnV2-Dev_config_files/{sheet}.csv")
-            # df_config.update({sheet:pd.read_csv(obj['Body'])})
-            queryset = Threshold_Logic_Config.objects.all()
-            Threshold_Logic_Config_df = pd.DataFrame(list(queryset.values()))
-            queryset = Trigg_Thres_By_Business.objects.all()
-            Trigg_Thres_By_Business_df = pd.DataFrame(list(queryset.values()))
-            queryset = Default_Channel_Trigg_thres.objects.all()
-            Default_Channel_Trigg_thres_df = pd.DataFrame(list(queryset.values()))
-            queryset = Task_Closure_Config.objects.all()
-            Task_Closure_Config_df = pd.DataFrame(list(queryset.values()))
-            queryset = Channel_Task_Mapping.objects.all()
-            Channel_Task_Mapping_df = pd.DataFrame(list(queryset.values()))
-            queryset = Task_Trigger_Mapping.objects.all()
-            Task_Trigger_Mapping_df = pd.DataFrame(list(queryset.values()))
-            queryset = Trigger_ON_Query.objects.all()
-            Trigger_ON_Query_df = pd.DataFrame(list(queryset.values()))
-            queryset = Task_Constraint_Rules.objects.all()
-            Task_Constraint_Rules_df = pd.DataFrame(list(queryset.values()))
-            queryset = Allocation_Parameters.objects.all()
-            Allocation_Parameters_df = pd.DataFrame(list(queryset.values()))
-            queryset = Microsegment_Default_Tasks.objects.all()
-            Microsegment_Default_Tasks_df = pd.DataFrame(list(queryset.values()))
-        except:
-            print("error ",sheet)
+    try:
+        # obj = s3.get_object(Bucket= S3_BUCKET_NAME, Key=f"iearnV2-Dev_config_files/{sheet}.csv")
+        # df_config.update({sheet:pd.read_csv(obj['Body'])})
+        queryset = Threshold_Logic_Config.objects.all()
+        Threshold_Logic_Config_df = pd.DataFrame(list(queryset.values()))
+        queryset = Trigg_Thres_By_Business.objects.all()
+        Trigg_Thres_By_Business_df = pd.DataFrame(list(queryset.values()))
+        queryset = Default_Channel_Trigg_thres.objects.all()
+        Default_Channel_Trigg_thres_df = pd.DataFrame(list(queryset.values()))
+        queryset = Task_Closure_Config.objects.all()
+        Task_Closure_Config_df = pd.DataFrame(list(queryset.values()))
+        queryset = Channel_Task_Mapping.objects.all()
+        Channel_Task_Mapping_df = pd.DataFrame(list(queryset.values()))
+        queryset = Task_Trigger_Mapping.objects.all()
+        Task_Trigger_Mapping_df = pd.DataFrame(list(queryset.values()))
+        queryset = Trigger_ON_Query.objects.all()
+        Trigger_ON_Query_df = pd.DataFrame(list(queryset.values()))
+        queryset = Task_Constraint_Rules.objects.all()
+        Task_Constraint_Rules_df = pd.DataFrame(list(queryset.values()))
+        queryset = Allocation_Parameters.objects.all()
+        Allocation_Parameters_df = pd.DataFrame(list(queryset.values()))
+        queryset = Microsegment_Default_Tasks.objects.all()
+        Microsegment_Default_Tasks_df = pd.DataFrame(list(queryset.values()))
+    except:
+        print("error ",sheet)
     valid_trigger_ids = Trigger_ON_Query_df['Trigger_id'].to_list()
     valid_task_ids = Task_Trigger_Mapping_df['Task_id'].to_list()
     
