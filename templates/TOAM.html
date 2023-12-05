@@ -1558,6 +1558,20 @@
               }
             } else {
               // Show successDiv on successful deletion
+              window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
               alert(`Row ${row_id} deleted successfully`);
               $('#myModal_delete_ORD').modal('show');
               return response.json();
@@ -1625,6 +1639,20 @@ function DeleteSourceData_mdt(rowId) {
         }
       } else {
         // Show successDiv on successful deletion
+        window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
         alert(`Row ${rowId} deleted successfully`);
         $('#myModal_delete_TLC').modal('show');
         return response.json();
@@ -1698,6 +1726,20 @@ fetch(`api/allocation_parameters_delete/${row_id}/`, {
       }
     } else {
       // Show successDiv on successful deletion
+      window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
       alert(`Row ${row_id} deleted successfully`);
       $('#myModal_delete_AP').modal('show');
       return response.json();

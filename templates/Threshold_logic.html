@@ -405,21 +405,7 @@
           </div>
         </div>
       </div>
-      <div id="error_threshold_logic_config" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-              <p style="color: black;">Error in validation, please check input values</p>
-              <button type="submit" id="error_button__threshold_logic_config"
-                style="background-color: red; color: white;">OK</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
 
       {% comment %} END of Threshold logic form {% endcomment %}
@@ -708,9 +694,23 @@
           </div>
         </div>
     
-    
+       
 
-
+        <div id="error_threshold_logic_config" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-md">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title" style="font-size: 15px; color: black;">Validate</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <p style="color: black;">Error in validation, please check input values</p>
+                <button type="submit" id="error_button__threshold_logic_config"
+                  style="background-color: red; color: white;">OK</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 
@@ -1554,6 +1554,20 @@
             }
           } else {
             // Show successDiv on successful deletion
+            window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
             alert(`Row ${row_id} deleted successfully`);
             $('#myModal_delete_TLC').modal('show');
             return response.json();
@@ -1587,6 +1601,20 @@
             }
           } else {
             // Show successDiv on successful deletion
+            window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
             alert(`Row ${row_id} deleted successfully`);
             $('#myModal_delete_TTB').modal('show');
             return response.json();
