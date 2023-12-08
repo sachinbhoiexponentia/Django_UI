@@ -1,5 +1,5 @@
 Task_id,Task_Desc,Closure_True_Query,Closure_SQL_Query
-1, first contact (call) and setup a meeting time with your existing lead of X by <date>,(((lead.first_meeting_scheduled_date>optimization_output.proc_date) &( (lead.db_last_upd>proc_date) & (lead.db_last_upd<optimization_output.due_date))) OR((lead.first_meeting_held_date>optimization_output.proc_date) & (lead.first_meeting_held_date_upd<optimization_output.due_date))),
+1,xyz,985fsdnkvljlnds,",dsj"
 3,Sell atleast 1 policy with EPI greater than XX by <date>,(((policy_data.issuance_date>optimization_output.proc_Date) & (policy_data.issuance_date<optimization_output.due_date)) AND ((policy.first_reciept_date>optimization_output.proc_Date) & (policy.first_reciept_date<due_date)) AND ((policy_data.epi>optimization_output.xx_value))),
 4,Sell at least 1 policy by <date>,(((policy_data.issuance_date>optimization_output.proc_Date) & (policy_data.issuance_date<optimization_output.due_date)) AND ((policy.first_reciept_date>optimization_output.proc_Date) & (policy.first_reciept_date<due_date))),
 5,Complete verification of the existing open application id XX by <date> ,(leaddata.pcvc_status == “Requirement accepted” ) AND( (leaddata.pcvc_requirement_completion_date >  proc_date) AND (leaddata.pcvc_requirement_completion_date< due_date)),
@@ -27,4 +27,4 @@ AND lead_generation_source should be Self generated",
 AND Query task id into hyp_h1_si_ecs_link_capture_response and updated_dtttm should be between proc_date and due_date",
 ,,,
 3u21, sfdgva,mmmmmmmmmmmmm,
-120,cadcfda,985fsdnkvljlnds,
+120,312,985fsdnkvljlnds,

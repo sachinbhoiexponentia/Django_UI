@@ -17,7 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import pandas as pd
 import csv
 
-
+# parameters {'csrfmiddlewaretoken': ['02cZJmkYFysNRmS77fTJ20TPQXof0wShpP6VAlU35vxY3WruxjGNtYLiWw9YvfPW', '02cZJmkYFysNRmS77fTJ20TPQXof0wShpP6VAlU35vxY3WruxjGNtYLiWw9YvfPW'], 'form_identifier': ['Trigger_Threhold_by_Business_Form'], 'channel': [''], 'subchannel': [''], 'channel_subchannel_id': [''], 'demoseg': [''], 'valueseg': [''], 'demoseg_valueseg_id': [''], 'trigger_id': [''], 'trigg_description': [''], 'segment_threshold_1': [''], 'flavg_threshold': ['']}
 
 @csrf_exempt
 @login_required 
