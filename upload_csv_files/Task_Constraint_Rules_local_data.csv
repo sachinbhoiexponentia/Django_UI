@@ -1,11 +1,5 @@
 Task_No,Constraint_Description,Category_Task_Associated_with,Min_Task_Count_FLS,Max_Task_Count_FLS,Mutual_Exclusion_Criteria,Task_Priority
-1,Task 1 should be allocated max == 5,Meeting Task,,5.0,nan,1
-2,Task 2 should be allocated max == 5,Meeting Task,,5.0,nan,1
-4,Task 4 should be allocated min 1,Lead_Conversion - Post Login,1.0,,nan,1
-5,Task 5 should be allocated min 1,Lead_Conversion - Post Login,1.0,,nan,1
-6,Task 6 should be allocated min 1,Lead_Conversion - Post Login,1.0,,nan,1
-7,Task 7 should be allocated min 1,Lead_Conversion - Post Login,1.0,,nan,1
-8,Task 8 should be allocated min 1,Lead_Conversion - Post Login,1.0,,nan,1
+8,Task 8 should be allocated min 1,Lead_Conversion - Post Login,2.0,56.0,2,3
 20,Task 20 should be allocated min 1,Login To Issunace,1.0,,nan,1
 28,Task 28 Should be allocated min 1,Renewal Task,1.0,,nan,1
 13a,13a,Selling Task,1.0,,"[""13b""]",1

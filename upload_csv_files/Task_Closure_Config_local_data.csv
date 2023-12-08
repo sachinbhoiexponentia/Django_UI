@@ -1,6 +1,6 @@
 Task_id,Task_Desc,Closure_True_Query,Closure_SQL_Query
-1,xyz,985fsdnkvljlnds,",dsj"
-3,Sell atleast 1 policy with EPI greater than XX by <date>,(((policy_data.issuance_date>optimization_output.proc_Date) & (policy_data.issuance_date<optimization_output.due_date)) AND ((policy.first_reciept_date>optimization_output.proc_Date) & (policy.first_reciept_date<due_date)) AND ((policy_data.epi>optimization_output.xx_value))),
+2,Complete first meeting for lead X by 2023-11-29,((lead.latest_meeting_held_date>optimization_output.proc_date) & (lead.latest_meeting_held_date_upd<optimization_output.due_date) )),hello
+3,Sell atleast 1 policy with EPI greater than XX by <date>,(((policy_data.issuance_date>optimization_output.proc_Date) & (policy_data.issuance_date<optimization_output.due_date)) AND ((policy.first_reciept_date>optimization_output.proc_Date) & (policy.first_reciept_date<due_date)) AND ((policy_data.epi>optimization_output.xx_value))),hello
 4,Sell at least 1 policy by <date>,(((policy_data.issuance_date>optimization_output.proc_Date) & (policy_data.issuance_date<optimization_output.due_date)) AND ((policy.first_reciept_date>optimization_output.proc_Date) & (policy.first_reciept_date<due_date))),
 5,Complete verification of the existing open application id XX by <date> ,(leaddata.pcvc_status == “Requirement accepted” ) AND( (leaddata.pcvc_requirement_completion_date >  proc_date) AND (leaddata.pcvc_requirement_completion_date< due_date)),
 6,Resolve medical FR of application id- XX by <date>,for resulting FR check fr_status=”Requirement accepted” and fr_completion_date should be between proc_date  and fr_med_nonmed=’med’,
@@ -12,7 +12,7 @@ Condition3: num_riders should be greater than 1",
 11,Ensure auto debit for renewal due for existing customer XX by <date>,"payment_mode should be equal to “D” in hyp_l1_policy_data and paid to date_latest_changed_on should be between proc_date and due_date and paid_to_date should be changed & it should be future date
 AND
 Dialer response should be present in table hyp_h1_dialer_response",
-12,312,985fsdnkvljlnds,
+12,cadcfda,casc,
 13 (a-j),Sell at least  1 XX product policy by <date>," Condition 1 : policy_issuance_date should be between proc_date and due_date
 Condition2 : policy_first_receipt_date should be between proc_date and due_date
 Condition3: product_category present in xx_value should be present in product_category of policy data",
@@ -27,4 +27,3 @@ AND lead_generation_source should be Self generated",
 AND Query task id into hyp_h1_si_ecs_link_capture_response and updated_dtttm should be between proc_date and due_date",
 ,,,
 3u21, sfdgva,mmmmmmmmmmmmm,
-120,312,985fsdnkvljlnds,
