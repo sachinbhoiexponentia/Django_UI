@@ -38,9 +38,9 @@
     </div>
 
     <div class="right-buttons">
-      <button class="button-images_noti" style="margin-right: -30px;"><img src="{% static 'Vector2.png' %}"></button>
+      {% comment %} <button class="button-images_noti" style="margin-right: -30px;"><img src="{% static 'Vector2.png' %}"></button> {% endcomment %}
       
-      <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button>
+      {% comment %} <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button> {% endcomment %}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
 
@@ -94,6 +94,9 @@
 .update:hover{
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
 }
+
+
+
 </style>
 
 
@@ -112,7 +115,7 @@
           <div>Task Optimization & Assignment Module</div>
         </div>
       </a>
-      <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a>
+      {% comment %} <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a> {% endcomment %}
     </div>
 
     <div class="content">
@@ -142,7 +145,7 @@
     <div class="popup" id="popup">
       <p>Do you want to update?</p>
       <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
-      <button class="btn btn-primary update" onclick="uploadToS3('Threshold_Logic_Config')">Yes, Update</button>
+      {% comment %} <button class="btn btn-primary update" onclick="uploadToS3('Threshold_Logic_Config')">Yes, Update</button> {% endcomment %}
     </div>
 
     
@@ -155,8 +158,8 @@
             New</button>
           <!-- <button class="button-with-image1" onclick="downloadCSV('Threshold_Logic_Config')"><span><img src="{% static 'Download.png' %}" class="me-1">
               Download</button> -->
-              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Threshold_Logic_Config">Download</a></button>
-          <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class=""><a href="/download/Threshold_Logic_Config" style="color: white; text-decoration: none;">Download</a></button>
+          {% comment %} <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -205,7 +208,7 @@
             </tbody>
           </table>
         </div>
-        <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+        {% comment %} <div class="button2-container"><button class="button-image ms-auto">Validate</button></div> {% endcomment %}
 
         <div id="modal_threshold_logic_config" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
@@ -289,7 +292,7 @@
                   <button type="button" id="validateButton_threshold_logic_config"
                     class="btn btn-info btn-lg submit_validate" 
                     data-toggle="modal"
-                    >Validate111</button>
+                    >Validate</button>
                 </form>
               </div>
             </div>
@@ -429,8 +432,8 @@
           <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
             data-target="#modal_trigger_threshold_business"><span><img src="{% static 'add.png' %}"
                 class="me-1"></span>Add New</button>
-          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Trigg_Thres_By_Business">Download</a></button>
-          <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Trigg_Thres_By_Business" style="color: white; text-decoration: none;">Download</a></button>
+          {% comment %} <button class="button-with-image2" onclick="uploadToS3('Trigg_Thres_By_Business')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
         </div>
         <div class="table-container">
           <table class="custom-table">
@@ -480,7 +483,7 @@
             </tbody>
           </table>
         </div>
-        <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+        {% comment %} <div class="button2-container"><button class="button-image ms-auto">Validate</button></div> {% endcomment %}
 
         
 
@@ -687,7 +690,7 @@
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
                 <button type="button" id="submit_trigger_threshold_business_submit"
-                  style="background-color:#736CEB; color: white;">Submit2</button>
+                  style="background-color:#736CEB; color: white;">Submit</button>
               </div>
             </div>
 
@@ -819,7 +822,7 @@
             <div class="modal-body">
               <p style="color: black;">Do you want to add new channel?</p>
               <button type="button" id="submit_segment_threshold"
-                style="background-color:#736CEB; color: white;">Submit3</button>
+                style="background-color:#736CEB; color: white;">Submit</button>
             </div>
           </div>
         </div>
@@ -882,7 +885,7 @@
             </div>
             <div class="modal-body">
               <p style="color: black;">Do you want to add new channel?</p>
-              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit4s</button>
+              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit</button>
             </div>
 
           </div>
@@ -919,8 +922,8 @@
         <div class="button1-container">
           <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
             data-target="#Default_Channel_Trigg_thres"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Trigg_Thres_By_Business">Download</a></button>
-          <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+          <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Trigg_Thres_By_Business" style="color: white; text-decoration: none;">Download</a></button>
+          {% comment %} <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
         </div>
 
         
@@ -957,7 +960,7 @@
             </tbody>
           </table>
         </div>
-        <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+        {% comment %} <div class="button2-container"><button class="button-image ms-auto">Validate</button></div> {% endcomment %}
         <div id="Default_Channel_Trigg_thres" class="modal fade" role="dialog">
           <div class="modal-dialog modal-lg">
             <!-- Modal content-->
@@ -1064,7 +1067,7 @@
 
 
                   <button type="submit" id="validateButton_fls_avg_thres" class="btn btn-info btn-lg submit_validate"
-                    data-toggle="modal" {% comment %} data-target="#myModal8" {% endcomment %}>Submit5</button>
+                    data-toggle="modal" {% comment %} data-target="#myModal8" {% endcomment %}>Submit</button>
 
                 </form>
 
@@ -1089,7 +1092,7 @@
             </div>
             <div class="modal-body">
               <p style="color: black;">Do you want to add new channel?</p>
-              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit6</button>
+              <button type="button" id="submit_Tokyo" style="background-color:#736CEB; color: white;">Submit</button>
             </div>
 
           </div>

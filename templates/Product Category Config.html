@@ -77,9 +77,9 @@
     </div>
 
     <div class="right-buttons">
-      <button class="button-images_noti" style="margin-right: -30px;"><img src="{% static 'Vector2.png' %}"></button>
+      {% comment %} <button class="button-images_noti" style="margin-right: -30px;"><img src="{% static 'Vector2.png' %}"></button> {% endcomment %}
       
-      <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button>
+      {% comment %} <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button> {% endcomment %}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
     
@@ -99,7 +99,7 @@
           <div>Task Optimization & Assignment Module</div>
         </div>
       </a>
-      <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a>
+      {% comment %} <a href="/"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a> {% endcomment %}
     </div>
     <div class="content">
       <div class="button-container">
@@ -125,8 +125,8 @@
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Allocation_Parameters">Download</a></button>
-            <button class="button-with-image2" onclick="uploadToS3('Task_Closure_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+            <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Allocation_Parameters" style="color: white; text-decoration: none;">Download</a></button>
+            {% comment %} <button class="button-with-image2" onclick="uploadToS3('Task_Closure_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -166,41 +166,39 @@
                 </tbody>
             </table>
           </div>
-          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          {% comment %} <div class="button2-container"><button class="button-image ms-auto">Validate</button></div> {% endcomment %}
 
           <div id="myModal1" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title">Add New</h1>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                </div>
-                <div class="modal-body">
-                  <form id="product_cat_conf_add_form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" id="product_cat_conf_add_form" name="form_identifier" value="product_cat_conf_add_form" />
-                    {% for header in Product_Category_Config_headers %}
-                    {% if header != 'id' %}
-                    <div class="form-row">
-                        <div class="form-group_thre">
-                            <label for={{header}} class="label1_">{{header}}</label>
-                            <input class="first1" name={{header}} id={{header}} type="text" placeholder={{header}} />
-                        </div>
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Add New</h1>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
-                    {%endif%}
-                    {% endfor %}
-                    <button type="button" id="validateButton_closure" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                    {% comment %} data-target="#myModal5" {% endcomment %}
-                      >Validate</button>
-                  </form>
-
+                    <div class="modal-body">
+                        <form id="product_cat_conf_add_form" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_identifier" value="product_cat_conf_add_form" />
+                            {% for header in Product_Category_Config_headers %}
+                                {% if header != 'id' %}
+                                    <div class="form-row">
+                                        <div class="form-group_thre">
+                                            <label for="{{ header }}" class="label1_">{{ header }}</label>
+                                            <input class="first1" name="{{ header }}" id="{{ header }}" type="text" placeholder="{{ header }}" />
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            <button type="button" id="validateButton_closure" class="btn btn-info btn-lg submit_validate" data-toggle="modal">
+                                Validate
+                            </button>
+                        </form>
+                    </div>
                 </div>
-
-              </div>
             </div>
           </div>
+
         </div>
 
         <div id="submit_closure_view" class="modal fade" role="dialog">
@@ -216,7 +214,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_button__closure" style="background-color:#736CEB; color: white;">Submit1</button>
+                <button type="button" id="submit_button__closure" style="background-color:#736CEB; color: white;">Submit</button>
               </div>
             </div>
           </div>
@@ -326,7 +324,7 @@
 $(document).ready(function () {
   $('#validateButton_closure').on('click', function (event) {
     event.preventDefault(); // Prevent the default form submission
-    var formData = $('#closure_form').serialize();
+    var formData = $('#product_cat_conf_add_form').serialize();
     formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
     $.ajax({
       type: 'GET',

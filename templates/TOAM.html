@@ -74,9 +74,9 @@
     </div>
 
     <div class="right-buttons">
-      <button class="button-images_noti" style="margin-right: -30px;"><img src="{% static 'Vector2.png' %}"></button>
+      {% comment %} <button class="button-images_noti" style="margin-right: -30px;"><img src="{% static 'Vector2.png' %}"></button> {% endcomment %}
       
-      <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button>
+      {% comment %} <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button> {% endcomment %}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
     </header>
@@ -95,7 +95,7 @@
           <div>Task Optimization & Assignment Module</div>
         </div>
       </a>
-      <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a>
+      {% comment %} <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a> {% endcomment %}
     </div>
     <div class="content">
       <!-- <div class="button-container">
@@ -131,8 +131,8 @@
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Task_Constraint_Rules">Download</a></button>
-            <button class="button-with-image2" onclick="uploadToS3('Task_Constraint_Rules')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Task_Constraint_Rules" style="color: white; text-decoration: none;"style="color: white; text-decoration: none;">Download</a></button>
+            {% comment %} <button class="button-with-image2" onclick="uploadToS3('Task_Constraint_Rules')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -416,7 +416,7 @@
                 <div class="modal-body">
                   <p style="color: black;">Do you want to add new channel?</p>
                   <button type="button" id="submit_button_optimization_rules"
-                    style="background-color:#736CEB; color: white;">Submit optimization</button>
+                    style="background-color:#736CEB; color: white;">Submit</button>
                 </div>
 
               </div>
@@ -450,7 +450,7 @@
               <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
                 data-target="#myModal2"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
                 <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Allocation_Parameters">Download</a></button>
-              <button class="button-with-image2" onclick="uploadToS3('Allocation_Parameters')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              {% comment %} <button class="button-with-image2" onclick="uploadToS3('Allocation_Parameters')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
             </div>
             <div class="table-container">
               <table class="custom-table">
@@ -727,8 +727,8 @@
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton3" data-toggle="modal"
               data-target="#myModal3"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Microsegment_Default_Tasks">Download</a></button>
-            <button class="button-with-image2" onclick="uploadToS3('Microsegment_Default_Tasks')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Microsegment_Default_Tasks" style="color: white; text-decoration: none;">Download</a></button>
+            {% comment %} <button class="button-with-image2" onclick="uploadToS3('Microsegment_Default_Tasks')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -776,7 +776,7 @@
             </tbody>
             </table>
           </div>
-          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          {% comment %} <div class="button2-container"><button class="button-image ms-auto">Validate</button></div> {% endcomment %}
           
 
           
@@ -956,8 +956,8 @@
               <button class="button-with-image blueBorder ms-auto" id="formButton4" data-toggle="modal"
                 data-target="#myModal4"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
               <button class="button-with-image1"><span><img src="{% static 'Download.png' %}"
-                    class="me-1">Download</button>
-              <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button>
+                    class="me-1" style="color: white; text-decoration: none;" style="color: white; text-decoration: none;">Download</button>
+              {% comment %} <button class="button-with-image2"><span><img src="{% static 'Upload.png' %}" class="me-1">Update</button> {% endcomment %}
             </div>
             <div class="table-container">
               <table class="custom-table">
@@ -1102,7 +1102,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_button_microsegment_default_tasks" style="background-color:#736CEB; color: white;">Submit3</button>
+                <button type="button" id="submit_button_microsegment_default_tasks" style="background-color:#736CEB; color: white;">Submit</button>
               </div>
 
             </div>

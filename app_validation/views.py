@@ -61,9 +61,12 @@ def validate_thresold_config_df_api(request):
         #     is_valid,errors = validate_allocation_parameters(data_df) 
         # if sheet_name == 'microsegment_default_tasks_Form':
         #     is_valid,errors = validate_microseg_default_tasks(data_df) 
-            
-        is_valid,errors = mainValidate_function(sheet_name,data_df)
-        print('is_valid,errors',is_valid,errors)
+        try:
+            is_valid,errors = mainValidate_function(sheet_name,data_df)
+            print('is_valid,errors',is_valid,errors)
+        except:
+            is_valid = False
+            errors = ['Validation module failes']
         return JsonResponse({'is_valid': is_valid, 'errors': errors})
         # except Exception as e:
         #     return JsonResponse({'error': str(e)}, status=500)
