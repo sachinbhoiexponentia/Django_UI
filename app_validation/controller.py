@@ -765,6 +765,10 @@ def validate_Trigger_ON_Query(Trigger_ON_Query = None):
         return False, [str(e)] 
 
 
+def product_cat_conf_add_form(product_category_df):
+    return True, []
+
+
 config_sheets= {
                 #Threshold
                 'Threshold_Logic_Form':validate_thresold_config_df,
@@ -790,6 +794,7 @@ config_sheets= {
                 'microsegment_default_tasks_Form_edit':validate_microseg_default_tasks,
                 
                 'Default_Channel_Trigg_thres':validate_Default_Channel_Trigg_thres,# not used
+                'product_cat_conf_add_form':product_cat_conf_add_form
                 }
  
 
@@ -798,26 +803,26 @@ def mainValidate_function(sheet_name = None, data_df = None):
     try:
         # obj = s3.get_object(Bucket= S3_BUCKET_NAME, Key=f"iearnV2-Dev_config_files/{sheet}.csv")
         # df_config.update({sheet:pd.read_csv(obj['Body'])})
-        queryset = Threshold_Logic_Config.objects.all()
-        Threshold_Logic_Config_df = pd.DataFrame(list(queryset.values()))
-        queryset = Trigg_Thres_By_Business.objects.all()
-        Trigg_Thres_By_Business_df = pd.DataFrame(list(queryset.values()))
-        queryset = Default_Channel_Trigg_thres.objects.all()
-        Default_Channel_Trigg_thres_df = pd.DataFrame(list(queryset.values()))
-        queryset = Task_Closure_Config.objects.all()
-        Task_Closure_Config_df = pd.DataFrame(list(queryset.values()))
-        queryset = Channel_Task_Mapping.objects.all()
-        Channel_Task_Mapping_df = pd.DataFrame(list(queryset.values()))
+        # queryset = Threshold_Logic_Config.objects.all()
+        # Threshold_Logic_Config_df = pd.DataFrame(list(queryset.values()))
+        # queryset = Trigg_Thres_By_Business.objects.all()
+        # Trigg_Thres_By_Business_df = pd.DataFrame(list(queryset.values()))
+        # queryset = Default_Channel_Trigg_thres.objects.all()
+        # Default_Channel_Trigg_thres_df = pd.DataFrame(list(queryset.values()))
+        # queryset = Task_Closure_Config.objects.all()
+        # Task_Closure_Config_df = pd.DataFrame(list(queryset.values()))
+        # queryset = Channel_Task_Mapping.objects.all()
+        # Channel_Task_Mapping_df = pd.DataFrame(list(queryset.values()))
         queryset = Task_Trigger_Mapping.objects.all()
         Task_Trigger_Mapping_df = pd.DataFrame(list(queryset.values()))
         queryset = Trigger_ON_Query.objects.all()
         Trigger_ON_Query_df = pd.DataFrame(list(queryset.values()))
-        queryset = Task_Constraint_Rules.objects.all()
-        Task_Constraint_Rules_df = pd.DataFrame(list(queryset.values()))
-        queryset = Allocation_Parameters.objects.all()
-        Allocation_Parameters_df = pd.DataFrame(list(queryset.values()))
-        queryset = Microsegment_Default_Tasks.objects.all()
-        Microsegment_Default_Tasks_df = pd.DataFrame(list(queryset.values()))
+        # queryset = Task_Constraint_Rules.objects.all()
+        # Task_Constraint_Rules_df = pd.DataFrame(list(queryset.values()))
+        # queryset = Allocation_Parameters.objects.all()
+        # Allocation_Parameters_df = pd.DataFrame(list(queryset.values()))
+        # queryset = Microsegment_Default_Tasks.objects.all()
+        # Microsegment_Default_Tasks_df = pd.DataFrame(list(queryset.values()))
     except:
         print("error ",sheet)
     valid_trigger_ids = Trigger_ON_Query_df['Trigger_id'].to_list()

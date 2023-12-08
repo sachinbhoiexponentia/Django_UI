@@ -77,9 +77,9 @@
     </div>
 
     <div class="right-buttons">
-      <button class="button-images_noti" style="margin-right: -30px;"><img src="{% static 'Vector2.png' %}"></button>
+      {% comment %} <button class="button-images_noti" style="margin-right: -30px;"><img src="{% static 'Vector2.png' %}"></button> {% endcomment %}
       
-      <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button>
+      {% comment %} <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button> {% endcomment %}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
     </header>
@@ -98,7 +98,7 @@
           <div>Task Optimization & Assignment Module</div>
         </div>
       </a>
-      <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a>
+      {% comment %} <a href="./deploy.html"><img src="{% static 'Ellipse 4.png' %}" alt="Con Icon"> Deploy Config</a> {% endcomment %}
     </div>
     <div class="content">
       <!-- <div class="button-container">
@@ -133,8 +133,8 @@
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Channel_Task_Mapping">Download</a></button>
-            <button class="button-with-image2" onclick="uploadToS3('Channel_Task_Mapping')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Channel_Task_Mapping" style="color: white; text-decoration: none;">Download</a></button>
+            {% comment %} <button class="button-with-image2" onclick="uploadToS3('Channel_Task_Mapping')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -326,8 +326,8 @@
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
               data-target="#myModal2"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Task_Trigger_Mapping">Download</a></button>
-            <button class="button-with-image2" onclick="uploadToS3('Task_Trigger_Mapping')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Task_Trigger_Mapping" style="color: white; text-decoration: none;">Download</a></button>
+            {% comment %} <button class="button-with-image2" onclick="uploadToS3('Task_Trigger_Mapping')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -374,7 +374,7 @@
             </tbody>
             </table>
           </div>
-          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          {% comment %} <div class="button2-container"><button class="button-image ms-auto">Validate</button></div> {% endcomment %}
           
           <div id="myModal2" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
@@ -428,7 +428,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_button__task_trigger_mappping" style="background-color:#736CEB; color: white;">Submit2</button>
+                <button type="button" id="submit_button__task_trigger_mappping" style="background-color:#736CEB; color: white;">Submit</button>
               </div>
             </div>
           </div>
@@ -495,8 +495,8 @@
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton3" data-toggle="modal"
               data-target="#myModal3"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Trigger_ON_Query">Download</a></button>
-            <button class="button-with-image2" onclick="uploadToS3('Trigger_ON_Query')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button>
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Trigger_ON_Query" style="color: white; text-decoration: none;">Download</a></button>
+            {% comment %} <button class="button-with-image2" onclick="uploadToS3('Trigger_ON_Query')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
           </div>
           <div class="table-container">
             <table class="custom-table">
@@ -544,7 +544,7 @@
             </tbody>
             </table>
           </div>
-          <div class="button2-container"><button class="button-image ms-auto">Validate</button></div>
+          {% comment %} <div class="button2-container"><button class="button-image ms-auto">Validate</button></div> {% endcomment %}
 
 
 
@@ -633,7 +633,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_button__trigger_on_query_logic" style="background-color:#736CEB; color: white;">Submit3</button>
+                <button type="button" id="submit_button__trigger_on_query_logic" style="background-color:#736CEB; color: white;">Submit</button>
               </div>
             </div>
           </div>

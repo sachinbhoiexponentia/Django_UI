@@ -714,7 +714,7 @@ def Product_Category_Config_view(request):
                     
         if form_id == 'product_cat_conf_edit_form':
             print('product_cat_conf_edit_form')
-            valid,errors = validateedit(form_id,request)
+            # valid,errors = validateedit(form_id,request)
             valid = True
             if valid:
                 try:
