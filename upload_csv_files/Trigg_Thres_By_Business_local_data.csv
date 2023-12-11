@@ -1,6 +1,5 @@
 id,Channel,Subchannel,Channel_Subchannel_ID,DemoSeg,ValueSeg,DemoSeg_ValueSeg_ID,Trigger_id,Trigg_Desc,Segment_Threshold,FLSAvg_Threshold
-2,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,35,If there has been no rider sold in past X days,6,1.0
-3,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,49,If renewal for customer XX tagged to the FLS is not received within N days after due date ,7,
+3,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,49,If renewal for customer XX tagged to the FLS is not received within N days after due date ,7,5678.0
 4,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,13,If persistency for the FLS is lower than x%,80,
 5,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,11,If renewal for customer XX tagged to the FLS is due in x days,4,
 6,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,58,If there has been >1 application logged in by FLS in past XX days,5,

@@ -61,15 +61,15 @@ def Threshold_Logic_Config_view(request):
             print('Threshold_Logic_Form')
             try:
                 threshold_logic_config = Threshold_Logic_Config(
-                    trigger_id=request.POST.get('Trigger_id'),
-                    trigg_desc=request.POST.get('Trigg_Desc'),
-                    thres_description=request.POST.get('Thres_Description'),
-                    thres_query_logic=request.POST.get('Thres_Query_Logic'),
-                    operation=request.POST.get('Operation'),
-                    analysis_period=request.POST.get('Analysis_Period'),
-                    num_thresholds_required=request.POST.get('Num_Threshold_Required'),
-                    segment_threshold_requirement_flag=request.POST.get('Segment_Threshold_Requirement_Flag'),
-                    FLS_Threshold_Requirement_Flag=request.POST.get('FLS_Threshold_Requirement_Flag'))
+                    trigger_id=request.POST.get('trigger_id'),
+                    trigg_desc=request.POST.get('trigg_desc'),
+                    thres_description=request.POST.get('thres_description'),
+                    thres_query_logic=request.POST.get('thres_query_logic'),
+                    operation=request.POST.get('operation'),
+                    analysis_period=request.POST.get('analysis_period'),
+                    num_thresholds_required=request.POST.get('num_threshold_required'),
+                    segment_threshold_requirement_flag=request.POST.get('segment_threshold_requirement_flag'),
+                    FLS_Threshold_Requirement_Flag=request.POST.get('fls_threshold_requirement_flag'))
                 threshold_logic_config.save()
                 upload_to_s3('Threshold_Logic_Config')
                 messages.success(request, 'Form saved successfully!')
@@ -103,42 +103,25 @@ def Threshold_Logic_Config_view(request):
                 messages.error(request, e) 
                 return render(request, 'threshold_success_page.html')
         
-                
-        if form_id == 'default_channel_trigg_thres_Form':
-            print('default_channel_trigg_thres_Form')
-            try:    
-                default_channel_trigg_thres_output = Default_Channel_Trigg_thres(
-                    Channel = request.POST.get('channel'),
-                    Trigger_id = request.POST.get('trigger_id'),
-                    Trigg_Desc = request.POST.get('trigg_desc'),
-                    Segment_Threshold_1 = request.POST.get('segment_threshold_1'),
-                    FLSAvg_Threshold_2 = request.POST.get('flsavg_threshold_2'))
-                default_channel_trigg_thres_output.save()
-                upload_to_s3('Default_Channel_Trigg_thres')
-                return render(request, 'threshold_success_page.html')
-            except Exception as e:
-                print('Error while saving the data ',e)  
-                messages.error(request, e)
-                return render(request, 'threshold_success_page.html')
 
         if form_id == 'Threshold_Logic_Form_edit':
             print('Threshold_Logic_Form_edit')
             valid,errors = validateedit(form_id,request)
             if valid:
                 try:
-                    trigger_id = request.POST.get('Trigger_id_edit')
+                    trigger_id = request.POST.get('trigger_id_tlf')
                     print("trigger_id:",trigger_id)
                     threshold_logic_config = Threshold_Logic_Config.objects.get(trigger_id=trigger_id)
 
                     # Update fields based on the form data
-                    threshold_logic_config.trigg_desc = request.POST.get('Trigg_Desc_edit')
-                    threshold_logic_config.thres_description = request.POST.get('Thres_Description_edit')
-                    threshold_logic_config.thres_query_logic = request.POST.get('Thres_Query_Logic_edit')
-                    threshold_logic_config.operation = request.POST.get('Operation_edit')
-                    threshold_logic_config.analysis_period = request.POST.get('Analysis_Period_edit')
-                    threshold_logic_config.num_thresholds_required = request.POST.get('Num_Threshold_Required_edit')
-                    threshold_logic_config.segment_threshold_requirement_flag = request.POST.get('Segment_Threshold_1_Requirement_Flag_edit')
-                    threshold_logic_config.FLS_Threshold_Requirement_Flag = request.POST.get('FLS_Threshold_2_Requirement_Flag_edit')
+                    threshold_logic_config.trigg_desc = request.POST.get('trigg_desc_tlf')
+                    threshold_logic_config.thres_description = request.POST.get('thres_description_tlf')
+                    threshold_logic_config.thres_query_logic = request.POST.get('thres_query_logic_tlf')
+                    threshold_logic_config.operation = request.POST.get('operation_tlf')
+                    threshold_logic_config.analysis_period = request.POST.get('analysis_period_tlf')
+                    threshold_logic_config.num_thresholds_required = request.POST.get('num_threshold_required_tlf')
+                    threshold_logic_config.segment_threshold_requirement_flag = request.POST.get('segment_threshold_1_requirement_flag_tlf')
+                    threshold_logic_config.FLS_Threshold_Requirement_Flag = request.POST.get('fls_threshold_2_requirement_flag_tlf')
 
                     threshold_logic_config.save()
                     upload_to_s3('Threshold_Logic_Config')
@@ -159,24 +142,23 @@ def Threshold_Logic_Config_view(request):
         if form_id == 'Trigger_Threhold_by_Business_Form_edit':
             print('Trigger_Threhold_by_Business_Form_edit')
             valid,errors = validateedit(form_id,request)
-            valid=True
             if valid:
                 try:
                     print(request.POST)
-                    trigger_id = request.POST.get('id_edit')
+                    trigger_id = request.POST.get('id_ttb')
                     print("trigger_id:",trigger_id)
                     trigg_Thres_By_Business = Trigg_Thres_By_Business.objects.get(id=trigger_id)
                     # Update fields based on the form data
-                    trigg_Thres_By_Business.Channel = request.POST.get('channel_edit')
-                    trigg_Thres_By_Business.Subchannel = request.POST.get('subchannel_edit')
-                    trigg_Thres_By_Business.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_edit')
-                    trigg_Thres_By_Business.DemoSeg= request.POST.get('demoseg_edit')
-                    trigg_Thres_By_Business.ValueSeg = request.POST.get('valueseg_edit')
-                    trigg_Thres_By_Business.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_edit')
-                    trigg_Thres_By_Business.Trigger_id = request.POST.get('trigger_id_edit')
-                    trigg_Thres_By_Business.Trigg_Desc= request.POST.get('trigg_description_edit')
-                    trigg_Thres_By_Business.Segment_Threshold= request.POST.get('segment_threshold_1_edit')
-                    trigg_Thres_By_Business.FLSAvg_Threshold= request.POST.get('flavg_threshold_edit')
+                    trigg_Thres_By_Business.Channel = request.POST.get('channel_ttb')
+                    trigg_Thres_By_Business.Subchannel = request.POST.get('subchannel_ttb')
+                    trigg_Thres_By_Business.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_ttb')
+                    trigg_Thres_By_Business.DemoSeg= request.POST.get('demoseg_ttb')
+                    trigg_Thres_By_Business.ValueSeg = request.POST.get('valueseg_ttb')
+                    trigg_Thres_By_Business.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_ttb')
+                    trigg_Thres_By_Business.Trigger_id = request.POST.get('trigger_id_ttb')
+                    trigg_Thres_By_Business.Trigg_Desc= request.POST.get('trigg_description_ttb')
+                    trigg_Thres_By_Business.Segment_Threshold= request.POST.get('segment_threshold_1_ttb')
+                    trigg_Thres_By_Business.FLSAvg_Threshold= request.POST.get('flavg_threshold_ttb')
                     trigg_Thres_By_Business.save()
                     upload_to_s3('Trigg_Thres_By_Business')
                     messages.success(request, 'Form updated successfully')
@@ -193,35 +175,6 @@ def Threshold_Logic_Config_view(request):
                 return render(request, 'threshold_success_page.html')
 
 
-        if form_id == 'Default_Channel_Trigg_thres_Form_Edit':
-            print('Default_Channel_Trigg_thres_Form_Edit')
-            valid,errors = validateedit(form_id,request)
-            if valid:
-                try:
-                    # print(request.POST)
-                    id = request.POST.get('Default_Channel_Trigg_thres_Form_id_edit')
-                    # print("trigger_id:",trigger_id)
-                    default_Channel_Trigg_thres = Default_Channel_Trigg_thres.objects.get(id=id)
-                    # Update fields based on the form data
-                    default_Channel_Trigg_thres.Channel = request.POST.get('Channel_edit')
-                    default_Channel_Trigg_thres.Trigger_id = request.POST.get('Trigger_id_edit')
-                    default_Channel_Trigg_thres.Trigg_Desc = request.POST.get('Trigg_Desc_edit')
-                    default_Channel_Trigg_thres.Segment_Threshold_1= request.POST.get('Segment_Threshold_1_edit')
-                    default_Channel_Trigg_thres.FLSAvg_Threshold_2= request.POST.get('FLSAvg_Threshold_2_edit')
-                    default_Channel_Trigg_thres.save()
-                    upload_to_s3('Default_Channel_Trigg_thres')    
-                    messages.success(request, 'Form updated successfully')
-                    return render(request, 'threshold_success_page.html')
-                except Default_Channel_Trigg_thres.DoesNotExist:
-                    messages.error(request, 'Record with Trigger ID {} not found'.format(trigger_id))
-                    return render(request, 'threshold_success_page.html')
-                except Exception as e:
-                    print('Error while updating the data ', e)
-                    messages.error(request, 'Error while updating the data: {}'.format(e))
-                    return render(request, 'threshold_success_page.html')
-            else:
-                messages.error(request, errors)
-                return render(request, 'threshold_success_page.html')
         
 
     return render(request, 'Threshold_logic.html', context)
@@ -329,10 +282,9 @@ def TNT_Module_View(request):
             try:
                 channel_task_mapping = Channel_Task_Mapping(
                     Channel = request.POST.get('channel') , 
-                    Channel_Subchannel_ID = request.POST.get('channel_subchannel_id') , 
-                    channel_subchannel_Name = request.POST.get('channel_subchannel_name') , 
-                    DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id') , 
-                    DemoSeg_ValueSeg_Name = request.POST.get('demoseg_valueseg_name') , 
+                    Subchannel = request.POST.get('subchannel') , 
+                    DemoSeg = request.POST.get('demoseg') , 
+                    ValueSeg = request.POST.get('valueseg') , 
                     Task = request.POST.get('task'))
                 channel_task_mapping.save()
                 upload_to_s3('Channel_Task_Mapping')
@@ -385,20 +337,20 @@ def TNT_Module_View(request):
         if form_id == 'channel_task_mapping_Form_edit':
             print('channel_task_mapping_Form_edit')
             valid,errors = validateedit(form_id,request)
-            valid = True
+            # valid = True
+            
             if valid:
                 try:
-                    trigger_id = request.POST.get('channel_task_mapping_Form_edit')
+                    trigger_id = request.POST.get('channel_task_mapping_Form_edit_pk')
                     print("trigger_id:",trigger_id)
                     channel_task_mapping = Channel_Task_Mapping.objects.get(id=trigger_id)
 
                     # Update fields based on the form data
-                    channel_task_mapping.Channel = request.POST.get('channel_edit')
-                    channel_task_mapping.Channel_Subchannel_ID = request.POST.get('channel_subchannel_id_edit')
-                    channel_task_mapping.channel_subchannel_Name = request.POST.get('channel_subchannel_name_edit')
-                    channel_task_mapping.DemoSeg_ValueSeg_ID = request.POST.get('demoseg_valueseg_id_edit')
-                    channel_task_mapping.DemoSeg_ValueSeg_Name = request.POST.get('demoseg_valueseg_name_edit')
-                    channel_task_mapping.Task = request.POST.get('task_edit')
+                    channel_task_mapping.Channel = request.POST.get('channel_ctm')
+                    channel_task_mapping.Subchannel = request.POST.get('subchannel_ctm')
+                    channel_task_mapping.DemoSeg = request.POST.get('demoseg_ctm')
+                    channel_task_mapping.ValueSeg = request.POST.get('valueseg_ctm')
+                    channel_task_mapping.Task = request.POST.get('task_ctm')
                     channel_task_mapping.save()
                     upload_to_s3('Channel_Task_Mapping')
                     messages.success(request, 'Form updated successfully')
@@ -412,22 +364,50 @@ def TNT_Module_View(request):
                     return render(request, 'tnt_success_page.html')
             else:
                 messages.error(request, errors)
-                return render(request, 'tnt_success_page.html')    
+                return render(request, 'tnt_success_page.html') 
+            
+            
+            
+        if form_id == 'task_trigger_mapping_Form_edit':
+            print('task_trigger_mapping_Form_edit')
+            valid,errors = validateedit(form_id,request)
+            if valid:
+                try:
+                    task_id = request.POST.get('task_id_ttm')
+                    print("task_id:", task_id)
+                    task_trigger_mapping = Task_Trigger_Mapping.objects.get(Task_id=task_id)
+                    task_trigger_mapping.Task_Desc = request.POST.get('task_desc_ttm')
+                    task_trigger_mapping.Task_Stage = request.POST.get('task_stage_ttm')
+                    task_trigger_mapping.Trigger = request.POST.get('trigger_ttm')
+                    task_trigger_mapping.save()
+                    upload_to_s3('Task_Trigger_Mapping')
+                    messages.success(request, 'Form updated successfully')
+                    return render(request, 'tnt_success_page.html')
+                except Task_Trigger_Mapping.DoesNotExist:
+                    messages.error(request, 'Record with Task ID {} not found'.format(task_id))
+                    return render(request, 'tnt_success_page.html')
+                except Exception as e:
+                    print('Error while updating the data ', e)
+                    messages.error(request, 'Error while updating the data: {}'.format(e))
+                    return render(request, 'tnt_success_page.html')
+            else:
+                messages.error(request, errors)
+                return render(request, 'tnt_success_page.html')     
                    
         if form_id == 'trigger_on_query_logic_Form_edit':
             print('trigger_on_query_logic_Form_edit')
             valid,errors = validateedit(form_id,request)
-            valid = True
+            # valid = True
             if valid:
                 try:
-                    trigger_id = request.POST.get('trigger_id_edit')
+                    trigger_id = request.POST.get('trigger_id_tql')
                     print("trigger_id:", trigger_id)
                     trigger_on_query = Trigger_ON_Query.objects.get(Trigger_id =trigger_id)
-                    trigger_on_query.Trigger_Description_Discussed = request.POST.get('trigger_description_discussed_edit')
-                    trigger_on_query.Assignment_level = request.POST.get('assignment_level_edit')
-                    trigger_on_query.Iteration_Level = request.POST.get('iteration_level_edit')
-                    trigger_on_query.Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic_edit')
-                    trigger_on_query.query  = request.POST.get('query_edit')
+                    trigger_on_query.Trigger_Description_Discussed = request.POST.get('trigger_description_discussed_tql')
+                    trigger_on_query.Assignment_level = request.POST.get('assignment_level_tql')
+                    trigger_on_query.Iteration_Level = request.POST.get('iteration_level_tql')
+                    trigger_on_query.Trigger_ON_Query_Logic = request.POST.get('trigger_on_query_logic_tql')
+                    trigger_on_query.query  = request.POST.get('query_tql')
                     trigger_on_query.save()
                     upload_to_s3('Trigger_ON_Query')
                     messages.success(request, 'Form updated successfully')
@@ -442,35 +422,7 @@ def TNT_Module_View(request):
             else:
                 messages.error(request, errors)
                 return render(request, 'tnt_success_page.html')    
-
-
-
-        if form_id == 'task_trigger_mapping_Form_edit':
-            print('task_trigger_mapping_Form_edit')
-            valid,errors = validateedit(form_id,request)
-            valid = True
-            if valid:
-                try:
-                    task_id = request.POST.get('task_id_edit')
-                    print("task_id:", task_id)
-                    task_trigger_mapping = Task_Trigger_Mapping.objects.get(Task_id=task_id)
-                    task_trigger_mapping.Task_Desc = request.POST.get('task_desc_edit')
-                    task_trigger_mapping.Task_Stage = request.POST.get('task_stage_edit')
-                    task_trigger_mapping.Trigger = request.POST.get('trigger_edit')
-                    task_trigger_mapping.save()
-                    upload_to_s3('Task_Trigger_Mapping')
-                    messages.success(request, 'Form updated successfully')
-                    return render(request, 'tnt_success_page.html')
-                except Task_Trigger_Mapping.DoesNotExist:
-                    messages.error(request, 'Record with Task ID {} not found'.format(task_id))
-                    return render(request, 'tnt_success_page.html')
-                except Exception as e:
-                    print('Error while updating the data ', e)
-                    messages.error(request, 'Error while updating the data: {}'.format(e))
-                    return render(request, 'tnt_success_page.html')
-            else:
-                messages.error(request, errors)
-                return render(request, 'tnt_success_page.html')    
+  
             
     return render(request, 'TNT.html',context)
 
@@ -508,8 +460,8 @@ def TOAM_Module_View(request):
         data = request.POST
         form_id = data.get('form_identifier')
         print('data',data)
-        if form_id == 'optimization_rules_Form':
-            print('optimization_rules_Form') 
+        if form_id == 'task_constraint_rules_Form':
+            print('task_constraint_rules_Form') 
             try:  
                 optimization_rules = Task_Constraint_Rules(
                     Task_No = request.POST.get('task_no') ,
@@ -527,8 +479,53 @@ def TOAM_Module_View(request):
                 print('Error while saving the data ',e)  
                 messages.error(request, e)    
                 return render(request, 'toam_success_page.html')
-        if form_id == 'optimization_rules_Form_edit':
-            print('optimization_rules_Form_edit')
+        
+        if form_id == 'allocation_parameters_Form':
+            print('allocation_parameters_Form') 
+            try:
+                allocation_parameters = Allocation_Parameters(
+                    Task_id=request.POST.get('task_id'),
+                    Channel=request.POST.get('channel'),
+                    Subchannel=request.POST.get('subchannel'),
+                    DemoSeg=request.POST.get('demoseg'),
+                    ValueSeg=request.POST.get('valueseg'),
+                    Segment_id=request.POST.get('segment_id'),
+                    Due_Days=request.POST.get('due_days'),
+                    Buffer_Days=request.POST.get('buffer_days'),
+                    XX_Value=request.POST.get('xx_value'),
+                    XX_Type=request.POST.get('xx_type'),
+                    PricePoint_Reward=request.POST.get('pricepoint_reward'))
+                allocation_parameters.save()
+                upload_to_s3('Allocation_Parameters')
+                messages.success(request, 'Form saved successfully')
+                return render(request, 'toam_success_page.html')
+            except Exception as e:
+                print('Error while saving the data ',e)  
+                messages.error(request, e) 
+                return render(request, 'toam_success_page.html')
+            
+        if form_id == 'microsegment_default_tasks_Form':
+            print('microsegment_default_tasks_Form')
+            try:
+                microsegment_default_tasks = Microsegment_Default_Tasks(
+                    Channel = request.POST.get('channel'),
+                    Subchannel = request.POST.get('subchannel'),
+                    DemoSeg = request.POST.get('demoseg'),
+                    ValueSeg = request.POST.get('valueseg'),
+                    Segment_id = request.POST.get('segment_id'),
+                    Default_Tasks = request.POST.get('default_tasks'))
+                microsegment_default_tasks.save()
+                upload_to_s3('Microsegment_Default_Tasks')
+                messages.success(request, 'Product Mix Focus saved successfully')
+                return render(request, 'toam_success_page.html')
+            except Exception as e:
+                print('Error while saving the data ', e)
+                messages.error(request, 'Error while saving the data: {}'.format(str(e)))  
+                return render(request, 'toam_success_page.html') 
+            
+            
+        if form_id == 'task_constraint_rules_Form_edit':
+            print('task_constraint_rules_Form_edit')
             valid,errors = validateedit(form_id,request)
             valid = True
             if valid:
@@ -558,35 +555,12 @@ def TOAM_Module_View(request):
                     return render(request, 'toam_success_page.html')  
             else:
                 messages.error(request, errors)
-                return render(request, 'toam_success_page.html')        
-        if form_id == 'allocation_parameters_Form':
-            print('allocation_parameters_Form') 
-            try:
-                allocation_parameters = Allocation_Parameters(
-                    Task_id=request.POST.get('task_id'),
-                    Channel=request.POST.get('channel'),
-                    Subchannel=request.POST.get('subchannel'),
-                    DemoSeg=request.POST.get('demoseg'),
-                    ValueSeg=request.POST.get('valueseg'),
-                    Segment_id=request.POST.get('segment_id'),
-                    Due_Days=request.POST.get('due_days'),
-                    Buffer_Days=request.POST.get('buffer_days'),
-                    XX_Value=request.POST.get('xx_value'),
-                    XX_Type=request.POST.get('xx_type'),
-                    PricePoint_Reward=request.POST.get('price_point_reward'))
-                allocation_parameters.save()
-                upload_to_s3('Allocation_Parameters')
-                messages.success(request, 'Form saved successfully')
-                return render(request, 'toam_success_page.html')
-            except Exception as e:
-                print('Error while saving the data ',e)  
-                messages.error(request, e) 
                 return render(request, 'toam_success_page.html')
             
         if form_id == 'allocation_parameters_Form_edit':
             print('allocation_parameters_Form_edit') 
             valid,errors = validateedit(form_id,request)
-            valid = True
+            # valid = True
             if valid:
                 try:
                     task_id = request.POST.get('Task_id_edit')
@@ -620,25 +594,6 @@ def TOAM_Module_View(request):
                 messages.error(request, errors)
                 return render(request, 'toam_success_page.html')      
                 
-                 
-        if form_id == 'microsegment_default_tasks_Form':
-            print('microsegment_default_tasks_Form')
-            try:
-                microsegment_default_tasks = Microsegment_Default_Tasks(
-                    Channel = request.POST.get('channel'),
-                    Subchannel = request.POST.get('subchannel'),
-                    DemoSeg = request.POST.get('demoseg'),
-                    ValueSeg = request.POST.get('valueseg'),
-                    Segment_id = request.POST.get('segment_id'),
-                    Default_Tasks = request.POST.get('default_tasks'))
-                microsegment_default_tasks.save()
-                upload_to_s3('Microsegment_Default_Tasks')
-                messages.success(request, 'Product Mix Focus saved successfully')
-                return render(request, 'toam_success_page.html')
-            except Exception as e:
-                print('Error while saving the data ', e)
-                messages.error(request, 'Error while saving the data: {}'.format(str(e)))  
-                return render(request, 'toam_success_page.html') 
 
 
         if form_id == 'microsegment_default_tasks_Form_edit':
@@ -763,18 +718,38 @@ def upload_to_s3(modal_name):
     
 
 def validateedit(form_id,request):
+    print('validateedit')
     data = request.POST
     parameters = dict(data.lists())
     print(f'parameters:{parameters}')
     sheet_name = form_id[:-5]
+    print('sheet_name',sheet_name)
     if 'csrfmiddlewaretoken' in parameters:
         csrf_token = parameters.pop('csrfmiddlewaretoken', None)
         data_df = pd.DataFrame(parameters)
     if 'form_identifier' in data_df.columns:
         data_df = data_df.drop('form_identifier', axis=1)
     print('data_df',data_df)
-    new_col=list(map(lambda x: x.replace('_edit',''),data_df.columns))
+    
+    if 'channel_ctm' in parameters:
+        remove_substring = '_ctm'
+    elif 'task_id_ttm' in parameters:
+        remove_substring = '_ttm'
+    elif 'trigger_id_tql' in parameters:
+        remove_substring = '_tql'
+    elif 'trigger_id_tlf' in parameters:
+        remove_substring = '_tlf'
+    elif 'channel_ttb' in parameters:
+        remove_substring = '_ttb'
+    elif 'task_id_ap' in parameters:
+        remove_substring = '_ap'
+    else:
+        remove_substring = '_edit'
+    print('remove_substring',remove_substring)
+    
+    new_col=list(map(lambda x: x.replace(remove_substring,'').lower(),data_df.columns))
     data_df.columns=new_col
+    print('new_col',new_col)
     is_valid,errors = mainValidate_function(sheet_name,data_df)
     print(f'ISVALID=={is_valid}, {errors}')
     return is_valid,errors

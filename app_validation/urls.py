@@ -14,7 +14,6 @@ urlpatterns = [
     path('api/Default_Channel_Trigg_thres_data/<int:pk>/', Default_Channel_Trigg_thres_view, name='Default_Channel_Trigg_thres_view'),
     path('api/Default_Channel_Trigg_thres_delete/<int:row_id>/', Default_Channel_Trigg_thres_delete_data_by_id, name='Default_Channel_Trigg_thres_delete_data_by_id'),
     
-    
     # closure
     path('closure_Config_view/api/task_closure_get_data/<int:pk>/', task_closure_detail_view, name='task_closure_detail_view'),
     path('closure_Config_view/api/task_closure_delete/<int:row_id>/', task_closure_delete_by_id, name='task_closure_delete_by_id'),

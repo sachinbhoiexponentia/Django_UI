@@ -1,19 +1,12 @@
 trigger_id,trigg_desc,thres_description,thres_query_logic,operation,analysis_period,num_thresholds_required,segment_threshold_requirement_flag,FLS_Threshold_Requirement_Flag
-5,demo,demo,"select fls_id, datediff(meeting_setup_date,lead_generation_date)+1 AS TAT from lead_table WHERE updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180,2,1.0,1.0
-8,If x days have elapsed since application login and application is still pending for verification ,X- Segment average TAT for last N days  from login till conversion ,"SELECT lead_table.fls_id,
-datediff(policy_table.policy_issuance_date,lead_table.application_login_date) as TAT
-FROM lead_table
-LEFT JOIN policy_table AS policy_table ON lead_table.fls_id = policy_table.fls_id
-WHERE lead_table.updated_dttm >= DATE_SUB(CURRENT_DATE(), {});",Average,180.0,1,1.0,
-10,If rider conversion rate for past N months has been less than x% (x being benchmark of the segment) in last N Months of policies sold ,X% - Segment average rider conversion rate for past N months,nan,Average,180.0,2,1.0,1.0
-11,If renewal for customer XX tagged to the FLS is due in x days,X - Set by business team,nan,Manual,nan,1,1.0,
-12,demo,demo,"select fls_id, datediff(meeting_setup_date,lead_generation_date)+1 AS TAT from lead_table WHERE updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180,2,,
+11,If renewal for customer XX tagged to the FLS is due in x days,X - Set by business team,nsnajd,Manual,180,2,1.0,1.0
+12,sa,demo,ndsjncjds,Average,180,2,,
 13,If 13 M persistency for the FLS is lower than x%,X - Set by business team(Channel persistency target),nan,Manual,nan,1,1.0,
 14,If SI ECS not tagged (If present payment mode != D)),0,nan,nan,nan,0,,
 16,If FYFP of focus products policies sold by FLS is less than x% of total FYFP  for last N days,X%=(Desired C2P/ Health product mix for channel (basis FYFP))*1.5 /// (Sum of Fyfp of focus product(nonparsanchay) within channel)/(sum of fyfp of all policies sold within the channel)*1.5,nan,Sum,180.0,1,1.0,
 17,If the customer has a birthday today,0,nan,nan,nan,0,,
 19,If FLS has not sold any of the focused products in the last N month,X - Set by business team,nan,Manual,nan,1,1.0,
-22,If number of self generated leads in the last month is less than x ,X - 1.2 * Segment average of # self generated leads,"select fls_id, 1 AS TAT from lead_table WHERE updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Count,180.0,1,1.0,
+22,-------------If number of self generated leads in the last month is less than x ,X - 1.2 * Segment average of # self generated leads,"select fls_id, 1 AS TAT from lead_table WHERE updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Count,180.0,2,1.0,1.0
 23,If the FLS doesn't have more than 1 open application ,0,nan,nan,nan,0,,
 26,If there is a look-in cancellation request against the customer id XX  and diff of current date and lookin cancellation request date is not greater than 6 months,0,nan,nan,nan,0,,
 34,"If there is a lead A with ""Follow Up"" status against FLS ",0,nan,nan,nan,0,,
@@ -47,3 +40,4 @@ WHERE lead_table.updated_dttm >= DATE_SUB(CURRENT_DATE(), {});",Average,180.0,1,
 1006,,,,,,323,,
 1022,demo,demo,demo,Average,180,2,,
 10477,demo,demo,demo,Average,180,2,,
+21312,sa,demo,ndsjncjds,Average,180,2,,

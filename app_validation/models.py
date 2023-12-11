@@ -58,14 +58,13 @@ class Task_Closure_Config(models.Model):
        
 class Channel_Task_Mapping(models.Model):
     Channel = models.CharField(max_length=50)
-    Channel_Subchannel_ID = models.IntegerField()
-    channel_subchannel_Name = models.CharField(max_length=50)
-    DemoSeg_ValueSeg_ID = models.IntegerField()
-    DemoSeg_ValueSeg_Name = models.CharField(max_length=255)
-    Task = models.JSONField()
+    Subchannel = models.CharField(max_length=50)
+    DemoSeg = models.CharField(max_length=10)
+    ValueSeg = models.CharField(max_length=10)
+    Task = models.CharField(max_length=1000)
 
     def __str__(self):
-        return f"{self.Channel} - {self.Channel_Subchannel_ID} - {self.channel_subchannel_Name}"
+        return f"{self.Channel} - {self.Subchannel}"
     
     
 class Task_Trigger_Mapping(models.Model):

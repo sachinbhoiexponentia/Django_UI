@@ -61,12 +61,12 @@ def validate_thresold_config_df_api(request):
         #     is_valid,errors = validate_allocation_parameters(data_df) 
         # if sheet_name == 'microsegment_default_tasks_Form':
         #     is_valid,errors = validate_microseg_default_tasks(data_df) 
-        try:
-            is_valid,errors = mainValidate_function(sheet_name,data_df)
-            print('is_valid,errors',is_valid,errors)
-        except:
-            is_valid = False
-            errors = ['Validation module failes']
+        # try:
+        is_valid,errors = mainValidate_function(sheet_name,data_df)
+        print('is_valid,errors',is_valid,errors)
+        # except:
+            # is_valid = False
+            # errors = ['Validation module failes']
         return JsonResponse({'is_valid': is_valid, 'errors': errors})
         # except Exception as e:
         #     return JsonResponse({'error': str(e)}, status=500)
@@ -86,8 +86,10 @@ class Threshold_Logic_ConfigSerializer(serializers.ModelSerializer):
 @login_required
 @api_view(['GET'])
 def threshold_logic_config_detail_view(request, pk):
+    print('threshold_logic_config_detail_view pk',pk)
     try:
         instance = Threshold_Logic_Config.objects.get(pk=pk)
+        print("instance:",instance)
     except Threshold_Logic_Config.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -327,13 +329,14 @@ class Allocation_Parameters_DataSerializer(serializers.ModelSerializer):
 @login_required
 @api_view(['GET'])
 def allocation_parameters_detail_view(request, pk):
+    print('pk',pk)
     try:
         instance = Allocation_Parameters.objects.get(pk=pk)
     except Allocation_Parameters.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Allocation_Parameters_DataSerializer(instance)
-    print(serializer)
+    print(serializer.data)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -455,6 +458,7 @@ class Task_Constraint_Rules_DataSerializer(serializers.ModelSerializer):
 @login_required
 @api_view(['GET'])
 def task_constraint_rules_detail_view(request, pk):
+    print('pk',pk)
     try:
         instance = Task_Constraint_Rules.objects.get(pk=pk)
     except Task_Constraint_Rules.DoesNotExist:

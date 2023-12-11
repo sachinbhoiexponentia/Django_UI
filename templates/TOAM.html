@@ -23,6 +23,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="{% static 'toam_styles.css' %}">
+<link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
 
 <style>
   .popup{
@@ -131,7 +132,7 @@
           <div class="button1-container">
             <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
               data-target="#myModal1"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Task_Constraint_Rules" style="color: white; text-decoration: none;"style="color: white; text-decoration: none;">Download</a></button>
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Task_Constraint_Rules" style="color: white; text-decoration: none;">Download</a></button>
             {% comment %} <button class="button-with-image2" onclick="uploadToS3('Task_Constraint_Rules')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
           </div>
           <div class="table-container">
@@ -189,9 +190,9 @@
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                  <form id="optimization_rules_Form" method="post" enctype="multipart/form-data">
+                  <form id="task_constraint_rules_Form" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" id="optimization_rules_Form" name="form_identifier" value="optimization_rules_Form" />
+                    <input type="hidden" id="task_constraint_rules_Form" name="form_identifier" value="task_constraint_rules_Form" />
                   
                     <div class="form-row">
                       <div class="form-group_thre">
@@ -260,10 +261,10 @@
 
                 </div>
                 <div class="modal-body">
-                  <form id="optimization_rules_Form_edit" method="post" enctype="multipart/form-data">
+                  <form id="task_constraint_rules_Form_edit" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" id="optimization_rules_Form_edit" name="form_identifier"
-                      value="optimization_rules_Form_edit" />
+                    <input type="hidden" id="task_constraint_rules_Form_edit" name="form_identifier"
+                      value="task_constraint_rules_Form_edit" />
                     <div class="form-row">
                       <div class="form-group_thre">
                         <!-- <label for="task_no" class="label1_">Task No.</label> -->
@@ -316,7 +317,7 @@
                     </div>
                     <button type="submit" id="validateButton_threshold_logic_config"
                       class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                      data-form-id="optimization_rules_Form">Submit</button>
+                      data-form-id="task_constraint_rules_Form">Submit</button>
                   </form>
                 </div>
               </div>
@@ -449,7 +450,7 @@
             <div class="button1-container">
               <button class="button-with-image blueBorder ms-auto" id="formButton2" data-toggle="modal"
                 data-target="#myModal2"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add New</button>
-                <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Allocation_Parameters">Download</a></button>
+                <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class="me-1"><a href="/download/Allocation_Parameters" style="color: white; text-decoration: none;">Download</a></button>
               {% comment %} <button class="button-with-image2" onclick="uploadToS3('Allocation_Parameters')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
             </div>
             <div class="table-container">
@@ -577,8 +578,8 @@
                           <input class="first" name="xx_type" id="xx_type" type="text" placeholder="XX Type" />
                         </div>
                         <div class="form-group_clo">
-                          <label for="price_point_reward" class="label">Price Point Reward</label>
-                          <input class="last" name="price_point_reward" id="price_point_reward" type="number"
+                          <label for="pricepoint_reward" class="label">Price Point Reward</label>
+                          <input class="last" name="pricepoint_reward" id="pricepoint_reward" type="number"
                             placeholder="Price Point Reward" />
                         </div>
                       </div>
@@ -613,80 +614,77 @@
                         <div class="form-row">
                           <div class="form-group_thre">
                             <!-- <label for="task_no" class="label1_">Task No.</label> -->
-                            <input class="first1" name="Task_id_edit" id="Task_id_edit" type="hidden"
-                              placeholder="Task_id" />
+                            <input class="first1" name="task_id_ap" id="task_id_ap" type="hidden"
+                              placeholder="task_id" />
                           </div>
                         </div>
                         <div class="form-row">
                           <div class="form-group_thre">
-                            <label for="constraint" class="label1_">Constraint</label>
-                            <input class="first1" name="Channel_edit" id="Channel_edit" type="text"
+                            <label for="channel_ap" class="label1_">Channel</label>
+                            <input class="first1" name="channel_ap" id="channel_ap" type="text"
                               placeholder="Channel" />
+                          </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <div class="form-group_thre">
+                            <label for="subchannel_ap" class="label1_">SubChannel</label>
+                            <input class="first1" name="subchannel_ap" id="subchannel_ap" type="text"
+                              placeholder="SubChannel" />
                           </div>
                         </div>
+
                         <div class="form-row">
                           <div class="form-group_thre">
-                            <label for="category_task_allocated_with" class="label1_">Category Task Allocated With</label>
-                            <input class="first1" name="Subchannel_edit" id="Subchannel_edit" type="text"
-                              placeholder="Subchannel" />
+                            <label for="demoseg_ap" class="label1_">Demo Segment</label>
+                            <input class="first1" name="demoseg_ap" id="demoseg_ap" type="text"
+                              placeholder="Demo Segment" />
+                          </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <div class="form-group_thre">
+                            <label for="valueseg_ap" class="label1_">Value Segment</label>
+                            <input class="first1" name="valueseg_ap" id="valueseg_ap" type="text"
+                              placeholder="Value Segment" />
                           </div>
                         </div>
+
                         <div class="form-row">
                           <div class="form-group_thre">
-                            <label for="min_task_count_fls" class="label1_">Min Task Count FLS</label>
-                            <input class="first1" name="DemoSeg_edit" id="DemoSeg_edit" type="text"
-                              placeholder="DemoSeg" />
-                          </div>
-                        </div>
-                        <div class="form-row">
+                            <label for="segment_id_ap" class="label1_">Segment ID</label>
+                            <input class="first1" name="segment_id_ap" id="segment_id_ap"
+                              type="text" placeholder="Segment ID" />
+                          </div>&nbsp;&nbsp;&nbsp;&nbsp;
                           <div class="form-group_thre">
-                            <label for="max_task_count_fls" class="label1_">Max Task Count FLS</label>
-                            <input class="first1" name="ValueSeg_edit" id="ValueSeg_edit" type="text"
-                              placeholder="ValueSeg" />
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="form-group_thre">
-                            <label for="mutual_exclusion_criteria" class="label1_">Mutual Exclusion Criteria</label>
-                            <input class="first1" name="Segment_id_edit" id="Segment_id_edit"
-                              type="text" placeholder="Segment_id" />
-                          </div>
-                        </div>
-                        <div class="form-row">
-                          <div class="form-group_thre">
-                            <label for="task_priority" class="label1_">Task Priority</label>
-                            <input class="first1" name="Due_Days_edit" id="Due_Days_edit" type="text"
+                            <label for="due_days_ap" class="label1_">Due Days</label>
+                            <input class="first1" name="due_days_ap" id="due_days_ap" type="text"
                               placeholder="Due_Days" />
                           </div>
                         </div>
+
                         <div class="form-row">
                           <div class="form-group_thre">
-                            <label for="min_task_count_fls" class="label1_">Min Task Count FLS</label>
-                            <input class="first1" name="Buffer_Days_edit" id="Buffer_Days_edit" type="text"
-                              placeholder="Buffer_Days" />
+                            <label for="buffer_days_ap" class="label1_">Buffer Days</label>
+                            <input class="first1" name="buffer_days_ap" id="buffer_days_ap" type="text"
+                              placeholder="Buffer Days" />
+                          </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <div class="form-group_thre">
+                            <label for="xx_value_ap" class="label1_">XX Value</label>
+                            <input class="first1" name="xx_value_ap" id="xx_value_ap" type="text"
+                              placeholder="XX Value" />
                           </div>
                         </div>
                         <div class="form-row">
-                          <div class="form-group_thre">
-                            <label for="max_task_count_fls" class="label1_">Max Task Count FLS</label>
-                            <input class="first1" name="XX_Value_edit" id="XX_Value_edit" type="text"
-                              placeholder="XX_Value" />
-                          </div>
+
                         </div>
                         <div class="form-row">
                           <div class="form-group_thre">
-                            <label for="mutual_exclusion_criteria" class="label1_">Mutual Exclusion Criteria</label>
-                            <input class="first1" name="XX_Type_edit" id="XX_Type_edit"
-                              type="text" placeholder="XX_Type" />
-                          </div>
-                        </div>
-                        <div class="form-row">
+                            <label for="xx_type_ap" class="label1_">XX Type</label>
+                            <input class="first1" name="xx_type_ap" id="xx_type_ap"
+                              type="text" placeholder="XX Type" />
+                          </div> &nbsp;&nbsp;&nbsp;&nbsp;
                           <div class="form-group_thre">
-                            <label for="task_priority" class="label1_">Task Priority</label>
-                            <input class="first1" name="PricePoint_Reward_edit" id="PricePoint_Reward_edit" type="text"
-                              placeholder="PricePoint_Reward" />
+                            <label for="pricepoint_reward_ap" class="label1_">PricePoint Reward</label>
+                            <input class="first1" name="pricepoint_reward_ap" id="pricepoint_reward_ap" type="text"
+                              placeholder="PricePoint Reward" />
                           </div>
                         </div>
+
                       <button type="submit" id="validateButton_allocation_parameters"
                         class="btn btn-info btn-lg submit_validate" data-toggle="modal"
                         data-form-id="allocation_parameters_Form_edit">Submit</button>
@@ -1362,7 +1360,7 @@
       $(document).ready(function () {
         $('#validateButton_optimization_rule').on('click', function (event) {
           event.preventDefault(); // Prevent the default form submission
-          var formData = $('#optimization_rules_Form').serialize();
+          var formData = $('#task_constraint_rules_Form').serialize();
           formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
           $.ajax({
             type: 'GET',
@@ -1389,7 +1387,7 @@
 
       $(document).ready(function () {
         $('#submit_button_optimization_rules').on('click', function () {
-          $('#optimization_rules_Form').submit();
+          $('#task_constraint_rules_Form').submit();
         });
       });
 
@@ -1407,7 +1405,7 @@
       // $(document).ready(function () {
       //   $('#validateButton_optimization_rule').on('click', function (event) {
       //     event.preventDefault(); // Prevent the default form submission
-      //     var formData = $('#optimization_rules_Form').serialize();
+      //     var formData = $('#task_constraint_rules_Form').serialize();
       //     formData += '&csrfmiddlewaretoken=' + $('input[name=csrfmiddlewaretoken]').val();
       //     $.ajax({
       //       type: 'GET',
@@ -1433,7 +1431,7 @@
 
       // $(document).ready(function () {
       //   $('#submit_button_optimization_rules').on('click', function () {
-      //     $('#optimization_rules_Form').submit();
+      //     $('#task_constraint_rules_Form').submit();
       //   });
       // });
 
@@ -1687,18 +1685,21 @@ function DeleteSourceData_mdt(rowId) {
         $('#successMessage').text('Data loaded successfully!');
 
         // Update form fields with retrieved data
-        document.getElementById("Task_id_edit").value = rowId;
-        document.getElementById("Channel_edit").value = data.Channel;
-        document.getElementById("Subchannel_edit").value = data.Subchannel;
-        document.getElementById("DemoSeg_edit").value = data.DemoSeg;
-        document.getElementById("ValueSeg_edit").value = data.ValueSeg;
-        document.getElementById("Segment_id_edit").value = data.Segment_id;
-        document.getElementById("Due_Days_edit").value = data.Due_Days; 
-        document.getElementById("Buffer_Days_edit").value = data.Buffer_Days; 
-        document.getElementById("XX_Value_edit").value = data.XX_Value; 
-        document.getElementById("XX_Type_edit").value = data.XX_Type; 
-        document.getElementById("PricePoint_Reward_edit").value = data.PricePoint_Reward;         
+        document.getElementById("task_id_ap").value = rowId;
+        document.getElementById("channel_ap").value = data.Channel;
+        document.getElementById("subchannel_ap").value = data.Subchannel;
+        document.getElementById("demoseg_ap").value = data.DemoSeg;
+        document.getElementById("valueseg_ap").value = data.ValueSeg;
+        document.getElementById("segment_id_ap").value = data.Segment_id;
+        document.getElementById("due_days_ap").value = data.Due_Days; 
+        document.getElementById("buffer_days_ap").value = data.Buffer_Days; 
+        document.getElementById("xx_value_ap").value = data.XX_Value; 
+        document.getElementById("xx_type_ap").value = data.XX_Type; 
+        document.getElementById("pricepoint_reward_ap").value = data.PricePoint_Reward;         
       },
+
+
+
       error: function () {
         // Handle error case, display an error message or take appropriate action
         $('#errorMessage').text('Error loading data. Please try again.');

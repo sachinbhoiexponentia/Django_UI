@@ -1,8 +1,8 @@
 Trigger_id,Trigger_Description_Discussed,Assignment_level,Iteration_Level,Trigger_ON_Query_Logic,query
-5,"If the ""Follow Up"" date has elapsed, and no follow up meeting has happened",Lead,Lead,nan,nan
+5,dsnjf,3,5,rnejknj,ncdvsdsjkvj
 10,If number of riders sold is less than x% of last y policies sold,Policy,nan,(T3_DemoValueSeg_Threshold2>T3_DemoValueSeg_Threshold1),"select '' as id ,'' as id_type,fls_id,trigger_id from threshold_df where  trigger_id = 10 and  Threshold_2 > Threshold_1"
 11,If renewal for customer XX tagged to the FLS is due in x days,Policy,Policy,due_Date < datetime.today() +  T11_demosegvalueseg_threshold1,"select a.fls_id as id ,'FR' as id_type,a.fls_id,b.trigger_id from policy_df a left join threshold_df b on a.fls_id = b.fls_id where b.trigger_id = 11  and a.due_date < date_add(current_date(), b.threshold_1) ;"
-12,If payment is to be made through ECS mode,nan,nan,"payment_mode !=""D""",nan
+12,dsnjf,3,5,rnejknj,ncdvsdsjkvj
 13,If persistency for the FLS is lower than x%,nan,nan,persistency < T13_demovalueseg_threshold1,".select '' as id ,'' as id_type,a.fls_id,b.trigger_id from policy_df a left join threshold_df b on a.fls_id = b.fls_id where b.trigger_id = 13  and a.persistency >  b.threshold_1) ;"
 14,If SI ECS not tagged,nan,nan,"payment_mode !=""D""","select '' as id ,'' as id_type,a.fls_id,b.trigger_id from policy_df a left join threshold_df b on a.fls_id = b.fls_id where b.trigger_id = 11  and  payment_mode !='D'"
 16,If FYFP of focus products policies sold is less than x% of total FYFP for last 90 days,Policy,nan,(T16_DemoValueSeg_Threshold2>T16_DemoValueSeg_Threshold1),"select '' as id ,'' as id_type,fls_id,trigger_id from threshold_df where  trigger_id = 16 and  Threshold_2 > Threshold_1"

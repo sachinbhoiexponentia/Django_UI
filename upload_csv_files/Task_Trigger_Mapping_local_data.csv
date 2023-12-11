@@ -1,5 +1,5 @@
 Task_id,Task_Desc,Task_Stage,Trigger
-3,Sell atleast 1 policy with EPI greater than XX by <date>,Lead Conversion - Pre Login,{35:M}
+3,undefined,Lead Conversion - Pre Login,{35:M}
 4,Sell at least 1 policy by <date>,Lead Conversion - Post Login,{36:M}
 5,Complete verification of the existing open application id XX by <date> ,Lead Conversion - Post Login,"{8:M,9:M}"
 6,Resolve medical FR of application id- XX by <date>,Lead Conversion - Post Login,"{37:M,38:O, 39:O}"
@@ -7,7 +7,7 @@ Task_id,Task_Desc,Task_Stage,Trigger
 8,Resolve single non medical FR of application id- XX by <date>,Lead Conversion - Post Login,"{43:M,44:O,45:O}"
 10,Attach at least 1 rider to new policies logged in by <date>,Overall Sales,"{47:O,10:O}"
 11,Ensure auto debit for renewal due for existing customer XX by <date>,Renewal,"{49:M,12:M,13:M}"
-12,312, 213,2
+12,312, 213,"{1:O,2:O}"
 13a,Sell at least 1 Par Ppt(premium payment term) 10+years policy by <date>,Overall Sales,"{48:M,16:M,58:M}"
 13b,Sell at least 1 Par Others(less than 10 years of ppt) policy by <date>,Overall Sales,"{48:M,16:M,58:M}"
 13c,Sell at least 1 Non Par Sanchay policy by <date>,Overall Sales,"{48:M,16:M,58:M}"
@@ -35,3 +35,4 @@ Task_id,Task_Desc,Task_Stage,Trigger
 28,Convert Policy to  auto debit payment (SI/ECS) by <date>,Renewal,"{13:O,14:M,55:O}"
 324,vdsnnvjdsb, 213,2
 120,312, 213,2
+1,Establish first contact (call) and setup a meeting time with your existing lead of X by <date>, 213,2
