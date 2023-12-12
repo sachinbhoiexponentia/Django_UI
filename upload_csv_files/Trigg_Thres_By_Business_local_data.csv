@@ -1,6 +1,5 @@
 id,Channel,Subchannel,Channel_Subchannel_ID,DemoSeg,ValueSeg,DemoSeg_ValueSeg_ID,Trigger_id,Trigg_Desc,Segment_Threshold,FLSAvg_Threshold
-3,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,49,If renewal for customer XX tagged to the FLS is not received within N days after due date ,7,5678.0
-4,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,13,If persistency for the FLS is lower than x%,80,
+4,Direct,BCSS,11,Urban Lateral Hires,Policy Champs,11,13,If persistency for the FLS is lower than x%,80,1.0
 5,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,11,If renewal for customer XX tagged to the FLS is due in x days,4,
 6,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,58,If there has been >1 application logged in by FLS in past XX days,5,
 7,Direct,BCSS,22,Urban Lateral Hires,Policy Champs,11,19,If FLS has not sold any of the focused products in the last N months,6,
@@ -22,3 +21,4 @@ id,Channel,Subchannel,Channel_Subchannel_ID,DemoSeg,ValueSeg,DemoSeg_ValueSeg_ID
 23,1232,12,12,121,212,12,12,xcds,12,
 24,Direct,BCSS,131323,SegmentA,ValueX,1101,120,Demo,1,
 25,Direct,BCSS,12,121,212,12,12,Demo,1,
+26,Direct,BCSS,11,11,1,11,12,Demo,1,
