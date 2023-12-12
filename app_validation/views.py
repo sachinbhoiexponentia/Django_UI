@@ -778,6 +778,8 @@ def csv_download(request):
     data = request.GET
     sheet_name = data.get('form_identifier')
     print(sheet_name)
+    if sheet_name == 'Product_Category_Form':
+        queryset = Product_Category_Config.objects.all()
     if sheet_name == 'Threshold_Logic_Form':
         queryset = Threshold_Logic_Config.objects.all()
     if sheet_name == 'Trigger_Threhold_by_Business_Form':
@@ -805,7 +807,6 @@ def csv_download(request):
     for row in results.index:
         # print(results.loc(row).tolist())
         writer.writerow(results.loc[row].tolist())
-    print("I am HERE")
     # results.to_csv(path_or_buf=response)
     print(response)
     return response
