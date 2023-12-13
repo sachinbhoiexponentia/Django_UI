@@ -766,7 +766,7 @@ def task_constraint_rules_delete_by_id(request, row_id):
 @csrf_exempt
 @login_required
 @api_view(['GET'])
-def upload_to_s3(request, sheet_name):
+def upload_to_s3(request, sheet_name):   # maybe not in use, delete it
     try:
         print("upload to s3")
         # sheet_name = request.POST.get('sheet_name')

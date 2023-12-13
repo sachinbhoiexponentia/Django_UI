@@ -18,6 +18,9 @@ def TOAM_form_success(requests):
     return render(requests, 'toam_success_page.html')
 
 
+destination_prefix = "iEarn/input_folder/config/"
+destination_bucket = "iearnv2-dev-data"
+
 @login_required
 def Threshold_Logic_Config_view(request):
     
@@ -710,11 +713,14 @@ def upload_to_s3(modal_name):
         data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
         data_df = pd.DataFrame(list(data_model.objects.all().values()))
         print("upload data_df:",data_df)
-        local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
+        # local_file_path = f"upload_csv_files/{sheet_name}_local_data.csv"
+        local_file_path = f"s3://{destination_bucket}/{destination_prefix}/{modal_name}_local_data.csv"
         data_df.to_csv(local_file_path, index=False)
         return True
     except Exception as e:
         return False
+    
+
     
 
 def validateedit(form_id,request):
