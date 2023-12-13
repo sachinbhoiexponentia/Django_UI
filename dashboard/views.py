@@ -20,8 +20,8 @@ def TOAM_form_success(requests):
     return render(requests, 'toam_success_page.html')
 
 
-s3_bucket_name = 'iearnv2-dev-data'
-destination_object_key = f'iEarn/input_folder/'
+destination_prefix = "iEarn/input_folder/config"
+destination_bucket = "iearnv2-dev-data"
 
 
 
@@ -659,20 +659,20 @@ def Product_Category_Config_view(request):
         print('data',data)    
         if form_id == 'product_cat_conf_add_form':
             print('product_cat_conf_add_form')
-            try:  
-                product_category_config = Product_Category_Config(ProductCategoryName=request.POST.get('ProductCategoryName'),
-                        FilterQueryOnPolicyTable=request.POST.get('FilterQueryOnPolicyTable'),
-                        TrainingTopics=request.POST.get('TrainingTopics'),
-                        SellingTaskNo=request.POST.get('SellingTaskNo'),
-                        TrainingTaskNo=request.POST.get('TrainingTaskNo')) 
-                product_category_config.save()
-                upload_to_s3('Product_Category_Config')
-                messages.success(request, 'Form saved successfully')
-                return render(request, 'product_success_page.html')
-            except Exception as e:
-                print('Error while saving the data ',e)  
-                messages.error(request, e)
-                return render(request, 'product_success_page.html')
+            # try:  
+            product_category_config = Product_Category_Config(ProductCategoryName=request.POST.get('ProductCategoryName'),
+                    FilterQueryOnPolicyTable=request.POST.get('FilterQueryOnPolicyTable'),
+                    TrainingTopics=request.POST.get('TrainingTopics'),
+                    SellingTaskNo=request.POST.get('SellingTaskNo'),
+                    TrainingTaskNo=request.POST.get('TrainingTaskNo')) 
+            product_category_config.save()
+            upload_to_s3('Product_Category_Config')
+            messages.success(request, 'Form saved successfully')
+            return render(request, 'product_success_page.html')
+            # except Exception as e:
+            #     print('Error while saving the data ',e)  
+            #     messages.error(request, e)
+            #     return render(request, 'product_success_page.html')
                     
         if form_id == 'product_cat_conf_edit_form':
             print('product_cat_conf_edit_form')
@@ -711,28 +711,17 @@ def Product_Category_Config_view(request):
 
 
 
-
 def upload_to_s3(modal_name):
     # try:
     print("upload to s3")
     data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
     data_df = pd.DataFrame(list(data_model.objects.all().values()))
     print("upload data_df:",data_df)
-    
-    csv_buffer = StringIO()
-    data_df.to_csv(csv_buffer, index=False)
-    
-    s3 = boto3.client('s3')
-    
-    s3.upload_fileobj(csv_buffer, s3_bucket_name, destination_object_key + f"{modal_name}.csv")
-    
-    print(f"Pandas DataFrame saved as CSV in S3: '{destination_object_key}' in bucket '{s3_bucket_name}'")
-    # local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
-
-    # data_df.to_csv(local_file_path, index=False)
+    local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
+    # local_file_path = f"s3://{destination_bucket}/{destination_prefix}/{modal_name}_local_data.csv"
+    data_df.to_csv(local_file_path, index=False)
     return True
     # except Exception as e:
-    #     print(str(e))
     #     return False
     
 

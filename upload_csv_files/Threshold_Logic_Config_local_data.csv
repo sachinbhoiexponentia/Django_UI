@@ -1,6 +1,5 @@
 trigger_id,trigg_desc,thres_description,thres_query_logic,operation,analysis_period,num_thresholds_required,segment_threshold_requirement_flag,FLS_Threshold_Requirement_Flag
-11,If renewal for customer XX tagged to the FLS is due in x days,X - Set by business team,nsnajd,Manual,180,1,1.0,0.0
-12,sa,demo,ndsjncjds,Average,180,2,,
+12,sa,demo,ndsjncjds,Average,180,2,1.0,1.0
 13,If 13 M persistency for the FLS is lower than x%,X - Set by business team(Channel persistency target),nan,Manual,nan,1,1.0,
 14,If SI ECS not tagged (If present payment mode != D)),0,nan,nan,nan,0,,
 16,If FYFP of focus products policies sold by FLS is less than x% of total FYFP  for last N days,X%=(Desired C2P/ Health product mix for channel (basis FYFP))*1.5 /// (Sum of Fyfp of focus product(nonparsanchay) within channel)/(sum of fyfp of all policies sold within the channel)*1.5,nan,Sum,180.0,1,1.0,
