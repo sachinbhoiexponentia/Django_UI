@@ -695,7 +695,7 @@ def Product_Category_Config_view(request):
                     messages.error(request, 'Error while updating the data: {}'.format(e))
                     return render(request, 'product_success_page.html')
             else:
-                messages.error(request, errors)
+                messages.error(request, e)
                 return render(request, 'product_success_page.html')      
     
     return render(request,'Product Category Config.html',context)

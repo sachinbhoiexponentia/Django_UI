@@ -16,6 +16,7 @@ from django.views.decorators.http import require_POST
 from django.core.exceptions import ObjectDoesNotExist
 import pandas as pd
 import csv
+import dashboard 
 
 # parameters {'csrfmiddlewaretoken': ['02cZJmkYFysNRmS77fTJ20TPQXof0wShpP6VAlU35vxY3WruxjGNtYLiWw9YvfPW', '02cZJmkYFysNRmS77fTJ20TPQXof0wShpP6VAlU35vxY3WruxjGNtYLiWw9YvfPW'], 'form_identifier': ['Trigger_Threhold_by_Business_Form'], 'channel': [''], 'subchannel': [''], 'channel_subchannel_id': [''], 'demoseg': [''], 'valueseg': [''], 'demoseg_valueseg_id': [''], 'trigger_id': [''], 'trigg_description': [''], 'segment_threshold_1': [''], 'flavg_threshold': ['']}
 
@@ -106,6 +107,7 @@ def threshold_logic_config_delete_data_by_id(request, row_id):
         print(row_id)
         instance = Threshold_Logic_Config.objects.get(trigger_id=row_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Threshold_Logic_Config')
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
@@ -139,6 +141,7 @@ def Trigg_Thres_By_Business_delete_data_by_id(request, row_id):
         print(row_id)
         instance = Trigg_Thres_By_Business.objects.get(id=row_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Trigg_Thres_By_Business')
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
@@ -173,6 +176,7 @@ def channel_task_mapping_delete_data_by_id(request, row_id):
         print(row_id)
         instance = Channel_Task_Mapping.objects.get(id=row_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Channel_Task_Mapping')
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
@@ -207,6 +211,7 @@ def Default_Channel_Trigg_thres_delete_data_by_id(request, row_id):
         print(row_id)
         instance = Default_Channel_Trigg_thres.objects.get(id=row_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Default_Channel_Trigg_thres')
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
@@ -239,6 +244,7 @@ def trigger_on_query_delete_data_by_id(request, Trigger_id):
     try:
         instance = Trigger_ON_Query.objects.get(Trigger_id=Trigger_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Trigger_ON_Query')
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
@@ -274,6 +280,7 @@ def task_trigger_mapping_delete_data_by_id(request, task_id):
     try:
         instance = Task_Trigger_Mapping.objects.get(Task_id=task_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Task_Trigger_Mapping')
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
@@ -308,6 +315,7 @@ def task_closure_delete_by_id(request, row_id):
         print(row_id)
         instance = Task_Closure_Config.objects.get(pk=row_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Task_Closure_Config')
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
@@ -348,6 +356,7 @@ def allocation_parameters_delete_by_id(request, row_id):
         print(row_id)
         instance = Allocation_Parameters.objects.get(pk = row_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Allocation_Parameters')
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
@@ -390,6 +399,7 @@ def microsegment_default_tasks_delete_data_by_id(request, mdt_pk_id):
     try:
         instance = Microsegment_Default_Tasks.objects.get(id=mdt_pk_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Microsegment_Default_Tasks')
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
@@ -426,6 +436,7 @@ def Product_Category_Config_delete_data_by_id(request, row_id):
         print(row_id)
         instance = Product_Category_Config.objects.get(id=row_id)
         instance.delete()
+        dashboard.views.upload_to_s3('Product_Category_Config')
         print("Deleted Successfuly")
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
@@ -478,6 +489,7 @@ def task_constraint_rules_delete_by_id(request, row_id):
         instance = Task_Constraint_Rules.objects.get(Task_No = row_id)
         instance.delete()
         print("Deleted Successfuly")
+        dashboard.views.upload_to_s3('Task_Constraint_Rules')
         return JsonResponse({'message': 'Data deleted successfully'})
     except ObjectDoesNotExist:
         return JsonResponse({'message': 'Object not found'}, status=404)
