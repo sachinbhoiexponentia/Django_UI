@@ -23,7 +23,7 @@ def TOAM_form_success(requests):
 s3_bucket_name = 'iearnv2-dev-data'
 destination_object_key = f'iEarn/input_folder/config/'
 
-s3 = boto3.client('s3')
+
 
 
 
@@ -729,27 +729,26 @@ def upload_to_s3(modal_name):
     
     
 def upload_to_s3(modal_name):
-    # try:
-    print("upload to s3")
-    s3_path = destination_object_key + f"{modal_name}.csv"
-    print("S3 Path:", s3_path)
-    data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
-    print('1')
-    data_df = pd.DataFrame(list(data_model.objects.all().values()))
-    print("upload data_df:",data_df)
-    csv_buffer = BytesIO()
-    print('2')
-    data_df.to_csv(csv_buffer, index=False, encoding='utf-8')
-    print('3')
-    s3.upload_fileobj(csv_buffer, s3_bucket_name, s3_path)
-    print(f"Pandas DataFrame saved as CSV in S3: '{destination_object_key}' in bucket '{s3_path}'")
-    # local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
+    try:
+        print("upload to s3")
+        s3_path = destination_object_key + f"{modal_name}.csv"
+        print("S3 Path:", s3_path)
+        data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
+        data_df = pd.DataFrame(list(data_model.objects.all().values()))
+        print("upload data_df:",data_df)
+        csv_buffer = BytesIO()
+        data_df.to_csv(csv_buffer, index=False, encoding='utf-8')
+        csv_buffer.seek(0)  # Reset the position to the beginning
+        s3 = boto3.client('s3')
+        s3.upload_fileobj(csv_buffer, s3_bucket_name, s3_path)
+        print(f"Pandas DataFrame saved as CSV in S3: '{destination_object_key}' in bucket '{s3_path}'")
+        # local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
 
-    # data_df.to_csv(local_file_path, index=False)
-    return True
-    # except Exception as e:
-    #     print(str(e))
-    #     return False
+        # data_df.to_csv(local_file_path, index=False)
+        return True
+    except Exception as e:
+        print(str(e))
+        return False
     
 
 
