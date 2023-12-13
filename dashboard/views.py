@@ -18,7 +18,7 @@ def TOAM_form_success(requests):
     return render(requests, 'toam_success_page.html')
 
 
-destination_prefix = "iEarn/input_folder/config/"
+destination_prefix = "iEarn/input_folder/config"
 destination_bucket = "iearnv2-dev-data"
 
 @login_required
