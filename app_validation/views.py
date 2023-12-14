@@ -677,20 +677,20 @@ def task_constraint_rules_delete_by_id(request, row_id):
     
 
 
-def insert_product_category_data(df):
-    for index, row in df.iterrows():
-        product_Category_Config = Product_Category_Config(
-            ProductCategoryName=row['Product Category Name'],
-            FilterQueryOnPolicyTable=row['Filter Query on Policy Table'],
-            TrainingTopics=row['Training Topics'],
-            SellingTaskNo=row['Selling Task no'],
-            TrainingTaskNo=row['Training Task no']
-        )
-        product_Category_Config.save()
+# def insert_product_category_data(df):
+#     for index, row in df.iterrows():
+#         product_Category_Config = Product_Category_Config(
+#             ProductCategoryName=row['Product Category Name'],
+#             FilterQueryOnPolicyTable=row['Filter Query on Policy Table'],
+#             TrainingTopics=row['Training Topics'],
+#             SellingTaskNo=row['Selling Task no'],
+#             TrainingTaskNo=row['Training Task no']
+#         )
+#         product_Category_Config.save()
 
 
-df_product_Category = pd.read_excel('Config Template 281123.xlsx', sheet_name='ETL - Product Category Config')
-insert_product_category_data(df_product_Category)
+# df_product_Category = pd.read_excel('Config Template 281123.xlsx', sheet_name='ETL - Product Category Config')
+# insert_product_category_data(df_product_Category)
 
 # Product_Category_Config.objects.all().delete()
     
