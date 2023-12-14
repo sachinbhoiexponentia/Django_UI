@@ -166,13 +166,13 @@
                     <td>
                       <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal" onclick="getSourceData_CTM({{ row.0 }})" data-target="#channel_task_mapping_Form_edit_pop_up"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" onclick="deleteConfirmation()" data-target="#myModal4_delete"
+                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" onclick="deleteConfirmation('{{ row.0 }}')" data-target="#myModal4_delete"
                         style="color: black;"></i>
 
-                        <div class="popup" id="deletePopup">
-                          <p>Do you want to delete?</p>
-                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
-                          <button class="btn btn-primary update" onclick="DeleteSourceData_CTM({{ row.0 }})">Yes, Delete</button>
+                        <div class="popup" id="deletePopup_{{ row.0 }}">
+                          <p>Do you want to delete row {{ row.0 }}?</p>
+                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup('{{ row.0 }}')">Cancel</button>
+                          <button class="btn btn-primary update" onclick="DeleteSourceData_CTM('{{ row.0 }}')">Yes, Delete</button>
                         </div>
 
                     </td>
@@ -343,15 +343,15 @@
                      
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TTM({{ row.0 }})" data-toggle="modal" data-target="#TTM_edit_pop_up_form"
+                      <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TTM('{{ row.0 }}')" data-toggle="modal" data-target="#TTM_edit_pop_up_form"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation2()" data-toggle="modal" 
+                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation2('{{ row.0 }}')" data-toggle="modal" 
                         style="color: black;"></i>
 
-                        <div class="popup" id="deletePopup2">
-                          <p>Do you want to delete?</p>
-                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2()">Cancel</button>
-                          <button class="btn btn-primary update" onclick="DeleteSourceData_TTM({{ row.0 }})">Yes, Delete</button>
+                        <div class="popup" id="deletePopup2_{{ row.0 }}">
+                          <p>Do you want to delete row {{ row.0 }}?</p>
+                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2('{{ row.0 }}')">Cancel</button>
+                          <button class="btn btn-primary update" onclick="DeleteSourceData_TTM('{{ row.0 }}')">Yes, Delete</button>
                         </div>
 
                     </td>
@@ -514,15 +514,15 @@
                      
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal" onclick="getSourceData_TQL({{ row.0 }})" data-target="#TQL_edit_pop_up"
+                      <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal" onclick="getSourceData_TQL('{{ row.0 }}')" data-target="#TQL_edit_pop_up"
                         style="color: black;"></i>
-                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" onclick="deleteConfirmation3()" 
+                      <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" data-toggle="modal" onclick="deleteConfirmation3('{{ row.0 }}')" 
                         style="color: black;"></i>
 
-                        <div class="popup" id="deletePopup3">
-                          <p>Do you want to delete?</p>
-                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup3()">Cancel</button>
-                          <button class="btn btn-primary update" onclick="DeleteSourceData_TQL({{ row.0 }})">Yes, Delete</button>
+                        <div class="popup" id="deletePopup3_{{ row.0 }}">
+                          <p>Do you want to delete row {{ row.0 }}?</p>
+                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup3('{{ row.0 }}')">Cancel</button>
+                          <button class="btn btn-primary update" onclick="DeleteSourceData_TQL('{{ row.0 }}')">Yes, Delete</button>
                         </div>
 
                     </td>
@@ -728,25 +728,31 @@
     let deletePopup3 = document.getElementById("deletePopup3");
 
 
-    function deleteConfirmation(){
-      deletePopup.classList.add("showPopup")
+    function deleteConfirmation(rowId){
+    var deletePopup = document.getElementById("deletePopup_" + rowId);
+    deletePopup.classList.add("showPopup");
     }
 
-    function deleteConfirmation2(){
-      deletePopup2.classList.add("showPopup")
+    function deleteConfirmation2(rowId){
+    var deletePopup2 = document.getElementById("deletePopup2_" + rowId);
+    deletePopup2.classList.add("showPopup");
     }
 
-    function deleteConfirmation3(){
-      deletePopup3.classList.add("showPopup")
+    function deleteConfirmation3(rowId){
+    var deletePopup3 = document.getElementById("deletePopup3_" + rowId);
+    deletePopup3.classList.add("showPopup");
     }
 
-    function closePopup(){
+    function closePopup(rowId){
+      var deletePopup = document.getElementById("deletePopup_" + rowId);
       deletePopup.classList.remove("showPopup")
     }
-    function closePopup2(){
+    function closePopup2(rowId){
+      var deletePopup2 = document.getElementById("deletePopup2_" + rowId);
       deletePopup2.classList.remove("showPopup")
     }
-    function closePopup3(){
+    function closePopup3(rowId){
+      var deletePopup3 = document.getElementById("deletePopup3_" + rowId);
       deletePopup3.classList.remove("showPopup")
     }
 
@@ -906,7 +912,7 @@
 
 
     function DeleteSourceData_CTM(row_id) {
-      document.getElementById("deletePopup").style.display="none";
+      document.getElementById(`deletePopup_${row_id}`).style.display = "none";
 
       fetch(`api/Channel_Task_Mapping_delete/${row_id}/`, {
         method: 'POST',
@@ -980,7 +986,7 @@
   }
 
 function DeleteSourceData_TTM(rowId) {
-  document.getElementById("deletePopup2").style.display="none";
+  document.getElementById(`deletePopup2_${rowId}`).style.display = "none";
 
   fetch(`api/task_trigger_mapping_delete/${rowId}/`, {
     method: 'POST',
@@ -1060,7 +1066,7 @@ function DeleteSourceData_TTM(rowId) {
   }
 
   function DeleteSourceData_TQL(rowId) {
-    document.getElementById("deletePopup3").style.display="none";
+    document.getElementById(`deletePopup3_${rowId}`).style.display = "none";
 
     fetch(`api/trigger_on_query_logic_delete/${rowId}/`, {
       method: 'POST',

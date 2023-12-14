@@ -10,7 +10,7 @@ from .models import *
 
 df_config = {}
 master_config_json = {
-    "allowed_channel":['Agency', 'Banca','Direct' ],
+    "allowed_channel":['Agency', 'Banca','Direct','Defence' ],
     "allowed_sub_channel":['BCSS','Defence','Loyalty','DSC'],
     "Allowed_operations" : ['Average','Business','Count','Sum','Manual'],
     "Allowed_Iterations_level":['POLICY', 'LEAD', 'FR', 'APPLICATION', 'OPTIMIZATION_OUTPUT','FLS'],
@@ -633,7 +633,7 @@ def validate_Channel_Task_Mapping(Channel_Task_Mapping = None):
                 errors.append(f"Error in Channel, Channel not is not allowed values.")
             if not Channel_Task_Mapping['subchannel'][i] in master_config_json['allowed_sub_channel']:
                 validation_flag = False
-                errors.append(f"Error in SubChannel, SubChannel not is not allowed values.")
+                errors.append(f"Error in SubChannel, SubChannel not is not allowed values!")
             # if not Channel_Task_Mapping['channel'][i] in master_config_json['allowed_channel']:
             #     validation_flag = False
             #     errors.append(f"Error in config Channel_Task_Mapping: Value {Channel_Task_Mapping['Channel'][i]} for column Channel is  is not allowed.")

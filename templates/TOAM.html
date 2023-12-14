@@ -168,15 +168,15 @@
 
                   {% endfor %}
                   <td>
-                    <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_ORD({{row.0}})" data-toggle="modal"
+                    <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_ORD('{{row.0}}')" data-toggle="modal"
                       data-target="#modal_optimization_rules_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation()"
+                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation('{{ row.0 }}')"
                       data-toggle="modal" style="color: black;"></i>
 
-                      <div class="popup" id="deletePopup">
-                        <p>Do you want to delete?</p>
-                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
-                        <button class="btn btn-primary update" onclick="DeleteSourceData_ORD({{ row.0 }})">Yes, Delete</button>
+                      <div class="popup" id="deletePopup_{{ row.0 }}">
+                        <p>Do you want to delete row {{ row.0 }}?</p>
+                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup('{{ row.0 }}')">Cancel</button>
+                        <button class="btn btn-primary update" onclick="DeleteSourceData_ORD('{{ row.0 }}')">Yes, Delete</button>
                       </div>
                   </td>
                 </tr>
@@ -509,15 +509,15 @@
 
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_AP({{row.0}})" data-toggle="modal"
+                      <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_AP('{{row.0}}')" data-toggle="modal"
                       data-target="#modal_allocation_parameters_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation2()"
+                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation2('{{ row.0 }}')"
                       data-toggle="modal" style="color: black;"></i>
 
-                      <div class="popup" id="deletePopup2">
-                        <p>Do you want to delete?</p>
-                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2()">Cancel</button>
-                        <button class="btn btn-primary update" onclick="DeleteSourceData_AP({{ row.0 }})">Yes, Delete</button>
+                      <div class="popup" id="deletePopup2_{{ row.0 }}">
+                        <p>Do you want to delete row {{ row.0 }}?</p>
+                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2('{{ row.0 }}')">Cancel</button>
+                        <button class="btn btn-primary update" onclick="DeleteSourceData_AP('{{ row.0 }}')">Yes, Delete</button>
                       </div>
                     </td>
                   </tr>
@@ -781,15 +781,15 @@
 
                     {% endfor %}
                     <td>
-                      <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal" onclick="getSourceData_mdt({{ row.0 }})" data-target="#Microsegment_Default_Tasks_edit_popup"
+                      <i class="fas fa-edit hand-cursor" id="editButton3" data-toggle="modal" onclick="getSourceData_mdt('{{ row.0 }}')" data-target="#Microsegment_Default_Tasks_edit_popup"
                         style="color: black;"></i>
-                        <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation3()"
+                        <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation3('{{ row.0 }}')"
                         data-toggle="modal" style="color: black;"></i>
 
-                        <div class="popup" id="deletePopup3">
-                          <p>Do you want to delete?</p>
-                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup3()">Cancel</button>
-                          <button class="btn btn-primary update" onclick="DeleteSourceData_mdt({{ row.0 }})">Yes, Delete</button>
+                        <div class="popup" id="deletePopup3_{{ row.0 }}">
+                          <p>Do you want to delete row {{ row.0 }}?</p>
+                          <button class="btn btn-outline-danger cancel me-4" onclick="closePopup3('{{ row.0 }}')">Cancel</button>
+                          <button class="btn btn-primary update" onclick="DeleteSourceData_mdt('{{ row.0 }}')">Yes, Delete</button>
                         </div>
 
                     </td>
@@ -1061,26 +1061,32 @@
     let deletePopup3 = document.getElementById("deletePopup3");
 
 
-    function deleteConfirmation(){
-      deletePopup.classList.add("showPopup")
+    function deleteConfirmation(rowId){
+    var deletePopup = document.getElementById("deletePopup_" + rowId);
+    deletePopup.classList.add("showPopup");
     }
 
-    function deleteConfirmation2(){
-      deletePopup2.classList.add("showPopup")
+    function deleteConfirmation2(rowId){
+    var deletePopup = document.getElementById("deletePopup2_" + rowId);
+    deletePopup.classList.add("showPopup");
     }
 
-    function deleteConfirmation3(){
-      deletePopup3.classList.add("showPopup")
+    function deleteConfirmation3(rowId){
+    var deletePopup = document.getElementById("deletePopup3_" + rowId);
+    deletePopup.classList.add("showPopup");
     }
 
-    function closePopup(){
+    function closePopup(rowId){
+      var deletePopup = document.getElementById("deletePopup_" + rowId);
       deletePopup.classList.remove("showPopup")
     }
-    function closePopup2(){
-      deletePopup2.classList.remove("showPopup")
+    function closePopup2(rowId){
+      var deletePopup = document.getElementById("deletePopup2_" + rowId);
+      deletePopup.classList.remove("showPopup")
     }
-    function closePopup3(){
-      deletePopup3.classList.remove("showPopup")
+    function closePopup3(rowId){
+      var deletePopup = document.getElementById("deletePopup3_" + rowId);
+      deletePopup.classList.remove("showPopup")
     }
 
 
@@ -1337,7 +1343,7 @@
       }
 
       function DeleteSourceData_ORD(row_id) {
-      document.getElementById("deletePopup").style.display="none";
+      document.getElementById(`deletePopup_${row_id}`).style.display = "none";
 
         fetch(`api/task_constraint_rules_delete/${row_id}/`, {
           method: 'POST',
@@ -1385,83 +1391,6 @@
 
 
 
-  function getSourceData_mdt(rowId) {
-  $(document).ready(function () {
-    var apiUrl = `api/microsegment_default_tasks_get_data/${rowId}`;
-    $.ajax({
-      url: apiUrl,
-      type: 'GET',
-      dataType: 'json',
-      success: function (data) {
-        console.log(data);
-        // Display success message on the webpage
-        $('#successMessage').text('Data loaded successfully!');
-
-        // Update form fields with retrieved data
-        document.getElementById("pk_id_edit").value = data.id;
-        document.getElementById("channel_edit").value = data.Channel;
-        document.getElementById("subchannel_edit").value = data.Subchannel;
-        document.getElementById("demoseg_edit").value = data.DemoSeg;
-        document.getElementById("valueseg_edit").value = data.ValueSeg; // Assuming Trigger is a simple
-        document.getElementById("segment_id_edit").value = data.Segment_id; // Assuming Trigger is a 
-        document.getElementById("default_tasks_edit").value = data.Default_Tasks; // Assuming Trigger is a simple string field
-      },
-      error: function () {
-        // Handle error case, display an error message or take appropriate action
-        $('#errorMessage').text('Error loading data. Please try again.');
-      }
-    });
-  });
-}
-
-
-
-
-function DeleteSourceData_mdt(rowId) {
-  document.getElementById("deletePopup3").style.display="none";
-
-  fetch(`api/microsegment_default_tasks_delete/${rowId}/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then(response => {
-      if (!response.ok) {
-        if (response.status === 404) {
-          // Show errorDiv if object not found
-          document.getElementById('errorDiv').style.display = 'block';
-        } else {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-      } else {
-        // Show successDiv on successful deletion
-        window.alert = function(message){
-              const alert = document.createElement('div');
-              const alertButton = document.createElement('button');
-              alertButton.innerHTML="OK";
-              alert.classList.add('popup', 'showPopup');
-              alertButton.classList.add('btn', 'btn-primary');
-              alert.innerHTML= `<p>${message}</p>`;
-              alert.appendChild(alertButton);
-              alertButton.addEventListener('click', (e)=>{
-                alert.remove();
-              })
-              document.body.appendChild(alert);
-
-            }
-        alert(`Row ${rowId} deleted successfully`);
-        $('#myModal_delete_TLC').modal('show');
-        return response.json();
-      }
-    })
-    .catch(error => {
-      // Handle other errors
-      console.error('Error deleting data:', error);
-      // Show errorDiv on other errors
-      document.getElementById('errorDiv').style.display = 'block';
-    });
-}
 
 
 
@@ -1508,7 +1437,7 @@ function DeleteSourceData_mdt(rowId) {
 }
 
 function DeleteSourceData_AP(row_id) {
-  document.getElementById("deletePopup2").style.display="none";
+  document.getElementById(`deletePopup2_${row_id}`).style.display = "none";
 
 fetch(`api/allocation_parameters_delete/${row_id}/`, {
   method: 'POST',
@@ -1551,6 +1480,88 @@ fetch(`api/allocation_parameters_delete/${row_id}/`, {
     // Show errorDiv on other errors
     document.getElementById('errorDiv').style.display = 'block';
   });
+}
+
+
+
+
+
+  function getSourceData_mdt(rowId) {
+  $(document).ready(function () {
+    var apiUrl = `api/microsegment_default_tasks_get_data/${rowId}`;
+    $.ajax({
+      url: apiUrl,
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log(data);
+        // Display success message on the webpage
+        $('#successMessage').text('Data loaded successfully!');
+
+        // Update form fields with retrieved data
+        document.getElementById("pk_id_edit").value = data.id;
+        document.getElementById("channel_edit").value = data.Channel;
+        document.getElementById("subchannel_edit").value = data.Subchannel;
+        document.getElementById("demoseg_edit").value = data.DemoSeg;
+        document.getElementById("valueseg_edit").value = data.ValueSeg; // Assuming Trigger is a simple
+        document.getElementById("segment_id_edit").value = data.Segment_id; // Assuming Trigger is a 
+        document.getElementById("default_tasks_edit").value = data.Default_Tasks; // Assuming Trigger is a simple string field
+      },
+      error: function () {
+        // Handle error case, display an error message or take appropriate action
+        $('#errorMessage').text('Error loading data. Please try again.');
+      }
+    });
+  });
+}
+
+
+
+
+function DeleteSourceData_mdt(rowId) {
+  document.getElementById(`deletePopup3_${rowId}`).style.display = "none";
+
+  fetch(`api/microsegment_default_tasks_delete/${rowId}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 404) {
+          // Show errorDiv if object not found
+          document.getElementById('errorDiv').style.display = 'block';
+        } else {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      } else {
+        // Show successDiv on successful deletion
+        window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
+        alert(`Row ${rowId} deleted successfully`);
+        $('#myModal_delete_TLC').modal('show');
+        return response.json();
+      }
+    })
+    .catch(error => {
+      // Handle other errors
+      console.error('Error deleting data:', error);
+      // Show errorDiv on other errors
+      document.getElementById('errorDiv').style.display = 'block';
+    });
 }
 
 function uploadToS3(sheetName) {

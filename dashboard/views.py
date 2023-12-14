@@ -65,7 +65,7 @@ def Threshold_Logic_Config_view(request):
         
         data = request.POST
         form_id = data.get('form_identifier')
-        print('data',data)
+        # print('data',data)
         if form_id == 'Threshold_Logic_Form':
             print('Threshold_Logic_Form')
             try:
@@ -470,7 +470,7 @@ def TOAM_Module_View(request):
         print('Django post request')
         data = request.POST
         form_id = data.get('form_identifier')
-        print('data',data)
+        # print('data',data)
         if form_id == 'task_constraint_rules_Form':
             print('task_constraint_rules_Form') 
             try:  
@@ -660,7 +660,7 @@ def Product_Category_Config_view(request):
         print('Django post request')
         data = request.POST
         form_id = data.get('form_identifier')
-        print('data',data)    
+        # print('data',data)    
         if form_id == 'product_cat_conf_add_form':
             print('product_cat_conf_add_form')
             try:  
@@ -768,7 +768,7 @@ def validateedit(form_id,request):
         data_df = pd.DataFrame(parameters)
     if 'form_identifier' in data_df.columns:
         data_df = data_df.drop('form_identifier', axis=1)
-    print('data_df',data_df)
+    # print('data_df',data_df)
     
     if 'channel_ctm' in parameters:
         remove_substring = '_ctm'

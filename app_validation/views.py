@@ -33,10 +33,10 @@ def validate_thresold_config_df_api(request):
             # return JsonResponse({'is_valid': True, 'errors': ['errors']})
         data = request.GET
         parameters = dict(data.lists())
-        print('parameters',parameters)
+        # print('parameters',parameters)
         sheet_name = data.get('form_identifier')
         # sheet_name = config_sheets[sheet_name]
-        print('sheet_name',sheet_name)
+        # print('sheet_name',sheet_name)
         
         if 'csrfmiddlewaretoken' in parameters:
             csrf_token = parameters.pop('csrfmiddlewaretoken', None)
@@ -90,12 +90,12 @@ def threshold_logic_config_detail_view(request, pk):
     print('threshold_logic_config_detail_view pk',pk)
     try:
         instance = Threshold_Logic_Config.objects.get(pk=pk)
-        print("instance:",instance)
+        # print("instance:",instance)
     except Threshold_Logic_Config.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Threshold_Logic_ConfigSerializer(instance)
-    print(serializer.data)
+    # print(serializer.data)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -129,7 +129,7 @@ def Trigg_Thres_By_Business_view(request, pk):
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Trigg_Thres_By_Business_Serializer(instance)
-    print(serializer)
+    # print(serializer)
     return Response(serializer.data)
 
 
@@ -160,12 +160,12 @@ def channel_task_mapping_detail_view(request, pk):
     print('pk',pk)
     try:
         instance = Channel_Task_Mapping.objects.get(id=pk)
-        print('instance',instance)
+        # print('instance',instance)
     except Channel_Task_Mapping.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Channel_Task_MappingSerializer(instance)
-    print('serializer',serializer.data)
+    # print('serializer',serializer.data)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -195,12 +195,12 @@ def Default_Channel_Trigg_thres_view(request, pk):
     try:
         print("pk:",pk)
         instance = Default_Channel_Trigg_thres.objects.get(pk=pk)
-        print("instance:",instance)
+        # print("instance:",instance)
     except Default_Channel_Trigg_thres.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Default_Channel_Trigg_thres_Serializer(instance)
-    print(serializer)
+    # print(serializer)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -233,7 +233,7 @@ def trigger_on_query_detail_view(request, Trigger_id):
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
     
     serializer = Trigger_ON_QuerySerializer(instance)
-    print('serializer data',serializer.data)
+    # print('serializer data',serializer.data)
     return Response(serializer.data)
 
 
@@ -269,7 +269,7 @@ def task_trigger_mapping_detail_view(request, task_id):
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
     
     serializer = TaskTriggerMappingSerializer(instance)
-    print('serializer data',serializer.data)
+    # print('serializer data',serializer.data)
     return Response(serializer.data)
 
 
@@ -304,7 +304,7 @@ def task_closure_detail_view(request, pk):
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Task_Closure_ConfigSerializer(instance)
-    print(serializer)
+    # print(serializer)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -312,7 +312,7 @@ def task_closure_detail_view(request, pk):
 @require_POST
 def task_closure_delete_by_id(request, row_id):
     try:
-        print(row_id)
+        print('row_id',row_id)
         instance = Task_Closure_Config.objects.get(pk=row_id)
         instance.delete()
         dashboard.views.upload_to_s3('Task_Closure_Config')
@@ -344,7 +344,7 @@ def allocation_parameters_detail_view(request, pk):
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Allocation_Parameters_DataSerializer(instance)
-    print(serializer.data)
+    # print(serializer.data)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -388,7 +388,7 @@ def microsegment_default_tasks_detail_view(request, mdt_pk_id):
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
     
     serializer = Microsegment_Default_TasksSerializer(instance)
-    print('serializer data',serializer.data)
+    # print('serializer data',serializer.data)
     return Response(serializer.data)
 
 
@@ -420,12 +420,12 @@ def Product_Category_Config_view(request, pk):
     try:
         print("pk:",pk)
         instance = Product_Category_Config.objects.get(pk=pk)
-        print("instance:",instance)
+        # print("instance:",instance)
     except Product_Category_Config.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Product_Category_Config_Serializer(instance)
-    print(serializer)
+    # print(serializer)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -476,7 +476,7 @@ def task_constraint_rules_detail_view(request, pk):
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = Task_Constraint_Rules_DataSerializer(instance)
-    print(serializer)
+    # print(serializer)
     return Response(serializer.data)
 
 @csrf_exempt
@@ -810,7 +810,7 @@ def upload_to_s3(request, sheet_name):   # maybe not in use, delete it
         # sheet_name = request.POST.get('sheet_name')
         data_model = apps.get_model(app_label='app_validation', model_name=sheet_name)
         data_df = pd.DataFrame(list(data_model.objects.all().values()))
-        print("upload data_df:",data_df)
+        # print("upload data_df:",data_df)
         # is_valid, errors = mainValidate_function(sheet_name, data_df)
         # Save to a local CSV file
         local_file_path = f"upload_csv_files/{sheet_name}_local_data.csv"
@@ -827,7 +827,7 @@ def upload_to_s3(request, sheet_name):   # maybe not in use, delete it
 def csv_download(request):
     data = request.GET
     sheet_name = data.get('form_identifier')
-    print(sheet_name)
+    # print(sheet_name)
     if sheet_name == 'Product_Category_Form':
         queryset = Product_Category_Config.objects.all()
     if sheet_name == 'Threshold_Logic_Form':
@@ -858,5 +858,5 @@ def csv_download(request):
         # print(results.loc(row).tolist())
         writer.writerow(results.loc[row].tolist())
     # results.to_csv(path_or_buf=response)
-    print(response)
+    # print(response)
     return response

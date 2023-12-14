@@ -193,15 +193,15 @@
                 {% endfor %}
                 <td>
 
-                  <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TLC({{ row.0 }})" data-toggle="modal"
+                  <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TLC('{{ row.0 }}')" data-toggle="modal"
                     data-target="#modal_threshold_logic_config_edit" style="color: black;"></i>
-                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation()"
+                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation('{{ row.0 }}')"
                     data-toggle="modal" style="color: black;"></i>
 
-                    <div class="popup" id="deletePopup">
-                      <p>Do you want to delete?</p>
-                      <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
-                      <button class="btn btn-primary update" onclick="DeleteSourceData_TLC({{ row.0 }})">Yes, Delete</button>
+                    <div class="popup" id="deletePopup_{{ row.0 }}">
+                      <p>Do you want to delete row {{row.0}}?</p>
+                      <button class="btn btn-outline-danger cancel me-4" onclick="closePopup('{{ row.0 }}')">Cancel</button>
+                      <button class="btn btn-primary update" onclick="DeleteSourceData_TLC('{{ row.0 }}')">Yes, Delete</button>
                     </div>
                 </td>
               </tr>
@@ -459,15 +459,15 @@
                 </td>
                 {% endfor %}
                 <td>
-                  <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TTB({{ row.0 }})" data-toggle="modal"
+                  <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TTB('{{ row.0 }}')" data-toggle="modal"
                     data-target="#modal_trigger_threshold_business_tlf" style="color: black;"></i>
-                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation2()"
+                  <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation2('{{ row.0 }}')"
                     data-toggle="modal" data-target="#myModal_delete_TTB" style="color: black;"></i>
 
-                    <div class="popup" id="deletePopup2">
-                      <p>Do you want to delete?</p>
-                      <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2()">Cancel</button>
-                      <button class="btn btn-primary update" onclick="DeleteSourceData_TTB({{ row.0 }})">Yes, Delete</button>
+                    <div class="popup" id="deletePopup2_{{ row.0 }}">
+                      <p>Do you want to delete row {{ row.0 }}?</p>
+                      <button class="btn btn-outline-danger cancel me-4" onclick="closePopup2('{{ row.0 }}')">Cancel</button>
+                      <button class="btn btn-primary update" onclick="DeleteSourceData_TTB('{{ row.0 }}')">Yes, Delete</button>
                     </div>
                 </td>
               </tr>
@@ -774,24 +774,25 @@
       popup.classList.add("showPopup")
     }
 
-    function deleteConfirmation(){
-      deletePopup.classList.add("showPopup")
+    function deleteConfirmation(rowId){
+      var deletePopup = document.getElementById("deletePopup_" + rowId);
+      deletePopup.classList.add("showPopup");
     }
 
-    function deleteConfirmation2(){
-      deletePopup2.classList.add("showPopup")
+    function deleteConfirmation2(rowId){
+      var deletePopup = document.getElementById("deletePopup2_" + rowId);
+      deletePopup.classList.add("showPopup");
     }
 
     function closePopup(){
-      popup.classList.remove("showPopup")
-    }
-
-    function closePopup(){
+      var deletePopup = document.getElementById("deletePopup_" + rowId);
       deletePopup.classList.remove("showPopup")
     }
 
+
     function closePopup2(){
-      deletePopup2.classList.remove("showPopup")
+      var deletePopup = document.getElementById("deletePopup2_" + rowId);
+      deletePopup.classList.remove("showPopup")
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -1090,7 +1091,7 @@
     }
 
     function DeleteSourceData_TLC(row_id) {
-      document.getElementById("deletePopup").style.display="none";
+      document.getElementById(`deletePopup_${row_id}`).style.display = "none";
 
       fetch(`api/Threshold_Logic_Config_delete/${row_id}/`, {
         method: 'POST',
@@ -1138,7 +1139,8 @@
 
 
     function DeleteSourceData_TTB(row_id) {
-      document.getElementById("deletePopup2").style.display="none";
+      document.getElementById(`deletePopup2_${row_id}`).style.display = "none";
+      
 
       fetch(`api/Trigg_Thres_By_Business_delete/${row_id}/`, {
         method: 'POST',
