@@ -53,7 +53,6 @@
 
  .content {
      text-align: center;
-     margin-top: 85px;
  }
 
  .sidebar {
@@ -218,11 +217,12 @@
  .content {
      flex: 1;
      padding: 20px;
+     margin-top: 85px;
  }
 
  .button-with-image {
      /* padding: 10px; 
-    background: url("{% static 'Group 1599.png' %}") no-repeat center center; 
+    background: url('Group 1599.png') no-repeat center center; 
     background-size: contain; 
     border: none;
     background-size: 70px 26px;

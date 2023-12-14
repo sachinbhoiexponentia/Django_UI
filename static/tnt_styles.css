@@ -596,10 +596,9 @@
       color: #fff;
       padding: 10px 20px;
       border: none;
-      border-radius: 1px;
+      border-radius: 5px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 0px;
       width: 107px;
       height: 35px;
-
   }

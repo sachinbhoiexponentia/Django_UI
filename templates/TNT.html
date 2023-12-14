@@ -223,7 +223,7 @@
                         <input class="first1" name="task" id="task" type="text" placeholder="Task" />
                       </div>
                     </div>
-                    <button type="button" id="validateButton_channel_task_mapping" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    <button type="button" id="validateButton_channel_task_mapping" class="btn btn-info btn-lg" style="background-color: #736CEB; color: #fff;" data-toggle="modal"
                       {% comment %} data-target="#myModal5" {% endcomment %}
                       >Validate</button>
                   </form>
@@ -294,9 +294,9 @@
                         <input class="first1" name="task_ctm" id="task_ctm" type="text" placeholder="Task" />
                       </div>
                     </div>
-                    <button type="submit" id="" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    <button type="submit" id="" class="btn btn-info btn-lg " data-toggle="modal" style="background-color: #736CEB; color: #fff;"
                       {% comment %} data-target="#myModal5" {% endcomment %}
-                      >Save</button>
+                      >Submit </button>
                   </form>
                 </div>
               </div>
@@ -395,7 +395,7 @@
                         <input class="first1" name="trigger" id="trigger" type="text" placeholder="DemoSeg" />
                       </div>
                     </div>
-                    <button type="button" id="validateButton_task_trigger_mapping" class="btn btn-info btn-lg submit_validate" 
+                    <button type="button" id="validateButton_task_trigger_mapping" class="btn btn-info btn-lg" style="background-color: #736CEB; color: #fff;" 
                     {% comment %} data-toggle="modal" {% endcomment %}
                       {% comment %} data-target="#myModal6" {% endcomment %}
                       >Validate</button>
@@ -456,10 +456,10 @@
                         <input class="first1" name="trigger_ttm" id="trigger_ttm" type="text" placeholder="DemoSeg" />
                       </div>
                     </div>
-                    <button type="submit" id="validateButton_task_trigger_mapping" class="btn btn-info btn-lg submit_validate" 
+                    <button type="submit" id="validateButton_task_trigger_mapping" class="btn btn-info btn-lg " style="background-color: #736CEB; color: #fff;" 
                     {% comment %} data-toggle="modal" {% endcomment %}
                       {% comment %} data-target="#myModal6" {% endcomment %}
-                      >Save</button>
+                      >Submit</button>
                   </form>
                 </div>
               </div>
@@ -582,7 +582,7 @@
                         <input class="first1" name="query" id="query" type="text" placeholder="query" />
                       </div>
                     </div>
-                    <button type="button" id="validateButton_trigger_on_query_logic" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    <button type="button" id="validateButton_trigger_on_query_logic" class="btn btn-info btn-lg" data-toggle="modal" style="background-color: #736CEB; color: #fff;"
                       {% comment %} data-target="#myModal7" {% endcomment %}
                       >Validate</button>
                   </form>
@@ -674,7 +674,7 @@
                         <input class="first1" name="query_tql" id="query_tql" type="text" placeholder="query" />
                       </div>
                     </div>
-                    <button type="submit" id="validateButton_trigger_on_query_logic" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    <button type="submit" id="validateButton_trigger_on_query_logic" class="btn btn-info btn-lg" data-toggle="modal" style="background-color: #736CEB; color: #fff;"
                       {% comment %} data-target="#myModal7" {% endcomment %}
                       >Save</button>
                   </form>
@@ -923,6 +923,21 @@
               throw new Error(`HTTP error! Status: ${response.status}`);
             }
           } else {
+
+            window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
             // Show successDiv on successful deletion
             alert(`Row ${row_id} deleted successfully`);
             $('#myModal_delete_TLC').modal('show');
@@ -982,6 +997,21 @@ function DeleteSourceData_TTM(rowId) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
         } else {
+
+          window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
           // Show successDiv on successful deletion
           alert(`Row ${rowId} deleted successfully`);
           $('#myModal_delete_TLC').modal('show');
@@ -1047,6 +1077,20 @@ function DeleteSourceData_TTM(rowId) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
         } else {
+          window.alert = function(message){
+              const alert = document.createElement('div');
+              const alertButton = document.createElement('button');
+              alertButton.innerHTML="OK";
+              alert.classList.add('popup', 'showPopup');
+              alertButton.classList.add('btn', 'btn-primary');
+              alert.innerHTML= `<p>${message}</p>`;
+              alert.appendChild(alertButton);
+              alertButton.addEventListener('click', (e)=>{
+                alert.remove();
+              })
+              document.body.appendChild(alert);
+
+            }
           // Show successDiv on successful deletion
           alert(`Row ${rowId} deleted successfully`);
           $('#myModal_delete_TLC').modal('show');

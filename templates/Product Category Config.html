@@ -23,7 +23,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="{% static 'cl_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'pc_styles.css' %}">
 <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
 
 <style>
@@ -51,14 +51,25 @@
 .popup p{
   margin-bottom: 24px;
 }
-.btn{
-  padding: .5rem 1.2rem;
-}
+
 .update{
   background-color: #736CEB !important;
 }
 .update:hover{
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.custom-modal-body {
+    padding-left: 35px;
+    /* Adjust the left padding as needed */
+    padding-right: 35px;
+    /* Adjust the right padding as needed */
+}
+
+
+.hand-cursor {
+    cursor: pointer;
 }
 </style>
 
@@ -150,15 +161,15 @@
                          
                         {% endfor %}
                         <td>
-                          <i class="fas fa-edit" id="editButton3" onclick="getSourceData_PCC({{row.0}})" data-toggle="modal"
+                          <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_PCC({{row.0}})" data-toggle="modal"
                       data-target="#modal_task_closure_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt" id="deleteButton5" onclick="deleteConfirmation()"
+                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation({{ row.0 }})"
                       data-toggle="modal" style="color: black;"></i>
 
-                      <div class="popup" id="deletePopup">
-                        <p>Do you want to delete?</p>
-                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
-                        <button class="btn btn-primary update" onclick="DeleteSourceData_PCC({{ row.0 }})">Yes, Delete</button>
+                      <div class="popup" style="display: block;" id="deletePopup_{{row.0}}">
+                        <p>Do you want to delete row {{ row.0 }}?</p>
+                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup({{ row.0 }})">Cancel</button>
+                        <button class="btn btn-primary update" onclick="DeleteSourceData_PCC({{ row.0 }})">Yes, Delete </button>
                       </div>
 
                         </td>
@@ -191,7 +202,7 @@
                                     </div>
                                 {% endif %}
                             {% endfor %}
-                            <button type="button" id="validateButton_closure" class="btn btn-info btn-lg submit_validate" data-toggle="modal">
+                            <button type="button" id="validateButton_closure" class="btn btn-info btn-lg submit_validate" style="background-color: #736CEB; color: #fff;" data-toggle="modal">
                                 Validate
                             </button>
                         </form>
@@ -215,7 +226,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_button__closure" style="background-color:#736CEB; color: white;">Submit</button>
+                <button type="button" id="submit_button__closure" style="background-color:#736CEB; color: white;" class="btn btn-info btn-lg" >Submit</button>
               </div>
             </div>
           </div>
@@ -232,7 +243,7 @@
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
 
                 </div>
-                <div class="modal-body">
+                <div class="modal-body custom-modal-body">
                     
                     <form id="product_cat_conf_edit_form" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -250,10 +261,10 @@
                         {%endif%}
                         {% endfor %}
                         
-                        
-                    <button type="submit" id="validateButton_threshold_logic_config"
-                      class="btn btn-info btn-lg submit_validate" data-toggle="modal"
-                      data-form-id="modal_task_closure_form">Submit</button>
+                    <div class="text-center">    
+                    <button type="submit" id="validateButton_threshold_logic_config" class="btn btn-info" data-toggle="modal" data-form-id="modal_task_closure_form" style="background-color: #736CEB; color: #fff;">Submit</button>
+                    </div>
+                  
                   </form>
                 </div>
               </div>
@@ -313,11 +324,15 @@
 
     let deletePopup = document.getElementById("deletePopup");
 
-    function deleteConfirmation(){
-      deletePopup.classList.add("showPopup")
+    function deleteConfirmation(rowId){
+      //deletePopup.classList.add("showPopup")
+    var deletePopup = document.getElementById("deletePopup_" + rowId);
+    deletePopup.classList.add("showPopup");
+      //alert(rowId)
     }
 
-    function closePopup(){
+    function closePopup(rowId){
+      var deletePopup = document.getElementById("deletePopup_" + rowId);
       deletePopup.classList.remove("showPopup")
     }
 
@@ -402,7 +417,7 @@ $(document).ready(function () {
 }
 
 function DeleteSourceData_PCC(row_id) {
-  document.getElementById("deletePopup").style.display="none";
+  document.getElementById(`deletePopup_${row_id}`).style.display = "none";
 
 fetch(`api/pcc_delete/${row_id}/`, {
   method: 'POST',

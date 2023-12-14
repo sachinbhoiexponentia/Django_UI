@@ -255,10 +255,11 @@ def validate_thresold_config_df(thresold_config_df = None):
         
         for i in range(len(thresold_config_df)):
             
-            trigger_id =thresold_config_df["trigger_id"][i]
+            trigger_id =str(thresold_config_df["trigger_id"][i])
             # Check if trigger id is valid 
             print('valid_trigger_ids',valid_trigger_ids)
-            if not is_valid_value(trigger_id) or int(trigger_id) not in valid_trigger_ids:
+            print('trigger_id',trigger_id)
+            if not is_valid_value(trigger_id) not in valid_trigger_ids:
                 validation_flag = False
                 errors.append(f"Error in Threshold_Logic_Config for trigger {trigger_id}: trigger id is not valid or empty!!")
             
@@ -317,7 +318,7 @@ def validate_Trigg_thres_bussness(Trigg_Thres_by_Business = None):
         trigger_id = Trigg_Thres_by_Business['trigger_id'][i]
         
         # check if trigger id is valid or exists in trigger config file 
-        if not is_valid_value(trigger_id) or not int(trigger_id) in valid_trigger_ids: 
+        if not is_valid_value(trigger_id) or not trigger_id in valid_trigger_ids: 
             validation_flag = False
             errors.append(f"Error in Trigg_Thres_by_Business for trigger {trigger_id}: trigger id is not valid or empty!!")
         
@@ -626,12 +627,13 @@ def validate_Channel_Task_Mapping(Channel_Task_Mapping = None):
             # checking if channel is valid or not
             print("master_config_json['allowed_channel']",master_config_json['allowed_channel'])
             
-            if not Channel_Task_Mapping['channel'][i] in master_config_json['allowed_channel']:
+            print('Channel',Channel_Task_Mapping['channel'][i])
+            if not str(Channel_Task_Mapping['channel'][i].strip()) in master_config_json['allowed_channel']:
                 validation_flag = False
                 errors.append(f"Error in Channel, Channel not is not allowed values.")
             if not Channel_Task_Mapping['subchannel'][i] in master_config_json['allowed_sub_channel']:
                 validation_flag = False
-                errors.append(f"Error in Channel, Channel not is not allowed values.")
+                errors.append(f"Error in SubChannel, SubChannel not is not allowed values.")
             # if not Channel_Task_Mapping['channel'][i] in master_config_json['allowed_channel']:
             #     validation_flag = False
             #     errors.append(f"Error in config Channel_Task_Mapping: Value {Channel_Task_Mapping['Channel'][i]} for column Channel is  is not allowed.")

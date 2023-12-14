@@ -159,12 +159,12 @@
                         <td>
                           <i class="fas fa-edit hand-cursor" id="editButton3" onclick="getSourceData_TC({{row.0}})" data-toggle="modal"
                       data-target="#modal_task_closure_form_edit" style="color: black;"></i>
-                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation()"
+                    <i class="fas fa-trash-alt hand-cursor" id="deleteButton5" onclick="deleteConfirmation({{ row.0 }})"
                       data-toggle="modal" style="color: black;"></i>
                       
-                      <div class="popup" id="deletePopup">
-                        <p>Do you want to delete?</p>
-                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup()">Cancel</button>
+                      <div class="popup" id="deletePopup_{{row.0}}">
+                        <p>Do you want to delete row {{ row.0 }}?</p>
+                        <button class="btn btn-outline-danger cancel me-4" onclick="closePopup({{ row.0 }})">Cancel</button>
                         <button class="btn btn-primary update" onclick="DeleteSourceData_TC({{ row.0 }})">Yes, Delete</button>
                       </div>
                         </td>
@@ -212,7 +212,7 @@
                         <input class="first1" name="closure_sql_query" id="closure_sql_query" type="text" placeholder="Closure True Query" />
                       </div>
                     </div>
-                    <button type="button" id="validateButton_closure" class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                    <button type="button" id="validateButton_closure" class="btn btn-info btn-lg" data-toggle="modal" style="background-color: #736CEB; color: #fff;"
                       {% comment %} data-target="#myModal5" {% endcomment %}
                       >Validate</button>
                   </form>
@@ -237,7 +237,7 @@
               </div>
               <div class="modal-body">
                 <p style="color: black;">Do you want to add new channel?</p>
-                <button type="button" id="submit_button__closure" style="background-color:#736CEB; color: white;">Submit1</button>
+                <button type="button" id="submit_button__closure" style="background-color:#736CEB; color: white;">Submit</button>
               </div>
             </div>
           </div>
@@ -290,7 +290,7 @@
                       </div>
                     </div>
                     <button type="submit" id="validateButton_threshold_logic_config"
-                      class="btn btn-info btn-lg submit_validate" data-toggle="modal"
+                      class="btn btn-info btn-lg" data-toggle="modal" style="background-color: #736CEB; color: #fff;"
                       data-form-id="modal_task_closure_form">Submit</button>
                   </form>
                 </div>
@@ -351,11 +351,14 @@
 
     let deletePopup = document.getElementById("deletePopup");
 
-    function deleteConfirmation(){
-      deletePopup.classList.add("showPopup")
+    function deleteConfirmation(rowId){
+    //deletePopup.classList.add("showPopup")
+    var deletePopup = document.getElementById("deletePopup_" + rowId);
+    deletePopup.classList.add("showPopup");
     }
 
-    function closePopup(){
+    function closePopup(rowId){
+      var deletePopup = document.getElementById("deletePopup_" + rowId);
       deletePopup.classList.remove("showPopup")
     }
 
@@ -493,7 +496,7 @@ $(document).ready(function () {
 }
 
 function DeleteSourceData_TC(row_id) {
-  document.getElementById("deletePopup").style.display="none";
+  document.getElementById(`deletePopup_${row_id}`).style.display = "none";
 
 fetch(`api/task_closure_delete/${row_id}/`, {
   method: 'POST',
