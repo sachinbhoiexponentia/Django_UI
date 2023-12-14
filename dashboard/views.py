@@ -210,7 +210,7 @@ def closure_Config_view(request):
                 task_closure_config = Task_Closure_Config(
                 Task_id = request.POST.get('task_id') , 
                 Task_Desc = request.POST.get('task_desc') , 
-                Closure_True_Query = request.POST.get('closure_true_query')
+                Closure_True_Query = request.POST.get('closure_true_query'),
                 Closure_SQL_Query = request.POST.get('closure_sql_query')
                 ) 
                 task_closure_config.save()
