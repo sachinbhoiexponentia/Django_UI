@@ -19,7 +19,7 @@ import csv
 import dashboard 
 
 # parameters {'csrfmiddlewaretoken': ['02cZJmkYFysNRmS77fTJ20TPQXof0wShpP6VAlU35vxY3WruxjGNtYLiWw9YvfPW', '02cZJmkYFysNRmS77fTJ20TPQXof0wShpP6VAlU35vxY3WruxjGNtYLiWw9YvfPW'], 'form_identifier': ['Trigger_Threhold_by_Business_Form'], 'channel': [''], 'subchannel': [''], 'channel_subchannel_id': [''], 'demoseg': [''], 'valueseg': [''], 'demoseg_valueseg_id': [''], 'trigger_id': [''], 'trigg_description': [''], 'segment_threshold_1': [''], 'flavg_threshold': ['']}
-#done
+
 @csrf_exempt
 @login_required 
 def validate_thresold_config_df_api(request):
@@ -511,8 +511,13 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #             FLS_Threshold_Requirement_Flag=row['FLS_Threshold_Requirement_Flag'],
 #         )
 #         threshold_logic_config.save()
-# df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.a Threshold Logic Config',skiprows=1)
+# df = pd.read_excel('Config Template 281123.xlsx', sheet_name='1.a Threshold Logic Config',skiprows=1)
 # insert_config_data(df)
+
+
+# Threshold_Logic_Config.objects.all().delete()
+
+
 
 # ##################CRED Operations#######################
 # # Create
@@ -542,7 +547,7 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #         trigg_Thres_By_Business = Trigg_Thres_By_Business(
 #             Channel=row['Channel'],
 #             Subchannel=row['Subchannel'],
-#             Channel_Subchannel_ID=row['Channel_Sunchannel_ID'],
+#             Channel_Subchannel_ID=row['Channel_Subchannel_ID'],
 #             DemoSeg=row['DemoSeg'],
 #             ValueSeg=row['ValueSeg'],
 #             DemoSeg_ValueSeg_ID=row['DemoSeg_ValueSeg_ID'],
@@ -552,8 +557,10 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #             FLSAvg_Threshold=row['FLSAvg_Threshold']
 #         )
 #         trigg_Thres_By_Business.save()
-# df = pd.read_excel('Config Template 081123.xlsx', sheet_name='1.b Trigg_Thres_by_Business',skiprows=1)
+# df = pd.read_excel('Config Template 281123.xlsx', sheet_name='1.b Trigg_Thres_by_Business',skiprows=1)
 # insert_config_data_1(df)
+
+# Trigg_Thres_By_Business.objects.all().delete()
 
 
 # #################insert the config data into the model###################
@@ -561,20 +568,20 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #     for index, row in df.iterrows():
 #         channel_task_mapping = Channel_Task_Mapping(
 #             Channel=row['Channel'],
-#             Channel_Subchannel_ID=row['Channel_Subchannel_ID'],
-#             channel_subchannel_Name=row['channel_subchannel_Name'],
-#             DemoSeg_ValueSeg_ID=row['DemoSeg_ValueSeg_ID'],
-#             DemoSeg_ValueSeg_Name=row['DemoSeg_ValueSeg_Name'],
+#             Subchannel=row['SubChannel'],
+#             DemoSeg=row['DemoSeg'],
+#             ValueSeg=row['ValueSeg'],
 #             Task=row['Task']
 #         )
 #         channel_task_mapping.save()
-# df_channel_task_mapping = pd.read_excel('Config Template 081123.xlsx', sheet_name='3.a Channel_Task_Mapping')
+# df_channel_task_mapping = pd.read_excel('Config Template 281123.xlsx', sheet_name='3.a Channel_Task_Mapping')
 # print(df_channel_task_mapping)
 # insert_channel_task_mapping_data(df_channel_task_mapping)
 
-
+# Channel_Task_Mapping.objects.all().delete()
 
 # def insert_task_trigger_mapping_data(df):
+    
 #     for index, row in df.iterrows():
 #         task_trigger_mapping = Task_Trigger_Mapping(
 #             Task_id=row['Task_id'],
@@ -583,26 +590,30 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #             Trigger=row['Trigger']
 #         )
 #         task_trigger_mapping.save()
-# df_task_trigger_mapping = pd.read_excel('Config Template 081123.xlsx', sheet_name='3.b Task_Trigger_Mapping', skiprows=1)
+#         print("data inserted successfully")
+# df_task_trigger_mapping = pd.read_excel('Config Template 281123.xlsx', sheet_name='3.b Task_Trigger_Mapping', skiprows=1)
 # insert_task_trigger_mapping_data(df_task_trigger_mapping)
 
+# Task_Trigger_Mapping.objects.all().delete()
 
 # def insert_trigger_on_query_logic_data(df):
+#     print(df.columns)
 #     for index, row in df.iterrows():
+        
 #         trigger_on_query_logic = Trigger_ON_Query(
 #             Trigger_id=row['Trigger_id'],
 #             Trigger_Description_Discussed=row['Trigger_Description_Discussed'],
 #             Assignment_level=row['Assignment_level'],
 #             Iteration_Level=row['Iteration_Level'],
 #             Trigger_ON_Query_Logic=row['Trigger_ON_Query_Logic'],
-#             query=row['query']
+#             query= ''
 #         )
 #         trigger_on_query_logic.save()
 
-# df_trigger_on_query_logic = pd.read_excel('Config Template 081123.xlsx', sheet_name='3.c Trigger_ON_Query', skiprows=1)
+# df_trigger_on_query_logic = pd.read_excel('Config Template 281123.xlsx', sheet_name='3.c Trigger_ON_Query')
 # insert_trigger_on_query_logic_data(df_trigger_on_query_logic)
 
-
+# Trigger_ON_Query.objects.all().delete()
 
 
 # def insert_optimization_rules_data(df):
@@ -617,9 +628,11 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #             Task_Priority=row['Task Priority']
 #         )
 #         optimization_rule.save()
-# df_optimization_rules = pd.read_excel('Config Template 081123.xlsx', sheet_name='4.a Task Constraint Rules', skiprows=3)
+# df_optimization_rules = pd.read_excel('Config Template 281123.xlsx', sheet_name='4.a Task Constraint Rules', skiprows=1)
 # insert_optimization_rules_data(df_optimization_rules)
 
+# Task_Constraint_Rules.objects.all().delete()
+    
 
 # def insert_allocation_parameters_data(df):
 #     for index, row in df.iterrows():
@@ -639,8 +652,10 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #         allocation_parameter.save()
 
 
-# df_allocation_parameters = pd.read_excel('Config Template 081123.xlsx', sheet_name='4.b Allocation Parameters', skiprows=1)
+# df_allocation_parameters = pd.read_excel('Config Template 281123.xlsx', sheet_name='4.b Allocation Parameters', skiprows=1)
 # insert_allocation_parameters_data(df_allocation_parameters)
+    
+# Allocation_Parameters.objects.all().delete()
 
 # def insert_microseg_default_tasks_data(df):
 #     for index, row in df.iterrows():
@@ -649,14 +664,37 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #             Subchannel=row['Subchannel'],
 #             DemoSeg=row['DemoSeg'],
 #             ValueSeg=row['ValueSeg'],
-#             Segment_id=row['Segment_id'],
-#             Default_Tasks=row['Default_Tasks']
+#             Segment_id='',
+#             Default_Tasks=row['Default Tasks']
 #         )
 #         microsegment_Default_Tasks.save()
 
 
-# df_allocation_parameters = pd.read_excel('Config Template 081123.xlsx', sheet_name='4.c Microsegment Default Tasks', skiprows=1)
+# df_allocation_parameters = pd.read_excel('Config Template 281123.xlsx', sheet_name='4.c Microsegment Default Tasks')
 # insert_microseg_default_tasks_data(df_allocation_parameters)
+
+# Microsegment_Default_Tasks.objects.all().delete()
+    
+
+
+def insert_product_category_data(df):
+    for index, row in df.iterrows():
+        product_Category_Config = Product_Category_Config(
+            ProductCategoryName=row['Product Category Name'],
+            FilterQueryOnPolicyTable=row['Filter Query on Policy Table'],
+            TrainingTopics=row['Training Topics'],
+            SellingTaskNo=row['Selling Task no'],
+            TrainingTaskNo=row['Training Task no']
+        )
+        product_Category_Config.save()
+
+
+df_product_Category = pd.read_excel('Config Template 281123.xlsx', sheet_name='ETL - Product Category Config')
+insert_product_category_data(df_product_Category)
+
+# Product_Category_Config.objects.all().delete()
+    
+
 
 
 # def insert_fls_avg_threshold_output_data(df):
@@ -687,7 +725,7 @@ def task_constraint_rules_delete_by_id(request, row_id):
 #         )
 #         task_closure_config.save()
 
-# df_task_closure_config = pd.read_excel('Config Template 081123.xlsx', sheet_name='2.a Task Closure Config', skiprows=1)
+# df_task_closure_config = pd.read_excel('Config Template 281123.xlsx', sheet_name='2.a Task Closure Config', skiprows=1)
 # print(df_task_closure_config)
 # insert_task_closure_config_data(df_task_closure_config)
 

@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Threshold_Logic_Config(models.Model):
-    trigger_id = models.IntegerField(primary_key=True)
+    trigger_id = models.TextField(primary_key=True)
     trigg_desc = models.TextField()
     thres_description = models.TextField()
     thres_query_logic = models.TextField()
@@ -71,7 +71,7 @@ class Task_Trigger_Mapping(models.Model):
     Task_id = models.CharField(primary_key=True,max_length=50)
     Task_Desc = models.CharField(max_length=255)
     Task_Stage = models.CharField(max_length=50)
-    Trigger = models.JSONField()
+    Trigger = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return f"{self.Task_id} - {self.Task_Desc} - {self.Task_Stage}"
@@ -79,7 +79,7 @@ class Task_Trigger_Mapping(models.Model):
 
 
 class Trigger_ON_Query(models.Model):
-    Trigger_id = models.IntegerField(primary_key=True)
+    Trigger_id = models.CharField(primary_key=True, max_length=255)
     Trigger_Description_Discussed = models.TextField()
     Assignment_level = models.CharField(max_length=50)
     Iteration_Level = models.CharField(max_length=50)
@@ -108,8 +108,8 @@ class Allocation_Parameters(models.Model):
     Task_id = models.CharField(primary_key=True,max_length=50)
     Channel = models.CharField(max_length=100)
     Subchannel = models.CharField(max_length=100)
-    DemoSeg = models.FloatField(null=True, blank=True)
-    ValueSeg = models.FloatField(null=True, blank=True)
+    DemoSeg = models.CharField(null=True, blank=True, max_length=255)
+    ValueSeg = models.CharField(null=True, blank=True, max_length=255)
     Segment_id = models.FloatField(null=True, blank=True)
     Due_Days = models.FloatField(null=True, blank=True)
     Buffer_Days = models.FloatField(null=True, blank=True)
@@ -124,9 +124,9 @@ class Allocation_Parameters(models.Model):
 class Microsegment_Default_Tasks(models.Model):
     Channel = models.CharField(max_length=100)
     Subchannel = models.CharField(max_length=100)
-    DemoSeg =models.FloatField(null=True, blank=True)
-    ValueSeg = models.FloatField(null=True, blank=True)
-    Segment_id = models.FloatField(null=True, blank=True)
+    DemoSeg =models.CharField(null=True, blank=True, max_length=250)
+    ValueSeg = models.CharField(null=True, blank=True, max_length=250)
+    Segment_id = models.CharField(null=True, blank=True,max_length=250)
     Default_Tasks = models.TextField()
     
     def __str__(self):
