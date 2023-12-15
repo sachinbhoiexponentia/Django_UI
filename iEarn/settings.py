@@ -147,3 +147,7 @@ SESSION_COOKIE_NAME = 'iEarnsessionid'
 # Setup support for proxy headers
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+
+CSRF_TRUSTED_ORIGINS = ['iearn-dev-admin-console.adcat-hdfclife.com'] 
