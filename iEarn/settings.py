@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e(keit62x3x1a=*wsmk5)_9a7i&ek3)f73u42d=zq7yt%_7xiv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','iearn-dev-admin-console.adcat-hdfclife.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -148,6 +148,3 @@ SESSION_COOKIE_NAME = 'iEarnsessionid'
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-
-
-CSRF_TRUSTED_ORIGINS = ['iearn-dev-admin-console.adcat-hdfclife.com'] 

@@ -10,6 +10,8 @@ from io import StringIO
 from io import BytesIO
 
 
+local_s3 = 's3'
+
 
 def Threshold_form_success(requests):
     return render(requests, 'threshold_success_page.html')
@@ -731,28 +733,61 @@ def upload_to_s3(modal_name):
     
     
 def upload_to_s3(modal_name):
-    try:
-        print("upload to s3")
-        s3_path = destination_object_key + f"{modal_name}.csv"
-        print("S3 Path:", s3_path)
-        data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
-        data_df = pd.DataFrame(list(data_model.objects.all().values()))
-        if 'id' in data_df.columns:
-            data_df.drop('id',axis=1)
-        print("upload data_df:",data_df)
-        csv_buffer = BytesIO()
-        data_df.to_csv(csv_buffer, index=False, encoding='utf-8')
-        csv_buffer.seek(0)  # Reset the position to the beginning
-        s3 = boto3.client('s3')
+    # try:
+    print("upload to s3")
+    print('modal_name',modal_name)
+    s3_path = destination_object_key + f"{modal_name}.csv"
+    print("S3 Path:", s3_path)
+    data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
+    data_df = pd.DataFrame(list(data_model.objects.all().values()))
+    print('data_df.columns',data_df.columns)
+    if modal_name == 'Product_Category_Config':
+        data_df = data_df.rename(columns={'ProductCategoryName': 'Product Category Name','FilterQueryOnPolicyTable': 'Filter Query on Policy Table','TrainingTopics': 'Training Topics','SellingTaskNo': 'Selling Task No','TrainingTaskNo': 'Training Task No'})
+        data_df = data_df[['Product Category Name','Filter Query on Policy Table','Training Topics','Selling Task no', 'Training Task no']]
+    
+    if modal_name == 'Threshold_Logic_Config':
+        data_df = data_df.rename(columns={
+            'trigger_id': 'Trigger_id',
+            'trigg_desc': 'Trigg_Desc',
+            'thres_description': 'Thres_Description',
+            'thres_query_logic': 'Thres_Query_Logic',
+            'operation': 'Operation',
+            'analysis_period': 'Analysis_Period',
+            'num_thresholds_required': 'Num_thresholds_required',
+            'segment_threshold_requirement_flag': 'Segment_Threshold_Requirement_Flag',
+            'FLS_Threshold_Requirement_Flag': 'FLS_Threshold_Requirement_Flag'
+        })
+        data_df = data_df[['Trigger_id', 'Trigg_Desc', 'Thres_Description', 'Thres_Query_Logic', 'Operation', 'Analysis_Period', 'Num_thresholds_required', 'Segment_Threshold_Requirement_Flag', 'FLS_Threshold_Requirement_Flag']]
+        
+    if modal_name == 'Trigg_Thres_By_Business':
+        data_df = data_df.rename(columns={
+                        'id': 'ID',
+                        'Segment_Threshold': 'Segment_Threshold_1',
+                        'FLSAvg_Threshold': 'FLSAvg_Threshold_2'
+                            })
+        selected_columns = ['Channel', 'Subchannel', 'Channel_Subchannel_ID', 'DemoSeg', 'ValueSeg', 'DemoSeg_ValueSeg_ID', 'Trigger_id', 'Trigg_Desc', 'Segment_Threshold_1', 'FLSAvg_Threshold_2']
+        data_df = data_df[selected_columns]
+        
+        
+    print("upload data_df:",data_df)
+    csv_buffer = BytesIO()
+    data_df.to_csv(csv_buffer, index=False, encoding='utf-8')
+    csv_buffer.seek(0)  # Reset the position to the beginning
+    s3 = boto3.client('s3')
+
+    if local_s3 == 'local':
+        #locally paths
+        local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
+        data_df.to_csv(local_file_path,index=False)
+    else:
+        #s3 paths
         s3.upload_fileobj(csv_buffer, s3_bucket_name, s3_path)
         print(f"Pandas DataFrame saved as CSV in S3: '{destination_object_key}' in bucket '{s3_path}'")
-        # local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
-
-        # data_df.to_csv(local_file_path, index=False)
-        return True
-    except Exception as e:
-        print(str(e))
-        return False
+        
+    return True
+    # except Exception as e:
+    #     print(str(e))
+    #     return False
     
 
 

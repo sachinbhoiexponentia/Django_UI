@@ -1,15 +1,26 @@
-trigger_id,trigg_desc,thres_description,thres_query_logic,operation,analysis_period,num_thresholds_required,segment_threshold_requirement_flag,FLS_Threshold_Requirement_Flag
-12,sa,demo,ndsjncjds,Average,180,2,1.0,1.0
-13,If 13 M persistency for the FLS is lower than x%,X - Set by business team(Channel persistency target),nan,Manual,nan,1,1.0,
+Trigger_id,Trigg_Desc,Thres_Description,Thres_Query_Logic,Operation,Analysis_Period,Num_thresholds_required,Segment_Threshold_Requirement_Flag,FLS_Threshold_Requirement_Flag
+2,"If X days have elapsed after lead generation, and yet first meeting has not been setup (applicable for all leads with status ""New"" without a future meeting date)",X- (Average # days for segment between lead generation and setup of first meeting)+ 1,"SELECT fls_id, DATEDIFF(first_meeting_scheduled_date, lead_generation_date) + 1 AS TATFROM lead_tableWHERE LOWER(lead_status) = 'new'  AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})  AND (meeting_setup_date IS NULL OR meeting_setup_date = 'null')",Average,180.0,1,1.0,0.0
+4,If average time between lead generation and first meeting has been greater than X for the last Y leads for the FLS,"X- (Average # days for segment/fls between lead generation and conduct of first meeting)+ 1
+","select fls_id, datediff(latest_meeting_scheduled_date,lead_generation_date)+1 AS TAT from lead_table
+WHERE updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,2,1.0,1.0
+8,If x days have elapsed since application login and application is still pending for verification ,X- Segment average TAT for last N days  from login till conversion ,"SELECT lead_table.fls_id,
+datediff(policy_table.policy_issuance_date,lead_table.application_login_date) as TAT
+FROM lead_table
+LEFT JOIN policy_table AS policy_table ON lead_table.fls_id = policy_table.fls_id
+WHERE lead_table.updated_dttm >= DATE_SUB(CURRENT_DATE(), {});",Average,180.0,1,1.0,
+10,If rider conversion rate for past N months has been less than x% (x being benchmark of the segment) in last N Months of policies sold ,"X% - Segment average rider conversion rate for past N months
+","SELECT
+  fls_id,
+  (SUM(CASE WHEN COALESCE(num_riders, 0) > 0 THEN 1 ELSE 0 END) / COUNT(num_riders))*100 AS TAT
+FROM
+  policy_table
+GROUP BY
+  fls_id;",Average,180.0,2,1.0,1.0
+11,If renewal for customer XX tagged to the FLS is due in x days,X - Set by business team,nan,Manual,180.0,1,1.0,
+12,Present payment is to be made through ECS mode(If present payment mode != D),0,nan,nan,nan,0,,
+13,If 13 M persistency for the FLS is lower than x%,X - Set by business team(Channel persistency target),nan,Manual,180.0,1,1.0,
 14,If SI ECS not tagged (If present payment mode != D)),0,nan,nan,nan,0,,
-16,If FYFP of focus products policies sold by FLS is less than x% of total FYFP  for last N days,X%=(Desired C2P/ Health product mix for channel (basis FYFP))*1.5 /// (Sum of Fyfp of focus product(nonparsanchay) within channel)/(sum of fyfp of all policies sold within the channel)*1.5,nan,Sum,180.0,1,1.0,
-17,If the customer has a birthday today,0,nan,nan,nan,0,,
-19,If FLS has not sold any of the focused products in the last N month,X - Set by business team,nan,Manual,nan,1,1.0,
-22,-------------If number of self generated leads in the last month is less than x ,X - 1.2 * Segment average of # self generated leads,"select fls_id, 1 AS TAT from lead_table WHERE updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Count,180.0,2,1.0,1.0
-23,If the FLS doesn't have more than 1 open application ,0,nan,nan,nan,0,,
-26,If there is a look-in cancellation request against the customer id XX  and diff of current date and lookin cancellation request date is not greater than 6 months,0,nan,nan,nan,0,,
-34,"If there is a lead A with ""Follow Up"" status against FLS ",0,nan,nan,nan,0,,
-35,If the FLS is more than N months old in system,X= Average EPI of the segment for N months data,nan,Average,180.0,1,,
+35,If the FLS is more than N months old in system,X= Average EPI of the segment for N months data,nan,manual,180.0,1,,
 36,If there has been no application logged in by FLS in past X days,X->Average time taken((lead_generation - issuance_date)  to sell 1 policy in the segment in last N days,"SELECT lead_table.fls_id,
 datediff(policy_table.policy_issuance_date,lead_table.lead_generation_date) as TAT
 FROM lead_table
@@ -17,26 +28,13 @@ LEFT JOIN policy_table AS policy_table ON lead_table.fls_id = policy_table.fls_i
 WHERE lead_table.updated_dttm >= DATE_SUB(CURRENT_DATE(), {});",Average,180.0,1,1.0,
 37,If there is an open medical FR ,0,nan,nan,nan,0,,
 38,If x days have elapsed since medical FR was raised,X- Segment average TAT for medical FR closure (From FR raise till document submission by FLS),"select fls_id, datediff(fr_close_date,fr_generation_date) AS TAT from fr_table WHERE lower(fr_med_nonmed) = 'med' AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,1,1.0,
-39,If Last N Day's avg TAT for medical FR Closing is greater than segment benchmark X,X- Segment average TAT for medical FR closure (From FR raise till document submission by FLS),"select fls_id, datediff(fr_close_date,fr_generation_date) AS TAT from fr_table WHERE lower(fr_med_nonmed) = 'med' AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,250,2,1.0,1.0
+39,If Last N Day's avg TAT for medical FR Closing is greater than segment benchmark X,X- Segment average TAT for medical FR closure (From FR raise till document submission by FLS),"select fls_id, datediff(fr_close_date,fr_generation_date) AS TAT from fr_table WHERE lower(fr_med_nonmed) = 'med' AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,2,1.0,1.0
 40,If there is an open non medical FR ,0,nan,nan,nan,0,,
-41,If x days have elapsed since non medical FR was raised,X- Segment average TAT for non medical FR closure (From FR raise till document submission by FLS),"select fls_id, datediff(fr_close_date,fr_generation_date) AS TAT from fr_table WHERE lower(fr_med_nonmed) <> 'med' AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,1,1.0,
-42, If Last N month's avg TAT for nonmedical FR Closing is greater than segment benchmark X,X- Segment average TAT for non medical FR closure (From FR raise till document submission by FLS),nan,Average,180.0,2,1.0,1.0
+41,If x days have elapsed since non medical FR was raised,X- Segment average TAT for non medical FR closure (From FR raise till document submission by FLS),"select fls_id, datediff(fr_close_date,fr_generation_date) AS TAT from fr_table WHERE lower(fr_med_nonmed) = 'nonmed' AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,1,1.0,
+42, If Last N month's avg TAT for nonmedical FR Closing is greater than segment benchmark X,X- Segment average TAT for non medical FR closure (From FR raise till document submission by FLS),"select fls_id, datediff(fr_close_date,fr_generation_date) AS TAT from fr_table WHERE lower(fr_med_nonmed) = 'nonmed' AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,2,1.0,1.0
 43,If there is an open single non medical FR ,0,nan,nan,nan,0,,
-44,If x days have elapsed since non medical FR was raised,X- Segment average TAT for single non medical FR closure (From FR raise till document submission by FLS),nan,Average,180.0,1,1.0,
-45, If Last N month's avg TAT for nonmedical FR Closing is greater than segment benchmark X,X- Segment average TAT for single non medical FR closure (From FR raise till document submission by FLS),nan,Average,180.0,2,1.0,1.0
+44,If x days have elapsed since non medical FR was raised,X- Segment average TAT for single non medical FR closure (From FR raise till document submission by FLS),"select fls_id, datediff(fr_close_date,fr_generation_date) AS TAT from fr_table WHERE lower(fr_med_nonmed) = 'nonmed' AND fr_single_multiple=""single"" AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,1,1.0,
+45, If Last N month's avg TAT for nonmedical FR Closing is greater than segment benchmark X,X- Segment average TAT for single non medical FR closure (From FR raise till document submission by FLS),"select fls_id, datediff(fr_close_date,fr_generation_date) AS TAT from fr_table WHERE lower(fr_med_nonmed) = 'nonmed' AND fr_single_multiple=""single"" AND updated_dttm >= DATE_SUB(CURRENT_DATE(), {})",Average,180.0,2,1.0,1.0
 47,If there has been no rider sold in past X days,X - Set by business team,nan,Manual,nan,1,1.0,
 48,If there are no focus Product policy sold till date in the last 30 days for FLS,0,nan,nan,nan,0,,
 49,If 13 M renewal for customer XX tagged to the FLS is not received within X days after due date ,X - Set by business team,nan,Manual,180.0,1,1.0,
-54,If FLS has joined in the system  from last X days & not completed corresponding mlearn training in last X days ,X - Set by business team,nan,Manual,nan,1,1.0,
-55,If FLS has not completed SI/ECS mandate task for a given policy in last X days,X - Set by business team,nan,Manual,nan,1,1.0,
-58,If there has been >1 application logged in by FLS in past XX days,X - Set by business team,nan,Manual,nan,1,1.0,
-101,Policy Status should not be blank (STATCODE should be IF),0,nan,nan,nan,0,,
-102,Repetitive Task =='No' ( No teams have contacted and aversion status has been updated from external actvities),0,nan,nan,nan,0,,
-120,demo,demo,demo,Average,180,2,,
-1001,demo,demo,demo,ds,12,12,,
-1002,,,,,,12,,
-1004,,,,,,4,,
-1006,,,,,,323,,
-1022,demo,demo,demo,Average,180,2,,
-10477,demo,demo,demo,Average,180,2,,
-21312,sa,demo,ndsjncjds,Average,180,2,,
