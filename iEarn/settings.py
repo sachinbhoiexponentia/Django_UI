@@ -143,3 +143,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
 # customized cookie name
 SESSION_COOKIE_NAME = 'iEarnsessionid'
+
+# Setup support for proxy headers
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
