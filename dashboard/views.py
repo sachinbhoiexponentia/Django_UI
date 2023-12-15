@@ -737,6 +737,8 @@ def upload_to_s3(modal_name):
         print("S3 Path:", s3_path)
         data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
         data_df = pd.DataFrame(list(data_model.objects.all().values()))
+        if 'id' in data_df.columns:
+            data_df.drop('id',axis=1)
         print("upload data_df:",data_df)
         csv_buffer = BytesIO()
         data_df.to_csv(csv_buffer, index=False, encoding='utf-8')
