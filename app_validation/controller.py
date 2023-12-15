@@ -318,6 +318,8 @@ def validate_Trigg_thres_bussness(Trigg_Thres_by_Business = None):
         trigger_id = Trigg_Thres_by_Business['trigger_id'][i]
         
         # check if trigger id is valid or exists in trigger config file 
+        print('valid_trigger_ids',valid_trigger_ids)
+        print('trigger_id',trigger_id)
         if not is_valid_value(trigger_id) or not trigger_id in valid_trigger_ids: 
             validation_flag = False
             errors.append(f"Error in Trigg_Thres_by_Business for trigger {trigger_id}: trigger id is not valid or empty!!")
