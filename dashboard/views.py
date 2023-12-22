@@ -742,7 +742,8 @@ def upload_to_s3(modal_name):
     data_df = pd.DataFrame(list(data_model.objects.all().values()))
     print('data_df.columns',data_df.columns)
     if modal_name == 'Product_Category_Config':
-        data_df = data_df.rename(columns={'ProductCategoryName': 'Product Category Name','FilterQueryOnPolicyTable': 'Filter Query on Policy Table','TrainingTopics': 'Training Topics','SellingTaskNo': 'Selling Task No','TrainingTaskNo': 'Training Task No'})
+        print("data_df",data_df)
+        data_df = data_df.rename(columns={'ProductCategoryName': 'Product Category Name','FilterQueryOnPolicyTable': 'Filter Query on Policy Table','TrainingTopics': 'Training Topics','SellingTaskNo': 'Selling Task no','TrainingTaskNo': 'Training Task no'})
         data_df = data_df[['Product Category Name','Filter Query on Policy Table','Training Topics','Selling Task no', 'Training Task no']]
     
     if modal_name == 'Threshold_Logic_Config':

@@ -420,7 +420,7 @@ def Product_Category_Config_view(request, pk):
     try:
         print("pk:",pk)
         instance = Product_Category_Config.objects.get(pk=pk)
-        # print("instance:",instance)
+        print("instance:",instance)
     except Product_Category_Config.DoesNotExist:
         return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
 
