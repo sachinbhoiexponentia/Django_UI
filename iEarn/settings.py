@@ -131,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Login and Logout
 
 LOGIN_URL = 'login'  # Customize this URL
-LOGOUT_URL = 'logout_new'  # Customize this URLs
+LOGOUT_URL = 'logout'  # Customize this URLs
 LOGOUT_REDIRECT_URL = '/login'
 # static
 STATICFILES_DIRS = [
@@ -147,4 +147,11 @@ SESSION_COOKIE_NAME = 'iEarnsessionid'
 # Setup support for proxy headers
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",  # during development
+    "http://172.26.195.144/",  # your UAT environment
+    "http://iearn-dev-admin-console.adcat-hdfclife.com/",  # your deployment environment
+]
 
