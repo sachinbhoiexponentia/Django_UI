@@ -82,7 +82,10 @@
       
       {% comment %} <button class="button-images_admin" style=" margin-right: 5px; padding-right: 20px;"><img src="{% static 'Group 8.png' %}"></button> {% endcomment %}
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+      <form method="post" action="{% url 'logout' %}" >
+      {% csrf_token %}
+      <button type="submit" style="background-color: #7c7cec; color: white;">Logout</button>
+      </form>
     
     </div>
   </header>
