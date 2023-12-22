@@ -151,7 +151,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",  # during development
-    "http://172.26.195.144/",  # your UAT environment
-    "http://iearn-dev-admin-console.adcat-hdfclife.com/",  # your deployment environment
+    "http://172.26.195.144",  # your UAT environment
+    "http://iearn-dev-admin-console.adcat-hdfclife.com",  # your deployment environment
 ]
 
