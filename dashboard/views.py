@@ -10,7 +10,7 @@ from io import StringIO
 from io import BytesIO
 
 
-local_s3 = 's3'
+local_s3 = 'local'
 
 
 def Threshold_form_success(requests):

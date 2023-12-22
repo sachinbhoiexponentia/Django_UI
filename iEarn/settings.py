@@ -131,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Login and Logout
 
 LOGIN_URL = 'login'  # Customize this URL
-LOGOUT_URL = 'logout'  # Customize this URLs
+LOGOUT_URL = 'logout_new'  # Customize this URLs
 LOGOUT_REDIRECT_URL = '/login'
 # static
 STATICFILES_DIRS = [
