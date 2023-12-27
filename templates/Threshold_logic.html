@@ -134,8 +134,8 @@
         <button class="tablinks" onclick="openCity(event, 'Trigger_Threhold_by_Business_visible')">Trigg Thres by
           Business</button>
         {% comment %} <button class="tablinks" onclick="openCity(event, 'Trigger_Threhold_by_Business_visible')">Threshold Output</button> {% endcomment %}
-        <!-- <button class="tablinks" onclick="openCity(event, 'Segment_thres1_output_visible')">Segment thres1
-          output</button> -->
+        <button class="tablinks" onclick="openCity(event, 'Segment_Threshold_Output_visible')">Segment Threshold
+          Output</button> 
         {% comment %} <button class="tablinks" onclick="openCity(event, 'Default_Channel_Trigg_thres_visible')">Default Channel Trigg
           thres</button> {% endcomment %}
 
@@ -713,6 +713,66 @@
             </div>
           </div>
         </div>
+
+
+
+
+{% comment %} Threshold Output {% endcomment %}
+
+
+
+    <div id="Segment_Threshold_Output_visible" class="tabcontent">
+        <div class="button1-container">
+          <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
+            data-target="#modal_threshold_logic_config"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add
+            New</button>
+          <!-- <button class="button-with-image1" onclick="downloadCSV('Threshold_Logic_Config')"><span><img src="{% static 'Download.png' %}" class="me-1">
+              Download</button> -->
+              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class=""><a href="/download/Threshold_Logic_Config" style="color: white; text-decoration: none;">Download</a></button>
+          {% comment %} <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
+        </div>
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <!-- {% for header in Threshold_Logic_Config_headers %}
+                <th>{{ header }}</th>
+                {% endfor %} -->
+                <th>FLS Segment</th>
+                <th>Channel</th>
+                <th>Subchannel</th>
+                <th>Channel_Subchannel_ID</th>
+                <th>DemoSeg</th>
+                <th>ValueSeg</th>
+                <th>DemoSeg_ValueSeg_ID</th>
+                <th>Trigger_id</th>
+                <th>Threshold1</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in segment_threshold_df %}
+              <tr>
+                {% for value in row %}
+                <td>
+                  {{value}}
+                </td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
       </div>

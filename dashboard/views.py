@@ -8,9 +8,16 @@ from django.apps import apps
 import boto3
 from io import StringIO
 from io import BytesIO
+from datetime import datetime
+import pyarrow.parquet as pq
+import s3fs
+
+today = datetime.today()
+
+month_year = today.strftime("%m_%Y")
 
 
-local_s3 = 'local'
+local_dev_uat = 'local'
 
 
 def Threshold_form_success(requests):
@@ -22,15 +29,45 @@ def TNT_form_success(requests):
 def TOAM_form_success(requests):
     return render(requests, 'toam_success_page.html')
 
-s3_bucket_name = 'iearnv2-dev-data'
-destination_object_key = f'iEarn/input_folder/config/'
 
 
+destination_object_key = f'iEarn/input_folder/config/'    
+
+if local_dev_uat == 'local':
+    segment_threshold_path = f'D:\\sachin_data\\HDFC_iEarn_2023\\Code_Development\\Django_UI\\iEarn_output\\Threshold_1_{month_year}'
+if local_dev_uat == 'uat':
+    s3_bucket_name = 'iearnv2-uat-data'
+    s3_path = f'iEarn/iearn_output/threshold/Threshold_1/Threshold_1_{month_year}/'
+if local_dev_uat == 'dev':
+    s3_bucket_name = 'iearnv2-dev-data'
+    s3_path = f'iEarn/iearn_output/threshold/Threshold_1/Threshold_1_{month_year}/'
 
 
+def read_parquet_from_s3(s3_bucket_name, s3_path):
+    try:
+        # Create an S3 filesystem object
+        s3 = s3fs.S3FileSystem(anon=False)
 
+        # Specify the full S3 path to the Parquet file
+        parquet_file_path = f"s3://{s3_bucket_name}/{s3_path}"
+
+        # Read the Parquet file into a Pandas DataFrame
+        data_df = pd.read_parquet(parquet_file_path, engine='pyarrow')
+
+        return data_df
+    except Exception as e:
+        print(str(e))
+        return None
+    
+    
+    
+    
 @login_required
 def Threshold_Logic_Config_view(request):
+    if local_dev_uat == 'local':
+        segment_threshold_df = pd.read_parquet(segment_threshold_path).values.tolist()
+    if local_dev_uat == 'uat':
+        segment_threshold_df = read_parquet_from_s3(s3_bucket_name, s3_path)
     
     # Threshold_Logic_Config
     queryset = Threshold_Logic_Config.objects.all()
@@ -60,7 +97,8 @@ def Threshold_Logic_Config_view(request):
                'Trigg_Thres_By_Business_headers':Trigg_Thres_By_Business_headers,
                'Threshold_Logic_Config_headers': Threshold_Logic_Config_headers,
                'Threshold_Logic_Config_data': Threshold_Logic_Config_data,
-               'Trigg_Thres_By_Business_data':Trigg_Thres_By_Business_data}
+               'Trigg_Thres_By_Business_data':Trigg_Thres_By_Business_data,
+               'segment_threshold_df':segment_threshold_df}
 
     if request.method == 'POST':
         print('Django post request')
@@ -717,18 +755,18 @@ def Product_Category_Config_view(request):
 
 
 
-def upload_to_s3(modal_name):
-    # try:
-    print("upload to s3")
-    data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
-    data_df = pd.DataFrame(list(data_model.objects.all().values()))
-    print("upload data_df:",data_df)
-    local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
-    # local_file_path = f"s3://{destination_bucket}/{destination_prefix}/{modal_name}_local_data.csv"
-    data_df.to_csv(local_file_path, index=False)
-    return True
-    # except Exception as e:
-    #     return False
+# def upload_to_s3(modal_name):
+#     # try:
+#     print("upload to s3")
+#     data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
+#     data_df = pd.DataFrame(list(data_model.objects.all().values()))
+#     print("upload data_df:",data_df)
+#     local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
+#     # local_file_path = f"s3://{destination_bucket}/{destination_prefix}/{modal_name}_local_data.csv"
+#     data_df.to_csv(local_file_path, index=False)
+#     return True
+#     # except Exception as e:
+#     #     return False
     
     
     
@@ -736,8 +774,6 @@ def upload_to_s3(modal_name):
     # try:
     print("upload to s3")
     print('modal_name',modal_name)
-    s3_path = destination_object_key + f"{modal_name}.csv"
-    print("S3 Path:", s3_path)
     data_model = apps.get_model(app_label='app_validation', model_name=modal_name)
     data_df = pd.DataFrame(list(data_model.objects.all().values()))
     print('data_df.columns',data_df.columns)
@@ -776,12 +812,17 @@ def upload_to_s3(modal_name):
     csv_buffer.seek(0)  # Reset the position to the beginning
     s3 = boto3.client('s3')
 
-    if local_s3 == 'local':
+    if local_dev_uat == 'local':
+        print(local_dev_uat)
         #locally paths
+        print('Local Update')
         local_file_path = f"upload_csv_files/{modal_name}_local_data.csv"
         data_df.to_csv(local_file_path,index=False)
     else:
         #s3 paths
+        print('s3 update')
+        s3_path = destination_object_key + f"{modal_name}.csv"
+        print("S3 Path:", s3_path)
         s3.upload_fileobj(csv_buffer, s3_bucket_name, s3_path)
         print(f"Pandas DataFrame saved as CSV in S3: '{destination_object_key}' in bucket '{s3_path}'")
         
