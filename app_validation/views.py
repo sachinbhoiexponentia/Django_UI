@@ -21,6 +21,31 @@ import dashboard
 # parameters {'csrfmiddlewaretoken': ['02cZJmkYFysNRmS77fTJ20TPQXof0wShpP6VAlU35vxY3WruxjGNtYLiWw9YvfPW', '02cZJmkYFysNRmS77fTJ20TPQXof0wShpP6VAlU35vxY3WruxjGNtYLiWw9YvfPW'], 'form_identifier': ['Trigger_Threhold_by_Business_Form'], 'channel': [''], 'subchannel': [''], 'channel_subchannel_id': [''], 'demoseg': [''], 'valueseg': [''], 'demoseg_valueseg_id': [''], 'trigger_id': [''], 'trigg_description': [''], 'segment_threshold_1': [''], 'flavg_threshold': ['']}
 
 
+def process_product_dict(data):
+    criteria_list = data['FilterQueryOnPolicyTable[criteria][]']
+    comparison_list = data['FilterQueryOnPolicyTable[comparison][]']
+    value_list = data['FilterQueryOnPolicyTable[value][]']
+    and_or_list = data['FilterQueryOnPolicyTable[and_or][]']
+    
+    filtered_query_string = ''
+    for criteria, comparison, value, and_or in zip(criteria_list, comparison_list, value_list, and_or_list):
+        filtered_query_string += f"{criteria} {comparison} '{value}'"
+        if and_or:
+            filtered_query_string += f" {and_or} "
+    
+    # Remove old keys
+    for key in list(data.keys()):
+        if 'FilterQueryOnPolicyTable' in key:
+            del data[key]
+    
+    # Add the new key
+    data['FilterQueryOnPolicyTable'] = filtered_query_string
+    return data
+
+
+          
+
+
 @csrf_exempt
 @login_required 
 def validate_thresold_config_df_api(request):
@@ -30,48 +55,32 @@ def validate_thresold_config_df_api(request):
         is_valid = False
         errors = []
         print('GET Method')
-        # try:
+        try:
             # return JsonResponse({'is_valid': True, 'errors': ['errors']})
-        data = request.GET
-        parameters = dict(data.lists())
-        # print('parameters',parameters)
-        sheet_name = data.get('form_identifier')
-        # sheet_name = config_sheets[sheet_name]
-        # print('sheet_name',sheet_name)
-        
-        if 'csrfmiddlewaretoken' in parameters:
-            csrf_token = parameters.pop('csrfmiddlewaretoken', None)
-        data_df = pd.DataFrame(parameters)
-        if 'form_identifier' in data_df.columns:
-            data_df = data_df.drop('form_identifier', axis=1)
+            data = request.GET
+            parameters = dict(data.lists())
+            sheet_name = data.get('form_identifier')
+            if sheet_name == 'product_cat_conf_add_form': 
+                print('product_cat_conf_add_form')   
+                parameters = process_product_dict(parameters)
+                print('parameters',parameters) 
+
+            if 'csrfmiddlewaretoken' in parameters:
+                csrf_token = parameters.pop('csrfmiddlewaretoken', None) 
+                
+            data_df = pd.DataFrame(parameters)
             
-        # if sheet_name == 'Threshold_Logic_Form':
-        #     is_valid,errors = validate_thresold_config_df(data_df)
-        # if sheet_name == 'Trigger_Threhold_by_Business_Form':
-        #     is_valid,errors = validate_Trigg_thres_bussness(data_df)
-        # if sheet_name == 'closure_form':
-        #     is_valid,errors = validate_Task_Closure_Config(data_df)
-        # if sheet_name == 'channel_task_mapping_Form':
-        #     is_valid,errors = validate_Channel_Task_Mapping(data_df)
-        # if sheet_name == 'task_trigger_mapping_Form':
-        #     is_valid,errors = Validate_Task_Trigger_Mapping(data_df)
-        # if sheet_name == 'trigger_on_query_logic_Form':
-        #     is_valid,errors = validate_Trigger_ON_Query(data_df)
-        # if sheet_name == 'optimization_rules_Form':
-        #     is_valid,errors = validate_task_constraint_rules(data_df) 
-        # if sheet_name == 'allocation_parameters_Form':
-        #     is_valid,errors = validate_allocation_parameters(data_df) 
-        # if sheet_name == 'microsegment_default_tasks_Form':
-        #     is_valid,errors = validate_microseg_default_tasks(data_df) 
-        # try:
-        is_valid,errors = mainValidate_function(sheet_name,data_df)
-        print('is_valid,errors',is_valid,errors)
-        # except:
-            # is_valid = False
-            # errors = ['Validation module failes']
-        return JsonResponse({'is_valid': is_valid, 'errors': errors})
-        # except Exception as e:
-        #     return JsonResponse({'error': str(e)}, status=500)
+            if 'form_identifier' in data_df.columns:
+                data_df = data_df.drop('form_identifier', axis=1)
+            
+            print('data_df')
+            print(data_df)
+            is_valid,errors = mainValidate_function(sheet_name,data_df)
+            print('is_valid,errors',is_valid,errors)
+
+            return JsonResponse({'is_valid': is_valid, 'errors': errors})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 

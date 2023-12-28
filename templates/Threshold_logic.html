@@ -728,7 +728,17 @@
             New</button>
           <!-- <button class="button-with-image1" onclick="downloadCSV('Threshold_Logic_Config')"><span><img src="{% static 'Download.png' %}" class="me-1">
               Download</button> -->
-              <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class=""><a href="/download/Threshold_Logic_Config" style="color: white; text-decoration: none;">Download</a></button>
+              {% comment %} <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class=""><a href="/download/Threshold_Logic_Config" style="color: white; text-decoration: none;">Download</a></button> {% endcomment %}
+              
+
+<button class="button-with-image1">
+    <span>
+        <img src="{% static 'Download.png' %}" class="" alt="Download">
+        <a href="{% url 'download_csv' %}?s3_path=iEarn/iearn_output/threshold/Threshold_1/Threshold_1_12_2023/" style="color: white; text-decoration: none; width: 120%; ">Threshold1</a>
+    </span>
+</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
           {% comment %} <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}
         </div>
         <div class="table-container">

@@ -10,6 +10,7 @@ from io import StringIO
 from io import BytesIO
 from datetime import datetime
 import pyarrow.parquet as pq
+from django.http import HttpResponse
 import s3fs
 
 today = datetime.today()
@@ -17,7 +18,7 @@ today = datetime.today()
 month_year = today.strftime("%m_%Y")
 
 
-local_dev_uat = 'local'
+local_dev_uat = 'uat'
 
 
 def Threshold_form_success(requests):
@@ -41,6 +42,30 @@ if local_dev_uat == 'uat':
 if local_dev_uat == 'dev':
     s3_bucket_name = 'iearnv2-dev-data'
     s3_path = f'iEarn/iearn_output/threshold/Threshold_1/Threshold_1_{month_year}/'
+    
+    
+    
+    
+def process_product_dict(data):
+    criteria_list = data['FilterQueryOnPolicyTable[criteria][]']
+    comparison_list = data['FilterQueryOnPolicyTable[comparison][]']
+    value_list = data['FilterQueryOnPolicyTable[value][]']
+    and_or_list = data['FilterQueryOnPolicyTable[and_or][]']
+    
+    filtered_query_string = ''
+    for criteria, comparison, value, and_or in zip(criteria_list, comparison_list, value_list, and_or_list):
+        filtered_query_string += f"{criteria} {comparison} '{value}'"
+        if and_or:
+            filtered_query_string += f" {and_or} "
+    
+    # Remove old keys
+    for key in list(data.keys()):
+        if 'FilterQueryOnPolicyTable' in key:
+            del data[key]
+    
+    # Add the new key
+    data['FilterQueryOnPolicyTable'] = filtered_query_string
+    return data
 
 
 def read_parquet_from_s3(s3_bucket_name, s3_path):
@@ -58,6 +83,27 @@ def read_parquet_from_s3(s3_bucket_name, s3_path):
     except Exception as e:
         print(str(e))
         return None
+    
+    
+    
+def download_csv(request):
+    s3_path = request.GET.get('s3_path', '')
+    print('s3_path',s3_path)
+    # Read Parquet file from S3
+    s3 = boto3.client('s3')
+    obj = s3.get_object(Bucket=s3_bucket_name, Key=s3_path)
+    parquet_stream = obj['Body'].read()
+    parquet_table = pq.read_table(BytesIO(parquet_stream))
+
+    # Convert Parquet to CSV
+    csv_stream = BytesIO()
+    parquet_table.to_pandas().to_csv(csv_stream, index=False)
+    csv_stream.seek(0)
+
+    # Serve CSV as a download
+    response = HttpResponse(csv_stream.read(), content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename={s3_path.replace("/", "_")}.csv'
+    return response
     
     
     
@@ -700,15 +746,17 @@ def Product_Category_Config_view(request):
         print('Django post request')
         data = request.POST
         form_id = data.get('form_identifier')
-        # print('data',data)    
+        print('data',data)  
+        data = dict(data.lists())
+        data = process_product_dict(data)  
         if form_id == 'product_cat_conf_add_form':
             print('product_cat_conf_add_form')
             try:  
-                product_category_config = Product_Category_Config(ProductCategoryName=request.POST.get('ProductCategoryName'),
-                        FilterQueryOnPolicyTable=request.POST.get('FilterQueryOnPolicyTable'),
-                        TrainingTopics=request.POST.get('TrainingTopics'),
-                        SellingTaskNo=request.POST.get('SellingTaskNo'),
-                        TrainingTaskNo=request.POST.get('TrainingTaskNo')) 
+                product_category_config = Product_Category_Config(ProductCategoryName=data['ProductCategoryName'][0],
+                        FilterQueryOnPolicyTable=data['FilterQueryOnPolicyTable'],
+                        TrainingTopics=data['TrainingTopics'][0],
+                        SellingTaskNo=data['SellingTaskNo'][0],
+                        TrainingTaskNo=data['TrainingTaskNo'][0]) 
                 product_category_config.save()
                 upload_to_s3('Product_Category_Config')
                 messages.success(request, 'Form saved successfully')

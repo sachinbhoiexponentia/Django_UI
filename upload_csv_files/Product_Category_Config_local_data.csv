@@ -1,3 +1,6 @@
 Product Category Name,Filter Query on Policy Table,Training Topics,Selling Task no,Training Task no
 non_par_c2p,"p_np_ul=""Non Par"" AND intermediate_category = ""non_par_c2p""",HDFC Life Sanchay Plus Quiz,13c,15c
 ul_others,"p_np_ul=""UL"" AND BILLFREQ ! =""00"" AND PREMIUM_PAYING_TERM <=10",Crest Quiz,13j,15j
+Rohan1234,Rohan1234,Rohan1234,Rohan1234,Rohan1234
+['Rohan1'],p_np_ul > 'xyz' AND BILLFREQ < 'xyz',['Rohan'],['Rohan'],['Rohan']
+Rohan1,p_np_ul > 'xyz' AND BILLFREQ >= 'xyz',Rohan,Rohan,Rohan

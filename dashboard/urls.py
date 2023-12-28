@@ -12,6 +12,7 @@ urlpatterns = [
     path('Closure_form_success/', views.Closure_form_success, name='Closure_form_success'),
     path('TNT_form_success/', views.TNT_form_success, name='TNT_form_success'),
     path('TOAM_form_success/', views.TOAM_form_success, name='TOAM_form_success'),
-    
+
+    path('download_csv/', views.download_csv, name='download_csv'),    
 
 ]
