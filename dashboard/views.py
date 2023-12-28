@@ -114,6 +114,7 @@ def Threshold_Logic_Config_view(request):
         segment_threshold_df = pd.read_parquet(segment_threshold_path).values.tolist()
     if local_dev_uat == 'uat':
         segment_threshold_df = read_parquet_from_s3(s3_bucket_name, s3_path)
+        segment_threshold_df = segment_threshold_df.values.tolist()
     
     # Threshold_Logic_Config
     queryset = Threshold_Logic_Config.objects.all()
