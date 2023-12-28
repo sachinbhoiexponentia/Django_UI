@@ -155,3 +155,5 @@ CORS_ALLOWED_ORIGINS = [
     "http://iearn-dev-admin-console.adcat-hdfclife.com",  # your deployment environment
 ]
 
+
+local_dev_uat = 'uat'

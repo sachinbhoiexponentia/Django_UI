@@ -723,20 +723,21 @@
 
     <div id="Segment_Threshold_Output_visible" class="tabcontent">
         <div class="button1-container">
-          <button class="button-with-image blueBorder ms-auto" id="formButton1" data-toggle="modal"
-            data-target="#modal_threshold_logic_config"><span><img src="{% static 'add.png' %}" class="me-1"></span>Add
-            New</button>
+
           <!-- <button class="button-with-image1" onclick="downloadCSV('Threshold_Logic_Config')"><span><img src="{% static 'Download.png' %}" class="me-1">
               Download</button> -->
               {% comment %} <button class="button-with-image1"><span><img src="{% static 'Download.png' %}" class=""><a href="/download/Threshold_Logic_Config" style="color: white; text-decoration: none;">Download</a></button> {% endcomment %}
-              
+            <button class="button-with-image1 blueBorder ms-auto">
+              <span>
+                  <a href="{% url 'download_segment_threshold' %}" style="color: white; text-decoration: none; width: 120px; ">Threshold 1</a>
+              </span>
+          </button>
 
-<button class="button-with-image1">
-    <span>
-        <img src="{% static 'Download.png' %}" class="" alt="Download">
-        <a href="{% url 'download_csv' %}?s3_path=iEarn/iearn_output/threshold/Threshold_1/Threshold_1_12_2023/" style="color: white; text-decoration: none; width: 120%; ">Threshold1</a>
-    </span>
-</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button class="button-with-image1">
+              <span>  
+                  <a href="{% url 'download_fls_threshold' %}" style="color: white; text-decoration: none;">Threshold 2</a>
+              </span>
+          </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
           {% comment %} <button class="button-with-image2" onclick="uploadToS3('Threshold_Logic_Config')"><span><img src="{% static 'Upload.png' %}" class="me-1">Upload</button> {% endcomment %}

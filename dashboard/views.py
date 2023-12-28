@@ -12,6 +12,9 @@ from datetime import datetime
 import pyarrow.parquet as pq
 from django.http import HttpResponse
 import s3fs
+from django.http import StreamingHttpResponse
+from wsgiref.util import FileWrapper
+
 
 today = datetime.today()
 
@@ -36,15 +39,22 @@ destination_object_key = f'iEarn/input_folder/config/'
 
 if local_dev_uat == 'local':
     segment_threshold_path = f'D:\\sachin_data\\HDFC_iEarn_2023\\Code_Development\\Django_UI\\iEarn_output\\Threshold_1_{month_year}'
+    fls_threshold_path = f'D:\\sachin_data\\HDFC_iEarn_2023\\Code_Development\\Django_UI\\iEarn_output\\Threshold_2_{month_year}'
 if local_dev_uat == 'uat':
     s3_bucket_name = 'iearnv2-uat-data'
-    s3_path = f'iEarn/iearn_output/threshold/Threshold_1/Threshold_1_{month_year}/'
+    segment_threshold_path = f'iEarn/iearn_output/threshold/Threshold_1/Threshold_1_{month_year}/'
+    fls_threshold_path = f'iEarn/iearn_output/threshold/Threshold_2/Threshold_2_{month_year}/'
 if local_dev_uat == 'dev':
     s3_bucket_name = 'iearnv2-dev-data'
-    s3_path = f'iEarn/iearn_output/threshold/Threshold_1/Threshold_1_{month_year}/'
+    segment_threshold_path = f'iEarn/iearn_output/threshold/Threshold_1/Threshold_1_{month_year}/'
+    fls_threshold_path = f'iEarn/iearn_output/threshold/Threshold_2/Threshold_2_{month_year}/'
     
     
-    
+def download_segment_threshold(request):
+    return download_csv(request,segment_threshold_path,"Threshold_1")    
+
+def download_fls_threshold(request):
+    return download_csv(request,fls_threshold_path,"Threshold_2")    
     
 def process_product_dict(data):
     criteria_list = data['FilterQueryOnPolicyTable[criteria][]']
@@ -86,24 +96,31 @@ def read_parquet_from_s3(s3_bucket_name, s3_path):
     
     
     
-def download_csv(request):
-    s3_path = request.GET.get('s3_path', '')
-    print('s3_path',s3_path)
-    # Read Parquet file from S3
-    s3 = boto3.client('s3')
-    obj = s3.get_object(Bucket=s3_bucket_name, Key=s3_path)
-    parquet_stream = obj['Body'].read()
-    parquet_table = pq.read_table(BytesIO(parquet_stream))
+def download_csv(request,path,file_name):
+    csv_stream = BytesIO()  
 
-    # Convert Parquet to CSV
-    csv_stream = BytesIO()
-    parquet_table.to_pandas().to_csv(csv_stream, index=False)
-    csv_stream.seek(0)
+    if local_dev_uat == 'local':
+        threshold_df = pd.read_parquet(path, engine='pyarrow')
+        threshold_df.to_csv(csv_stream, index=False)
+    else:
+        # Read Parquet file from S3
+        s3 = boto3.client('s3')
+        obj = s3.get_object(Bucket=s3_bucket_name, Key=path)
+        parquet_stream = obj['Body'].read()
+        parquet_table = pq.read_table(BytesIO(parquet_stream))
 
-    # Serve CSV as a download
-    response = HttpResponse(csv_stream.read(), content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename={s3_path.replace("/", "_")}.csv'
+        # Convert Parquet to CSV
+        parquet_table.to_pandas().to_csv(csv_stream, index=False)
+
+    csv_stream.seek(0) #set the pointer to start
+
+    # Serve CSV as a download using StreamingHttpResponse and FileWrapper
+    response = StreamingHttpResponse(FileWrapper(csv_stream), content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename={file_name}.csv'
     return response
+
+
+    
     
     
     

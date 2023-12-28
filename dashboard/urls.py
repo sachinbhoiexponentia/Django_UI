@@ -13,6 +13,7 @@ urlpatterns = [
     path('TNT_form_success/', views.TNT_form_success, name='TNT_form_success'),
     path('TOAM_form_success/', views.TOAM_form_success, name='TOAM_form_success'),
 
-    path('download_csv/', views.download_csv, name='download_csv'),    
+    path('download_segment_threshold/', views.download_segment_threshold, name='download_segment_threshold'),    
+    path('download_fls_threshold/', views.download_fls_threshold, name='download_fls_threshold'),    
 
 ]
