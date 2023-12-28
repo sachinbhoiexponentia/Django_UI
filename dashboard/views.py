@@ -104,9 +104,7 @@ def download_csv(request,path,file_name):
         threshold_df.to_csv(csv_stream, index=False)
     else:
         # Read Parquet file from S3
-        s3 = boto3.client('s3')
-        obj = s3.get_object(Bucket=s3_bucket_name, Key=path)
-        parquet_stream = obj['Body'].read()
+        parquet_stream = read_parquet_from_s3(s3_bucket_name, segment_threshold_path)
         parquet_table = pq.read_table(BytesIO(parquet_stream))
 
         # Convert Parquet to CSV
