@@ -103,12 +103,8 @@ def download_csv(request,path,file_name):
         threshold_df = pd.read_parquet(path, engine='pyarrow')
         threshold_df.to_csv(csv_stream, index=False)
     else:
-        # Read Parquet file from S3
-        parquet_stream = read_parquet_from_s3(s3_bucket_name, segment_threshold_path)
-        parquet_table = pq.read_table(BytesIO(parquet_stream))
-
-        # Convert Parquet to CSV
-        parquet_table.to_pandas().to_csv(csv_stream, index=False)
+        threshold_df = read_parquet_from_s3(s3_bucket_name, segment_threshold_path)
+        threshold_df.to_csv(csv_stream, index=False)
 
     csv_stream.seek(0) #set the pointer to start
 
