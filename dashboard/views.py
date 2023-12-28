@@ -103,7 +103,7 @@ def download_csv(request,path,file_name):
         threshold_df = pd.read_parquet(path, engine='pyarrow')
         threshold_df.to_csv(csv_stream, index=False)
     else:
-        threshold_df = read_parquet_from_s3(s3_bucket_name, segment_threshold_path)
+        threshold_df = read_parquet_from_s3(s3_bucket_name, path)
         threshold_df.to_csv(csv_stream, index=False)
 
     csv_stream.seek(0) #set the pointer to start
